@@ -64,7 +64,7 @@ auto CAndromedaClient::OnClientOutput() -> void
 
 auto CAndromedaClient::OnCreateMove( CCSGOInput* pInput , CUserCmd* pUserCmd ) -> void
 {
-
+	DEV_LOG( "%s\n" , pUserCmd->cmd.DebugString().c_str() );
 }
 
 auto GetAndromedaClient() -> CAndromedaClient*
