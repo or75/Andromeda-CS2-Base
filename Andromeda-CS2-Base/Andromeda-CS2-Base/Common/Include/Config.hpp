@@ -17,10 +17,10 @@
 #define ENABLE_MANUAL_MAP			0
 #define ENABLE_CPP_EH_EXCEPTION		0
 
-#define DISABLE_INVENTORY			1
+#define DISABLE_INVENTORY			0
 
-#define LOG_SDK						0
-#define LOG_SDK_PATTERN				0
+#define LOG_SDK						1
+#define LOG_SDK_PATTERN				1
 
 #define ENABLE_XOR_STR				0
 #define ENABLE_XOR_VMP_STR			0
