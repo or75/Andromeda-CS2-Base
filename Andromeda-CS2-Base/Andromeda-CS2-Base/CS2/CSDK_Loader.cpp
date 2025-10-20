@@ -13,6 +13,9 @@
 #include <CS2/SDK/Cstrike15/CCSInventoryManager.hpp>
 #include <CS2/SDK/Cstrike15/CCSPlayerInventory.hpp>
 
+#include <CS2/SDK/SDL3/SDL3_Functions.hpp>
+#include <CS2/SDK/TIER0/TIER0_Functions.hpp>
+
 #include <Common/Helpers/ModuleLoaderHelper.hpp>
 
 #define RETURN_FALSE_IF_INTERFACE_ERROR(Interface)\
@@ -79,6 +82,12 @@ auto CSDK_Loader::LoadSDK() -> bool
 
 	DEV_LOG( "\n" );
 #endif
+
+	if ( !GetSDL3Functions()->OnInit() )
+		return false;
+
+	if ( !GetTIER0Functions()->OnInit() )
+		return false;
 
 	GetSchemaOffset()->Init();
 
