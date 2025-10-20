@@ -26,6 +26,26 @@ auto CL_Players::GetLocalPlayerPawn() -> C_CSPlayerPawn*
 	return nullptr;
 }
 
+auto CL_Players::GetLocalOrigin() -> Vector3
+{
+	auto pLocalPlayerPawn = GetLocalPlayerPawn();
+
+	if ( pLocalPlayerPawn )
+		return pLocalPlayerPawn->GetOrigin();
+
+	return Vector3();
+}
+
+auto CL_Players::GetLocalEyeOrigin() -> Vector3
+{
+	auto pLocalPlayerPawn = GetLocalPlayerPawn();
+
+	if ( pLocalPlayerPawn )
+		return GetLocalOrigin() + pLocalPlayerPawn->m_vecViewOffset();
+
+	return Vector3();
+}
+
 auto CL_Players::IsLocalPlayerAlive() -> bool
 {
 	auto pLocalPlayerController = GetLocalPlayerController();

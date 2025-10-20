@@ -450,6 +450,15 @@
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Features\CVisual\CVisual.cpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\Features</Filter>
     </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Bones.cpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Trace.cpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_VisibleCheck.cpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Andromeda-CS2-Base\DllLauncher.hpp">
@@ -1075,6 +1084,15 @@
     </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\Common\Base64.h">
       <Filter>Andromeda-CS2-Base\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Bones.hpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Trace.hpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_VisibleCheck.hpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

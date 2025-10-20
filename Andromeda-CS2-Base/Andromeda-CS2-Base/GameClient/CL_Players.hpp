@@ -14,6 +14,10 @@ public:
 	auto GetLocalPlayerPawn() -> C_CSPlayerPawn*;
 
 public:
+	auto GetLocalOrigin()->Vector3;
+	auto GetLocalEyeOrigin()->Vector3;
+
+public:
 	auto IsLocalPlayerAlive() -> bool;
 };
 

@@ -241,9 +241,12 @@
     <ClCompile Include="Andromeda-CS2-Base\DllLauncher.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\DllMain.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\GameClient\CEntityCache\CEntityCache.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Bones.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Bypass.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_ItemDefinition.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Players.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Trace.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_VisibleCheck.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Weapons.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -451,9 +454,12 @@
     <ClInclude Include="Andromeda-CS2-Base\DllLauncher.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\DllMain.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\GameClient\CEntityCache\CEntityCache.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Bones.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Bypass.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_ItemDefinition.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Players.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Trace.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_VisibleCheck.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Weapons.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
