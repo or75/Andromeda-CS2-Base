@@ -4,5 +4,1080 @@
     <Filter Include="Andromeda-CS2-Base">
       <UniqueIdentifier>{bf9ebf80-5529-4a5e-b8d1-29e39050994d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Andromeda-CS2-Base\GameClient">
+      <UniqueIdentifier>{a1ebe744-533b-4926-935a-4ffba0889408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\GameClient\CEntityCache">
+      <UniqueIdentifier>{a5576b69-d2cc-475c-ad7c-954942983000}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2">
+      <UniqueIdentifier>{e1cae381-63cd-4466-9554-51be6d256e4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\Hook">
+      <UniqueIdentifier>{8f0965d1-64ab-4cd9-94b4-8db59ec036ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\Protobuf">
+      <UniqueIdentifier>{abc36d35-85de-4f39-b2a3-66253e473054}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK">
+      <UniqueIdentifier>{ebd09833-a36c-4838-b88c-ec97f9830d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\Cstrike15">
+      <UniqueIdentifier>{14502772-5c8b-4a02-9194-1c232e67019d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\Econ">
+      <UniqueIdentifier>{a0feac47-5a76-4fd3-97e9-7e7f8ed8bc88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\GCSDK">
+      <UniqueIdentifier>{80b374bf-1d20-40de-8f3f-9591d2d8f097}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\GCSDK\GCSDKTypes">
+      <UniqueIdentifier>{feae13bf-a69c-4cd8-8b66-f8cb056b2865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\AppFramework">
+      <UniqueIdentifier>{bba9ef2d-52d0-4dd0-92ef-a68279c37196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\Interface">
+      <UniqueIdentifier>{22340330-c41f-4601-911b-a94126fcd996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\Math">
+      <UniqueIdentifier>{388f6b16-07ef-43bc-8207-7f3d83c098c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\Network">
+      <UniqueIdentifier>{dc83ce5a-afb3-4bd5-9d3d-bc7c3ba24ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\TIER0">
+      <UniqueIdentifier>{9bfd9cfc-1264-4ec5-b4e4-2274157c34b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\SDL3">
+      <UniqueIdentifier>{93efb744-4e4e-43ff-89fa-3d0dddd5ee42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\Types">
+      <UniqueIdentifier>{ed50ceca-db45-4dca-8e98-8174bbfffe11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\CS2\SDK\Update">
+      <UniqueIdentifier>{537adcb2-aae8-45c2-bca2-2771b93a0869}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common">
+      <UniqueIdentifier>{09550319-2967-4021-8a94-c45be2e9ca06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include">
+      <UniqueIdentifier>{0ae9517c-4b20-44f9-b0e1-43133bf8ae6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Helpers">
+      <UniqueIdentifier>{34546bc8-9794-420e-a704-365af3ad3349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\ImGui">
+      <UniqueIdentifier>{b7f7ffac-5cfe-4b39-a173-c1cf89b6651c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\ImGui\Misc">
+      <UniqueIdentifier>{730a7fcb-4fe4-46ac-bae4-ae6c4ddf2cd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\ImGui\Misc\freetype">
+      <UniqueIdentifier>{657445b7-774b-4bcf-8f82-36477d1b0688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\rapidjson">
+      <UniqueIdentifier>{0da98d92-3e39-4089-a5a3-a2db7bdd3772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\rapidjson\msinttypes">
+      <UniqueIdentifier>{1b7189ea-8295-47dd-9c88-978e0cab718a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal">
+      <UniqueIdentifier>{1f7fdd18-fd74-4757-9ebc-10afb6985cbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\rapidjson\error">
+      <UniqueIdentifier>{a51683fa-e93c-4d32-80d4-4cd68a632bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\stb">
+      <UniqueIdentifier>{8a3ad67d-d55f-4adc-947b-2bc001e74c98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\XorStr">
+      <UniqueIdentifier>{065edd15-8f9e-440d-ab36-999f50d36115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper">
+      <UniqueIdentifier>{4d09f4fb-127d-4207-a0e0-ecf06d5e2bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\Fnv1a">
+      <UniqueIdentifier>{1d7ec5d9-9434-43fe-9957-4ae27a22c2d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\Common\Include\VMProtect">
+      <UniqueIdentifier>{b9cb9b39-b369-4666-874d-22310a511ae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient">
+      <UniqueIdentifier>{b8c11515-ce15-43a5-844d-63b82aff6922}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\Settings">
+      <UniqueIdentifier>{4e150f67-06e2-44c4-a259-39a99d5788c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\Render">
+      <UniqueIdentifier>{d309398f-cb6f-4d8a-b199-72e2620e312f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\Fonts">
+      <UniqueIdentifier>{af579ea6-ff2b-45a0-8fb7-959e35af0ded}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\GUI">
+      <UniqueIdentifier>{267a952d-c34c-4418-8247-a0734af332e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\Features">
+      <UniqueIdentifier>{eafcd62e-e607-498c-8634-0be5feeec9ae}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Andromeda-CS2-Base\DllLauncher.cpp">
+      <Filter>Andromeda-CS2-Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\DllMain.cpp">
+      <Filter>Andromeda-CS2-Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_ItemDefinition.cpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Players.cpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Weapons.cpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\GameClient\CEntityCache\CEntityCache.cpp">
+      <Filter>Andromeda-CS2-Base\GameClient\CEntityCache</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_AntiTamper.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_FireEventClientSide.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_FrameStageNotify.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_OnAddEntity.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_OnRemoveEntity.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\base_gcmessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\c_peer2peer_netmessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\clientmessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\connectionless_netmessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\cs_gameevents.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\cs_prediction_events.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\cs_usercmd.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\cstrike15_gcmessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\cstrike15_usermessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\demo.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\econ_gcmessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\engine_gcmessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\enums_clientserver.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\fatdemo.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\gameevents.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\gcsdk_gcmessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\gcsystemmsgs.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\netmessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\network_connection.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\networkbasetypes.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\networksystem_protomessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\prediction_events.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steamdatagram_messages_auth.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steamdatagram_messages_sdr.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_cloud.steamworkssdk.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_gamenetworkingui.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_helprequest.steamworkssdk.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_oauth.steamworkssdk.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_player.steamworkssdk.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_publishedfile.steamworkssdk.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_unified_base.steamworkssdk.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steamnetworkingsockets_messages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steamnetworkingsockets_messages_certs.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steamnetworkingsockets_messages_udp.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\te.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\uifontfile_format.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\usercmd.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\usermessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\valveextensions.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\CBasePattern.cpp">
+      <Filter>Andromeda-CS2-Base\CS2</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\CHook_Loader.cpp">
+      <Filter>Andromeda-CS2-Base\CS2</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\CSDK_Loader.cpp">
+      <Filter>Andromeda-CS2-Base\CS2</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Cstrike15\CCSInventoryManager.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Cstrike15</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Cstrike15\CCSPlayerInventory.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Cstrike15</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Econ\CEconItem.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Econ</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Econ\CEconItemDefinition.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Econ</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Econ\CEconItemSchema.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Econ</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Econ\CEconItemSystem.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Econ</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\GCSDK\CGCClientSharedObjectCache.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\GCSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\GCSDK\CGCClientSharedObjectTypeCache.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\GCSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Interface\IGameEvent.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Interface\Interface.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Math\Math.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Math\Matrix.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Math\QAngle.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Math\Vector3.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Math\Vector4.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\TIER0\TIER0_Functions.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\TIER0</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\SDL3\SDL3_Functions.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\SDL3</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Types\CEntityData.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\Types\CHandle.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\CFunctionList.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\CSchemaOffset.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\SDK\SDK.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\CrashLog.cpp">
+      <Filter>Andromeda-CS2-Base\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\DevLog.cpp">
+      <Filter>Andromeda-CS2-Base\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\MemoryEngine.cpp">
+      <Filter>Andromeda-CS2-Base\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\Helpers\ModuleLoaderHelper.cpp">
+      <Filter>Andromeda-CS2-Base\Common\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\Helpers\StringHelper.cpp">
+      <Filter>Andromeda-CS2-Base\Common\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui.cpp">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_draw.cpp">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_impl_dx11.cpp">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_impl_win32.cpp">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_tables.cpp">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_widgets.cpp">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\Misc\freetype\imgui_freetype.cpp">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui\Misc\freetype</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\CAndromedaClient.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\CAndromedaGUI.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Settings\CSettingsJson.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Render\CRender.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Render\CRenderStackSystem.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Fonts\CFont.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Fonts\CFontManager.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_GetMatricesForView.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_SOCacheSubscribed.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_CreateMove.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_CreateSwapChain.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_IsRelativeMouseMode.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_MouseInputEnabled.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_OnClientOutput.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_ParseMessage.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_Present.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_ResizeBuffers.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_UpdateInPVS.cpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Bypass.cpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\CAndromedaMenu.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Features\CVisual\CVisual.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Features</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Andromeda-CS2-Base\DllLauncher.hpp">
+      <Filter>Andromeda-CS2-Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\DllMain.hpp">
+      <Filter>Andromeda-CS2-Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_ItemDefinition.hpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Players.hpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Weapons.hpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\GameClient\CEntityCache\CEntityCache.hpp">
+      <Filter>Andromeda-CS2-Base\GameClient\CEntityCache</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_AntiTamper.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_FireEventClientSide.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_FrameStageNotify.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_OnAddEntity.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_OnRemoveEntity.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\base_gcmessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\c_peer2peer_netmessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\clientmessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\connectionless_netmessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\cs_gameevents.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\cs_prediction_events.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\cs_usercmd.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\cstrike15_gcmessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\cstrike15_usermessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\demo.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\econ_gcmessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\engine_gcmessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\enums_clientserver.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\fatdemo.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\gameevents.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\gcsdk_gcmessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\gcsystemmsgs.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\netmessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\network_connection.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\networkbasetypes.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\networksystem_protomessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\prediction_events.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steamdatagram_messages_auth.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steamdatagram_messages_sdr.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_cloud.steamworkssdk.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_gamenetworkingui.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_helprequest.steamworkssdk.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_oauth.steamworkssdk.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_player.steamworkssdk.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_publishedfile.steamworkssdk.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_unified_base.steamworkssdk.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steamnetworkingsockets_messages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steamnetworkingsockets_messages_certs.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steamnetworkingsockets_messages_udp.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\te.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\uifontfile_format.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\usercmd.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\usermessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\valveextensions.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\CBasePattern.hpp">
+      <Filter>Andromeda-CS2-Base\CS2</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\CHook_Loader.hpp">
+      <Filter>Andromeda-CS2-Base\CS2</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\CSDK_Loader.hpp">
+      <Filter>Andromeda-CS2-Base\CS2</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Cstrike15\CCSInventoryManager.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Cstrike15</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Cstrike15\CCSPlayerInventory.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Cstrike15</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Econ\CEconItem.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Econ</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Econ\CEconItemDefinition.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Econ</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Econ\CEconItemSchema.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Econ</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Econ\CEconItemSystem.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Econ</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\GCSDK\CGCClientSharedObjectCache.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\GCSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\GCSDK\CGCClientSharedObjectTypeCache.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\GCSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\GCSDK\GCSDKTypes\EconItemConstants.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\GCSDK\GCSDKTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\GCSDK\GCSDKTypes\ESOCacheEvent.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\GCSDK\GCSDKTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\GCSDK\GCSDKTypes\SOID_t.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\GCSDK\GCSDKTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\AppFramework\IAppSystem.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\AppFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\CGameEntitySystem.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\CLocalize.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\CShemaSystemSDK.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\CSource2Client.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\IBaseFileSystem.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\IEngineToClient.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\IGameEvent.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\Interface.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Math\Math.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Math\Matrix.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Math\QAngle.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Math\Rect_t.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Math\Vector2.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Math\Vector3.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Math\Vector4.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Network\CNetworkMessages.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\TIER0\TIER0_Functions.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\TIER0</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\SDL3\SDL3_Functions.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\SDL3</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CBaseTypes.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CEntityData.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CHandle.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\Color.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CStrongHandle.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CUtlFixedMemory.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CUtlMap.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CUtlMemory.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CUtlString.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CUtlStringToken.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CUtlSymbol.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CUtlSymbolLarge.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\CUtlVector.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Types\TIer0Memory.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Update\CCSGOInput.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Update\CGlobalVarsBase.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Update\CUserCmd.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Update\GameTrace.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Update\Offsets.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\CFunctionList.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\CSchemaOffset.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\FunctionListSDK.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\SDK.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Common.hpp">
+      <Filter>Andromeda-CS2-Base\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\CrashLog.hpp">
+      <Filter>Andromeda-CS2-Base\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\DevLog.hpp">
+      <Filter>Andromeda-CS2-Base\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\MemoryEngine.hpp">
+      <Filter>Andromeda-CS2-Base\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Helpers\ModuleLoaderHelper.hpp">
+      <Filter>Andromeda-CS2-Base\Common\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Helpers\StringHelper.hpp">
+      <Filter>Andromeda-CS2-Base\Common\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\imconfig.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_impl_dx11.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_impl_win32.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_internal.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\imstb_rectpack.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\imstb_textedit.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\imstb_truetype.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\Misc\freetype\imgui_freetype.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui\Misc\freetype</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\allocators.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\cursorstreamwrapper.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\document.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\encodedstream.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\encodings.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\filereadstream.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\filewritestream.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\fwd.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\istreamwrapper.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\memorybuffer.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\memorystream.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\ostreamwrapper.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\pointer.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\prettywriter.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\rapidjson.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\reader.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\schema.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\stream.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\stringbuffer.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\uri.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\writer.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\msinttypes\inttypes.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\msinttypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\msinttypes\stdint.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\msinttypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\biginteger.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\clzll.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\diyfp.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\dtoa.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\ieee754.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\itoa.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\meta.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\pow10.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\regex.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\stack.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\strfunc.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\strtod.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\internal\swap.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\error\en.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\error</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\error\error.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\rapidjson\error</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\stb\stb_image.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\stb</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\Config.hpp">
+      <Filter>Andromeda-CS2-Base\Common\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\XorStr\XorStr.hpp">
+      <Filter>Andromeda-CS2-Base\Common\Include\XorStr</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1ColorRGBA.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1DWriteRenderTarget.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1Factory.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1FontWrapper.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1GlyphAtlas.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1GlyphProvider.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1GlyphRenderStates.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1GlyphSheet.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1GlyphVertexDrawer.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1Object.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1StateSaver.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1TextGeometry.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\CFW1TextRenderer.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\FW1CompileSettings.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\FW1FontWrapper.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\FW1FontWrapper\FW1Precompiled.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\FW1FontWrapper</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\Fnv1a\Hash_Fnv1a_Constexpr.hpp">
+      <Filter>Andromeda-CS2-Base\Common\Include\Fnv1a</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\VMProtect\VMProtectSDK.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\VMProtect</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\CAndromedaClient.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\CAndromedaGUI.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Settings\CSettingsJson.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Render\CRender.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Render\CRenderStackSystem.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\CFont.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\CFontManager.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\FontAwesomeIcon.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_GetMatricesForView.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_SOCacheSubscribed.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_CreateMove.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_CreateSwapChain.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_IsRelativeMouseMode.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_MouseInputEnabled.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_OnClientOutput.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_ParseMessage.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_Present.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_ResizeBuffers.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_UpdateInPVS.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Bypass.hpp">
+      <Filter>Andromeda-CS2-Base\GameClient</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\CAndromedaMenu.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Settings\Settings.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\CInputSystem.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\CMaterialSystem2.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\CSoundOpSystem.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\SDK\Interface\IEngineCvar.hpp">
+      <Filter>Andromeda-CS2-Base\CS2\SDK\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Features\CVisual\CVisual.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Features</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Base64.h">
+      <Filter>Andromeda-CS2-Base\Common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
