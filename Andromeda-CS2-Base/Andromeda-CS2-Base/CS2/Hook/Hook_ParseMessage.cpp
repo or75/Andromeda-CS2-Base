@@ -4,16 +4,15 @@
 #include <CS2/SDK/Interface/CSoundOpSystem.hpp>
 #include <CS2/SDK/Network/CNetworkMessages.hpp>
 #include <CS2/SDK/Math/Vector3.hpp>
+#include <CS2/SDK/Update/Offsets.hpp>
 
 #include <CS2/Protobuf/gameevents.pb.h>
-
-#include <AndromedaClient/CAndromedaClient.hpp>
 
 auto Hook_CDemoRecorder( CDemoRecorder* pDemoRecorder , CNetworkSerializerPB* pSerializer , CNetMessagePB* pNetMessage ) -> bool
 {
 	if ( pSerializer->messageID == GE_SosStartSoundEvent )
 	{
-		CMsgSosStartSoundEvent* pMessage = reinterpret_cast<CMsgSosStartSoundEvent*>( (PBYTE)pNetMessage + 0x28 );
+		CMsgSosStartSoundEvent* pMessage = reinterpret_cast<CMsgSosStartSoundEvent*>( (PBYTE)pNetMessage + g_CDemorecorder_ParseMessage );
 
 		if ( pMessage )
 		{

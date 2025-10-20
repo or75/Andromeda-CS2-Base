@@ -1,5 +1,7 @@
 #pragma once
 
+static constexpr auto g_CDemorecorder_ParseMessage = 0x30;
+
 // 0F B7 40 ? 48 83 C4 20 5B C3 33 C0 48 83 C4 20 5B C3
 static constexpr auto g_CCollisionProperty_UnknownMask = 0x38;
 
