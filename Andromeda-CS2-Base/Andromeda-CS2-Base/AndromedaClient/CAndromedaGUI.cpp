@@ -16,7 +16,6 @@
 
 #include <AndromedaClient/CAndromedaClient.hpp>
 #include <AndromedaClient/Settings/Settings.hpp>
-#include <AndromedaClient/Fonts/FontAwesomeIcon.hpp>
 
 static CAndromedaGUI g_AndromedaGUI{};
 
@@ -100,13 +99,6 @@ auto CAndromedaGUI::InitFont() -> void
 		0,
 	};
 
-	static const ImWchar AwesomeIconRanges[] =
-	{
-		0x002D, 0x007A,
-		ICON_MIN_FA, ICON_MAX_FA,
-		0
-	};
-
 	wchar_t* szWindowsFontPath = nullptr;
 
 	if ( SHGetKnownFolderPath( FOLDERID_Fonts , 0 , 0 , &szWindowsFontPath ) == S_OK )
@@ -114,8 +106,6 @@ auto CAndromedaGUI::InitFont() -> void
 		std::wstring TahomaFont = std::wstring( szWindowsFontPath ) + L"\\tahoma.ttf";
 		io.Fonts->AddFontFromFileTTF( unicode_to_utf8( TahomaFont ).c_str() , 15.f , nullptr , TahomaRanges );
 	}
-
-	m_pFontAwesomeIcons = io.Fonts->AddFontFromMemoryCompressedTTF( FontAwesomeIcon_compressed_data , FontAwesomeIcon_compressed_size , 25.f , nullptr , AwesomeIconRanges );
 
 	CoTaskMemFree( szWindowsFontPath );
 }

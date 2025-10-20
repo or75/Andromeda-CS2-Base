@@ -252,7 +252,6 @@
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Features\CVisual\CVisual.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\CFont.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\CFontManager.hpp" />
-    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\FontAwesomeIcon.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\CAndromedaMenu.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Render\CRender.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Render\CRenderStackSystem.hpp" />

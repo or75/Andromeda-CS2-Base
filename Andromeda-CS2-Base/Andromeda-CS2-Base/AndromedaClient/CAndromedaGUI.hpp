@@ -99,9 +99,6 @@ public:
 private:
 	ImVec2 m_vecMousePosSave;
 
-public:
-	ImFont* m_pFontAwesomeIcons = nullptr;
-
 private:
 	struct FreeTypeBuild
 	{

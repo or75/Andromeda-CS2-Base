@@ -1016,9 +1016,6 @@
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\CFontManager.hpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\Fonts</Filter>
     </ClInclude>
-    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\FontAwesomeIcon.hpp">
-      <Filter>Andromeda-CS2-Base\AndromedaClient\Fonts</Filter>
-    </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_GetMatricesForView.hpp">
       <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
     </ClInclude>
