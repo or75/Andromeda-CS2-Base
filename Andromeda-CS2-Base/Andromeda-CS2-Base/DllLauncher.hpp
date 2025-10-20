@@ -68,7 +68,7 @@ public:
 
 private:
 	friend auto GetDllDir()->std::string&;
-	friend auto GetCSGODir()->std::string;
+	friend auto GetCS2Dir()->std::string;
 
 private:
 	std::string m_DllDir;
@@ -86,5 +86,5 @@ private:
 };
 
 auto GetDllDir() -> std::string&;
-auto GetCSGODir() -> std::string;
+auto GetCS2Dir() -> std::string;
 auto GetDllLauncher() -> CDllLauncher*;

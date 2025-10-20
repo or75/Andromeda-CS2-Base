@@ -33,7 +33,7 @@ auto CDllLauncher::OnDllMain( LPVOID lpReserved , HINSTANCE hInstace ) -> void
 	{
 		ManualMapParam_t* pParam = reinterpret_cast<ManualMapParam_t*>( lpReserved );
 
-		if ( pParam && pParam->DllLoaderCode == VERMILLION_CHEAT_LICENSE_KEY )
+		if ( pParam )
 		{
 			m_DllDir = pParam->DllPath;
 			m_DllDir += "\\";
@@ -122,7 +122,7 @@ auto GetDllDir()->std::string&
 	return GetDllLauncher()->m_DllDir;
 }
 
-auto GetCSGODir() -> std::string
+auto GetCS2Dir() -> std::string
 {
 	return GetDllLauncher()->m_CS2Dir;
 }
