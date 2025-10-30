@@ -114,6 +114,8 @@ auto CHook_Loader::InstallHooks() -> bool
 auto CHook_Loader::DestroyHooks() -> void
 {
 	MH_DisableHook( MH_ALL_HOOKS );
+	MH_RemoveHook( MH_ALL_HOOKS );
+
 	MH_Uninitialize();
 }
 
