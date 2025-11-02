@@ -10,5 +10,5 @@
 - Normal working rendering of all the [removed] and fonts (Example in AndromedaClient.cpp, CVIsual.cpp)
 - Possibly something else, but I can't remember. Good luck to everyone.
 
-# Link:
+# Links:
 [UnknownCheats Thread](https://www.unknowncheats.me/forum/counter-strike-2-a/722929-andromeda-cs2-internal-base.html)
