@@ -1,24 +1,10 @@
-Особенности этой базы:
-1) Не гавнокод (одобренно как очень хорошо от shialex к примеру)
-2) Одобрено pasters server
-3) Есть crashlog в случае апокалипсиса (загружаем dll в x64dbg и хуячим home потом вычитаем с начального адреса 0x1000 и прибавляем оффсет краша и смотрим место)
-4) Дампер шемы (в Common/Include/Config.hpp) -> DUMP_SCHEMA_ALL_OFFSET в 1
-5) Поддержка мм от блекбоне (инжектор выложу с базой когда время будет)
-6) Есть байпасс move_crc , (все действия делать в AndromedaClient.cpp -> OnCreateMove. GetCL_Bypass()->SetViewAngles)
-7) Есть всё для инвентаря , вам лишь надо спастить с уц к примеру, все патерны и т д рабочие (возможно при популярности выложу статью как сделать)
-8) Есть базовые визуалы с визибл чек
-9) Лёгкие логи через DEV_LOG("pasters server\n");
-10) Есть парсер мессаг протобафов, пример для sound esp лежит в Hook_ParseMessage.cpp с позицией звуков
-11) Нормальный рабочий рендер всего гавна и шрифтов (Пример в AndromedaClient.cpp , CVIsual.cpp)
-12) Возможно что то ещё но уже и не помню, всем удачи
-
-Что ещё не сделанно:
-1) ММ инжектор от блекбоне для игры без -insecure
-2) Фикс -0x1000 в крашлоге и крашлог может бесаёбить очень редко
-3) Контролы в меню для настройки (Настройки в AndromedaClient/Settings/Settings.hpp) ну это вы уже сами прикрутите кому надо
-
-Сурсы: https://github.com/or75/Andromeda-CS2-Base
-
-PS.1: При поддержки базы буду выкладывать обнову на гите после крупных и не очень обновлений
-PS.2: Вам придётся разбираться как устроенная архитектура проекта что бы понимать как что делать без мозгаёбства
-PS.3: Написанно под шизофренией кек
+- There's a crashlog in case of an apocalypse (load the dll in x64dbg and hit home, then subtract 0x1000 from the starting address and add the crash offset and look at the location).
+- Schema dumper (in Common/Include/Config.hpp) -> DUMP_SCHEMA_ALL_OFFSET to 1
+- Blackbone mm support (I'll post the injector with the database when I have time).
+- There's a move_crc bypass (all actions are done in AndromedaClient.cpp -> OnCreateMove.GetCL_Bypass()->SetViewAngles).
+- There's everything you need for inventory management; you just need to save it from the UC, for example. All patterns, etc., are working (maybe if this becomes popular, I'll post an article on how to do it).
+- There are basic visuals with a visual check.
+- Easy logs via DEV_LOG("pasters server\n");
+- There's a protobuff message parser. An example for sound esp is in Hook_ParseMessage.cpp with sound positions.
+- Normal working rendering of all the [removed] and fonts (Example in AndromedaClient.cpp, CVIsual.cpp)
+- Possibly something else, but I can't remember. Good luck to everyone.
