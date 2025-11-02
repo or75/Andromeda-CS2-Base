@@ -12,6 +12,7 @@
 
 # Links:
 [UnknownCheats Thread](https://www.unknowncheats.me/forum/counter-strike-2-a/722929-andromeda-cs2-internal-base.html)
+[Powered by Vermillion Hack](https://vermillion-hack.ru/)
 
 # ScreenShots:
 
