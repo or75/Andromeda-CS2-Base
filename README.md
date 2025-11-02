@@ -11,7 +11,7 @@
 - Possibly something else, but I can't remember. Good luck to everyone.
 
 # Links:
-[UnknownCheats Thread](https://www.unknowncheats.me/forum/counter-strike-2-a/722929-andromeda-cs2-internal-base.html)
+[UnknownCheats Thread](https://www.unknowncheats.me/forum/counter-strike-2-a/722929-andromeda-cs2-internal-base.html)<br>
 [Powered by Vermillion Hack](https://vermillion-hack.ru/)
 
 # ScreenShots:
