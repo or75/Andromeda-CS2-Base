@@ -508,11 +508,11 @@ auto CAndromedaGUI::UpdateStyle() -> void
 {
 	ImGui::SetCurrentContext( m_pImGuiContext );
 
-	if ( Settings::Misc::MenuStyle == EAndromedaGuiStyle_t::ANDROMEDA_GUI_STYLE_INDIGO )
+	if ( Settings::Menu::MenuStyle == EAndromedaGuiStyle_t::ANDROMEDA_GUI_STYLE_INDIGO )
 		SetIndigoStyle();
-	else if ( Settings::Misc::MenuStyle == EAndromedaGuiStyle_t::ANDROMEDA_GUI_STYLE_VERMILLION )
+	else if ( Settings::Menu::MenuStyle == EAndromedaGuiStyle_t::ANDROMEDA_GUI_STYLE_VERMILLION )
 		SetVermillionStyle();
-	else if ( Settings::Misc::MenuStyle == EAndromedaGuiStyle_t::ANDROMEDA_GUI_STYLE_CLASSIC_STEAM )
+	else if ( Settings::Menu::MenuStyle == EAndromedaGuiStyle_t::ANDROMEDA_GUI_STYLE_CLASSIC_STEAM )
 		SetClassicSteamStyle();
 }
 

@@ -76,6 +76,14 @@ auto CVisual::OnRenderPlayerEsp( CCSPlayerController* pCCSPlayerController , con
 	if ( Settings::Visual::Enemy && IsEnemy )
 		Draw = true;
 
+	if ( Settings::Visual::OnlyVisible )
+	{
+		if ( bVisible )
+			Draw = true;
+		else
+			Draw = false;
+	}
+
 	if ( Draw )
 	{
 		if ( Settings::Visual::PlayerBox )
@@ -84,17 +92,17 @@ auto CVisual::OnRenderPlayerEsp( CCSPlayerController* pCCSPlayerController , con
 
 			if ( pCCSPlayerController->m_iTeamNum() == TEAM_TT )
 			{
-				PlayerColor = ImColor( Settings::Colors::Visual::PlayerBoxTT[0] , Settings::Colors::Visual::PlayerBoxTT[1] , Settings::Colors::Visual::PlayerBoxTT[2] , Settings::Colors::Visual::PlayerBoxTT[3] );
+				PlayerColor = Settings::Colors::Visual::PlayerBoxTT;
 
 				if ( bVisible )
-					PlayerColor = ImColor( Settings::Colors::Visual::PlayerBoxTT_Visible[0] , Settings::Colors::Visual::PlayerBoxTT_Visible[1] , Settings::Colors::Visual::PlayerBoxTT_Visible[2] , Settings::Colors::Visual::PlayerBoxTT_Visible[3] );
+					PlayerColor = Settings::Colors::Visual::PlayerBoxTT_Visible;
 			}
 			else if ( pCCSPlayerController->m_iTeamNum() == TEAM_CT )
 			{
-				PlayerColor = ImColor( Settings::Colors::Visual::PlayerBoxCT[0] , Settings::Colors::Visual::PlayerBoxCT[1] , Settings::Colors::Visual::PlayerBoxCT[2] , Settings::Colors::Visual::PlayerBoxCT[3] );
+				PlayerColor = Settings::Colors::Visual::PlayerBoxCT;
 
 				if ( bVisible )
-					PlayerColor = ImColor( Settings::Colors::Visual::PlayerBoxCT_Visible[0] , Settings::Colors::Visual::PlayerBoxCT_Visible[1] , Settings::Colors::Visual::PlayerBoxCT_Visible[2] , Settings::Colors::Visual::PlayerBoxCT_Visible[3] );
+					PlayerColor = Settings::Colors::Visual::PlayerBoxCT_Visible;
 			}
 
 			if ( Settings::Visual::PlayerBoxType == EVisualBoxType_t::BOX )
