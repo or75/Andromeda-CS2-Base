@@ -5,6 +5,7 @@
 #include <CS2/SDK/Math/Rect_t.hpp>
 
 class CCSPlayerController;
+class C_CSPlayerPawn;
 
 class IVisual
 {
@@ -32,6 +33,8 @@ private:
 	};
 
 	auto OnRenderPlayerEsp( CCSPlayerController* pCCSPlayerController , const Rect_t& bBox , const bool bVisible ) -> void;
+	auto DrawBoneESP( C_CSPlayerPawn* pC_CSPlayerPawn , const bool bVisible , const int iTeamNum ) -> void;
+	auto ApplyGlow( C_CSPlayerPawn* pC_CSPlayerPawn , const bool bVisible , const int iTeamNum ) -> void;
 
 public:
 	auto CalculateBoundingBoxes() -> void;

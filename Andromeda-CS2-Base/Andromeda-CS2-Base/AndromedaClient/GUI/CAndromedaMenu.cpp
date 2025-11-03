@@ -31,6 +31,24 @@ auto CAndromedaMenu::OnRenderMenu() -> void
 			};
 
 			RenderComboBox( XorStr( "PlayerBox Type" ) , XorStr( "##Visual.PlayerBoxType" ) , Settings::Visual::PlayerBoxType , PlayerBoxTypeItems , IM_ARRAYSIZE( PlayerBoxTypeItems ) );
+
+			RenderCheckBox( XorStr( "Bone ESP" ) , XorStr( "##Visual.BoneESP" ) , Settings::Visual::BoneESP );
+			if ( Settings::Visual::BoneESP )
+			{
+				ImGui::Indent();
+				RenderCheckBox( XorStr( "  Bone ESP Team" ) , XorStr( "##Visual.BoneESPTeam" ) , Settings::Visual::BoneESPTeam );
+				RenderCheckBox( XorStr( "  Bone ESP Enemy" ) , XorStr( "##Visual.BoneESPEnemy" ) , Settings::Visual::BoneESPEnemy );
+				ImGui::Unindent();
+			}
+
+			RenderCheckBox( XorStr( "Glow" ) , XorStr( "##Visual.Glow" ) , Settings::Visual::Glow );
+			if ( Settings::Visual::Glow )
+			{
+				ImGui::Indent();
+				RenderCheckBox( XorStr( "  Glow Team" ) , XorStr( "##Visual.GlowTeam" ) , Settings::Visual::GlowTeam );
+				RenderCheckBox( XorStr( "  Glow Enemy" ) , XorStr( "##Visual.GlowEnemy" ) , Settings::Visual::GlowEnemy );
+				ImGui::Unindent();
+			}
 		}
 
 		if ( ImGui::CollapsingHeader( XorStr( "Colors" ) ) )
@@ -39,11 +57,21 @@ auto CAndromedaMenu::OnRenderMenu() -> void
 			RenderColorEdit( XorStr( "Player Box TT Visible" ) , XorStr( "##Colors.Visual.PlayerBoxTT_Visible" ) , &Settings::Colors::Visual::PlayerBoxTT_Visible.x );
 			RenderColorEdit( XorStr( "Player Box CT" ) , XorStr( "##Colors.Visual.PlayerBoxCT" ) , &Settings::Colors::Visual::PlayerBoxCT.x );
 			RenderColorEdit( XorStr( "Player Box CT Visible" ) , XorStr( "##Colors.Visual.PlayerBoxCT_Visible" ) , &Settings::Colors::Visual::PlayerBoxCT_Visible.x );
+
+			RenderColorEdit( XorStr( "Bone ESP TT" ) , XorStr( "##Colors.Visual.BoneESPTT" ) , &Settings::Colors::Visual::BoneESPTT.x );
+			RenderColorEdit( XorStr( "Bone ESP TT Visible" ) , XorStr( "##Colors.Visual.BoneESPTT_Visible" ) , &Settings::Colors::Visual::BoneESPTT_Visible.x );
+			RenderColorEdit( XorStr( "Bone ESP CT" ) , XorStr( "##Colors.Visual.BoneESPCT" ) , &Settings::Colors::Visual::BoneESPCT.x );
+			RenderColorEdit( XorStr( "Bone ESP CT Visible" ) , XorStr( "##Colors.Visual.BoneESPCT_Visible" ) , &Settings::Colors::Visual::BoneESPCT_Visible.x );
+
+			RenderColorEdit( XorStr( "Glow TT" ) , XorStr( "##Colors.Visual.GlowTT" ) , &Settings::Colors::Visual::GlowTT.x );
+			RenderColorEdit( XorStr( "Glow TT Visible" ) , XorStr( "##Colors.Visual.GlowTT_Visible" ) , &Settings::Colors::Visual::GlowTT_Visible.x );
+			RenderColorEdit( XorStr( "Glow CT" ) , XorStr( "##Colors.Visual.GlowCT" ) , &Settings::Colors::Visual::GlowCT.x );
+			RenderColorEdit( XorStr( "Glow CT Visible" ) , XorStr( "##Colors.Visual.GlowCT_Visible" ) , &Settings::Colors::Visual::GlowCT_Visible.x );
 		}
 
 		if ( ImGui::CollapsingHeader( XorStr( "Menu" ) ) )
 		{
-			RenderSliderInt( XorStr( "Menu Alpha" ) , XorStr( "##Menu.MenuAlpha" ) , Settings::Menu::MenuAlpha , 0 , 255 );
+			RenderSliderInt( XorStr( "Menu Alpha" ) , XorStr( "##Menu.MenuAlpha" ) , Settings::Menu::MenuAlpha , 100 , 255 );
 
 			const char* MenuStyleItems[] =
 			{
