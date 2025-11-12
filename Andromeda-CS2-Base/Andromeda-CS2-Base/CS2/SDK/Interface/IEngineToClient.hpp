@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Common/Common.hpp>
+#include <Common/MemoryEngine.hpp>
 
 #include <CS2/SDK/SDK.hpp>
 #include <CS2/CBasePattern.hpp>
@@ -18,8 +19,15 @@ class IVEngineToClient
 {
 public:
 	DECLARATE_CS2_FUNCTION( bool , IsInGame , ( ) , IVEngineToClient , ( IVEngineToClient* ) , ( this ) );
-	// Index -> "60"
+	// Index -> "62"
 	DECLARATE_CS2_FUNCTION( const char* , GetLevelName , ( ) , IVEngineToClient , ( IVEngineToClient* ) , ( this ) );
-	// Index -> "61"
+	// Index -> "63"
 	DECLARATE_CS2_FUNCTION( const char* , GetLevelNameShort , ( ) , IVEngineToClient , ( IVEngineToClient* ) , ( this ) );
+
+public:
+	auto GetScreenSize( int& width , int& height ) -> void
+	{
+		VirtualFn( void )( IVEngineToClient* , int& , int& );
+		return vget< Fn >( this , 59 )( this , width , height );
+	}
 };

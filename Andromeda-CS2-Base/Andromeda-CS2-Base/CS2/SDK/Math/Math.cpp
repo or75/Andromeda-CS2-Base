@@ -3,6 +3,8 @@
 #include <cmath>
 #include <ImGui/imgui_internal.h>
 
+#include <CS2/SDK/SDK.hpp>
+#include <CS2/SDK/Interface/IEngineToClient.hpp>
 #include <CS2/SDK/FunctionListSDK.hpp>
 
 namespace Math
@@ -15,11 +17,13 @@ namespace Math
 
         ret = !( ScreenTransform( vIn , Out ) );
 
-        if ( ImGui::GetCurrentContext() )
-        {
-            vOut.x = ( ( Out.m_x + 1.0f ) * 0.5f ) * ImGui::GetIO().DisplaySize.x;
-            vOut.y = ImGui::GetIO().DisplaySize.y - ( ( ( Out.m_y + 1.0f ) * 0.5f ) * ImGui::GetIO().DisplaySize.y );
-        }
+        auto ScreenWidth = 0;
+        auto ScreenHeight = 0;
+
+        SDK::Interfaces::EngineToClient()->GetScreenSize( ScreenWidth , ScreenHeight );
+
+        vOut.x = ( ( Out.m_x + 1.0f ) * 0.5f ) * static_cast<float>( ScreenWidth );
+        vOut.y = static_cast<float>( ScreenHeight ) - ( ( ( Out.m_y + 1.0f ) * 0.5f ) * static_cast<float>( ScreenHeight ) );
 
         return ret;
     }
@@ -32,11 +36,13 @@ namespace Math
 
         ret = !( ScreenTransform( vIn , Out ) );
 
-        if ( ImGui::GetCurrentContext() )
-        {
-            vOut.m_x = ( ( Out.m_x + 1.0f ) * 0.5f ) * ImGui::GetIO().DisplaySize.x;
-            vOut.m_y = ImGui::GetIO().DisplaySize.y - ( ( ( Out.m_y + 1.0f ) * 0.5f ) * ImGui::GetIO().DisplaySize.y );
-        }
+        auto ScreenWidth = 0;
+        auto ScreenHeight = 0;
+
+        SDK::Interfaces::EngineToClient()->GetScreenSize( ScreenWidth , ScreenHeight );
+
+        vOut.m_x = ( ( Out.m_x + 1.0f ) * 0.5f ) * static_cast<float>( ScreenWidth );
+        vOut.m_y = static_cast<float>( ScreenHeight ) - ( ( ( Out.m_y + 1.0f ) * 0.5f ) * static_cast<float>( ScreenHeight ) );
 
         return ret;
     }
@@ -47,11 +53,13 @@ namespace Math
         
         ret = !( ScreenTransform( vIn , vOut ) );
 
-        if ( ImGui::GetCurrentContext() )
-        {
-            vOut.m_x = ( ( vOut.m_x + 1.0f ) * 0.5f ) * ImGui::GetIO().DisplaySize.x;
-            vOut.m_y = ImGui::GetIO().DisplaySize.y - ( ( ( vOut.m_y + 1.0f ) * 0.5f ) * ImGui::GetIO().DisplaySize.y );
-        }
+        auto ScreenWidth = 0;
+        auto ScreenHeight = 0;
+
+        SDK::Interfaces::EngineToClient()->GetScreenSize( ScreenWidth , ScreenHeight );
+
+        vOut.m_x = ( ( vOut.m_x + 1.0f ) * 0.5f ) * static_cast<float>( ScreenWidth );
+        vOut.m_y = static_cast<float>( ScreenHeight ) - ( ( ( vOut.m_y + 1.0f ) * 0.5f ) * static_cast<float>( ScreenHeight ) );
 
         return ret;
     }
