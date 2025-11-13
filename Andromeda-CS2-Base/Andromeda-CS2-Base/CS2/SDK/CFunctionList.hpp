@@ -101,7 +101,7 @@ public:
 	CBasePattern CGameSceneNode_SetMeshGroupMask = { VmpStr( "CGameSceneNode::SetMeshGroupMask" ) , VmpStr( "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8D 99 ? ? ? ? 48 8B 71" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	
 	CBasePattern C_CSWeaponBase_UpdateSubclass = { VmpStr( "C_CSWeaponBase::UpdateSubclass" ) , VmpStr( "40 53 48 83 EC 30 48 8B 41 10 48 8B D9 8B 50 30" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
-	CBasePattern C_CSWeaponBase_UpdateSkin = { VmpStr( "C_CSWeaponBase::UpdateSkin" ) , VmpStr( "48 89 5C 24 08 48 89 74 24 10 57 48 83 EC 20 8B DA 48 8B F9 E8" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
+	CBasePattern C_CSWeaponBase_UpdateSkin = { VmpStr( "C_CSWeaponBase::UpdateSkin" ) , VmpStr( "48 89 5C 24 08 57 48 83 EC 20 8B DA 48 8B F9 E8 7C E9 0B 00 48 8D 8F E0" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern C_CSWeaponBase_UpdateCompositeMaterial = { VmpStr( "C_CSWeaponBase::UpdateCompositeMaterial" ) , VmpStr( "E8 ? ? ? ? 48 8D 8B ? ? ? ? 48 89 BC 24" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
 
 	CBasePattern CEconItem_SerializeToProtoBufItem = { VmpStr( "CEconItem::SerializeToProtoBufItem" ) , VmpStr( "40 55 56 48 83 EC ? 48 8B 41 ? 48 8B F2" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
