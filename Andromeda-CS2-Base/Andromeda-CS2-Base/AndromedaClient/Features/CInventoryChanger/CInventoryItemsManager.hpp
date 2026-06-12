@@ -59,6 +59,7 @@ public:
         int m_PaintKit = 0;
         int m_Rarity = 0;
         float m_Wear = 0.0f;
+        int m_Seed = 0;
         bool m_UnusualItem = false;
         bool m_bLegacyModel = false;
         std::string m_PaintKitName = "";

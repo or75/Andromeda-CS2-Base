@@ -382,6 +382,7 @@ auto CInventoryItemsManager::AddSelectedSkinToInventory( uint16_t defIdx , int p
 			Item.m_PaintKit = paintKit;
 			Item.m_Rarity = pItem->m_nRarity;
 			Item.m_Wear = wear;
+			Item.m_Seed = seed;
 			Item.m_UnusualItem = pFoundItem->m_UnusualItem;
 			Item.m_ItemType = pFoundItem->m_ItemType;
 

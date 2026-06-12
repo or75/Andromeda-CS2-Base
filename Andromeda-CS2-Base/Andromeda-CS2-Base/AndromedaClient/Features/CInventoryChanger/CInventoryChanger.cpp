@@ -160,6 +160,15 @@ auto CInventoryChanger::OnFrameStageNotify( int FrameStage ) -> void
 		const auto& AddedItems = GetInventoryItemsManager()->GetAddedItems();
 		const auto& Skin = AddedItems.find( pWeaponInLoadoutItemView->m_iItemID() );
 
+		if ( Skin != AddedItems.end() ) 
+		{
+			pWeapon->m_nFallbackSeed() = Skin->second.m_Seed;
+			pWeapon->m_flFallbackWear() = Skin->second.m_Wear;
+
+			C_EconItemView_SetAttributeValueByName( pWeaponItemView , "set item texture wear" , Skin->second.m_Wear );
+			C_EconItemView_SetAttributeValueByName( pWeaponItemView , "set item texture seed" , static_cast<float>( Skin->second.m_Seed ) );
+		}
+
 		auto* pKnifeModel = pLocalPawn->GetKnifeModel();
 		auto* pCompositeMaterial = reinterpret_cast<CCompositeMaterialOwner*>( (PBYTE)pWeapon + g_CompositeMaterialOffset );
 
