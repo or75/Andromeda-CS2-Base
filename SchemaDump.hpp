@@ -3296,10 +3296,8 @@ class C_OP_DragRelativeToPlane : public CParticleFunctionOperator // particles
 };
 class C_OP_MaxVelocity : public CParticleFunctionOperator // particles
 {
-	float32 m_flMaxVelocity; // 0x01D8
-	float32 m_flMinVelocity; // 0x01DC
-	int32 m_nOverrideCP; // 0x01E0
-	int32 m_nOverrideCPField; // 0x01E4
+	CPerParticleFloatInput m_flMaxVelocity; // 0x01D8
+	CPerParticleFloatInput m_flMinVelocity; // 0x0348
 };
 class C_OP_RemapBoundingVolumetoCP : public CParticleFunctionPreEmission // particles
 {
