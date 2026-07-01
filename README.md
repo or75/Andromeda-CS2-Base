@@ -1,4 +1,4 @@
-# Featues:
+# Features:
 - There's a crashlog in case of an apocalypse (load the dll in x64dbg and hit home, then subtract 0x1000 from the starting address and add the crash offset and look at the location).
 - Schema dumper (in Common/Include/Config.hpp) -> DUMP_SCHEMA_ALL_OFFSET to 1
 - Blackbone mm support (I'll post the injector with the database when I have time).
@@ -13,6 +13,7 @@
 # Links:
 [UnknownCheats Thread](https://www.unknowncheats.me/forum/counter-strike-2-a/722929-andromeda-cs2-internal-base.html)<br>
 [Powered by Andromeda Hack](https://andromeda.buzz/)
+[Powered by Andromeda SDK](https://andromeda-sdk.com/)
 
 # ScreenShots:
 
