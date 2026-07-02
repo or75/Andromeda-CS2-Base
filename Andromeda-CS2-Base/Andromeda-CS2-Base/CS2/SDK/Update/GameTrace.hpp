@@ -145,5 +145,5 @@ public:
 	virtual bool ShouldHitEntity( CEntityInstance* pEntity ) { return true; }
 
 private:
-	PAD( 0x38 );
+	PAD( 0x100 );
 };
