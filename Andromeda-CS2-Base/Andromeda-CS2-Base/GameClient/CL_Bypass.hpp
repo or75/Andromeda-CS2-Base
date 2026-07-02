@@ -21,9 +21,12 @@ public:
 	auto SetViewAngles( QAngle* ViewAngles , CCSGOInput* pInput , CUserCmd* pUserCmd , bool AddSetViewAngles = true , bool OnlyInputHistory = false ) -> void;
 	auto SetAttack( CUserCmd* pUserCmd , bool AddSubTIck = false ) -> void;
 	auto SetDontAttack( CUserCmd* pUserCmd , bool AddSubTIck = false ) -> void;
+	auto SetJump( CUserCmd* pUserCmd , bool AddSubTIck = false ) -> void;
+	auto SetDontJump( CUserCmd* pUserCmd , bool AddSubTIck = false ) -> void;
 
 public:
 	auto AddProcessSubTick( const uint64_t Button , const bool Pressed ) -> void;
+	auto AddProcessSubTick( const uint64_t Button , const bool Pressed , const float When ) -> void;
 
 public:
 	auto OnCBaseUserCmdPB( CBaseUserCmdPB* pBaseUserCmdPB ) -> void;

@@ -117,9 +117,42 @@ auto CL_Bypass::SetDontAttack( CUserCmd* pUserCmd , bool AddSubTIck ) -> void
 #endif
 }
 
+auto CL_Bypass::SetJump( CUserCmd* pUserCmd , bool AddSubTIck ) -> void
+{
+	pUserCmd->button_states.buttonstate1 |= IN_JUMP;
+
+	pUserCmd->cmd.mutable_base()->mutable_buttons_pb()->set_buttonstate1( pUserCmd->button_states.buttonstate1 );
+
+#if DISABLE_PROTOBUF == 0
+
+	if ( AddSubTIck )
+		AddProcessSubTick( IN_JUMP , true , 0.01f );
+
+#endif
+}
+
+auto CL_Bypass::SetDontJump( CUserCmd* pUserCmd , bool AddSubTIck ) -> void
+{
+	pUserCmd->button_states.buttonstate1 &= ~IN_JUMP;
+
+	pUserCmd->cmd.mutable_base()->mutable_buttons_pb()->set_buttonstate1( pUserCmd->button_states.buttonstate1 );
+
+#if DISABLE_PROTOBUF == 0
+
+	if ( AddSubTIck )
+		AddProcessSubTick( IN_JUMP , false , 0.01f );
+
+#endif
+}
+
 auto CL_Bypass::AddProcessSubTick( const uint64_t Button , const bool Pressed ) -> void
 {
 	m_InternalSubTickList.emplace_back( Button , Pressed , CalculateWhenValue() );
+}
+
+auto CL_Bypass::AddProcessSubTick( const uint64_t Button , const bool Pressed , const float When ) -> void
+{
+	m_InternalSubTickList.emplace_back( Button , Pressed , When );
 }
 
 auto CL_Bypass::OnCBaseUserCmdPB( CBaseUserCmdPB* pBaseUserCmdPB ) -> void
