@@ -9,10 +9,10 @@ namespace SDK::VMT_Index
 	};
 	enum IVEngineClient2 : uint32_t
 	{
-		GetScreenSize = 60 ,
+		GetScreenSize = 61 ,
 	};
 	enum CGameSceneNode : uint32_t
 	{
-		PostDataUpdate = 22 ,
+		PostDataUpdate = 25 ,
 	};
 }

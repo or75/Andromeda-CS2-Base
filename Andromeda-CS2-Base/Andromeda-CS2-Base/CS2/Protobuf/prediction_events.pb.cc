@@ -26,6 +26,7 @@ PROTOBUF_CONSTEXPR CPredictionEvent_Teleport::CPredictionEvent_Teleport(
   , /*decltype(_impl_._cached_size_)*/{}
   , /*decltype(_impl_.origin_)*/nullptr
   , /*decltype(_impl_.angles_)*/nullptr
+  , /*decltype(_impl_.velocity_)*/nullptr
   , /*decltype(_impl_.drop_to_ground_range_)*/0} {}
 struct CPredictionEvent_TeleportDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CPredictionEvent_TeleportDefaultTypeInternal()
@@ -81,8 +82,10 @@ const uint32_t TableStruct_prediction_5fevents_2eproto::offsets[] PROTOBUF_SECTI
   PROTOBUF_FIELD_OFFSET(::CPredictionEvent_Teleport, _impl_.origin_),
   PROTOBUF_FIELD_OFFSET(::CPredictionEvent_Teleport, _impl_.angles_),
   PROTOBUF_FIELD_OFFSET(::CPredictionEvent_Teleport, _impl_.drop_to_ground_range_),
+  PROTOBUF_FIELD_OFFSET(::CPredictionEvent_Teleport, _impl_.velocity_),
   0,
   1,
+  3,
   2,
   PROTOBUF_FIELD_OFFSET(::CPredictionEvent_StringCommand, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::CPredictionEvent_StringCommand, _internal_metadata_),
@@ -108,9 +111,9 @@ const uint32_t TableStruct_prediction_5fevents_2eproto::offsets[] PROTOBUF_SECTI
   ~0u,
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 9, -1, sizeof(::CPredictionEvent_Teleport)},
-  { 12, 19, -1, sizeof(::CPredictionEvent_StringCommand)},
-  { 20, 30, -1, sizeof(::CPredictionEvent_Diagnostic)},
+  { 0, 10, -1, sizeof(::CPredictionEvent_Teleport)},
+  { 14, 21, -1, sizeof(::CPredictionEvent_StringCommand)},
+  { 22, 32, -1, sizeof(::CPredictionEvent_Diagnostic)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -121,23 +124,24 @@ static const ::_pb::Message* const file_default_instances[] = {
 
 const char descriptor_table_protodef_prediction_5fevents_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\027prediction_events.proto\032\026networkbasety"
-  "pes.proto\"s\n\031CPredictionEvent_Teleport\022\033"
-  "\n\006origin\030\001 \001(\0132\013.CMsgVector\022\033\n\006angles\030\002 "
-  "\001(\0132\013.CMsgQAngle\022\034\n\024drop_to_ground_range"
-  "\030\003 \001(\002\"1\n\036CPredictionEvent_StringCommand"
-  "\022\017\n\007command\030\001 \001(\t\"y\n\033CPredictionEvent_Di"
-  "agnostic\022\n\n\002id\030\001 \001(\r\022\026\n\016requested_sync\030\002"
-  " \001(\r\022\036\n\026requested_player_index\030\003 \001(\r\022\026\n\016"
-  "execution_sync\030\004 \003(\r*X\n\025EBasePredictionE"
-  "vents\022\026\n\021BPE_StringCommand\020\200\001\022\021\n\014BPE_Tel"
-  "eport\020\202\001\022\024\n\016BPE_Diagnostic\020\200\200\001"
+  "pes.proto\"\222\001\n\031CPredictionEvent_Teleport\022"
+  "\033\n\006origin\030\001 \001(\0132\013.CMsgVector\022\033\n\006angles\030\002"
+  " \001(\0132\013.CMsgQAngle\022\034\n\024drop_to_ground_rang"
+  "e\030\003 \001(\002\022\035\n\010velocity\030\004 \001(\0132\013.CMsgVector\"1"
+  "\n\036CPredictionEvent_StringCommand\022\017\n\007comm"
+  "and\030\001 \001(\t\"y\n\033CPredictionEvent_Diagnostic"
+  "\022\n\n\002id\030\001 \001(\r\022\026\n\016requested_sync\030\002 \001(\r\022\036\n\026"
+  "requested_player_index\030\003 \001(\r\022\026\n\016executio"
+  "n_sync\030\004 \003(\r*X\n\025EBasePredictionEvents\022\026\n"
+  "\021BPE_StringCommand\020\200\001\022\021\n\014BPE_Teleport\020\202\001"
+  "\022\024\n\016BPE_Diagnostic\020\200\200\001"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_prediction_5fevents_2eproto_deps[1] = {
   &::descriptor_table_networkbasetypes_2eproto,
 };
 static ::_pbi::once_flag descriptor_table_prediction_5fevents_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_prediction_5fevents_2eproto = {
-    false, false, 430, descriptor_table_protodef_prediction_5fevents_2eproto,
+    false, false, 462, descriptor_table_protodef_prediction_5fevents_2eproto,
     "prediction_events.proto",
     &descriptor_table_prediction_5fevents_2eproto_once, descriptor_table_prediction_5fevents_2eproto_deps, 1, 3,
     schemas, file_default_instances, TableStruct_prediction_5fevents_2eproto::offsets,
@@ -180,6 +184,10 @@ class CPredictionEvent_Teleport::_Internal {
     (*has_bits)[0] |= 2u;
   }
   static void set_has_drop_to_ground_range(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
+  static const ::CMsgVector& velocity(const CPredictionEvent_Teleport* msg);
+  static void set_has_velocity(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
 };
@@ -192,6 +200,10 @@ const ::CMsgQAngle&
 CPredictionEvent_Teleport::_Internal::angles(const CPredictionEvent_Teleport* msg) {
   return *msg->_impl_.angles_;
 }
+const ::CMsgVector&
+CPredictionEvent_Teleport::_Internal::velocity(const CPredictionEvent_Teleport* msg) {
+  return *msg->_impl_.velocity_;
+}
 void CPredictionEvent_Teleport::clear_origin() {
   if (_impl_.origin_ != nullptr) _impl_.origin_->Clear();
   _impl_._has_bits_[0] &= ~0x00000001u;
@@ -199,6 +211,10 @@ void CPredictionEvent_Teleport::clear_origin() {
 void CPredictionEvent_Teleport::clear_angles() {
   if (_impl_.angles_ != nullptr) _impl_.angles_->Clear();
   _impl_._has_bits_[0] &= ~0x00000002u;
+}
+void CPredictionEvent_Teleport::clear_velocity() {
+  if (_impl_.velocity_ != nullptr) _impl_.velocity_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000004u;
 }
 CPredictionEvent_Teleport::CPredictionEvent_Teleport(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -214,6 +230,7 @@ CPredictionEvent_Teleport::CPredictionEvent_Teleport(const CPredictionEvent_Tele
     , /*decltype(_impl_._cached_size_)*/{}
     , decltype(_impl_.origin_){nullptr}
     , decltype(_impl_.angles_){nullptr}
+    , decltype(_impl_.velocity_){nullptr}
     , decltype(_impl_.drop_to_ground_range_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -222,6 +239,9 @@ CPredictionEvent_Teleport::CPredictionEvent_Teleport(const CPredictionEvent_Tele
   }
   if (from._internal_has_angles()) {
     _this->_impl_.angles_ = new ::CMsgQAngle(*from._impl_.angles_);
+  }
+  if (from._internal_has_velocity()) {
+    _this->_impl_.velocity_ = new ::CMsgVector(*from._impl_.velocity_);
   }
   _this->_impl_.drop_to_ground_range_ = from._impl_.drop_to_ground_range_;
   // @@protoc_insertion_point(copy_constructor:CPredictionEvent_Teleport)
@@ -236,6 +256,7 @@ inline void CPredictionEvent_Teleport::SharedCtor(
     , /*decltype(_impl_._cached_size_)*/{}
     , decltype(_impl_.origin_){nullptr}
     , decltype(_impl_.angles_){nullptr}
+    , decltype(_impl_.velocity_){nullptr}
     , decltype(_impl_.drop_to_ground_range_){0}
   };
 }
@@ -253,6 +274,7 @@ inline void CPredictionEvent_Teleport::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   if (this != internal_default_instance()) delete _impl_.origin_;
   if (this != internal_default_instance()) delete _impl_.angles_;
+  if (this != internal_default_instance()) delete _impl_.velocity_;
 }
 
 void CPredictionEvent_Teleport::SetCachedSize(int size) const {
@@ -266,7 +288,7 @@ void CPredictionEvent_Teleport::Clear() {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000003u) {
+  if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
       GOOGLE_DCHECK(_impl_.origin_ != nullptr);
       _impl_.origin_->Clear();
@@ -274,6 +296,10 @@ void CPredictionEvent_Teleport::Clear() {
     if (cached_has_bits & 0x00000002u) {
       GOOGLE_DCHECK(_impl_.angles_ != nullptr);
       _impl_.angles_->Clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(_impl_.velocity_ != nullptr);
+      _impl_.velocity_->Clear();
     }
   }
   _impl_.drop_to_ground_range_ = 0;
@@ -310,6 +336,14 @@ const char* CPredictionEvent_Teleport::_InternalParse(const char* ptr, ::_pbi::P
           _Internal::set_has_drop_to_ground_range(&has_bits);
           _impl_.drop_to_ground_range_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional .CMsgVector velocity = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          ptr = ctx->ParseMessage(_internal_mutable_velocity(), ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -359,9 +393,16 @@ uint8_t* CPredictionEvent_Teleport::_InternalSerialize(
   }
 
   // optional float drop_to_ground_range = 3;
-  if (cached_has_bits & 0x00000004u) {
+  if (cached_has_bits & 0x00000008u) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteFloatToArray(3, this->_internal_drop_to_ground_range(), target);
+  }
+
+  // optional .CMsgVector velocity = 4;
+  if (cached_has_bits & 0x00000004u) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(4, _Internal::velocity(this),
+        _Internal::velocity(this).GetCachedSize(), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -381,7 +422,7 @@ size_t CPredictionEvent_Teleport::ByteSizeLong() const {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x0000000fu) {
     // optional .CMsgVector origin = 1;
     if (cached_has_bits & 0x00000001u) {
       total_size += 1 +
@@ -396,8 +437,15 @@ size_t CPredictionEvent_Teleport::ByteSizeLong() const {
           *_impl_.angles_);
     }
 
-    // optional float drop_to_ground_range = 3;
+    // optional .CMsgVector velocity = 4;
     if (cached_has_bits & 0x00000004u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+          *_impl_.velocity_);
+    }
+
+    // optional float drop_to_ground_range = 3;
+    if (cached_has_bits & 0x00000008u) {
       total_size += 1 + 4;
     }
 
@@ -421,7 +469,7 @@ void CPredictionEvent_Teleport::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_m
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
       _this->_internal_mutable_origin()->::CMsgVector::MergeFrom(
           from._internal_origin());
@@ -431,6 +479,10 @@ void CPredictionEvent_Teleport::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_m
           from._internal_angles());
     }
     if (cached_has_bits & 0x00000004u) {
+      _this->_internal_mutable_velocity()->::CMsgVector::MergeFrom(
+          from._internal_velocity());
+    }
+    if (cached_has_bits & 0x00000008u) {
       _this->_impl_.drop_to_ground_range_ = from._impl_.drop_to_ground_range_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;

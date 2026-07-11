@@ -180,7 +180,6 @@
     <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_Present.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_ResizeBuffers.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_SOCacheSubscribed.cpp" />
-    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_UpdateInPVS.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\base_gcmessages.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\clientmessages.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\connectionless_netmessages.pb.cc" />
@@ -364,7 +363,6 @@
     <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_Present.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_ResizeBuffers.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_SOCacheSubscribed.hpp" />
-    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_UpdateInPVS.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\base_gcmessages.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\clientmessages.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\connectionless_netmessages.pb.h" />

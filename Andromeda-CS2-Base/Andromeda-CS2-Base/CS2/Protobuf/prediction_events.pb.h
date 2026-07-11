@@ -217,6 +217,7 @@ class CPredictionEvent_Teleport final :
   enum : int {
     kOriginFieldNumber = 1,
     kAnglesFieldNumber = 2,
+    kVelocityFieldNumber = 4,
     kDropToGroundRangeFieldNumber = 3,
   };
   // optional .CMsgVector origin = 1;
@@ -255,6 +256,24 @@ class CPredictionEvent_Teleport final :
       ::CMsgQAngle* angles);
   ::CMsgQAngle* unsafe_arena_release_angles();
 
+  // optional .CMsgVector velocity = 4;
+  bool has_velocity() const;
+  private:
+  bool _internal_has_velocity() const;
+  public:
+  void clear_velocity();
+  const ::CMsgVector& velocity() const;
+  PROTOBUF_NODISCARD ::CMsgVector* release_velocity();
+  ::CMsgVector* mutable_velocity();
+  void set_allocated_velocity(::CMsgVector* velocity);
+  private:
+  const ::CMsgVector& _internal_velocity() const;
+  ::CMsgVector* _internal_mutable_velocity();
+  public:
+  void unsafe_arena_set_allocated_velocity(
+      ::CMsgVector* velocity);
+  ::CMsgVector* unsafe_arena_release_velocity();
+
   // optional float drop_to_ground_range = 3;
   bool has_drop_to_ground_range() const;
   private:
@@ -280,6 +299,7 @@ class CPredictionEvent_Teleport final :
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::CMsgVector* origin_;
     ::CMsgQAngle* angles_;
+    ::CMsgVector* velocity_;
     float drop_to_ground_range_;
   };
   union { Impl_ _impl_; };
@@ -851,7 +871,7 @@ inline void CPredictionEvent_Teleport::set_allocated_angles(::CMsgQAngle* angles
 
 // optional float drop_to_ground_range = 3;
 inline bool CPredictionEvent_Teleport::_internal_has_drop_to_ground_range() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
   return value;
 }
 inline bool CPredictionEvent_Teleport::has_drop_to_ground_range() const {
@@ -859,7 +879,7 @@ inline bool CPredictionEvent_Teleport::has_drop_to_ground_range() const {
 }
 inline void CPredictionEvent_Teleport::clear_drop_to_ground_range() {
   _impl_.drop_to_ground_range_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000004u;
+  _impl_._has_bits_[0] &= ~0x00000008u;
 }
 inline float CPredictionEvent_Teleport::_internal_drop_to_ground_range() const {
   return _impl_.drop_to_ground_range_;
@@ -869,12 +889,99 @@ inline float CPredictionEvent_Teleport::drop_to_ground_range() const {
   return _internal_drop_to_ground_range();
 }
 inline void CPredictionEvent_Teleport::_internal_set_drop_to_ground_range(float value) {
-  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_._has_bits_[0] |= 0x00000008u;
   _impl_.drop_to_ground_range_ = value;
 }
 inline void CPredictionEvent_Teleport::set_drop_to_ground_range(float value) {
   _internal_set_drop_to_ground_range(value);
   // @@protoc_insertion_point(field_set:CPredictionEvent_Teleport.drop_to_ground_range)
+}
+
+// optional .CMsgVector velocity = 4;
+inline bool CPredictionEvent_Teleport::_internal_has_velocity() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.velocity_ != nullptr);
+  return value;
+}
+inline bool CPredictionEvent_Teleport::has_velocity() const {
+  return _internal_has_velocity();
+}
+inline const ::CMsgVector& CPredictionEvent_Teleport::_internal_velocity() const {
+  const ::CMsgVector* p = _impl_.velocity_;
+  return p != nullptr ? *p : reinterpret_cast<const ::CMsgVector&>(
+      ::_CMsgVector_default_instance_);
+}
+inline const ::CMsgVector& CPredictionEvent_Teleport::velocity() const {
+  // @@protoc_insertion_point(field_get:CPredictionEvent_Teleport.velocity)
+  return _internal_velocity();
+}
+inline void CPredictionEvent_Teleport::unsafe_arena_set_allocated_velocity(
+    ::CMsgVector* velocity) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.velocity_);
+  }
+  _impl_.velocity_ = velocity;
+  if (velocity) {
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:CPredictionEvent_Teleport.velocity)
+}
+inline ::CMsgVector* CPredictionEvent_Teleport::release_velocity() {
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::CMsgVector* temp = _impl_.velocity_;
+  _impl_.velocity_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::CMsgVector* CPredictionEvent_Teleport::unsafe_arena_release_velocity() {
+  // @@protoc_insertion_point(field_release:CPredictionEvent_Teleport.velocity)
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::CMsgVector* temp = _impl_.velocity_;
+  _impl_.velocity_ = nullptr;
+  return temp;
+}
+inline ::CMsgVector* CPredictionEvent_Teleport::_internal_mutable_velocity() {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  if (_impl_.velocity_ == nullptr) {
+    auto* p = CreateMaybeMessage<::CMsgVector>(GetArenaForAllocation());
+    _impl_.velocity_ = p;
+  }
+  return _impl_.velocity_;
+}
+inline ::CMsgVector* CPredictionEvent_Teleport::mutable_velocity() {
+  ::CMsgVector* _msg = _internal_mutable_velocity();
+  // @@protoc_insertion_point(field_mutable:CPredictionEvent_Teleport.velocity)
+  return _msg;
+}
+inline void CPredictionEvent_Teleport::set_allocated_velocity(::CMsgVector* velocity) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.velocity_);
+  }
+  if (velocity) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(velocity));
+    if (message_arena != submessage_arena) {
+      velocity = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, velocity, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  _impl_.velocity_ = velocity;
+  // @@protoc_insertion_point(field_set_allocated:CPredictionEvent_Teleport.velocity)
 }
 
 // -------------------------------------------------------------------

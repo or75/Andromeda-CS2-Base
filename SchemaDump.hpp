@@ -58,14 +58,15 @@ class CTakeDamageResult // server
 	int32 m_nHealthBefore; // 0x001C
 	float32 m_flDamageDealt; // 0x0020
 	float32 m_flPreModifiedDamage; // 0x0024
-	int32 m_nTotalledHealthLost; // 0x0028
-	float32 m_flTotalledDamageDealt; // 0x002C
-	float32 m_flTotalledPreModifiedDamage; // 0x0030
-	float32 m_flNewDamageAccumulatorValue; // 0x0034
-	TakeDamageFlags_t m_nDamageFlags; // 0x0038
-	bool m_bWasDamageSuppressed; // 0x0040
-	bool m_bSuppressFlinch; // 0x0041
-	HitGroup_t m_nOverrideFlinchHitGroup; // 0x0044
+	VectorWS m_vDamagePosition; // 0x0028
+	int32 m_nTotalledHealthLost; // 0x0034
+	float32 m_flTotalledDamageDealt; // 0x0038
+	float32 m_flTotalledPreModifiedDamage; // 0x003C
+	float32 m_flNewDamageAccumulatorValue; // 0x0040
+	TakeDamageFlags_t m_nDamageFlags; // 0x0048
+	bool m_bWasDamageSuppressed; // 0x0050
+	bool m_bSuppressFlinch; // 0x0051
+	HitGroup_t m_nOverrideFlinchHitGroup; // 0x0054
 };
 class C_OP_RenderMaterialProxy : public CParticleFunctionRenderer // particles
 {
@@ -145,15 +146,20 @@ class MotionBlendItem // animgraphlib
 	CSmartPtr< CMotionNode > m_pChild; // 0x0000
 	float32 m_flKeyValue; // 0x0008
 };
-class CAnimEventListenerBase // server
-{
-};
 class C_OP_EndCapDecay : public CParticleFunctionOperator // particles
 {
 };
 class VMixPresetDSPDesc_t // soundsystem_lowlevel
 {
 	CUtlString m_effectName; // 0x0000
+};
+class CNmFloatChannelData // animlib
+{
+	CStrongHandle< InfoForResourceTypeCNmSkeleton > m_skeleton; // 0x0000
+	CGlobalSymbol m_setID; // 0x0008
+	CUtlVector< CNmFloatChannelData::ChannelSettings_t > m_channelSettings; // 0x0010
+	CUtlVector< uint16 > m_compressedData; // 0x0028
+	CUtlVector< uint32 > m_compressedOffsets; // 0x0040
 };
 class CTurnHelperUpdateNode : public CUnaryUpdateNode // animgraphlib
 {
@@ -181,12 +187,13 @@ class CDecalInstance // server
 	Vector m_vPositionLS; // 0x0020
 	Vector m_vPositionOS; // 0x002C
 	Vector m_vNormalLS; // 0x0038
-	Vector m_vSAxisLS; // 0x0044
-	DecalFlags_t m_nFlags; // 0x0050
-	Color m_Color; // 0x0054
-	float32 m_flWidth; // 0x0058
-	float32 m_flHeight; // 0x005C
-	float32 m_flDepth; // 0x0060
+	Vector m_vNormalOS; // 0x0044
+	Vector m_vSAxisLS; // 0x0050
+	DecalFlags_t m_nFlags; // 0x005C
+	Color m_Color; // 0x0060
+	float32 m_flWidth; // 0x0064
+	float32 m_flHeight; // 0x0068
+	float32 m_flDepth; // 0x006C
 	CTransformWS m_transform; // 0x0070
 	float32 m_flAnimationScale; // 0x0090
 	float32 m_flAnimationStartTime; // 0x0094
@@ -291,10 +298,6 @@ class CGameScriptedMoveDef_t // server
 };
 class CBtNodeDecorator : public CBtNode // server
 {
-};
-class SceneOpportunityHandle_t // server
-{
-	int32 m_Value; // 0x0000
 };
 class dynpitchvol_t : public dynpitchvol_base_t // server
 {
@@ -412,6 +415,26 @@ class C_OP_RenderScreenShake : public CParticleFunctionRenderer // particles
 	ParticleAttributeIndex_t m_nAmplitudeField; // 0x0244
 	int32 m_nFilterCP; // 0x0248
 };
+class CVoiceContainerVsndTrigger : public CVoiceContainerBase // soundsystem_voicecontainers
+{
+	CUtlString m_namespace; // 0x0070
+	CVsndTriggerSlot m_slot1; // 0x0078
+	CVsndTriggerSlot m_slot2; // 0x0100
+	CVsndTriggerSlot m_slot3; // 0x0188
+	CVsndTriggerSlot m_slot4; // 0x0210
+	CVsndTriggerSlot m_slot5; // 0x0298
+	CVsndTriggerSlot m_slot6; // 0x0320
+	CVsndTriggerSlot m_slot7; // 0x03A8
+	CVsndTriggerSlot m_slot8; // 0x0430
+	CVsndTriggerSlot m_slot9; // 0x04B8
+	CVsndTriggerSlot m_slot10; // 0x0540
+	CVsndTriggerSlot m_slot11; // 0x05C8
+	CVsndTriggerSlot m_slot12; // 0x0650
+	CVsndTriggerSlot m_slot13; // 0x06D8
+	CVsndTriggerSlot m_slot14; // 0x0760
+	CVsndTriggerSlot m_slot15; // 0x07E8
+	CVsndTriggerSlot m_slot16; // 0x0870
+};
 class CAnimNodePath // animgraphlib
 {
 	AnimNodeID[11] m_path; // 0x0000
@@ -427,7 +450,8 @@ class CNmSkeleton // animlib
 	int32 m_numBonesToSampleAtLowLOD; // 0x0060
 	CUtlLeanVector< NmBoneMaskSetDefinition_t > m_maskDefinitions; // 0x0088
 	CUtlLeanVector< CNmSkeleton::SecondarySkeleton_t > m_secondarySkeletons; // 0x00A8
-	bool m_bIsPropSkeleton; // 0x00B8
+	CUtlLeanVector< CNmFloatChannelSet_t > m_floatChannelSets; // 0x00B8
+	bool m_bIsPropSkeleton; // 0x00C8
 };
 class CModelConfigElement_SetMaterialGroup : public CModelConfigElement // modellib
 {
@@ -482,9 +506,9 @@ class ParticleAttributeIndex_t // particles
 };
 class CVoiceContainerMultiBlender : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CSoundContainerReferenceArray m_soundsToPlay; // 0x00A8
-	float32 m_flBlendFactor; // 0x00E0
-	float32 m_flCrossover; // 0x00E4
+	CSoundContainerReferenceArray m_soundsToPlay; // 0x0070
+	float32 m_flBlendFactor; // 0x00A8
+	float32 m_flCrossover; // 0x00AC
 };
 class FeBuildSDFRigid_t : public FeSDFRigid_t // physicslib
 {
@@ -494,6 +518,35 @@ class FeBuildSDFRigid_t : public FeSDFRigid_t // physicslib
 };
 class IAnimationGraphInstance // animgraphlib
 {
+};
+class AI_GroundRootMotionMotor_DebugSnapshotData_t : public DebugSnapshotBaseStructuredData_t // server
+{
+	CGlobalSymbol desired_movement_gait_set; // 0x0008
+	CGlobalSymbol desired_movement_gait; // 0x0010
+	CGlobalSymbol current_movement_gait_set; // 0x0018
+	CGlobalSymbol current_movement_gait; // 0x0020
+	CGlobalSymbol movement_setting_id; // 0x0028
+	CGlobalSymbol gait_switch_blocked_reason; // 0x0030
+	bool b_goal_completion_allowed; // 0x0038
+	CGlobalSymbol state; // 0x0040
+	int32 n_state_active_tick_count; // 0x0048
+	bool b_has_path; // 0x004C
+	float32 f_remaining_ground_path_length; // 0x0050
+	float32 f_current_speed; // 0x0054
+	CGlobalSymbol move_type; // 0x0058
+	float32 f_forward_strafing_angle_actual; // 0x0060
+	float32 f_forward_strafing_angle_desired; // 0x0064
+	float32 f_current_lean; // 0x0068
+	float32 f_target_lean; // 0x006C
+	CUtlVector< AI_GroundRootMotionMotor_DebugSnapshotData_t::Event_t > vec_events; // 0x0070
+};
+class CSndBeatTrack // soundsystem
+{
+	CUtlString m_name; // 0x0000
+	SndBeatTrackPlaybackType_t m_playbackType; // 0x0020
+	int32 m_nTranspose; // 0x0024
+	bool m_bSyncToVoice; // 0x0028
+	float32 m_flBPM; // 0x002C
 };
 class CSoundContainerReferenceArray // soundsystem_voicecontainers
 {
@@ -615,11 +668,6 @@ class VMixConvolutionDesc_t // soundsystem_lowlevel
 class CVMixSubgraphSwitchProcessorDesc : public CVMixBaseProcessorDesc // soundsystem_lowlevel
 {
 	VMixSubgraphSwitchDesc_t m_desc; // 0x0020
-};
-class CVoiceContainerEnvelope : public CVoiceContainerDefault // soundsystem_voicecontainers
-{
-	CStrongHandle< InfoForResourceTypeCVoiceContainerBase > m_sound; // 0x00A8
-	CVoiceContainerAnalysisBase* m_analysisContainer; // 0x00B0
 };
 class CFeJiggleBone // physicslib
 {
@@ -811,7 +859,7 @@ class levellist_t // server
 	CUtlString m_sMapName; // 0x0000
 	CUtlString m_sLandmarkName; // 0x0008
 	CEntityHandle m_hEntLandmark; // 0x0010
-	Vector m_vecLandmarkOrigin; // 0x0014
+	VectorWS m_vecLandmarkOrigin; // 0x0014
 	QAngle m_vecLandmarkAngles; // 0x0020
 };
 class C_OP_RepeatedTriggerChildGroup : public CParticleFunctionPreEmission // particles
@@ -850,7 +898,7 @@ class C_OP_RemapParticleCountToScalar : public CParticleFunctionOperator // part
 };
 class constraint_hingeparams_t // vphysics2
 {
-	Vector worldPosition; // 0x0000
+	VectorWS worldPosition; // 0x0000
 	Vector worldAxisDirection; // 0x000C
 	constraint_axislimit_t hingeAxis; // 0x0018
 	constraint_breakableparams_t constraint; // 0x0028
@@ -943,14 +991,15 @@ class CMaterialDrawDescriptor // modellib
 	uint8 m_nDepthVertexBufferIndex; // 0x0024
 	uint8 m_nMeshletPackedIVBIndex; // 0x0025
 	CUtlLeanVector< CMaterialDrawDescriptor::RigidMeshPart_t > m_rigidMeshParts; // 0x0028
-	RenderPrimitiveType_t m_nPrimitiveType; // 0x0038
-	int32 m_nBaseVertex; // 0x003C
-	int32 m_nVertexCount; // 0x0040
-	int32 m_nStartIndex; // 0x0044
-	int32 m_nIndexCount; // 0x0048
-	CRenderBufferBinding m_indexBuffer; // 0x00B0
-	CRenderBufferBinding m_meshletPackedIVB; // 0x00D0
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_material; // 0x0100
+	CUtlLeanVector< uint16 > m_rootBvhNodes; // 0x0038
+	RenderPrimitiveType_t m_nPrimitiveType; // 0x0048
+	int32 m_nBaseVertex; // 0x004C
+	int32 m_nVertexCount; // 0x0050
+	int32 m_nStartIndex; // 0x0054
+	int32 m_nIndexCount; // 0x0058
+	CRenderBufferBinding m_indexBuffer; // 0x00C0
+	CRenderBufferBinding m_meshletPackedIVB; // 0x00E0
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_material; // 0x0110
 };
 class CDecalGroupVData // server
 {
@@ -1122,12 +1171,12 @@ class C_OP_SetControlPointFieldToWater : public CParticleFunctionPreEmission // 
 };
 class CVoiceContainerStaticAdditiveSynth : public CVoiceContainerAsyncGenerator // soundsystem_voicecontainers
 {
-	CUtlVector< CVoiceContainerStaticAdditiveSynth::CTone > m_tones; // 0x00B8
+	CUtlVector< CVoiceContainerStaticAdditiveSynth::CTone > m_tones; // 0x0080
 };
 class CVoiceContainerDecayingSineWave : public CVoiceContainerGenerator // soundsystem_voicecontainers
 {
-	float32 m_flFrequency; // 0x00A8
-	float32 m_flDecayTime; // 0x00AC
+	float32 m_flFrequency; // 0x0070
+	float32 m_flDecayTime; // 0x0074
 };
 class CConcreteAnimParameter : public CAnimParameterBase // animgraphlib
 {
@@ -1162,6 +1211,12 @@ class CDestructiblePartsSystemData // server
 class DebugDrawBoneTransforms_t : public DebugSnapshotBaseStructuredData_t // server
 {
 	CUtlVectorFixedGrowable< CTransform, 128 > vecBones; // 0x0010
+};
+class AI_MotorServices_DebugSnapshotData_t::MotorPathWaypoint_t // server
+{
+	VectorWS position; // 0x0000
+	uint32 nav_type; // 0x000C
+	uint32 flags; // 0x0010
 };
 class C_OP_SetControlPointFieldToScalarExpression : public CParticleFunctionPreEmission // particles
 {
@@ -1224,6 +1279,7 @@ class C_OP_PointVectorAtNextParticle : public CParticleFunctionOperator // parti
 {
 	ParticleAttributeIndex_t m_nFieldOutput; // 0x01D8
 	CPerParticleFloatInput m_flInterpolation; // 0x01E0
+	bool m_bPrevious; // 0x0350
 };
 class C_INIT_LifespanFromVelocity : public CParticleFunctionInitializer // particles
 {
@@ -1287,8 +1343,9 @@ class DestructiblePartDamageRequest_t // server
 	DamageTypes_t m_nDamageType; // 0x0010
 	float32 m_flBreakDamage; // 0x0014
 	float32 m_flBreakDamageRadius; // 0x0018
-	VectorWS m_vWsBreakDamageOrigin; // 0x001C
-	Vector m_vWsBreakDamageForce; // 0x0028
+	CHandle< CBaseEntity > m_hAttacker; // 0x001C
+	VectorWS m_vWsBreakDamageOrigin; // 0x0020
+	Vector m_vWsBreakDamageForce; // 0x002C
 };
 class CVMixBoxverbProcessorDesc : public CVMixBaseProcessorDesc // soundsystem_lowlevel
 {
@@ -1358,10 +1415,17 @@ class CInventoryImageData // client
 	CUtlString name; // 0x0008
 	inv_image_data_t inventory_image_data; // 0x0010
 };
+class AI_MotorServices_DebugSnapshotData_t // server
+{
+	CGlobalSymbol active_motor; // 0x0000
+	float32 desired_speed; // 0x0008
+	Vector motor_velocity; // 0x000C
+	CUtlVector< AI_MotorServices_DebugSnapshotData_t::MotorPathWaypoint_t > motor_path; // 0x0018
+};
 class locksound_t // server
 {
-	CUtlSymbolLarge sLockedSound; // 0x0008
-	CUtlSymbolLarge sUnlockedSound; // 0x0010
+	CGameSoundEventName sLockedSound; // 0x0008
+	CGameSoundEventName sUnlockedSound; // 0x0010
 	GameTime_t flwaitSound; // 0x0018
 };
 class FuncMoverMovementSummary_t // server
@@ -1499,17 +1563,18 @@ class CCS2UIPawnGraphController : public CAnimGraphControllerBase // client
 {
 	CAnimGraph2ParamOptionalRef< float32 > m_nAnimationSeed; // 0x0088
 	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_characterMode; // 0x00A0
-	CAnimGraph2ParamOptionalRef< float32 > m_nTeamPreviewVariant; // 0x00B8
-	CAnimGraph2ParamOptionalRef< float32 > m_nTeamPreviewRandom; // 0x00D0
-	CAnimGraph2ParamOptionalRef< float32 > m_nTeamPreviewPosition; // 0x00E8
-	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_endOfMatchCelebration; // 0x0100
-	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_action; // 0x0118
-	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_bannerAnimation; // 0x0130
-	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_weaponCategory; // 0x0148
-	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_weaponType; // 0x0160
-	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_weaponState; // 0x0178
-	CAnimGraph2ParamOptionalRef< float32 > m_inspectTurnAngle; // 0x0190
-	CAnimGraph2ParamOptionalRef< bool > m_bCT; // 0x01A8
+	CAnimGraph2ParamOptionalRef< bool > m_bCharacterModeReset; // 0x00B8
+	CAnimGraph2ParamOptionalRef< float32 > m_nTeamPreviewVariant; // 0x00D0
+	CAnimGraph2ParamOptionalRef< float32 > m_nTeamPreviewRandom; // 0x00E8
+	CAnimGraph2ParamOptionalRef< float32 > m_nTeamPreviewPosition; // 0x0100
+	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_endOfMatchCelebration; // 0x0118
+	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_action; // 0x0130
+	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_bannerAnimation; // 0x0148
+	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_weaponCategory; // 0x0160
+	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_weaponType; // 0x0178
+	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_weaponState; // 0x0190
+	CAnimGraph2ParamOptionalRef< float32 > m_inspectTurnAngle; // 0x01A8
+	CAnimGraph2ParamOptionalRef< bool > m_bCT; // 0x01C0
 };
 class CRR_Response // server
 {
@@ -1551,9 +1616,10 @@ class ModelBoneFlexDriverControl_t // modellib
 };
 class C_OP_OrientTo2dDirection : public CParticleFunctionOperator // particles
 {
-	float32 m_flRotOffset; // 0x01D8
-	float32 m_flSpinStrength; // 0x01DC
-	ParticleAttributeIndex_t m_nFieldOutput; // 0x01E0
+	CPerParticleVecInput m_vecInput; // 0x01D8
+	float32 m_flRotOffset; // 0x0890
+	float32 m_flSpinStrength; // 0x0894
+	ParticleAttributeIndex_t m_nFieldOutput; // 0x0898
 };
 class C_OP_VelocityMatchingForce : public CParticleFunctionOperator // particles
 {
@@ -1587,7 +1653,7 @@ class SummaryTakeDamageInfo_t // server
 	int32 nSummarisedCount; // 0x0000
 	CTakeDamageInfo info; // 0x0008
 	CTakeDamageResult result; // 0x0120
-	CHandle< CBaseEntity > hTarget; // 0x0170
+	CHandle< CBaseEntity > hTarget; // 0x0180
 };
 class C_INIT_CreateOnModel : public CParticleFunctionInitializer // particles
 {
@@ -1627,7 +1693,7 @@ class CSteamAudioBakedOcclusionData // steamaudio
 	CSteamAudioProbeData m_probes; // 0x0010
 	CUtlVector< float32 > m_vecPathingRatio; // 0x0018
 	CUtlVector< float32 > m_vecPathingDeviation; // 0x0030
-	CUtlVector< float32 > m_vecReflectionRatio; // 0x0048
+	CUtlVector< float32 > m_vecReflectionEnergy; // 0x0048
 };
 class CTwoBoneIKUpdateNode : public CUnaryUpdateNode // animgraphlib
 {
@@ -1683,7 +1749,7 @@ class CCompositeMaterialEditorDoc // compositematerialslib
 };
 class SoundOpvarTraceResult_t // server
 {
-	Vector vPos; // 0x0000
+	VectorWS vPos; // 0x0000
 	bool bDidHit; // 0x000C
 	float32 flDistSqrToCenter; // 0x0010
 };
@@ -1719,27 +1785,6 @@ class C_OP_RemapDensityToVector : public CParticleFunctionOperator // particles
 	Vector m_vecOutputMax; // 0x01F4
 	bool m_bUseParentDensity; // 0x0200
 	int32 m_nVoxelGridResolution; // 0x0204
-};
-class CSceneOpportunity // server
-{
-	CHandle< CBaseEntity > m_hOwner; // 0x0000
-	SceneOpportunityHandle_t m_uHandle; // 0x0004
-	CUtlSymbolLarge m_strInteractVDataName; // 0x0008
-	bool m_bEnabled; // 0x0010
-	bool m_bActive; // 0x0011
-	InteractionPriority_t m_ePriority; // 0x0014
-	float32 m_flRadius; // 0x0018
-	SceneInterestTags_t m_LocalInterestReqTags; // 0x0020
-	SceneInterestTags_t m_LocalInterestOptTags; // 0x0038
-	float32 m_flOwnerFOV; // 0x0050
-	CUtlVector< SceneOpportunityActor_t > m_ActorList; // 0x0058
-	CHandle< CBaseEntity > m_hLookTarget; // 0x0070
-	float32 m_flDuration; // 0x0074
-	GameTime_t m_tStartTime; // 0x0078
-	float32 m_flCooldown; // 0x007C
-	GameTime_t m_tCooldownTime; // 0x0080
-	int32 m_nRepeatCount; // 0x0084
-	bool m_bDisableOnExit; // 0x0088
 };
 class CTakeDamageInfo // server
 {
@@ -2045,8 +2090,8 @@ class SteamAudioReverbSettings_t // steamaudio
 };
 class CEntityAttributeTable // entity2
 {
-	CUtlOrderedMap< CUtlStringToken, Attribute_t > m_Attributes; // 0x0000
-	CUtlOrderedMap< CUtlStringToken, CUtlString > m_Names; // 0x0028
+	CUtlOrderedMap< CUtlStringTokenNoRegistration, Attribute_t > m_Attributes; // 0x0000
+	CUtlOrderedMap< CUtlStringTokenNoRegistration, CUtlString > m_Names; // 0x0028
 };
 class CFiringModeFloat // server
 {
@@ -2113,7 +2158,7 @@ class lerpdata_t // server
 	CHandle< CBaseEntity > m_hEnt; // 0x0000
 	MoveType_t m_MoveType; // 0x0004
 	GameTime_t m_flStartTime; // 0x0008
-	Vector m_vecStartOrigin; // 0x000C
+	VectorWS m_vecStartOrigin; // 0x000C
 	Quaternion m_qStartRot; // 0x0020
 	ParticleIndex_t m_nFXIndex; // 0x0030
 };
@@ -2182,6 +2227,8 @@ class C_OP_RenderModels : public CParticleFunctionRenderer // particles
 	ParticleAttributeIndex_t m_nAlpha2Field; // 0x25A0
 	CParticleCollectionVecInput m_vecColorScale; // 0x25A8
 	ParticleColorBlendType_t m_nColorBlendType; // 0x2C60
+	CUtlString m_strLightStyle; // 0x2C68
+	CPerParticleFloatInput m_flLightStyleTime; // 0x2C70
 };
 class FeSimdSpringIntegrator_t // physicslib
 {
@@ -2265,6 +2312,11 @@ class C_INIT_InitialVelocityFromHitbox : public CParticleFunctionInitializer // 
 class C_INIT_RemapNamedModelBodyPartToScalar : public C_INIT_RemapNamedModelElementToScalar // particles
 {
 };
+class CSndBeatPatternManager // soundsystem
+{
+	CUtlVector< CSndBeatPattern > m_vecPatterns; // 0x0038
+	CUtlVector< CSndBeatTrack > m_vecActiveTracks; // 0x0070
+};
 class CNmScaleTask : public CNmPoseTask // animlib
 {
 };
@@ -2294,12 +2346,16 @@ class EngineLoopState_t // engine2
 	int32 m_nRenderWidth; // 0x0020
 	int32 m_nRenderHeight; // 0x0024
 };
-class AI_BaseNPCAnimGraph_DebugSnapshotData_t : public DebugSnapshotBaseStructuredData_t // server
+class AI_BaseNPCAnimGraph_DebugSnapshotData_t // server
 {
-	CGlobalSymbol e_action_desired; // 0x0008
-	bool b_action_restart; // 0x0010
-	CGlobalSymbol e_movement_type_desired; // 0x0018
-	bool b_movement_type_restart; // 0x0020
+	CGlobalSymbol e_action_desired; // 0x0000
+	CGlobalSymbol e_action_handshake_restart; // 0x0008
+	CGlobalSymbol e_action_handshake_body_authority_current; // 0x0010
+	CGlobalSymbol e_action_handshake_body_authority_desired; // 0x0018
+	CGlobalSymbol e_movement_type_desired; // 0x0020
+	CGlobalSymbol e_movement_handshake_restart; // 0x0028
+	CGlobalSymbol e_movement_handshake_body_authority_current; // 0x0030
+	CGlobalSymbol e_movement_handshake_body_authority_desired; // 0x0038
 };
 class C_INIT_StatusEffect : public CParticleFunctionInitializer // particles
 {
@@ -2336,18 +2392,18 @@ class C_OP_WindForce : public CParticleFunctionForce // particles
 };
 class CVoiceContainerRandomSampler : public CVoiceContainerAsyncGenerator // soundsystem_voicecontainers
 {
-	float32 m_flAmplitude; // 0x00B8
-	float32 m_flAmplitudeJitter; // 0x00BC
-	float32 m_flTimeJitter; // 0x00C0
-	float32 m_flMaxLength; // 0x00C4
-	int32 m_nNumDelayVariations; // 0x00C8
-	CUtlVector< CStrongHandle< InfoForResourceTypeCVoiceContainerBase > > m_grainResources; // 0x00D0
+	float32 m_flAmplitude; // 0x0080
+	float32 m_flAmplitudeJitter; // 0x0084
+	float32 m_flTimeJitter; // 0x0088
+	float32 m_flMaxLength; // 0x008C
+	int32 m_nNumDelayVariations; // 0x0090
+	CUtlVector< CStrongHandle< InfoForResourceTypeCVoiceContainerBase > > m_grainResources; // 0x0098
 };
 class CVoiceContainerRealtimeFMSineWave : public CVoiceContainerGenerator // soundsystem_voicecontainers
 {
-	float32 m_flCarrierFrequency; // 0x00A8
-	float32 m_flModulatorFrequency; // 0x00AC
-	float32 m_flModulatorAmount; // 0x00B0
+	float32 m_flCarrierFrequency; // 0x0070
+	float32 m_flModulatorFrequency; // 0x0074
+	float32 m_flModulatorAmount; // 0x0078
 };
 class VPhysXConstraintParams_t // modellib
 {
@@ -2531,6 +2587,8 @@ class PostProcessingResource_t // materialsystem2
 	bool m_bHasColorCorrection; // 0x0120
 	bool m_bHasFogScatteringParams; // 0x0121
 	PostProcessingFogScatteringParameters_t m_fogScatteringParams; // 0x0124
+	bool m_bHasLocalExposureParams; // 0x0144
+	PostProcessingLocalExposureParameters_t m_localExposureParams; // 0x0148
 };
 class C_INIT_RandomVector : public CParticleFunctionInitializer // particles
 {
@@ -2587,8 +2645,7 @@ class CMoodVData // animationsystem
 };
 class CVoiceContainerAnalysisBase // soundsystem_voicecontainers
 {
-	bool m_bRegenerateCurveOnCompile; // 0x0008
-	CPiecewiseCurve m_curve; // 0x0010
+	CPiecewiseCurve m_curve; // 0x0008
 };
 class CSoundInfoHeader // soundsystem_voicecontainers
 {
@@ -2628,11 +2685,11 @@ class C_OP_MovementPlaceOnGround : public CParticleFunctionOperator // particles
 };
 class CVoiceContainerLoopTrigger : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CSoundContainerReference m_sound; // 0x00A8
-	float32 m_flRetriggerTimeMin; // 0x00C8
-	float32 m_flRetriggerTimeMax; // 0x00CC
-	float32 m_flFadeTime; // 0x00D0
-	bool m_bCrossFade; // 0x00D4
+	float32 m_flRetriggerTimeMin; // 0x0070
+	float32 m_flRetriggerTimeMax; // 0x0074
+	float32 m_flFadeTime; // 0x0078
+	bool m_bCrossFade; // 0x007C
+	CSoundContainerReference m_sound; // 0x0080
 };
 class RnMeshDesc_t : public RnShapeDesc_t // physicslib
 {
@@ -2707,6 +2764,10 @@ class C_OP_SetControlPointPositionToTimeOfDayValue : public CParticleFunctionPre
 class C_INIT_RandomNamedModelMeshGroup : public C_INIT_RandomNamedModelElement // particles
 {
 };
+class SndBeatEventKeys_t // soundsystem
+{
+	float32 m_flKey; // 0x0008
+};
 class CNmReferencedGraphNode::CDefinition : public CNmPoseNode::CDefinition // animlib
 {
 	int16 m_nReferencedGraphIdx; // 0x0010
@@ -2714,13 +2775,15 @@ class CNmReferencedGraphNode::CDefinition : public CNmPoseNode::CDefinition // a
 };
 class CNmChainLookatNode::CDefinition : public CNmPassthroughNode::CDefinition // animlib
 {
-	CGlobalSymbol m_chainEndBoneID; // 0x0018
-	int16 m_nLookatTargetNodeIdx; // 0x0020
-	int16 m_nEnabledNodeIdx; // 0x0022
-	float32 m_flBlendTimeSeconds; // 0x0024
-	uint8 m_nChainLength; // 0x0028
-	bool m_bIsTargetInWorldSpace; // 0x0029
-	Vector m_chainForwardDir; // 0x002C
+	CGlobalSymbol m_endEffectorBoneID; // 0x0018
+	Vector m_endEffectorForwardAxis; // 0x0020
+	Vector m_endEffectorOffset; // 0x002C
+	int16 m_nLookatTargetNodeIdx; // 0x0038
+	int16 m_nEnabledNodeIdx; // 0x003A
+	float32 m_flBlendTimeSeconds; // 0x003C
+	CUtlVectorFixedGrowable< float32, 5 > m_chainWeights; // 0x0040
+	uint8 m_nChainLength; // 0x0070
+	bool m_bIsTargetInWorldSpace; // 0x0071
 };
 class CNmGraphEventConditionNode::Condition_t // animlib
 {
@@ -2779,6 +2842,10 @@ class C_INIT_RemapTransformToVector : public CParticleFunctionInitializer // par
 	bool m_bAccelerate; // 0x02F5
 	float32 m_flRemapBias; // 0x02F8
 };
+class VPhysEntityId_t // vphysics2
+{
+	uint32 m_Id; // 0x0000
+};
 class CBlend2DUpdateNode : public CAnimUpdateNodeBase // animgraphlib
 {
 	CUtlVector< BlendItem_t > m_items; // 0x0060
@@ -2817,6 +2884,7 @@ class CPulse_Variable // pulse_runtime_lib
 	bool m_bIsPublicBlackboardVariable; // 0x0048
 	bool m_bIsObservable; // 0x0049
 	PulseDocNodeID_t m_nEditorNodeID; // 0x004C
+	KeyValues3 m_Metadata; // 0x0050
 };
 class AnimTagID // modellib
 {
@@ -2828,7 +2896,7 @@ class ParticleNode_t // server
 	ParticleIndex_t m_iIndex; // 0x0004
 	GameTime_t m_flStartTime; // 0x0008
 	float32 m_flGrowthDuration; // 0x000C
-	Vector m_vecGrowthOrigin; // 0x0010
+	VectorWS m_vecGrowthOrigin; // 0x0010
 	float32 m_flEndcapTime; // 0x001C
 	bool m_bMarkedForDelete; // 0x0020
 };
@@ -2843,47 +2911,59 @@ class C_OP_RenderStandardLight : public CParticleFunctionRenderer // particles
 	uint16 m_nMaxAllowed; // 0x022C
 	CParticleCollectionVecInput m_vecColorScale; // 0x0230
 	ParticleColorBlendType_t m_nColorBlendType; // 0x08E8
-	CPerParticleFloatInput m_flIntensity; // 0x08F0
-	bool m_bCastShadows; // 0x0A60
-	bool m_bDynamicBounce; // 0x0A61
-	CParticleCollectionFloatInput m_flBounceScale; // 0x0A68
-	CParticleCollectionFloatInput m_flTheta; // 0x0BD8
-	CParticleCollectionFloatInput m_flPhi; // 0x0D48
-	CParticleCollectionFloatInput m_flRadiusMultiplier; // 0x0EB8
-	StandardLightingAttenuationStyle_t m_nAttenuationStyle; // 0x1028
-	CParticleCollectionFloatInput m_flFalloffLinearity; // 0x1030
-	CParticleCollectionFloatInput m_flFiftyPercentFalloff; // 0x11A0
-	CParticleCollectionFloatInput m_flZeroPercentFalloff; // 0x1310
-	bool m_bRenderDiffuse; // 0x1480
-	bool m_bRenderSpecular; // 0x1481
-	CUtlString m_lightCookie; // 0x1488
-	int32 m_nPriority; // 0x1490
-	ParticleLightFogLightingMode_t m_nFogLightingMode; // 0x1494
-	CParticleCollectionRendererFloatInput m_flFogContribution; // 0x1498
-	ParticleLightBehaviorChoiceList_t m_nCapsuleLightBehavior; // 0x1608
-	float32 m_flCapsuleLength; // 0x160C
-	bool m_bReverseOrder; // 0x1610
-	bool m_bClosedLoop; // 0x1611
-	ParticleAttributeIndex_t m_nPrevPntSource; // 0x1614
-	float32 m_flMaxLength; // 0x1618
-	float32 m_flMinLength; // 0x161C
-	bool m_bIgnoreDT; // 0x1620
-	float32 m_flConstrainRadiusToLengthRatio; // 0x1624
-	float32 m_flLengthScale; // 0x1628
-	float32 m_flLengthFadeInTime; // 0x162C
+	CUtlString m_strLightStyle; // 0x08F0
+	CPerParticleFloatInput m_flLightStyleTime; // 0x08F8
+	CPerParticleFloatInput m_flIntensity; // 0x0A68
+	bool m_bCastShadows; // 0x0BD8
+	bool m_bDynamicBounce; // 0x0BD9
+	CParticleCollectionFloatInput m_flBounceScale; // 0x0BE0
+	CParticleCollectionFloatInput m_flTheta; // 0x0D50
+	CParticleCollectionFloatInput m_flPhi; // 0x0EC0
+	CParticleCollectionFloatInput m_flRadiusMultiplier; // 0x1030
+	StandardLightingAttenuationStyle_t m_nAttenuationStyle; // 0x11A0
+	CParticleCollectionFloatInput m_flFalloffLinearity; // 0x11A8
+	CParticleCollectionFloatInput m_flFiftyPercentFalloff; // 0x1318
+	CParticleCollectionFloatInput m_flZeroPercentFalloff; // 0x1488
+	bool m_bRenderDiffuse; // 0x15F8
+	bool m_bRenderSpecular; // 0x15F9
+	CUtlString m_lightCookie; // 0x1600
+	int32 m_nPriority; // 0x1608
+	ParticleLightFogLightingMode_t m_nFogLightingMode; // 0x160C
+	CParticleCollectionRendererFloatInput m_flFogContribution; // 0x1610
+	ParticleLightBehaviorChoiceList_t m_nCapsuleLightBehavior; // 0x1780
+	float32 m_flCapsuleLength; // 0x1784
+	bool m_bReverseOrder; // 0x1788
+	bool m_bClosedLoop; // 0x1789
+	ParticleAttributeIndex_t m_nPrevPntSource; // 0x178C
+	float32 m_flMaxLength; // 0x1790
+	float32 m_flMinLength; // 0x1794
+	bool m_bIgnoreDT; // 0x1798
+	float32 m_flConstrainRadiusToLengthRatio; // 0x179C
+	float32 m_flLengthScale; // 0x17A0
+	float32 m_flLengthFadeInTime; // 0x17A4
 };
 class C_OP_RenderLightBeam : public CParticleFunctionRenderer // particles
 {
 	uint16 m_nMaxAllowed; // 0x0228
 	CParticleCollectionVecInput m_vColorBlend; // 0x0230
 	ParticleColorBlendType_t m_nColorBlendType; // 0x08E8
-	CParticleCollectionFloatInput m_flBrightnessLumensPerMeter; // 0x08F0
-	bool m_bCastShadows; // 0x0A60
-	bool m_bDynamicBounce; // 0x0A61
-	CParticleCollectionFloatInput m_flBounceScale; // 0x0A68
-	CParticleCollectionFloatInput m_flSkirt; // 0x0BD8
-	CParticleCollectionFloatInput m_flRange; // 0x0D48
-	CParticleCollectionFloatInput m_flThickness; // 0x0EB8
+	CUtlString m_strLightStyle; // 0x08F0
+	CPerParticleFloatInput m_flLightStyleTime; // 0x08F8
+	CParticleCollectionFloatInput m_flBrightnessLumensPerMeter; // 0x0A68
+	CParticleCollectionFloatInput m_flNumberOfLightsToCreate; // 0x0BD8
+	bool m_bCastShadows; // 0x0D48
+	bool m_bDynamicBounce; // 0x0D49
+	CParticleCollectionFloatInput m_flBounceScale; // 0x0D50
+	CParticleCollectionFloatInput m_flSkirt; // 0x0EC0
+	CParticleCollectionFloatInput m_flRange; // 0x1030
+	CParticleCollectionFloatInput m_flThickness; // 0x11A0
+	CParticleCollectionFloatInput m_flInnerConeAngle; // 0x1310
+	CParticleCollectionFloatInput m_flOuterConeAngle; // 0x1480
+	CParticleCollectionVecInput m_vecConeRotationOffset; // 0x15F0
+	ParticleLightFogLightingMode_t m_nFogLightingMode; // 0x1CA8
+	CParticleCollectionRendererFloatInput m_flFogContribution; // 0x1CB0
+	CPerParticleFloatInput m_flRenderFilter; // 0x1E20
+	bool m_bDebugOrientation; // 0x1F90
 };
 class CSeqSeqDescFlag // animationsystem
 {
@@ -2931,6 +3011,8 @@ class CFuseProgram // mathlib_extended
 };
 class CAI_Expresser // server
 {
+	CUtlDict< GameTime_t > m_conceptCooldowns; // 0x0010
+	CUtlDict< GameTime_t > m_ruleCooldowns; // 0x0038
 	GameTime_t m_flStopTalkTime; // 0x0060
 	GameTime_t m_flStopTalkTimeWithoutDelay; // 0x0064
 	GameTime_t m_flQueuedSpeechTime; // 0x0068
@@ -3202,6 +3284,10 @@ class CNmVirtualParameterIDNode::CDefinition : public CNmIDValueNode::CDefinitio
 {
 	int16 m_nChildNodeIdx; // 0x0010
 };
+class CNavFlags // navlib
+{
+	uint64 m_Flags; // 0x0000
+};
 class C_OP_CreateParticleSystemRenderer : public CParticleFunctionRenderer // particles
 {
 	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_hEffect; // 0x0228
@@ -3359,6 +3445,10 @@ class CSeqAutoLayer // animationsystem
 class InfoForResourceTypeCGcExportableExternalData // resourcesystem
 {
 };
+class INavPathCost // navlib
+{
+	NavHull_t m_navHull; // 0x0008
+};
 class CNavVolumeAll : public CNavVolumeVector // navlib
 {
 };
@@ -3507,7 +3597,7 @@ class C_OP_Callback : public CParticleFunctionRenderer // particles
 };
 class CVoiceContainerSwitch : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CUtlVector< CSoundContainerReference > m_soundsToPlay; // 0x00A8
+	CUtlVector< CSoundContainerReference > m_soundsToPlay; // 0x0070
 };
 class PhysFeModelDesc_t // physicslib
 {
@@ -3544,83 +3634,84 @@ class PhysFeModelDesc_t // physicslib
 	CUtlVector< FeHingeLimit_t > m_HingeLimits; // 0x0168
 	CUtlVector< uint32 > m_AntiTunnelBytecode; // 0x0180
 	CUtlVector< FeDynKinLink_t > m_DynKinLinks; // 0x0198
-	CUtlVector< FeAntiTunnelProbe_t > m_AntiTunnelProbes; // 0x01B0
-	CUtlVector< uint16 > m_AntiTunnelTargetNodes; // 0x01C8
-	CUtlVector< FeNodeStrayBox_t > m_NodeStrayBoxes; // 0x01E0
-	CUtlVector< FeAxialEdgeBend_t > m_AxialEdges; // 0x01F8
-	CUtlVector< float32 > m_NodeInvMasses; // 0x0210
-	CUtlVector< FeCtrlOffset_t > m_CtrlOffsets; // 0x0228
-	CUtlVector< FeCtrlOsOffset_t > m_CtrlOsOffsets; // 0x0240
-	CUtlVector< FeFollowNode_t > m_FollowNodes; // 0x0258
-	CUtlVector< FeCollisionPlane_t > m_CollisionPlanes; // 0x0270
-	CUtlVector< FeNodeIntegrator_t > m_NodeIntegrator; // 0x0288
-	CUtlVector< FeSpringIntegrator_t > m_SpringIntegrator; // 0x02A0
-	CUtlVector< FeSimdSpringIntegrator_t > m_SimdSpringIntegrator; // 0x02B8
-	CUtlVector< FeWorldCollisionParams_t > m_WorldCollisionParams; // 0x02D0
-	CUtlVector< float32 > m_LegacyStretchForce; // 0x02E8
-	CUtlVector< float32 > m_NodeCollisionRadii; // 0x0300
-	CUtlVector< float32 > m_DynNodeFriction; // 0x0318
-	CUtlVector< float32 > m_LocalRotation; // 0x0330
-	CUtlVector< float32 > m_LocalForce; // 0x0348
-	CUtlVector< FeTaperedCapsuleStretch_t > m_TaperedCapsuleStretches; // 0x0360
-	CUtlVector< FeTaperedCapsuleRigid_t > m_TaperedCapsuleRigids; // 0x0378
-	CUtlVector< FeSphereRigid_t > m_SphereRigids; // 0x0390
-	CUtlVector< uint16 > m_WorldCollisionNodes; // 0x03A8
-	CUtlVector< uint16 > m_TreeParents; // 0x03C0
-	CUtlVector< uint16 > m_TreeCollisionMasks; // 0x03D8
-	CUtlVector< FeTreeChildren_t > m_TreeChildren; // 0x03F0
-	CUtlVector< uint16 > m_FreeNodes; // 0x0408
-	CUtlVector< FeFitMatrix_t > m_FitMatrices; // 0x0420
-	CUtlVector< FeFitWeight_t > m_FitWeights; // 0x0438
-	CUtlVector< FeNodeReverseOffset_t > m_ReverseOffsets; // 0x0450
-	CUtlVector< FeAnimStrayRadius_t > m_AnimStrayRadii; // 0x0468
-	CUtlVector< FeSimdAnimStrayRadius_t > m_SimdAnimStrayRadii; // 0x0480
-	CUtlVector< FeKelagerBend2_t > m_KelagerBends; // 0x0498
-	CUtlVector< FeCtrlSoftOffset_t > m_CtrlSoftOffsets; // 0x04B0
-	CUtlVector< CFeIndexedJiggleBone > m_JiggleBones; // 0x04C8
-	CUtlVector< uint16 > m_SourceElems; // 0x04E0
-	CUtlVector< uint32 > m_GoalDampedSpringIntegrators; // 0x04F8
-	CUtlVector< FeTri_t > m_Tris; // 0x0510
-	uint16 m_nTriCount1; // 0x0528
-	uint16 m_nTriCount2; // 0x052A
-	uint8 m_nReservedUint8; // 0x052C
-	uint8 m_nExtraPressureIterations; // 0x052D
-	uint8 m_nExtraGoalIterations; // 0x052E
-	uint8 m_nExtraIterations; // 0x052F
-	CUtlVector< FeSDFRigid_t > m_SDFRigids; // 0x0530
-	CUtlVector< FeBoxRigid_t > m_BoxRigids; // 0x0548
-	CUtlVector< uint8 > m_DynNodeVertexSet; // 0x0560
-	CUtlVector< uint32 > m_VertexSetNames; // 0x0578
-	CUtlVector< FeRigidColliderIndices_t > m_RigidColliderPriorities; // 0x0590
-	CUtlVector< FeMorphLayerDepr_t > m_MorphLayers; // 0x05A8
-	CUtlVector< uint8 > m_MorphSetData; // 0x05C0
-	CUtlVector< FeVertexMapDesc_t > m_VertexMaps; // 0x05D8
-	CUtlVector< uint8 > m_VertexMapValues; // 0x05F0
-	CUtlVector< FeEffectDesc_t > m_Effects; // 0x0608
-	CUtlVector< FeCtrlOffset_t > m_LockToParent; // 0x0620
-	CUtlVector< uint16 > m_LockToGoal; // 0x0638
-	CUtlVector< int16 > m_SkelParents; // 0x0650
-	CUtlVector< FeNodeWindBase_t > m_DynNodeWindBases; // 0x0668
-	CUtlVector< FeModelSelfCollisionLayer_t > m_SelfCollisionLayers; // 0x0680
-	float32 m_flInternalPressure; // 0x0698
-	float32 m_flDefaultTimeDilation; // 0x069C
-	float32 m_flWindage; // 0x06A0
-	float32 m_flWindDrag; // 0x06A4
-	float32 m_flDefaultSurfaceStretch; // 0x06A8
-	float32 m_flDefaultThreadStretch; // 0x06AC
-	float32 m_flDefaultGravityScale; // 0x06B0
-	float32 m_flDefaultVelAirDrag; // 0x06B4
-	float32 m_flDefaultExpAirDrag; // 0x06B8
-	float32 m_flDefaultVelQuadAirDrag; // 0x06BC
-	float32 m_flDefaultExpQuadAirDrag; // 0x06C0
-	float32 m_flRodVelocitySmoothRate; // 0x06C4
-	float32 m_flQuadVelocitySmoothRate; // 0x06C8
-	float32 m_flAddWorldCollisionRadius; // 0x06CC
-	float32 m_flDefaultVolumetricSolveAmount; // 0x06D0
-	float32 m_flMotionSmoothCDT; // 0x06D4
-	float32 m_flLocalDrag1; // 0x06D8
-	uint16 m_nRodVelocitySmoothIterations; // 0x06DC
-	uint16 m_nQuadVelocitySmoothIterations; // 0x06DE
+	CUtlVector< FeBoneMergeLink_t > m_BoneMergeLinks; // 0x01B0
+	CUtlVector< FeAntiTunnelProbe_t > m_AntiTunnelProbes; // 0x01C8
+	CUtlVector< uint16 > m_AntiTunnelTargetNodes; // 0x01E0
+	CUtlVector< FeNodeStrayBox_t > m_NodeStrayBoxes; // 0x01F8
+	CUtlVector< FeAxialEdgeBend_t > m_AxialEdges; // 0x0210
+	CUtlVector< float32 > m_NodeInvMasses; // 0x0228
+	CUtlVector< FeCtrlOffset_t > m_CtrlOffsets; // 0x0240
+	CUtlVector< FeCtrlOsOffset_t > m_CtrlOsOffsets; // 0x0258
+	CUtlVector< FeFollowNode_t > m_FollowNodes; // 0x0270
+	CUtlVector< FeCollisionPlane_t > m_CollisionPlanes; // 0x0288
+	CUtlVector< FeNodeIntegrator_t > m_NodeIntegrator; // 0x02A0
+	CUtlVector< FeSpringIntegrator_t > m_SpringIntegrator; // 0x02B8
+	CUtlVector< FeSimdSpringIntegrator_t > m_SimdSpringIntegrator; // 0x02D0
+	CUtlVector< FeWorldCollisionParams_t > m_WorldCollisionParams; // 0x02E8
+	CUtlVector< float32 > m_LegacyStretchForce; // 0x0300
+	CUtlVector< float32 > m_NodeCollisionRadii; // 0x0318
+	CUtlVector< float32 > m_DynNodeFriction; // 0x0330
+	CUtlVector< float32 > m_LocalRotation; // 0x0348
+	CUtlVector< float32 > m_LocalForce; // 0x0360
+	CUtlVector< FeTaperedCapsuleStretch_t > m_TaperedCapsuleStretches; // 0x0378
+	CUtlVector< FeTaperedCapsuleRigid_t > m_TaperedCapsuleRigids; // 0x0390
+	CUtlVector< FeSphereRigid_t > m_SphereRigids; // 0x03A8
+	CUtlVector< uint16 > m_WorldCollisionNodes; // 0x03C0
+	CUtlVector< uint16 > m_TreeParents; // 0x03D8
+	CUtlVector< uint16 > m_TreeCollisionMasks; // 0x03F0
+	CUtlVector< FeTreeChildren_t > m_TreeChildren; // 0x0408
+	CUtlVector< uint16 > m_FreeNodes; // 0x0420
+	CUtlVector< FeFitMatrix_t > m_FitMatrices; // 0x0438
+	CUtlVector< FeFitWeight_t > m_FitWeights; // 0x0450
+	CUtlVector< FeNodeReverseOffset_t > m_ReverseOffsets; // 0x0468
+	CUtlVector< FeAnimStrayRadius_t > m_AnimStrayRadii; // 0x0480
+	CUtlVector< FeSimdAnimStrayRadius_t > m_SimdAnimStrayRadii; // 0x0498
+	CUtlVector< FeKelagerBend2_t > m_KelagerBends; // 0x04B0
+	CUtlVector< FeCtrlSoftOffset_t > m_CtrlSoftOffsets; // 0x04C8
+	CUtlVector< CFeIndexedJiggleBone > m_JiggleBones; // 0x04E0
+	CUtlVector< uint16 > m_SourceElems; // 0x04F8
+	CUtlVector< uint32 > m_GoalDampedSpringIntegrators; // 0x0510
+	CUtlVector< FeTri_t > m_Tris; // 0x0528
+	uint16 m_nTriCount1; // 0x0540
+	uint16 m_nTriCount2; // 0x0542
+	uint8 m_nReservedUint8; // 0x0544
+	uint8 m_nExtraPressureIterations; // 0x0545
+	uint8 m_nExtraGoalIterations; // 0x0546
+	uint8 m_nExtraIterations; // 0x0547
+	CUtlVector< FeSDFRigid_t > m_SDFRigids; // 0x0548
+	CUtlVector< FeBoxRigid_t > m_BoxRigids; // 0x0560
+	CUtlVector< uint8 > m_DynNodeVertexSet; // 0x0578
+	CUtlVector< uint32 > m_VertexSetNames; // 0x0590
+	CUtlVector< FeRigidColliderIndices_t > m_RigidColliderPriorities; // 0x05A8
+	CUtlVector< FeMorphLayerDepr_t > m_MorphLayers; // 0x05C0
+	CUtlVector< uint8 > m_MorphSetData; // 0x05D8
+	CUtlVector< FeVertexMapDesc_t > m_VertexMaps; // 0x05F0
+	CUtlVector< uint8 > m_VertexMapValues; // 0x0608
+	CUtlVector< FeEffectDesc_t > m_Effects; // 0x0620
+	CUtlVector< FeCtrlOffset_t > m_LockToParent; // 0x0638
+	CUtlVector< uint16 > m_LockToGoal; // 0x0650
+	CUtlVector< int16 > m_SkelParents; // 0x0668
+	CUtlVector< FeNodeWindBase_t > m_DynNodeWindBases; // 0x0680
+	CUtlVector< FeModelSelfCollisionLayer_t > m_SelfCollisionLayers; // 0x0698
+	float32 m_flInternalPressure; // 0x06B0
+	float32 m_flDefaultTimeDilation; // 0x06B4
+	float32 m_flWindage; // 0x06B8
+	float32 m_flWindDrag; // 0x06BC
+	float32 m_flDefaultSurfaceStretch; // 0x06C0
+	float32 m_flDefaultThreadStretch; // 0x06C4
+	float32 m_flDefaultGravityScale; // 0x06C8
+	float32 m_flDefaultVelAirDrag; // 0x06CC
+	float32 m_flDefaultExpAirDrag; // 0x06D0
+	float32 m_flDefaultVelQuadAirDrag; // 0x06D4
+	float32 m_flDefaultExpQuadAirDrag; // 0x06D8
+	float32 m_flRodVelocitySmoothRate; // 0x06DC
+	float32 m_flQuadVelocitySmoothRate; // 0x06E0
+	float32 m_flAddWorldCollisionRadius; // 0x06E4
+	float32 m_flDefaultVolumetricSolveAmount; // 0x06E8
+	float32 m_flMotionSmoothCDT; // 0x06EC
+	float32 m_flLocalDrag1; // 0x06F0
+	uint16 m_nRodVelocitySmoothIterations; // 0x06F4
+	uint16 m_nQuadVelocitySmoothIterations; // 0x06F6
 };
 class CModelConfigElement_SetMaterialGroupOnAttachedModels : public CModelConfigElement // modellib
 {
@@ -3764,7 +3855,8 @@ class CBaseTrailRenderer : public CBaseRendererSource2 // particles
 	float32 m_flMaxSize; // 0x2DFC
 	CParticleCollectionRendererFloatInput m_flStartFadeSize; // 0x2E00
 	CParticleCollectionRendererFloatInput m_flEndFadeSize; // 0x2F70
-	bool m_bClampV; // 0x30E0
+	CParticleCollectionRendererFloatInput m_flSubPixelAAScale; // 0x30E0
+	bool m_bClampV; // 0x3250
 };
 class CPhysSurfacePropertiesVehicle // modellib
 {
@@ -3800,6 +3892,9 @@ class CSetParameterActionUpdater : public CAnimActionUpdater // animgraphlib
 {
 	CAnimParamHandle m_hParam; // 0x0018
 	CAnimVariant m_value; // 0x001A
+};
+class CNmEventConsumerPulse : public CNmEventConsumer // server
+{
 };
 class CConstantForceController // server
 {
@@ -3837,7 +3932,7 @@ class ClutterTile_t // worldrenderer
 };
 class CVoiceContainerAmpedDecayingSineWave : public CVoiceContainerDecayingSineWave // soundsystem_voicecontainers
 {
-	float32 m_flGainAmount; // 0x00B0
+	float32 m_flGainAmount; // 0x0078
 };
 class CVMixAutoFilterProcessorDesc : public CVMixBaseProcessorDesc // soundsystem_lowlevel
 {
@@ -3872,21 +3967,23 @@ class C_OP_RenderOmni2Light : public CParticleFunctionRenderer // particles
 	uint16 m_nMaxAllowed; // 0x022C
 	CParticleCollectionVecInput m_vColorBlend; // 0x0230
 	ParticleColorBlendType_t m_nColorBlendType; // 0x08E8
-	ParticleLightUnitChoiceList_t m_nBrightnessUnit; // 0x08EC
-	CPerParticleFloatInput m_flBrightnessLumens; // 0x08F0
-	CPerParticleFloatInput m_flBrightnessCandelas; // 0x0A60
-	bool m_bCastShadows; // 0x0BD0
-	bool m_bDynamicBounce; // 0x0BD1
-	CParticleCollectionFloatInput m_flBounceScale; // 0x0BD8
-	bool m_bFog; // 0x0D48
-	CPerParticleFloatInput m_flFogScale; // 0x0D50
-	CPerParticleFloatInput m_flLuminaireRadius; // 0x0EC0
-	CPerParticleFloatInput m_flSkirt; // 0x1030
-	CPerParticleFloatInput m_flRange; // 0x11A0
-	CPerParticleFloatInput m_flInnerConeAngle; // 0x1310
-	CPerParticleFloatInput m_flOuterConeAngle; // 0x1480
-	CStrongHandle< InfoForResourceTypeCTextureBase > m_hLightCookie; // 0x15F0
-	bool m_bSphericalCookie; // 0x15F8
+	CUtlString m_strLightStyle; // 0x08F0
+	CPerParticleFloatInput m_flLightStyleTime; // 0x08F8
+	ParticleLightUnitChoiceList_t m_nBrightnessUnit; // 0x0A68
+	CPerParticleFloatInput m_flBrightnessLumens; // 0x0A70
+	CPerParticleFloatInput m_flBrightnessCandelas; // 0x0BE0
+	bool m_bCastShadows; // 0x0D50
+	bool m_bDynamicBounce; // 0x0D51
+	CParticleCollectionFloatInput m_flBounceScale; // 0x0D58
+	bool m_bFog; // 0x0EC8
+	CPerParticleFloatInput m_flFogScale; // 0x0ED0
+	CPerParticleFloatInput m_flLuminaireRadius; // 0x1040
+	CPerParticleFloatInput m_flSkirt; // 0x11B0
+	CPerParticleFloatInput m_flRange; // 0x1320
+	CPerParticleFloatInput m_flInnerConeAngle; // 0x1490
+	CPerParticleFloatInput m_flOuterConeAngle; // 0x1600
+	CStrongHandle< InfoForResourceTypeCTextureBase > m_hLightCookie; // 0x1770
+	bool m_bSphericalCookie; // 0x1778
 };
 class ISndSeqInstruments // soundsystem
 {
@@ -4054,9 +4151,10 @@ class CNmRootMotionOverrideNode::CDefinition : public CNmPassthroughNode::CDefin
 	int16 m_desiredFacingDirectionNodeIdx; // 0x001A
 	int16 m_linearVelocityLimitNodeIdx; // 0x001C
 	int16 m_angularVelocityLimitNodeIdx; // 0x001E
-	float32 m_maxLinearVelocity; // 0x0020
-	float32 m_maxAngularVelocityRadians; // 0x0024
-	CNmBitFlags m_overrideFlags; // 0x0028
+	int16 m_enabledNodeIdx; // 0x0020
+	float32 m_maxLinearVelocity; // 0x0024
+	float32 m_maxAngularVelocityRadians; // 0x0028
+	CNmBitFlags m_overrideFlags; // 0x002C
 };
 class CFuseSymbolTable // mathlib_extended
 {
@@ -4165,6 +4263,10 @@ class CGameChoreoServices : public IChoreoServices // server
 	IChoreoServices::ChoreoState_t m_choreoState; // 0x0014
 	GameTime_t m_flTimeStartedState; // 0x0018
 };
+class SndBeatEventKeyedFloats_t : public SndBeatEventKeys_t // soundsystem
+{
+	float32 m_flFloat; // 0x0010
+};
 class CStateMachineUpdateNode : public CAnimUpdateNodeBase // animgraphlib
 {
 	CAnimStateMachineUpdater m_stateMachine; // 0x0070
@@ -4194,14 +4296,14 @@ class CVMixSteamAudioHybridReverbProcessorDesc : public CVMixBaseProcessorDesc /
 };
 class CVoiceContainerParameterBlender : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CSoundContainerReference m_firstSound; // 0x00A8
-	CSoundContainerReference m_secondSound; // 0x00C8
-	bool m_bEnableOcclusionBlend; // 0x00E8
-	CPiecewiseCurve m_curve1; // 0x00F0
-	CPiecewiseCurve m_curve2; // 0x0130
-	bool m_bEnableDistanceBlend; // 0x0170
-	CPiecewiseCurve m_curve3; // 0x0178
-	CPiecewiseCurve m_curve4; // 0x01B8
+	CSoundContainerReference m_firstSound; // 0x0070
+	CSoundContainerReference m_secondSound; // 0x0090
+	bool m_bEnableOcclusionBlend; // 0x00B0
+	CPiecewiseCurve m_curve1; // 0x00B8
+	CPiecewiseCurve m_curve2; // 0x00F8
+	bool m_bEnableDistanceBlend; // 0x0138
+	CPiecewiseCurve m_curve3; // 0x0140
+	CPiecewiseCurve m_curve4; // 0x0180
 };
 class CSeqBoneMaskList // animationsystem
 {
@@ -4255,6 +4357,9 @@ class NmCompressionSettings_t // animlib
 class FuseFunctionIndex_t // mathlib_extended
 {
 	uint16 m_Value; // 0x0000
+};
+class CExternalAnimGraphList // server
+{
 };
 class C_INIT_RemapNamedModelElementToScalar : public CParticleFunctionInitializer // particles
 {
@@ -4313,6 +4418,11 @@ class CFootCycle : public CCycleBase // modellib
 class PulseCursorID_t // pulse_runtime_lib
 {
 	int32 m_Value; // 0x0000
+};
+class TagStatus // animgraphlib
+{
+	TagActionStatus m_TagStatus; // 0x0000
+	float32 m_flTagStartAnimTime; // 0x0004
 };
 class CAnimFoot // modellib
 {
@@ -4391,6 +4501,7 @@ class AI_Navigator_DebugSnapshotData_t::Waypoint_t // server
 	VectorWS position; // 0x0000
 	uint32 nav_type; // 0x000C
 	uint32 flags; // 0x0010
+	bool is_pathcorner; // 0x0014
 };
 class C_INIT_RemapQAnglesToRotation : public CParticleFunctionInitializer // particles
 {
@@ -4448,6 +4559,16 @@ class CEnumAnimParameter : public CConcreteAnimParameter // animgraphlib
 class InfoForResourceTypeCTestResourceData // resourcesystem
 {
 };
+class AI_FacingServices_DebugSnapshotData_t // server
+{
+	VectorWS npc_position; // 0x0000
+	CGlobalSymbol facing_target_source; // 0x0010
+	VectorWS facing_target; // 0x0018
+	CGlobalSymbol schedule_facing_priority; // 0x0028
+	CGlobalSymbol strafing_source; // 0x0030
+	bool strafing_enabled; // 0x0038
+	CGlobalSymbol movement_id; // 0x0040
+};
 class AggregateSceneObject_t // worldrenderer
 {
 	ObjectTypeFlags_t m_allFlags; // 0x0000
@@ -4455,6 +4576,7 @@ class AggregateSceneObject_t // worldrenderer
 	int16 m_nLayer; // 0x0008
 	int16 m_instanceStream; // 0x000A
 	int16 m_vertexAlbedoStream; // 0x000C
+	int16 m_vertexEmissiveStream; // 0x000E
 	CUtlVector< AggregateMeshInfo_t > m_aggregateMeshes; // 0x0010
 	CUtlVector< AggregateLODSetup_t > m_lodSetups; // 0x0028
 	CUtlVector< uint16 > m_visClusterMembership; // 0x0040
@@ -4530,6 +4652,10 @@ class CLeanMatrixUpdateNode : public CLeafUpdateNode // animgraphlib
 class PulseRuntimeCellIndex_t // pulse_runtime_lib
 {
 	int32 m_Value; // 0x0000
+};
+class CAnimGraphControllerPtr // server
+{
+	CAnimGraphControllerBase* m_pController; // 0x0000
 };
 class AmmoTypeInfo_t // server
 {
@@ -4707,6 +4833,7 @@ class AggregateRTProxySceneObject_t // worldrenderer
 	CUtlBinaryBlock m_VBData; // 0x0038
 	CUtlBinaryBlock m_IBData; // 0x0048
 	CUtlBinaryBlock m_InstanceAlbedoData; // 0x0058
+	CUtlBinaryBlock m_InstanceEmissiveData; // 0x0068
 };
 class CVoxelVisibility // worldrenderer
 {
@@ -4852,10 +4979,10 @@ class CSosGroupActionSoundeventCountSchema : public CSosGroupActionSchema // sou
 };
 class CVoiceContainerTapePlayer : public CVoiceContainerAsyncGenerator // soundsystem_voicecontainers
 {
-	bool m_bShouldWraparound; // 0x00B8
-	CStrongHandle< InfoForResourceTypeCVoiceContainerBase > m_sourceAudio; // 0x00C0
-	float32 m_flTapeSpeedAttackTime; // 0x00C8
-	float32 m_flTapeSpeedReleaseTime; // 0x00CC
+	bool m_bShouldWraparound; // 0x0080
+	CStrongHandle< InfoForResourceTypeCVoiceContainerBase > m_sourceAudio; // 0x0088
+	float32 m_flTapeSpeedAttackTime; // 0x0090
+	float32 m_flTapeSpeedReleaseTime; // 0x0094
 };
 class CNmVirtualParameterVectorNode::CDefinition : public CNmVectorValueNode::CDefinition // animlib
 {
@@ -5140,9 +5267,17 @@ class PostProcessingFogScatteringParameters_t // materialsystem2
 	float32 m_fCubemapScale; // 0x0008
 	float32 m_fVolumetricScale; // 0x000C
 	float32 m_fGradientScale; // 0x0010
+	float32 m_fWaterScale; // 0x0014
+	float32 m_fWaterDensity; // 0x0018
+	float32 m_fWaterDepthBlurRadius; // 0x001C
 };
 class C_INIT_RemapParticleCountToNamedModelSequenceScalar : public C_INIT_RemapParticleCountToNamedModelElementScalar // particles
 {
+};
+class SndBeatTimeSignature_t // soundsystem
+{
+	uint8 nNumerator; // 0x0000
+	uint8 nDenominator; // 0x0001
 };
 class CPairedSequenceUpdateNode : public CSequenceUpdateNodeBase // animgraphlib
 {
@@ -5188,11 +5323,6 @@ class inv_image_light_barn_t // client
 	QAngle angle; // 0x000C
 	float32 brightness; // 0x0018
 	float32 orbit_distance; // 0x001C
-};
-class SceneRequestTargetMapPair_t // server
-{
-	CUtlSymbolLarge m_actorName; // 0x0000
-	CUtlSymbolLarge m_targetName; // 0x0008
 };
 class C_OP_VectorFieldSnapshot : public CParticleFunctionOperator // particles
 {
@@ -5262,6 +5392,11 @@ class CDspPresetModifierList // soundsystem
 	CUtlString m_dspName; // 0x0000
 	CUtlVector< CDSPMixgroupModifier > m_modifiers; // 0x0008
 };
+class FeBoneMergeLink_t // physicslib
+{
+	uint32 m_nParentHash; // 0x0000
+	uint16 m_nChildNode; // 0x0004
+};
 class FeKelagerBend2_t // physicslib
 {
 	float32[3] flWeight; // 0x0000
@@ -5281,7 +5416,7 @@ class CFlashlightEffect // client
 	bool m_bMuzzleFlashEnabled; // 0x0020
 	float32 m_flMuzzleFlashBrightness; // 0x0024
 	Quaternion m_quatMuzzleFlashOrientation; // 0x0030
-	Vector m_vecMuzzleFlashOrigin; // 0x0040
+	VectorWS m_vecMuzzleFlashOrigin; // 0x0040
 	float32 m_flFov; // 0x004C
 	float32 m_flFarZ; // 0x0050
 	float32 m_flLinearAtten; // 0x0054
@@ -5476,7 +5611,9 @@ class AggregateMeshInfo_t // worldrenderer
 	int32 m_nLightProbeVolumePrecomputedHandshake; // 0x0014
 	uint32 m_nInstanceStreamOffset; // 0x0018
 	uint32 m_nVertexAlbedoStreamOffset; // 0x001C
-	AggregateInstanceStream_t m_instanceStreams; // 0x0020
+	uint32 m_nVertexEmissiveStreamOffset; // 0x0020
+	AggregateInstanceStream_t m_instanceStreams; // 0x0024
+	float32 m_fEmissiveFactor; // 0x0028
 };
 class CVMixSteamAudioDirectProcessorDesc : public CVMixBaseProcessorDesc // soundsystem_lowlevel
 {
@@ -5604,10 +5741,11 @@ class C_OP_AttractToControlPoint : public CParticleFunctionForce // particles
 {
 	Vector m_vecComponentScale; // 0x01E8
 	CPerParticleFloatInput m_fForceAmount; // 0x01F8
-	float32 m_fFalloffPower; // 0x0368
-	CParticleTransformInput m_TransformInput; // 0x0370
-	CPerParticleFloatInput m_fForceAmountMin; // 0x03D8
-	bool m_bApplyMinForce; // 0x0548
+	CPerParticleFloatInput m_fMinimumDistance; // 0x0368
+	float32 m_fFalloffPower; // 0x04D8
+	CParticleTransformInput m_TransformInput; // 0x04E0
+	CPerParticleFloatInput m_fForceAmountMin; // 0x0548
+	bool m_bApplyMinForce; // 0x06B8
 };
 class VMixSubgraphSwitchDesc_t // soundsystem_lowlevel
 {
@@ -5649,26 +5787,6 @@ class CNmStateMachineNode::TransitionDefinition_t // animlib
 	int16 m_nConditionNodeIdx; // 0x0002
 	int16 m_nTransitionNodeIdx; // 0x0004
 	bool m_bCanBeForced; // 0x0006
-};
-class CCompressorGroup // animationsystem
-{
-	int32 m_nTotalElementCount; // 0x0000
-	CUtlVector< char* > m_szChannelClass; // 0x0008
-	CUtlVector< char* > m_szVariableName; // 0x0020
-	CUtlVector< fieldtype_t > m_nType; // 0x0038
-	CUtlVector< int32 > m_nFlags; // 0x0050
-	CUtlVector< CUtlString > m_szGrouping; // 0x0068
-	CUtlVector< int32 > m_nCompressorIndex; // 0x0080
-	CUtlVector< CUtlVector< char* > > m_szElementNames; // 0x0098
-	CUtlVector< CUtlVector< int32 > > m_nElementUniqueID; // 0x00B0
-	CUtlVector< uint32 > m_nElementMask; // 0x00C8
-	CUtlVector< CCompressor< Vector >* > m_vectorCompressor; // 0x00F8
-	CUtlVector< CCompressor< QuaternionStorage >* > m_quaternionCompressor; // 0x0110
-	CUtlVector< CCompressor< int32 >* > m_intCompressor; // 0x0128
-	CUtlVector< CCompressor< bool >* > m_boolCompressor; // 0x0140
-	CUtlVector< CCompressor< Color >* > m_colorCompressor; // 0x0158
-	CUtlVector< CCompressor< Vector2D >* > m_vector2DCompressor; // 0x0170
-	CUtlVector< CCompressor< Vector4D >* > m_vector4DCompressor; // 0x0188
 };
 class EventServerPostSimulate_t : public EventSimulate_t // engine2
 {
@@ -5772,9 +5890,13 @@ class CNmVirtualParameterTargetNode::CDefinition : public CNmTargetValueNode::CD
 {
 	int16 m_nChildNodeIdx; // 0x0010
 };
+class CNavAttribute : public CNavFlags // navlib
+{
+};
 class CPlayerPawnComponent // server
 {
 	CNetworkVarChainer __m_pChainEntity; // 0x0008
+	CAnimGraphControllerPtr m_pComponentGraphController; // 0x0030
 };
 class CIronSightController // server
 {
@@ -5782,9 +5904,6 @@ class CIronSightController // server
 	float32 m_flIronSightAmount; // 0x000C
 	float32 m_flIronSightAmountGained; // 0x0010
 	float32 m_flIronSightAmountBiased; // 0x0014
-};
-class CAnimEventListener : public CAnimEventListenerBase // server
-{
 };
 class C_INIT_PositionOffsetToCP : public CParticleFunctionInitializer // particles
 {
@@ -5898,18 +6017,6 @@ class CAnimationGraphVisualizerText : public CAnimationGraphVisualizerPrimitiveB
 class InfoForResourceTypeCVDataItemDefs // resourcesystem
 {
 };
-class CSceneRequest // server
-{
-	CUtlSymbolLarge m_szPayloadVDataName; // 0x0000
-	SceneRequestHandle_t m_uHandle; // 0x0008
-	ESceneRequestState_t m_state; // 0x000C
-	ENPCBehaviorOverride_t m_nNPCBehaviorOverride; // 0x0010
-	CUtlVector< SceneRequestTargetMapPair_t > m_vecActorMap; // 0x0018
-	CUtlVector< SceneRequestTargetMapPair_t > m_vecAnchorMap; // 0x0030
-	CUtlVector< SceneRequestTargetMapPair_t > m_vecGraphMap; // 0x0048
-	CHandle< CBaseEntity > m_hOwner; // 0x0060
-	KeyValues3 m_nameMapKV3; // 0x0068
-};
 class CTakeDamageSummaryScopeGuard // server
 {
 	CUtlVector< SummaryTakeDamageInfo_t* > m_vecSummaries; // 0x0008
@@ -5994,18 +6101,22 @@ class CSceneEventInfo // server
 	int32 m_iPriority; // 0x0004
 	HSequence m_hSequence; // 0x0008
 	float32 m_flWeight; // 0x000C
-	CStrongHandle< InfoForResourceTypeCNmClip > m_hAnimClip; // 0x0010
-	CGlobalSymbol m_sAnimClipSlot; // 0x0018
-	CGlobalSymbol m_sAnimClipSlotWeight; // 0x0020
-	bool m_bHasArrived; // 0x0028
-	int32 m_nType; // 0x002C
-	GameTime_t m_flNext; // 0x0030
-	bool m_bIsGesture; // 0x0034
-	bool m_bShouldRemove; // 0x0035
-	CHandle< CBaseEntity > m_hTarget; // 0x005C
-	SceneEventId_t m_nSceneEventId; // 0x0060
-	bool m_bClientSide; // 0x0064
-	bool m_bStarted; // 0x0065
+	float32 m_flLastAccumulatedTime; // 0x0010
+	float32 m_flLastJumpFromTime; // 0x0014
+	float32 m_flLastJumpToTime; // 0x0018
+	float32 m_flLastCycle; // 0x001C
+	CStrongHandle< InfoForResourceTypeCNmClip > m_hAnimClip; // 0x0020
+	CGlobalSymbol m_sAnimClipSlot; // 0x0028
+	CGlobalSymbol m_sAnimClipSlotWeight; // 0x0030
+	bool m_bHasArrived; // 0x0038
+	int32 m_nType; // 0x003C
+	GameTime_t m_flNext; // 0x0040
+	bool m_bIsGesture; // 0x0044
+	bool m_bShouldRemove; // 0x0045
+	CHandle< CBaseEntity > m_hTarget; // 0x006C
+	SceneEventId_t m_nSceneEventId; // 0x0070
+	bool m_bClientSide; // 0x0074
+	bool m_bStarted; // 0x0075
 };
 class C_OP_MovementRotateParticleAroundAxis : public CParticleFunctionOperator // particles
 {
@@ -6076,7 +6187,7 @@ class CPulse_InstructionDebug // pulse_runtime_lib
 {
 	PulseDocNodeID_t m_nFlowNodeID; // 0x0000
 	PulseDocNodeID_t m_nValueNodeID; // 0x0004
-	CGlobalSymbol m_SequencePointName; // 0x0008
+	PulseSymbol_t m_SequencePointName; // 0x0008
 };
 class HullFlags_t // server
 {
@@ -6120,6 +6231,11 @@ class CMoverUpdateNode : public CUnaryUpdateNode // animgraphlib
 	bool m_bApplyRotation; // 0x00A7
 	bool m_bLimitOnly; // 0x00A8
 };
+class FuncRotatorRotationSummary_t // server
+{
+	GameTick_t nTick; // 0x0000
+	FuncRotatorRotationSummaryFlags_t nFlags; // 0x0004
+};
 class entitytable_t // server
 {
 	int32 id; // 0x0000
@@ -6145,7 +6261,7 @@ class C_INIT_RemapParticleCountToNamedModelMeshGroupScalar : public C_INIT_Remap
 class CVoiceContainerBase // soundsystem_voicecontainers
 {
 	CVSound m_vSound; // 0x0028
-	CVoiceContainerAnalysisBase* m_pEnvelopeAnalyzer; // 0x00A0
+	CVoiceContainerAnalysisBase* m_pEnvelopeAnalyzer; // 0x0068
 };
 class CNmVectorValueNode::CDefinition : public CNmValueNode::CDefinition // animlib
 {
@@ -6166,9 +6282,6 @@ class PGDInstruction_t // pulse_runtime_lib
 	PulseRuntimeBlackboardReferenceIndex_t m_nBlackboardReferenceIdx; // 0x0024
 };
 class InfoForResourceTypeCDOTAPatchNotesList // resourcesystem
-{
-};
-class CAnimEventQueueListener : public CAnimEventListenerBase // server
 {
 };
 class C_INIT_RandomModelSequence : public CParticleFunctionInitializer // particles
@@ -6209,6 +6322,16 @@ class CClothSettingsAnimTag : public CAnimTagBase // animgraphlib
 	float32 m_flEaseIn; // 0x005C
 	float32 m_flEaseOut; // 0x0060
 	CUtlString m_nVertexSet; // 0x0068
+};
+class EventBugBugComplete_t // engine2
+{
+	EventBugBug_t* m_pPayload; // 0x0000
+};
+class INavPathCostAreaFilter // server
+{
+};
+class CVoiceContainerVMixSnd : public CVoiceContainerBase // soundsystem
+{
 };
 class VPhysXCollisionAttributes_t // modellib
 {
@@ -6261,19 +6384,6 @@ class CTestPulseIOComponent_Derived : public CTestPulseIOComponent // server
 class CSkeletonAnimationController : public ISkeletonAnimationController // server
 {
 	CSkeletonInstance* m_pSkeletonInstance; // 0x0008
-};
-class AI_MotorGroundAnimgraph_DebugSnapshotData_t : public DebugSnapshotBaseStructuredData_t // server
-{
-	CGlobalSymbol state; // 0x0008
-	bool b_has_path; // 0x0010
-	float32 f_remaining_ground_path_length; // 0x0014
-	float32 f_current_speed; // 0x0018
-	CGlobalSymbol move_type; // 0x0020
-	float32 f_move_heading_actual; // 0x0028
-	float32 f_move_heading_desired; // 0x002C
-	float32 f_current_lean; // 0x0030
-	float32 f_target_lean; // 0x0034
-	CUtlVector< AI_MotorGroundAnimgraph_DebugSnapshotData_t::Event_t > vec_events; // 0x0038
 };
 class CMotionSearchNode // animgraphlib
 {
@@ -6346,7 +6456,7 @@ class CMotorController // server
 {
 	float32 m_speed; // 0x0008
 	float32 m_maxTorque; // 0x000C
-	VectorWS m_axis; // 0x0010
+	Vector m_axis; // 0x0010
 	float32 m_inertiaFactor; // 0x001C
 };
 class CNmFloatCurveEventNode::CDefinition : public CNmFloatValueNode::CDefinition // animlib
@@ -6438,6 +6548,10 @@ class FootFixedData_t // animgraphlib
 	float32 m_flMaxRotationLeft; // 0x003C
 	float32 m_flMaxRotationRight; // 0x0040
 };
+class CMarkupSearch_PathCostAreaFilter : public INavPathCostAreaFilter // server
+{
+	CMarkupSearchHelper m_searchHelper; // 0x0008
+};
 class C_INIT_RemapInitialDirectionToTransformToVector : public CParticleFunctionInitializer // particles
 {
 	CParticleTransformInput m_TransformInput; // 0x01E0
@@ -6479,16 +6593,16 @@ class CNmGraphVariationUserData // animlib
 };
 class CNmTwoBoneIKTask : public CNmPoseTask // animlib
 {
-	int32 m_nEffectorBoneIdx; // 0x0048
-	int32 m_nEffectorTargetBoneIdx; // 0x004C
-	CTransform m_targetTransform; // 0x0050
-	CNmTarget m_effectorTarget; // 0x0070
-	NmIKBlendMode_t m_blendMode; // 0x00A0
-	float32 m_flBlendWeight; // 0x00A4
-	bool m_bIsTargetInWorldSpace; // 0x00A8
-	bool m_bIsRunningFromDeserializedData; // 0x00A9
-	float32 m_flChainRotationWeight; // 0x00AC
-	CGlobalSymbol m_debugEffectorBoneID; // 0x00B0
+	int32 m_nEffectorBoneIdx; // 0x0070
+	int32 m_nEffectorTargetBoneIdx; // 0x0074
+	CTransform m_targetTransform; // 0x0080
+	CNmTarget m_effectorTarget; // 0x00A0
+	NmIKBlendMode_t m_blendMode; // 0x00D0
+	float32 m_flBlendWeight; // 0x00D4
+	bool m_bIsTargetInWorldSpace; // 0x00D8
+	bool m_bIsRunningFromDeserializedData; // 0x00D9
+	float32 m_flChainRotationWeight; // 0x00DC
+	CGlobalSymbol m_debugEffectorBoneID; // 0x00E0
 };
 class CBoneConstraintPoseSpaceMorph : public CBoneConstraintBase // modellib
 {
@@ -6542,12 +6656,12 @@ class CVMixSteamAudioHRTFProcessorDesc : public CVMixBaseProcessorDesc // sounds
 };
 class CVoiceContainerGranulator : public CVoiceContainerAsyncGenerator // soundsystem_voicecontainers
 {
-	float32 m_flGrainLength; // 0x00B8
-	float32 m_flGrainCrossfadeAmount; // 0x00BC
-	float32 m_flStartJitter; // 0x00C0
-	float32 m_flPlaybackJitter; // 0x00C4
-	bool m_bShouldWraparound; // 0x00C8
-	CStrongHandle< InfoForResourceTypeCVoiceContainerBase > m_sourceAudio; // 0x00D0
+	float32 m_flGrainLength; // 0x0080
+	float32 m_flGrainCrossfadeAmount; // 0x0084
+	float32 m_flStartJitter; // 0x0088
+	float32 m_flPlaybackJitter; // 0x008C
+	bool m_bShouldWraparound; // 0x0090
+	CStrongHandle< InfoForResourceTypeCVoiceContainerBase > m_sourceAudio; // 0x0098
 };
 class COrientationWarpUpdateNode : public CUnaryUpdateNode // animgraphlib
 {
@@ -6614,7 +6728,7 @@ class EventServerAdvanceTick_t : public EventAdvanceTick_t // engine2
 class CGlobalLightBase // client
 {
 	bool m_bSpotLight; // 0x0010
-	Vector m_SpotLightOrigin; // 0x0014
+	VectorWS m_SpotLightOrigin; // 0x0014
 	QAngle m_SpotLightAngles; // 0x0020
 	Vector m_ShadowDirection; // 0x002C
 	Vector m_AmbientDirection; // 0x0038
@@ -6648,14 +6762,18 @@ class CGlobalLightBase // client
 	float32 m_flFoWDarkness; // 0x00C0
 	bool m_bEnableSeparateSkyboxFog; // 0x00C4
 	Vector m_vFowColor; // 0x00C8
-	Vector m_ViewOrigin; // 0x00D4
+	VectorWS m_ViewOrigin; // 0x00D4
 	QAngle m_ViewAngles; // 0x00E0
 	float32 m_flViewFoV; // 0x00EC
-	Vector[8] m_WorldPoints; // 0x00F0
+	VectorWS[8] m_WorldPoints; // 0x00F0
 	Vector2D m_vFogOffsetLayer0; // 0x04A8
 	Vector2D m_vFogOffsetLayer1; // 0x04B0
 	CHandle< C_BaseEntity > m_hEnvWind; // 0x04B8
 	CHandle< C_BaseEntity > m_hEnvSky; // 0x04BC
+};
+class globalentitydatabase_t // server
+{
+	CUtlVector< globalentity_t > m_list; // 0x0060
 };
 class CParticleFunctionConstraint : public CParticleFunction // particles
 {
@@ -6831,6 +6949,12 @@ class CRenderSkeleton // modellib
 class InfoForResourceTypeCVPhysXSurfacePropertiesList // resourcesystem
 {
 };
+class CChoreo_GraphController : public CAnimGraphControllerBase // server
+{
+	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_eChoreoState; // 0x0088
+	CAnimGraph2ParamOptionalRef< CTransform > m_tChoreoTargetWarp; // 0x00A0
+	CAnimGraph2ParamOptionalRef< CTransform > m_tChoreoExitWarp; // 0x00B8
+};
 class WaterWheelFrictionScale_t // server
 {
 	float32 m_flFractionOfWheelSubmerged; // 0x0000
@@ -6873,6 +6997,7 @@ class C_OP_RenderCables : public CParticleFunctionRenderer // particles
 	int32 m_nMaxTesselation; // 0x148C
 	int32 m_nRoundness; // 0x1490
 	bool m_nForceRoundnessFixed; // 0x1494
+	bool m_bOnlyRenderInEffectsBloomPass; // 0x1495
 	CParticleTransformInput m_LightingTransform; // 0x1498
 	CUtlLeanVector< FloatInputMaterialVariable_t > m_MaterialFloatVars; // 0x1500
 	CUtlLeanVector< VecInputMaterialVariable_t > m_MaterialVecVars; // 0x1520
@@ -6925,11 +7050,16 @@ class C_OP_LightningSnapshotGenerator : public CParticleFunctionPreEmission // p
 	CParticleCollectionFloatInput m_flUVScale; // 0x07B0
 	CParticleCollectionFloatInput m_flUVOffset; // 0x0920
 	CParticleCollectionFloatInput m_flSplitRate; // 0x0A90
-	CParticleCollectionFloatInput m_flBranchTwist; // 0x0C00
-	ParticleLightnintBranchBehavior_t m_nBranchBehavior; // 0x0D70
-	CParticleCollectionFloatInput m_flRadiusStart; // 0x0D78
-	CParticleCollectionFloatInput m_flRadiusEnd; // 0x0EE8
-	CParticleCollectionFloatInput m_flDedicatedPool; // 0x1058
+	CParticleCollectionFloatInput m_flRecursionSplitScale; // 0x0C00
+	bool m_bScaleBranchDistance; // 0x0D70
+	CParticleCollectionFloatInput m_flBranchDistanceScale; // 0x0D78
+	bool m_bScaleBranchOffset; // 0x0EE8
+	CParticleCollectionFloatInput m_flBranchOffsetScale; // 0x0EF0
+	CParticleCollectionFloatInput m_flBranchTwist; // 0x1060
+	ParticleLightnintBranchBehavior_t m_nBranchBehavior; // 0x11D0
+	CParticleCollectionFloatInput m_flRadiusStart; // 0x11D8
+	CParticleCollectionFloatInput m_flRadiusEnd; // 0x1348
+	CParticleCollectionFloatInput m_flDedicatedPool; // 0x14B8
 };
 class C_OP_RemapSpeed : public CParticleFunctionOperator // particles
 {
@@ -7284,7 +7414,9 @@ class C_OP_GameLiquidSpill : public CParticleFunctionRenderer // particles
 {
 	CParticleCollectionFloatInput m_flLiquidContentsField; // 0x0228
 	CParticleCollectionFloatInput m_flExpirationTime; // 0x0398
-	ParticleAttributeIndex_t m_nAmountAttribute; // 0x0508
+	CParticleCollectionFloatInput m_flRadius; // 0x0508
+	bool m_bCheckExposedToSky; // 0x0678
+	ParticleAttributeIndex_t m_nAmountAttribute; // 0x067C
 };
 class CPathMetricEvaluator : public CMotionMetricEvaluator // animgraphlib
 {
@@ -7318,6 +7450,8 @@ class C_OP_SetControlPointToPlayer : public CParticleFunctionPreEmission // part
 	Vector m_vecCP1Pos; // 0x01E4
 	bool m_bOrientToEyes; // 0x01F0
 	ParticleEntityPos_t m_nPosition; // 0x01F4
+	int32 m_nRadiusCP; // 0x01F8
+	int32 m_nRadiusCPField; // 0x01FC
 };
 class WorldNodeOnDiskBufferData_t // worldrenderer
 {
@@ -7577,7 +7711,7 @@ class InfoForResourceTypeIPulseGraphDef // resourcesystem
 };
 class CVoiceContainerSet : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CUtlVector< CVoiceContainerSetElement > m_soundsToPlay; // 0x00A8
+	CUtlVector< CVoiceContainerSetElement > m_soundsToPlay; // 0x0070
 };
 class CModelConfigElement_SetBodygroupOnAttachedModels : public CModelConfigElement // modellib
 {
@@ -7587,12 +7721,12 @@ class CModelConfigElement_SetBodygroupOnAttachedModels : public CModelConfigElem
 class CRenderMesh // modellib
 {
 	CUtlLeanVectorFixedGrowable< CSceneObjectData, 1 > m_sceneObjects; // 0x0010
-	CUtlLeanVector< CBaseConstraint* > m_constraints; // 0x00B8
-	CRenderSkeleton m_skeleton; // 0x00C8
-	bool m_bUseUV2ForCharting; // 0x01D4
-	bool m_bEmbeddedMapMesh; // 0x01D5
-	DynamicMeshDeformParams_t m_meshDeformParams; // 0x01F8
-	CRenderGroom* m_pGroomData; // 0x0208
+	CUtlLeanVector< CBaseConstraint* > m_constraints; // 0x00D0
+	CRenderSkeleton m_skeleton; // 0x00E0
+	bool m_bUseUV2ForCharting; // 0x01EC
+	bool m_bEmbeddedMapMesh; // 0x01ED
+	DynamicMeshDeformParams_t m_meshDeformParams; // 0x0210
+	CRenderGroom* m_pGroomData; // 0x0220
 };
 class CPlayerControllerComponent // server
 {
@@ -7618,12 +7752,19 @@ class IPhysicsRagdollControl // vphysics2
 };
 class CSceneObjectData::RTProxyDrawDescriptor_t // modellib
 {
-	CMaterialDrawDescriptor m_drawDesc; // 0x0000
-	matrix3x4_t m_mWorldFromLocal; // 0x0108
-	VertexAlbedoFormat_t m_nVertexAlbedoFormat; // 0x0138
-	int8 m_nVertexAlbedoVB; // 0x0139
-	uint16 m_nVertexAlbedoOffset; // 0x013A
-	uint16 m_nVertexAlbedoStride; // 0x013C
+	uint32 m_materialGroupToken; // 0x0000
+	int32 m_nSrcDrawIndex; // 0x0004
+	CMaterialDrawDescriptor m_drawDesc; // 0x0008
+	matrix3x4_t m_mWorldFromLocal; // 0x0120
+	VertexAlbedoFormat_t m_nVertexAlbedoFormat; // 0x0150
+	int8 m_nVertexAlbedoVB; // 0x0151
+	uint16 m_nVertexAlbedoOffset; // 0x0152
+	uint16 m_nVertexAlbedoStride; // 0x0154
+	VertexAlbedoFormat_t m_nVertexEmissiveFormat; // 0x0156
+	int8 m_nVertexEmissiveVB; // 0x0157
+	uint16 m_nVertexEmissiveOffset; // 0x0158
+	uint16 m_nVertexEmissiveStride; // 0x015A
+	float32 m_fEmissiveFactor; // 0x015C
 };
 class CNmFloatClampNode::CDefinition : public CNmFloatValueNode::CDefinition // animlib
 {
@@ -7670,6 +7811,12 @@ class C_OP_RampCPLinearRandom : public CParticleFunctionPreEmission // particles
 	Vector m_vecRateMin; // 0x01E4
 	Vector m_vecRateMax; // 0x01F0
 };
+class CPulseBreakpointLocation // pulse_runtime_lib
+{
+	PulseDocNodeID_t m_NodeID; // 0x0000
+	PulseSymbol_t m_SequencePoint; // 0x0008
+	PulseSymbol_t m_PortName; // 0x0018
+};
 class PhysShapeMarkup_t // modellib
 {
 	int32 m_nBodyInAggregate; // 0x0000
@@ -7704,6 +7851,24 @@ class C_OP_InheritFromParentParticlesV2 : public CParticleFunctionOperator // pa
 class PointDefinitionWithTimeValues_t : public PointDefinition_t // particles
 {
 	float32 m_flTimeDuration; // 0x0014
+};
+class CSndBeatPattern // soundsystem
+{
+	CUtlString m_name; // 0x0000
+	SndBeatLaunchSyncType_t m_launchSyncType; // 0x000C
+	float32 m_flSyncPriority; // 0x0010
+	SndBeatTimeSignature_t m_timeSignature; // 0x0014
+	float32 m_flLength; // 0x001C
+	bool m_bLooping; // 0x0020
+	SndBeatEventType_t m_launchSyncEventType; // 0x0024
+	float32 m_flSyncBeatMult; // 0x0028
+	SndBeatEventType_t m_playEventType; // 0x002C
+	float32 m_flPlayBeatMult; // 0x0030
+	SndBeatKeyType_t m_keyType; // 0x0034
+	CUtlVector< SndBeatEventKeys_t > m_vecPatternKeys; // 0x0038
+	CUtlVector< SndBeatEventKeyedFloats_t > m_vecPatternFloats; // 0x0050
+	CUtlVector< SndBeatEventKeyedSndEvts_t > m_vecPatternSndEvts; // 0x0068
+	CUtlVector< SndBeatEventKeyedMidiNotes_t > m_vecPatternMidi; // 0x0080
 };
 class CNmPoseNode::CDefinition : public CNmGraphNode::CDefinition // animlib
 {
@@ -7742,6 +7907,16 @@ class CDebugSnapshotData_t // server
 	CUtlString m_sEntityName; // 0x0108
 	CEntityIndex m_nEntityIndex; // 0x0110
 	CUtlLeanVector< CDebugSnapshotData_t > m_children; // 0x0120
+};
+class CNetworkOriginCellCoordQuantizedVectorWS // server
+{
+	uint16 m_cellX; // 0x0010
+	uint16 m_cellY; // 0x0012
+	uint16 m_cellZ; // 0x0014
+	uint16 m_nOutsideWorld; // 0x0016
+	CNetworkedQuantizedFloat m_vecX; // 0x0018
+	CNetworkedQuantizedFloat m_vecY; // 0x0020
+	CNetworkedQuantizedFloat m_vecZ; // 0x0028
 };
 class FeRodConstraint_t // physicslib
 {
@@ -7809,7 +7984,7 @@ class C_OP_RenderSprites : public CBaseRendererSource2 // particles
 	bool m_bUseYawWithNormalAligned; // 0x2F6C
 	CParticleCollectionRendererFloatInput m_flMinSize; // 0x2F70
 	CParticleCollectionRendererFloatInput m_flMaxSize; // 0x30E0
-	CParticleCollectionRendererFloatInput m_flAlphaAdjustWithSizeAdjust; // 0x3250
+	CParticleCollectionRendererFloatInput m_flSubPixelAAScale; // 0x3250
 	CParticleCollectionRendererFloatInput m_flStartFadeSize; // 0x33C0
 	CParticleCollectionRendererFloatInput m_flEndFadeSize; // 0x3530
 	float32 m_flStartFadeDot; // 0x36A0
@@ -8273,15 +8448,14 @@ class PostProcessingBloomParameters_t // materialsystem2
 class CCS2ChickenGraphController : public CAnimGraphControllerBase // server
 {
 	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_action; // 0x0088
-	CAnimGraph2ParamOptionalRef< CGlobalSymbol > m_actionSubtype; // 0x00A0
-	CAnimGraph2ParamAutoResetOptionalRef m_bActionReset; // 0x00B8
-	CAnimGraph2ParamOptionalRef< float32 > m_idleVariation; // 0x00D8
-	CAnimGraph2ParamOptionalRef< float32 > m_runVariation; // 0x00F0
-	CAnimGraph2ParamOptionalRef< float32 > m_panicVariation; // 0x0108
-	CAnimGraph2ParamOptionalRef< float32 > m_squatVariation; // 0x0120
-	CAnimGraph2ParamOptionalRef< bool > m_bInWater; // 0x0138
-	bool m_bHasActionCompletedEvent; // 0x0150
-	bool m_bWaitingForCompletedEvent; // 0x0151
+	CAnimGraph2ParamAutoResetOptionalRef m_bActionReset; // 0x00A0
+	CAnimGraph2ParamOptionalRef< float32 > m_idleVariation; // 0x00C0
+	CAnimGraph2ParamOptionalRef< float32 > m_runVariation; // 0x00D8
+	CAnimGraph2ParamOptionalRef< float32 > m_panicVariation; // 0x00F0
+	CAnimGraph2ParamOptionalRef< float32 > m_squatVariation; // 0x0108
+	CAnimGraph2ParamOptionalRef< bool > m_bInWater; // 0x0120
+	bool m_bHasActionCompletedEvent; // 0x0138
+	bool m_bWaitingForCompletedEvent; // 0x0139
 };
 class C_OP_FadeAndKill : public CParticleFunctionOperator // particles
 {
@@ -8311,19 +8485,19 @@ class C_OP_EnableChildrenFromParentParticleCount : public CParticleFunctionPreEm
 	bool m_bPlayEndcapOnStop; // 0x0359
 	bool m_bDestroyImmediately; // 0x035A
 };
+class PostProcessingLocalExposureParameters_t // materialsystem2
+{
+	float32 m_fShadowOffsetEV; // 0x0000
+	float32 m_fHighlightOffsetEV; // 0x0004
+	float32 m_fSigma; // 0x0008
+	float32 m_fBoostLocalContrast; // 0x000C
+};
 class CEntityComponentHelper // entity2
 {
 	uint32 m_flags; // 0x0008
 	EntComponentInfo_t* m_pInfo; // 0x0010
 	int32 m_nPriority; // 0x0018
 	CEntityComponentHelper* m_pNext; // 0x0020
-};
-class CSceneCriteria // server
-{
-	CHandle< CBaseEntity > m_hOwner; // 0x0000
-	InteractionPriority_t m_ePriority; // 0x0004
-	SceneInterestTags_t m_InterestReqTags; // 0x0008
-	SceneInterestTags_t m_InterestOptTags; // 0x0020
 };
 class C_OP_UpdateLightSource : public CParticleFunctionOperator // particles
 {
@@ -8389,17 +8563,23 @@ class C_OP_OscillateScalar : public CParticleFunctionOperator // particles
 	float32 m_flOscMult; // 0x0200
 	float32 m_flOscAdd; // 0x0204
 };
+class C_INIT_SkyVisCull : public CParticleFunctionInitializer // particles
+{
+	CParticleCollectionVecInput m_vecTestDir; // 0x01E0
+	ParticleTraceSet_t m_nTraceSet; // 0x0898
+	bool m_bCullOnSky; // 0x089C
+};
 class CVoiceContainerShapedNoise : public CVoiceContainerGenerator // soundsystem_voicecontainers
 {
-	bool m_bUseCurveForFrequency; // 0x00A8
-	float32 m_flFrequency; // 0x00AC
-	CPiecewiseCurve m_frequencySweep; // 0x00B0
-	bool m_bUseCurveForResonance; // 0x00F0
-	float32 m_flResonance; // 0x00F4
-	CPiecewiseCurve m_resonanceSweep; // 0x00F8
-	bool m_bUseCurveForAmplitude; // 0x0138
-	float32 m_flGainInDecibels; // 0x013C
-	CPiecewiseCurve m_gainSweep; // 0x0140
+	bool m_bUseCurveForFrequency; // 0x0070
+	float32 m_flFrequency; // 0x0074
+	CPiecewiseCurve m_frequencySweep; // 0x0078
+	bool m_bUseCurveForResonance; // 0x00B8
+	float32 m_flResonance; // 0x00BC
+	CPiecewiseCurve m_resonanceSweep; // 0x00C0
+	bool m_bUseCurveForAmplitude; // 0x0100
+	float32 m_flGainInDecibels; // 0x0104
+	CPiecewiseCurve m_gainSweep; // 0x0108
 };
 class FeNodeStrayBox_t // physicslib
 {
@@ -8433,8 +8613,8 @@ class CHandshakeAnimTagBase : public CAnimTagBase // animgraphlib
 };
 class AutoRoomDoorwayPairs_t // server
 {
-	Vector vP1; // 0x0000
-	Vector vP2; // 0x000C
+	VectorWS vP1; // 0x0000
+	VectorWS vP2; // 0x000C
 };
 class C_OP_RemapCPtoScalar : public CParticleFunctionOperator // particles
 {
@@ -8647,25 +8827,37 @@ class GameTick_t // entity2
 {
 	int32 m_Value; // 0x0000
 };
+class CRandomPannerControls // soundsystem_voicecontainers
+{
+	CUtlString m_panningControlInputName; // 0x0000
+	CUtlString m_volumeControlInputName; // 0x0008
+	float32 m_flMinVolume; // 0x0010
+	float32 m_flMaxVolume; // 0x0014
+	CUtlString m_strVectorStackParam; // 0x0018
+};
 class CVoiceContainerLoopXFade : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CSoundContainerReference m_sound; // 0x00A8
-	float32 m_flLoopEnd; // 0x00C8
-	float32 m_flLoopStart; // 0x00CC
-	float32 m_flFadeOut; // 0x00D0
-	float32 m_flFadeIn; // 0x00D4
-	bool m_bPlayHead; // 0x00D8
-	bool m_bPlayTail; // 0x00D9
-	bool m_bEqualPow; // 0x00DA
+	CSoundContainerReference m_sound; // 0x0070
+	float32 m_flLoopEnd; // 0x0090
+	float32 m_flLoopStart; // 0x0094
+	float32 m_flFadeOut; // 0x0098
+	float32 m_flFadeIn; // 0x009C
+	bool m_bPlayHead; // 0x00A0
+	bool m_bPlayTail; // 0x00A1
+	bool m_bEqualPow; // 0x00A2
 };
-class CastSphereSATParams_t // physicslib
+class CVsndRadioButtonSlot // soundsystem_voicecontainers
 {
-	Vector m_vRayStart; // 0x0000
-	Vector m_vRayDelta; // 0x000C
-	float32 m_flRadius; // 0x0018
-	float32 m_flMaxFraction; // 0x001C
-	float32 m_flScale; // 0x0020
-	RnHull_t* m_pHull; // 0x0028
+	bool m_bEnableVsnd; // 0x0000
+	CSoundContainerReference m_vsnd; // 0x0008
+	bool m_bEnableEndcap; // 0x0028
+	CSoundContainerReference m_endcapVsnd; // 0x0030
+	bool m_bEnableLoopcap; // 0x0050
+	CSoundContainerReference m_loopcapVsnd; // 0x0058
+	int32 m_group; // 0x0078
+	float32 m_volume; // 0x007C
+	float32 m_fadeOut; // 0x0080
+	EVsndPlaybackMode m_mode; // 0x0084
 };
 class FeAntiTunnelGroupBuild_t // physicslib
 {
@@ -8737,13 +8929,13 @@ class RnHull_t // physicslib
 	matrix3x4_t m_MassProperties; // 0x0034
 	float32 m_flVolume; // 0x0064
 	float32 m_flSurfaceArea; // 0x0068
-	CUtlVector< RnVertex_t > m_Vertices; // 0x0070
-	CUtlVector< Vector > m_VertexPositions; // 0x0088
-	CUtlVector< RnHalfEdge_t > m_Edges; // 0x00A0
-	CUtlVector< RnFace_t > m_Faces; // 0x00B8
-	CUtlVector< RnPlane_t > m_FacePlanes; // 0x00D0
-	uint32 m_nFlags; // 0x00E8
-	CRegionSVM* m_pRegionSVM; // 0x00F0
+	CUtlVector< Vector > m_VertexPositions; // 0x0070
+	CUtlVector< RnPlane_t > m_FacePlanes; // 0x0088
+	uint32 m_nFlags; // 0x00A0
+	CRegionSVM* m_pRegionSVM; // 0x00A8
+	CUtlVector< RnVertex_t > m_Vertices; // 0x00B0
+	CUtlVector< RnHalfEdge_t > m_Edges; // 0x00C8
+	CUtlVector< RnFace_t > m_Faces; // 0x00E0
 };
 class CNmBoneMaskBlendNode::CDefinition : public CNmBoneMaskValueNode::CDefinition // animlib
 {
@@ -8774,15 +8966,16 @@ class C_OP_MultiSegmentDisplaySnapshotGenerator : public CParticleFunctionPreEmi
 	ParticleMultiSegmentInputSelection_t m_nInputType; // 0x01E8
 	CUtlString m_strDefaultString; // 0x01F0
 	CParticleCollectionFloatInput m_flValue; // 0x01F8
-	CUtlVector< ParticleMultiSegmentSpecialCharacter_t > m_SpecialCharList; // 0x0368
-	CParticleCollectionVecInput m_vecColorUnlit; // 0x0380
-	CParticleCollectionVecInput m_vecColorLit; // 0x0A38
-	CParticleCollectionFloatInput m_flRadius; // 0x10F0
-	CParticleCollectionFloatInput m_flSpacing; // 0x1260
-	CParticleCollectionFloatInput m_flMinCount; // 0x13D0
-	CParticleCollectionFloatInput m_flMaxCount; // 0x1540
-	bool m_bPrependEmpty; // 0x16B0
-	CParticleCollectionFloatInput m_flDigitsAfterDecimal; // 0x16B8
+	CParticleCollectionFloatInput m_flScollOffset; // 0x0368
+	CUtlVector< ParticleMultiSegmentSpecialCharacter_t > m_SpecialCharList; // 0x04D8
+	CParticleCollectionVecInput m_vecColorUnlit; // 0x04F0
+	CParticleCollectionVecInput m_vecColorLit; // 0x0BA8
+	CParticleCollectionFloatInput m_flRadius; // 0x1260
+	CParticleCollectionFloatInput m_flSpacing; // 0x13D0
+	CParticleCollectionFloatInput m_flMinCount; // 0x1540
+	CParticleCollectionFloatInput m_flMaxCount; // 0x16B0
+	bool m_bPrependEmpty; // 0x1820
+	CParticleCollectionFloatInput m_flDigitsAfterDecimal; // 0x1828
 };
 class CGenericShapeProxy // physicslib
 {
@@ -8912,7 +9105,7 @@ class RsDepthStencilStateDesc_t // rendersystemdx11
 {
 	bitfield:1 m_bDepthTestEnable; // 0x0000
 	bitfield:1 m_bDepthWriteEnable; // 0x0000
-	RsComparison_t m_depthFunc; // 0x0001
+	bitfield:4 m_depthFunc; // 0x0000
 	RsStencilStateDesc_t m_stencilState; // 0x0002
 };
 class InfoForResourceTypeCPhysAggregateData // resourcesystem
@@ -8981,6 +9174,9 @@ class CAnimGraphModelBinding // animgraphlib
 	CUtlString m_modelName; // 0x0008
 	CSmartPtr< CAnimUpdateSharedData > m_pSharedData; // 0x0010
 };
+class CAnimGraph2InstancePtr // server
+{
+};
 class CAI_ExpresserWithFollowup : public CAI_Expresser // server
 {
 };
@@ -9027,6 +9223,11 @@ class CVMixPannerProcessorDesc : public CVMixBaseProcessorDesc // soundsystem_lo
 };
 class CTaskStatusAnimTag : public CAnimTagBase // animgraphlib
 {
+};
+class CNmFloatChannelData::ChannelSettings_t // animlib
+{
+	NmCompressionSettings_t::QuantizationRange_t m_range; // 0x0000
+	bool m_bIsStatic; // 0x0008
 };
 class CMotionMatchingUpdateNode : public CLeafUpdateNode // animgraphlib
 {
@@ -9271,12 +9472,6 @@ class CRangeFloat // tier2
 {
 	float32[2] m_pValue; // 0x0000
 };
-class AI_Motor_DebugSnapshotData_t : public DebugSnapshotBaseStructuredData_t // server
-{
-	CGlobalSymbol current_movement_gait_set; // 0x0008
-	CGlobalSymbol current_movement_gait; // 0x0010
-	CGlobalSymbol movement_setting_id; // 0x0018
-};
 class C_OP_RemapNamedModelMeshGroupOnceTimed : public C_OP_RemapNamedModelElementOnceTimed // particles
 {
 };
@@ -9337,7 +9532,7 @@ class PhysObjectHeader_t // server
 	PhysInterfaceId_t type; // 0x0000
 	CHandle< CBaseEntity > hEntity; // 0x0004
 	CUtlSymbolLarge fieldName; // 0x0008
-	int32 nObjects; // 0x0010
+	bool bSaveObject; // 0x0010
 	CUtlSymbolLarge modelName; // 0x0018
 	AABB_t bbox; // 0x0020
 	physics_save_sphere_t sphere; // 0x0038
@@ -9398,7 +9593,7 @@ class VPhysXJoint_t // modellib
 };
 class CStopwatchBase : public CSimpleSimTimer // server
 {
-	bool m_fIsRunning; // 0x0008
+	bool m_bIsRunning; // 0x0008
 };
 class CPlayerInputAnimMotorUpdater : public CAnimMotorUpdaterBase // animgraphlib
 {
@@ -9428,17 +9623,15 @@ class C_OP_LockToPointList : public CParticleFunctionOperator // particles
 };
 class CVSound // soundsystem_voicecontainers
 {
-	int32 m_nRate; // 0x0000
-	CVSoundFormat_t m_nFormat; // 0x0004
-	uint32 m_nChannels; // 0x0008
-	int32 m_nLoopStart; // 0x000C
-	uint32 m_nSampleCount; // 0x0010
-	float32 m_flDuration; // 0x0014
-	CUtlVector< CAudioSentence > m_Sentences; // 0x0018
-	uint32 m_nStreamingSize; // 0x0030
-	CUtlVector< int32 > m_nSeekTable; // 0x0038
-	int32 m_nLoopEnd; // 0x0050
-	CUtlBinaryBlock m_encodedHeader; // 0x0058
+	CUtlLeanVector< CAudioSentence > m_Sentences; // 0x0000
+	int32 m_nRate; // 0x0010
+	CVSoundFormat_t m_nFormat; // 0x0014
+	uint32 m_nChannels; // 0x0018
+	int32 m_nLoopStart; // 0x001C
+	uint32 m_nSampleCount; // 0x0020
+	float32 m_flDuration; // 0x0024
+	uint32 m_nStreamingSize; // 0x0028
+	int32 m_nLoopEnd; // 0x002C
 };
 class CSndSeqInstSndEvtSchema : public CSndSeqInstBaseSchema // soundsystem
 {
@@ -9515,6 +9708,10 @@ class C_OP_WorldCollideConstraint : public CParticleFunctionConstraint // partic
 class BaseSceneObjectOverride_t // worldrenderer
 {
 	uint32 m_nSceneObjectIndex; // 0x0000
+};
+class CVoiceContainerLoopTriggerWithRandomPanner : public CVoiceContainerLoopTrigger // soundsystem_voicecontainers
+{
+	CRandomPannerControls m_randomPannerControls; // 0x00A0
 };
 class OldFeEdge_t // physicslib
 {
@@ -9789,6 +9986,17 @@ class CSteamAudioProbeGrid // steamaudio
 	CUtlVector< CSteamAudioProbeLineSegment > m_vecLineSegments; // 0x0028
 	CUtlVector< Vector > m_vecProbes; // 0x0040
 };
+class RnCompound_t // physicslib
+{
+	CUtlVector< RnSphere_t > m_Spheres; // 0x0000
+	CUtlVector< RnCapsule_t > m_Capsules; // 0x0018
+	CUtlVector< RnHull_t > m_Hulls; // 0x0030
+	CUtlVector< RnMesh_t > m_Meshes; // 0x0048
+	AABB_t m_Bounds; // 0x0060
+	Vector m_vOrthographicAreas; // 0x0078
+	float32 m_flSurfaceArea; // 0x0084
+	float32 m_flVolume; // 0x0088
+};
 class CNmControlParameterFloatNode::CDefinition : public CNmFloatValueNode::CDefinition // animlib
 {
 };
@@ -9803,6 +10011,16 @@ class CAnimMotorUpdaterBase // animgraphlib
 {
 	CUtlString m_name; // 0x0010
 	bool m_bDefault; // 0x0018
+};
+class CMarkupSearchHelper // server
+{
+	NavHull_t m_navHull; // 0x0000
+	CUtlString m_tagString; // 0x0008
+	CUtlString m_nameString; // 0x0010
+	VectorWS m_vRefPos; // 0x0018
+	bool m_bRefPosSet; // 0x0024
+	bool m_bUseStepHeight; // 0x0025
+	bool m_bActive; // 0x0026
 };
 class C_OP_RandomForce : public CParticleFunctionForce // particles
 {
@@ -9852,9 +10070,9 @@ class CVMixEQ8ProcessorDesc : public CVMixBaseProcessorDesc // soundsystem_lowle
 };
 class CVoiceContainerSelector : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	PlayBackMode_t m_mode; // 0x00A8
-	CSoundContainerReferenceArray m_soundsToPlay; // 0x00B0
-	CUtlVector< float32 > m_fProbabilityWeights; // 0x00E8
+	PlayBackMode_t m_mode; // 0x0070
+	CSoundContainerReferenceArray m_soundsToPlay; // 0x0078
+	CUtlVector< float32 > m_fProbabilityWeights; // 0x00B0
 };
 class FeCollisionPlane_t // physicslib
 {
@@ -9909,10 +10127,13 @@ class RTProxyInstanceInfo_t // worldrenderer
 {
 	RTProxyInstanceFlags_t m_nFlags; // 0x0000
 	VertexAlbedoFormat_t m_albedoFormat; // 0x0001
-	uint16 m_nBLASCount; // 0x0002
-	uint32 m_nBLASIndex; // 0x0004
-	uint32 m_nVertexAlbedoByteOffset; // 0x0008
-	matrix3x4_t m_mWorldFromLocal; // 0x000C
+	VertexAlbedoFormat_t m_emissiveFormat; // 0x0002
+	uint16 m_nBLASCount; // 0x0004
+	uint32 m_nBLASIndex; // 0x0008
+	uint32 m_nVertexAlbedoByteOffset; // 0x000C
+	uint32 m_nVertexEmissiveByteOffset; // 0x0010
+	float32 m_fEmissiveFactor; // 0x0014
+	matrix3x4_t m_mWorldFromLocal; // 0x0018
 };
 class CShatterGlassShard // server
 {
@@ -9951,7 +10172,22 @@ class sndopvarlatchdata_t // server
 	CUtlSymbolLarge m_iszOperator; // 0x0010
 	CUtlSymbolLarge m_iszOpvar; // 0x0018
 	float32 m_flVal; // 0x0020
-	Vector m_vPos; // 0x0024
+	VectorWS m_vPos; // 0x0024
+};
+class CNavPathCost : public INavPathCost // navlib
+{
+	bool m_bAllowLadders; // 0x0010
+	bool m_bCanFly; // 0x0011
+	bool m_bCanSwim; // 0x0012
+	float32 m_flWaterToGroundMaxHeight; // 0x0014
+	float32 m_flGroundToWaterMaxHeight; // 0x0018
+	float32 m_flGroundToWaterTransitionDistance; // 0x001C
+	float32 m_flWaterToGroundTransitionDistance; // 0x0020
+	float32 m_flFlyingTransitionTolerance; // 0x0024
+	bool m_bOptimizeFlySpacePathfinds; // 0x0028
+	bool m_bStringPullFlySpacePathfinds; // 0x0029
+	bool m_bSupportsTransitions; // 0x002A
+	float32 m_flTransitionPenalty; // 0x002C
 };
 class C_OP_TeleportBeam : public CParticleFunctionOperator // particles
 {
@@ -9983,6 +10219,10 @@ class C_OP_PercentageBetweenTransforms : public CParticleFunctionOperator // par
 class CVMixInputBase // soundsystem_lowlevel
 {
 	CUtlString m_name; // 0x0000
+};
+class SndBeatEventKeyedSndEvts_t : public SndBeatEventKeys_t // soundsystem
+{
+	CUtlString m_strSoundEventName; // 0x0010
 };
 class AnimNodeID // modellib
 {
@@ -10049,21 +10289,30 @@ class AI_BaseNPC_DebugSnapshotData_t : public DebugSnapshotBaseStructuredData_t 
 	CHandle< CBaseEntity > current_enemy; // 0x0010
 	CUtlString s_current_schedule; // 0x0018
 	CGlobalSymbol s_current_task; // 0x0020
-	CUtlString s_schedule_interrupt_reason; // 0x0028
-	CUtlString s_schedule_fail_reason; // 0x0030
-	CUtlVector< CGlobalSymbol > conditions; // 0x0038
-	CUtlVector< CGlobalSymbol > anim_events; // 0x0050
-	CGlobalSymbol e_action_body_section; // 0x0068
-	CGlobalSymbol e_movement_body_section; // 0x0070
+	CUtlString s_prev_schedule; // 0x0028
+	CUtlString s_npc_current_movement; // 0x0030
+	CUtlString s_last_task_end_location; // 0x0038
+	CUtlVector< CGlobalSymbol > conditions; // 0x0040
+	CUtlVector< CGlobalSymbol > anim_events; // 0x0058
+	AI_BaseNPCAnimGraph_DebugSnapshotData_t animgraph; // 0x0070
+	AI_Navigator_DebugSnapshotData_t navigator; // 0x00B0
+	AI_MotorServices_DebugSnapshotData_t motorServices; // 0x0100
+	AI_FacingServices_DebugSnapshotData_t facingServices; // 0x0130
 };
-class AI_Navigator_DebugSnapshotData_t : public DebugSnapshotBaseStructuredData_t // server
+class AI_Navigator_DebugSnapshotData_t // server
 {
-	CGlobalSymbol s_npc_nav_authority; // 0x0008
-	CGlobalSymbol s_goal_nav_search_id; // 0x0010
-	CUtlString s_goal_source_location; // 0x0018
-	VectorWS goal_actual_pos; // 0x0020
-	VectorWS goal_base_pos; // 0x002C
-	CUtlVector< AI_Navigator_DebugSnapshotData_t::Waypoint_t > waypoints; // 0x0038
+	CGlobalSymbol s_movement_id; // 0x0000
+	uint32 s_movement_serial_number; // 0x0008
+	CUtlString s_goal_source_location; // 0x0010
+	VectorWS last_waypoint_pos; // 0x0018
+	VectorWS goal_location; // 0x0024
+	CUtlVector< AI_Navigator_DebugSnapshotData_t::Waypoint_t > waypoints; // 0x0030
+	CGlobalSymbol s_arrival_movement_gait_set; // 0x0048
+};
+class AI_GroundRootMotionMotor_DebugSnapshotData_t::Event_t // server
+{
+	CUtlString description; // 0x0000
+	VectorWS location; // 0x0008
 };
 class DecalGroupOption_t // server
 {
@@ -10166,7 +10415,7 @@ class CNetworkVarChainer // entity2
 };
 class CPhysicsBodyGameMarkupData // server
 {
-	CUtlOrderedMap< CUtlString, CPhysicsBodyGameMarkup > m_PhysicsBodyMarkupByBoneName; // 0x0000
+	CUtlDict< CPhysicsBodyGameMarkup > m_PhysicsBodyMarkupByBoneName; // 0x0000
 };
 class C_INIT_InitFromCPSnapshot : public CParticleFunctionInitializer // particles
 {
@@ -10181,6 +10430,10 @@ class C_INIT_InitFromCPSnapshot : public CParticleFunctionInitializer // particl
 	CPerParticleFloatInput m_nManualSnapshotIndex; // 0x0370
 	int32 m_nRandomSeed; // 0x04E0
 	bool m_bLocalSpaceAngles; // 0x04E4
+};
+class AggregateVertexEmissiveStreamOnDiskData_t // worldrenderer
+{
+	CUtlBinaryBlock m_BufferData; // 0x0000
 };
 class VMixOscDesc_t // soundsystem_lowlevel
 {
@@ -10281,14 +10534,6 @@ class CPulse_Chunk // pulse_runtime_lib
 	CUtlLeanVector< CPulse_RegisterInfo > m_Registers; // 0x0010
 	CUtlLeanVector< CPulse_InstructionDebug > m_InstructionDebugInfos; // 0x0020
 };
-class ExternalAnimGraph_t // server
-{
-	ExternalAnimGraphHandle_t m_hExtGraphHandle; // 0x0000
-	CGlobalSymbol m_sExternalGraphSlotID; // 0x0008
-	CStrongHandleCopyable< InfoForResourceTypeCNmGraphDefinition > m_hGraphDefinition; // 0x0010
-	CHandle< CBaseAnimGraph > m_hExternalGraphOwner; // 0x0018
-	ExternalAnimGraphInactiveBehavior_t m_nInactiveBehavior; // 0x0030
-};
 class CNetworkOriginCellCoordQuantizedVector // server
 {
 	uint16 m_cellX; // 0x0010
@@ -10334,17 +10579,6 @@ class CMotionDataSet // animgraphlib
 };
 class CNmChainLookatTask : public CNmPoseTask // animlib
 {
-	int32 m_nChainEndBoneIdx; // 0x0048
-	int32 m_nNumBonesInChain; // 0x004C
-	Vector m_chainForwardDir; // 0x0050
-	float32 m_flBlendWeight; // 0x005C
-	float32 m_flHorizontalAngleLimitDegrees; // 0x0060
-	float32 m_flVerticalAngleLimitDegrees; // 0x0064
-	Vector m_lookatTarget; // 0x0068
-	bool m_bIsTargetInWorldSpace; // 0x0074
-	bool m_bIsRunningFromDeserializedData; // 0x0075
-	float32 m_flHorizontalAngleDegrees; // 0x0078
-	float32 m_flVerticalAngleDegrees; // 0x007C
 };
 class CNmBodyGroupEvent : public CNmEvent // animlib
 {
@@ -10484,10 +10718,6 @@ class CPhysSurfacePropertiesPhysics // modellib
 	float32 m_softContactFrequency; // 0x0010
 	float32 m_softContactDampingRatio; // 0x0014
 };
-class SceneRequestHandle_t // server
-{
-	int32 m_Value; // 0x0000
-};
 class CBaseAnimGraphVariationUserData : public CNmGraphVariationUserData // server
 {
 };
@@ -10585,11 +10815,12 @@ class WorldNode_t // worldrenderer
 	CUtlVector< WorldNodeOnDiskBufferData_t > m_extraVertexStreams; // 0x00A8
 	CUtlVector< AggregateInstanceStreamOnDiskData_t > m_aggregateInstanceStreams; // 0x00C0
 	CUtlVector< AggregateVertexAlbedoStreamOnDiskData_t > m_vertexAlbedoStreams; // 0x00D8
-	CUtlVector< CUtlString > m_layerNames; // 0x00F0
-	CUtlVector< uint8 > m_sceneObjectLayerIndices; // 0x0108
-	CUtlString m_grassFileName; // 0x0120
-	BakedLightingInfo_t m_nodeLightingInfo; // 0x0128
-	bool m_bHasBakedGeometryFlag; // 0x0170
+	CUtlVector< AggregateVertexEmissiveStreamOnDiskData_t > m_vertexEmissiveStreams; // 0x00F0
+	CUtlVector< CUtlString > m_layerNames; // 0x0108
+	CUtlVector< uint8 > m_sceneObjectLayerIndices; // 0x0120
+	CUtlString m_grassFileName; // 0x0138
+	BakedLightingInfo_t m_nodeLightingInfo; // 0x0140
+	bool m_bHasBakedGeometryFlag; // 0x0188
 };
 class CSndSeqInstMidiSampler : public CSndSeqInstBaseSchema // soundsystem
 {
@@ -10631,9 +10862,10 @@ class ModelAnimGraph2Ref_t // modellib
 	CUtlString m_sIdentifier; // 0x0000
 	CStrongHandle< InfoForResourceTypeCNmGraphDefinition > m_hGraph; // 0x0008
 };
-class SceneInterestTags_t // server
+class AABBWS_t // mathlib_extended
 {
-	CUtlVector< CUtlString > m_Tags; // 0x0000
+	VectorWS m_vMinBounds; // 0x0000
+	VectorWS m_vMaxBounds; // 0x000C
 };
 class C_INIT_RandomNamedModelSequence : public C_INIT_RandomNamedModelElement // particles
 {
@@ -10736,7 +10968,19 @@ class C_INIT_SetHitboxToModel : public CParticleFunctionInitializer // particles
 class CAnimGraphControllerManager // server
 {
 	CUtlVector< CAnimGraphControllerBase* > m_controllers; // 0x0000
-	bool m_bGraphBindingsCreated; // 0x00A8
+	bool m_bGraphBindingsCreated; // 0x0090
+};
+class CVsndTriggerSlot // soundsystem_voicecontainers
+{
+	bool m_bEnableVsnd; // 0x0000
+	CSoundContainerReference m_vsnd; // 0x0008
+	bool m_bEnableEndcap; // 0x0028
+	CSoundContainerReference m_endcapVsnd; // 0x0030
+	bool m_bEnableLoopcap; // 0x0050
+	CSoundContainerReference m_loopcapVsnd; // 0x0058
+	float32 m_volume; // 0x0078
+	float32 m_fadeOut; // 0x007C
+	EVsndTriggerMode m_mode; // 0x0080
 };
 class CMotionGraph // animgraphlib
 {
@@ -10822,15 +11066,15 @@ class CAnimReplayFrame // animgraphlib
 };
 class RsStencilStateDesc_t // rendersystemdx11
 {
+	bitfield:4 m_frontStencilFunc; // 0x0000
+	bitfield:4 m_backStencilFunc; // 0x0000
 	bitfield:1 m_bStencilEnable; // 0x0000
 	bitfield:3 m_frontStencilFailOp; // 0x0000
 	bitfield:3 m_frontStencilDepthFailOp; // 0x0000
 	bitfield:3 m_frontStencilPassOp; // 0x0000
-	bitfield:3 m_frontStencilFunc; // 0x0000
 	bitfield:3 m_backStencilFailOp; // 0x0000
 	bitfield:3 m_backStencilDepthFailOp; // 0x0000
 	bitfield:3 m_backStencilPassOp; // 0x0000
-	bitfield:3 m_backStencilFunc; // 0x0000
 	uint8 m_nStencilReadMask; // 0x0004
 	uint8 m_nStencilWriteMask; // 0x0005
 };
@@ -10847,6 +11091,12 @@ class PulseRuntimeEntrypointIndex_t // pulse_runtime_lib
 class CNmGraphNode::CDefinition // animlib
 {
 	int16 m_nNodeIdx; // 0x0008
+};
+class SndBeatEventKeyedMidiNotes_t : public SndBeatEventKeys_t // soundsystem
+{
+	uint8 m_nStatus; // 0x0010
+	uint8 m_nNote; // 0x0011
+	uint8 m_nVelocity; // 0x0012
 };
 class CNmEventConsumerLegacy : public CNmEventConsumer // server
 {
@@ -10870,11 +11120,12 @@ class ParticlePreviewState_t // particles
 	bool m_bAnimationNonLooping; // 0x0054
 	bool m_bSequenceNameIsAnimClipPath; // 0x0055
 	Vector m_vecPreviewGravity; // 0x0058
+	Vector m_vecPreviewWind; // 0x0064
 };
 class RnBodyDesc_t // physicslib
 {
 	CUtlString m_sDebugName; // 0x0000
-	Vector m_vPosition; // 0x0008
+	VectorWS m_vPosition; // 0x0008
 	QuaternionStorage m_qOrientation; // 0x0014
 	Vector m_vLinearVelocity; // 0x0024
 	Vector m_vAngularVelocity; // 0x0030
@@ -10951,11 +11202,10 @@ class C_OP_RenderFlattenGrass : public CParticleFunctionRenderer // particles
 class CSndSeqInstBaseSchema // soundsystem
 {
 	SndSeqInstrumentType_t m_nType; // 0x0008
-	SndSeqPlayerType_t m_nPlayerType; // 0x000C
-	bool m_bStopCurrentEvents; // 0x0012
-	float32 m_flBPM; // 0x0014
-	float32 m_flBPMFactor; // 0x0018
-	float32 m_flBPMInvFactor; // 0x001C
+	bool m_bStopCurrentEvents; // 0x000E
+	float32 m_flBPM; // 0x0010
+	float32 m_flBPMFactor; // 0x0014
+	float32 m_flBPMInvFactor; // 0x0018
 };
 class CompositeMaterialInputContainer_t // compositematerialslib
 {
@@ -11000,9 +11250,9 @@ class CSSDSMsg_LayerBase // scenesystem
 };
 class CVoiceContainerEnvelopeAnalyzer : public CVoiceContainerAnalysisBase // soundsystem_voicecontainers
 {
-	EMode_t m_mode; // 0x0050
-	float32 m_fAnalysisWindowMs; // 0x0054
-	float32 m_flThreshold; // 0x0058
+	EMode_t m_mode; // 0x0048
+	float32 m_fAnalysisWindowMs; // 0x004C
+	float32 m_flThreshold; // 0x0050
 };
 class CVMixFlangerProcessorDesc : public CVMixBaseProcessorDesc // soundsystem_lowlevel
 {
@@ -11054,6 +11304,10 @@ class CModelConfigElement_RandomPick : public CModelConfigElement // modellib
 	CUtlVector< CUtlString > m_Choices; // 0x0048
 	CUtlVector< float32 > m_ChoiceWeights; // 0x0060
 };
+class CNMEventPulseState_t // server
+{
+	CGlobalSymbol m_eventID; // 0x0000
+};
 class C_OP_RenderVolumetricEmitter : public CParticleFunctionRenderer // particles
 {
 	CUtlString m_strChannelType; // 0x0228
@@ -11062,12 +11316,15 @@ class C_OP_RenderVolumetricEmitter : public CParticleFunctionRenderer // particl
 	EventTypeSelection_t m_nEventType; // 0x0238
 	CPerParticleVecInput m_vecPos; // 0x0240
 	CPerParticleVecInput m_vecVelocity; // 0x08F8
-	CPerParticleFloatInput m_flRadius; // 0x0FB0
-	CPerParticleFloatInput m_flDensity; // 0x1120
-	CPerParticleFloatInput m_flTemperature; // 0x1290
-	CPerParticleFloatInput m_flMagnitude; // 0x1400
-	CPerParticleFloatInput m_flKillRadius; // 0x1570
-	CPerParticleFloatInput m_flFalloff; // 0x16E0
+	CPerParticleVecInput m_vPrevPosition; // 0x0FB0
+	CPerParticleFloatInput m_flSpeed; // 0x1668
+	CPerParticleFloatInput m_flRadius; // 0x17D8
+	CPerParticleFloatInput m_flDensity; // 0x1948
+	CPerParticleFloatInput m_flTemperature; // 0x1AB8
+	CPerParticleFloatInput m_flMagnitude; // 0x1C28
+	CPerParticleFloatInput m_flKillRadius; // 0x1D98
+	CPerParticleFloatInput m_flKillDensityScale; // 0x1F08
+	CPerParticleFloatInput m_flFalloff; // 0x2078
 };
 class C_OP_PercentageBetweenTransformsVector : public CParticleFunctionOperator // particles
 {
@@ -11217,6 +11474,12 @@ class CFlexDesc // modellib
 {
 	CUtlString m_szFacs; // 0x0000
 };
+class CNetworkOriginQuantizedVectorWS // server
+{
+	CNetworkedQuantizedFloat m_vecX; // 0x0010
+	CNetworkedQuantizedFloat m_vecY; // 0x0018
+	CNetworkedQuantizedFloat m_vecZ; // 0x0020
+};
 class C_INIT_RandomTrailLength : public CParticleFunctionInitializer // particles
 {
 	float32 m_flMinLength; // 0x01E0
@@ -11260,6 +11523,26 @@ class C_OP_RampScalarLinear : public CParticleFunctionOperator // particles
 	float32 m_flEndTime_max; // 0x01EC
 	ParticleAttributeIndex_t m_nField; // 0x0210
 	bool m_bProportionalOp; // 0x0214
+};
+class CVoiceContainerVsndRadioButton : public CVoiceContainerBase // soundsystem_voicecontainers
+{
+	CUtlString m_namespace; // 0x0070
+	CVsndRadioButtonSlot m_slot1; // 0x0078
+	CVsndRadioButtonSlot m_slot2; // 0x0100
+	CVsndRadioButtonSlot m_slot3; // 0x0188
+	CVsndRadioButtonSlot m_slot4; // 0x0210
+	CVsndRadioButtonSlot m_slot5; // 0x0298
+	CVsndRadioButtonSlot m_slot6; // 0x0320
+	CVsndRadioButtonSlot m_slot7; // 0x03A8
+	CVsndRadioButtonSlot m_slot8; // 0x0430
+	CVsndRadioButtonSlot m_slot9; // 0x04B8
+	CVsndRadioButtonSlot m_slot10; // 0x0540
+	CVsndRadioButtonSlot m_slot11; // 0x05C8
+	CVsndRadioButtonSlot m_slot12; // 0x0650
+	CVsndRadioButtonSlot m_slot13; // 0x06D8
+	CVsndRadioButtonSlot m_slot14; // 0x0760
+	CVsndRadioButtonSlot m_slot15; // 0x07E8
+	CVsndRadioButtonSlot m_slot16; // 0x0870
 };
 class CVMixEffectChainProcessorDesc : public CVMixBaseProcessorDesc // soundsystem_lowlevel
 {
@@ -11403,6 +11686,11 @@ class C_INIT_CreateSequentialPathV2 : public CParticleFunctionInitializer // par
 	bool m_bCPPairs; // 0x04C1
 	bool m_bSaveOffset; // 0x04C2
 	CPathParameters m_PathParams; // 0x04D0
+};
+class CNmFloatChannelSet_t // animlib
+{
+	CGlobalSymbol m_ID; // 0x0000
+	CUtlLeanVector< CGlobalSymbol > m_channelIDs; // 0x0008
 };
 class CAnimScriptBase // host
 {
@@ -11723,18 +12011,18 @@ class FeSDFRigid_t // physicslib
 };
 class CNmFootIKTask : public CNmPoseTask // animlib
 {
-	int32 m_nLeftEffectorBoneIdx; // 0x0048
-	int32 m_nRightEffectorBoneIdx; // 0x004C
-	CTransform m_leftTargetTransform; // 0x0050
-	CTransform m_rightTargetTransform; // 0x0070
-	int32 m_nLeftTargetBoneIdx; // 0x0090
-	int32 m_nRightTargetBoneIdx; // 0x0094
-	CNmTarget m_leftTarget; // 0x00A0
-	CNmTarget m_rightTarget; // 0x00D0
-	NmIKBlendMode_t m_blendMode; // 0x0100
-	float32 m_flBlendWeight; // 0x0104
-	bool m_bIsTargetInWorldSpace; // 0x0108
-	bool m_bIsRunningFromDeserializedData; // 0x0109
+	int32 m_nLeftEffectorBoneIdx; // 0x0070
+	int32 m_nRightEffectorBoneIdx; // 0x0074
+	CTransform m_leftTargetTransform; // 0x0080
+	CTransform m_rightTargetTransform; // 0x00A0
+	int32 m_nLeftTargetBoneIdx; // 0x00C0
+	int32 m_nRightTargetBoneIdx; // 0x00C4
+	CNmTarget m_leftTarget; // 0x00D0
+	CNmTarget m_rightTarget; // 0x0100
+	NmIKBlendMode_t m_blendMode; // 0x0130
+	float32 m_flBlendWeight; // 0x0134
+	bool m_bIsTargetInWorldSpace; // 0x0138
+	bool m_bIsRunningFromDeserializedData; // 0x0139
 };
 class PulseRuntimeConstantIndex_t // pulse_runtime_lib
 {
@@ -11822,15 +12110,6 @@ class CompMatMutatorCondition_t // compositematerialslib
 	CUtlString m_strMutatorConditionContainerVarName; // 0x0010
 	CUtlString m_strMutatorConditionContainerVarValue; // 0x0018
 	bool m_bPassWhenTrue; // 0x0020
-};
-class SceneOpportunityActor_t // server
-{
-	CHandle< CBaseModelEntity > m_hActor; // 0x0000
-	bool m_bDynamicActor; // 0x0004
-	bool m_bAnchor; // 0x0005
-	CUtlSymbolLarge m_strActorName; // 0x0008
-	CUtlSymbolLarge m_strEntityName; // 0x0010
-	SceneInterestTags_t m_InterestTags; // 0x0018
 };
 class C_OP_MaintainSequentialPath : public CParticleFunctionOperator // particles
 {
@@ -12109,6 +12388,9 @@ class PulseRuntimeInvokeIndex_t // pulse_runtime_lib
 {
 	int32 m_Value; // 0x0000
 };
+class EventBugBug_t // engine2
+{
+};
 class InfoForResourceTypeCNmSkeleton // resourcesystem
 {
 };
@@ -12224,6 +12506,11 @@ class EventClientProcessInput_t // engine2
 	float32 m_flTickInterval; // 0x002C
 	float64 m_flTickStartTime; // 0x0030
 };
+class ActorMapping_t // server
+{
+	CUtlString m_sActorName; // 0x0000
+	CHandle< CBaseEntity > m_hEntity; // 0x0008
+};
 class C_OP_Noise : public CParticleFunctionOperator // particles
 {
 	ParticleAttributeIndex_t m_nFieldOutput; // 0x01D8
@@ -12295,6 +12582,10 @@ class SceneObject_t // worldrenderer
 	CStrongHandle< InfoForResourceTypeCModel > m_renderableModel; // 0x0078
 	CStrongHandle< InfoForResourceTypeCRenderMesh > m_renderable; // 0x0080
 };
+class RnCompoundDesc_t : public RnShapeDesc_t // physicslib
+{
+	RnCompound_t m_Compound; // 0x0018
+};
 class MaterialParamVector_t : public MaterialParam_t // materialsystem2
 {
 	Vector4D m_value; // 0x0008
@@ -12307,8 +12598,8 @@ class CPlayerSprayDecalRenderHelper // client
 };
 class AI_DefaultNPC_DebugSnapshotData_t::PathQuery_t // server
 {
-	CGlobalSymbol m_sInitialQueryName; // 0x0000
-	CGlobalSymbol m_sCurrentQueryName; // 0x0008
+	CGlobalSymbol m_nInitialMovementId; // 0x0000
+	CGlobalSymbol m_nCurrentMovementId; // 0x0008
 	CGlobalSymbol m_nMode; // 0x0010
 	CGlobalSymbol m_nType; // 0x0018
 	CGlobalSymbol m_nState; // 0x0020
@@ -12403,7 +12694,7 @@ class SamplerVoice_t // soundsystem
 };
 class RnSphereDesc_t : public RnShapeDesc_t // physicslib
 {
-	SphereBase_t< float32 > m_Sphere; // 0x0018
+	RnSphere_t m_Sphere; // 0x0018
 };
 class CConstraintTarget // modellib
 {
@@ -12422,8 +12713,7 @@ class EntityIOQueuePrioritizedEvent_t // entity2
 	CUtlSymbolLarge m_pTargetInput; // 0x0018
 	CEntityHandle m_hActivator; // 0x0020
 	CEntityHandle m_hCaller; // 0x0024
-	int32 m_nOutputID; // 0x0028
-	CEntityHandle m_hEntTarget; // 0x002C
+	CEntityHandle m_hEntTarget; // 0x0028
 	CVariantBase< CVariantDefaultAllocator > m_variantValue; // 0x0030
 };
 class EventModInitialized_t // engine2
@@ -12455,6 +12745,8 @@ class C_OP_ClientPhysics : public CParticleFunctionRenderer // particles
 	int32 m_nForcedSimId; // 0x0528
 	ParticleColorBlendType_t m_nColorBlendType; // 0x052C
 	ParticleAttrBoxFlags_t m_nForcedStatusEffects; // 0x0530
+	ParticleAttributeIndex_t m_nNoCollisionAttribute; // 0x0534
+	ParticleAttributeIndex_t m_nZeroGravityAttribute; // 0x0538
 };
 class CNetworkVelocityVector // server
 {
@@ -12550,26 +12842,26 @@ class EventClientPreOutput_t // engine2
 };
 class C_OP_RenderTrails : public CBaseTrailRenderer // particles
 {
-	bool m_bEnableFadingAndClamping; // 0x30E8
-	float32 m_flStartFadeDot; // 0x30EC
-	float32 m_flEndFadeDot; // 0x30F0
-	ParticleAttributeIndex_t m_nPrevPntSource; // 0x30F4
-	float32 m_flMaxLength; // 0x30F8
-	float32 m_flMinLength; // 0x30FC
-	bool m_bIgnoreDT; // 0x3100
-	float32 m_flConstrainRadiusToLengthRatio; // 0x3104
-	float32 m_flLengthScale; // 0x3108
-	float32 m_flLengthFadeInTime; // 0x310C
-	CPerParticleFloatInput m_flRadiusHeadTaper; // 0x3110
-	CParticleCollectionVecInput m_vecHeadColorScale; // 0x3280
-	CPerParticleFloatInput m_flHeadAlphaScale; // 0x3938
-	CPerParticleFloatInput m_flRadiusTaper; // 0x3AA8
-	CParticleCollectionVecInput m_vecTailColorScale; // 0x3C18
-	CPerParticleFloatInput m_flTailAlphaScale; // 0x42D0
-	ParticleAttributeIndex_t m_nHorizCropField; // 0x4440
-	ParticleAttributeIndex_t m_nVertCropField; // 0x4444
-	float32 m_flForwardShift; // 0x4448
-	bool m_bFlipUVBasedOnPitchYaw; // 0x444C
+	bool m_bEnableFadingAndClamping; // 0x3258
+	float32 m_flStartFadeDot; // 0x325C
+	float32 m_flEndFadeDot; // 0x3260
+	ParticleAttributeIndex_t m_nPrevPntSource; // 0x3264
+	float32 m_flMaxLength; // 0x3268
+	float32 m_flMinLength; // 0x326C
+	bool m_bIgnoreDT; // 0x3270
+	float32 m_flConstrainRadiusToLengthRatio; // 0x3274
+	float32 m_flLengthScale; // 0x3278
+	float32 m_flLengthFadeInTime; // 0x327C
+	CPerParticleFloatInput m_flRadiusHeadTaper; // 0x3280
+	CParticleCollectionVecInput m_vecHeadColorScale; // 0x33F0
+	CPerParticleFloatInput m_flHeadAlphaScale; // 0x3AA8
+	CPerParticleFloatInput m_flRadiusTaper; // 0x3C18
+	CParticleCollectionVecInput m_vecTailColorScale; // 0x3D88
+	CPerParticleFloatInput m_flTailAlphaScale; // 0x4440
+	ParticleAttributeIndex_t m_nHorizCropField; // 0x45B0
+	ParticleAttributeIndex_t m_nVertCropField; // 0x45B4
+	float32 m_flForwardShift; // 0x45B8
+	bool m_bFlipUVBasedOnPitchYaw; // 0x45BC
 };
 class CVMixAutomaticControlInput // soundsystem_lowlevel
 {
@@ -12586,16 +12878,13 @@ class CNmClip // animlib
 	CUtlBinaryBlock m_compressedPoseData; // 0x0010
 	CUtlVector< NmCompressionSettings_t > m_trackCompressionSettings; // 0x0020
 	CUtlVector< uint32 > m_compressedPoseOffsets; // 0x0038
-	CUtlVector< CGlobalSymbol > m_floatCurveIDs; // 0x0050
-	CUtlVector< NmFloatCurveCompressionSettings_t > m_floatCurveDefs; // 0x0068
-	CUtlVector< uint16 > m_compressedFloatCurveData; // 0x0080
-	CUtlVector< uint32 > m_compressedFloatCurveOffsets; // 0x0098
-	CUtlVectorFixedGrowable< CNmClip*, 1 > m_secondaryAnimations; // 0x00D8
-	CNmSyncTrack m_syncTrack; // 0x00F8
-	CNmRootMotionData m_rootMotion; // 0x01B0
-	bool m_bIsAdditive; // 0x0200
-	CUtlVector< CNmClip::ModelSpaceSamplingChainLink_t > m_modelSpaceSamplingChain; // 0x0208
-	CUtlVector< int32 > m_modelSpaceBoneSamplingIndices; // 0x0220
+	CUtlVectorFixedGrowable< CNmClip*, 1 > m_secondaryAnimations; // 0x0078
+	CUtlVectorFixedGrowable< CNmFloatChannelData*, 2 > m_floatChannelData; // 0x0098
+	CNmSyncTrack m_syncTrack; // 0x00C0
+	CNmRootMotionData m_rootMotion; // 0x0170
+	bool m_bIsAdditive; // 0x01C0
+	CUtlVector< CNmClip::ModelSpaceSamplingChainLink_t > m_modelSpaceSamplingChain; // 0x01C8
+	CUtlVector< int32 > m_modelSpaceBoneSamplingIndices; // 0x01E0
 };
 class CBindPoseUpdateNode : public CLeafUpdateNode // animgraphlib
 {
@@ -12721,12 +13010,14 @@ class CodeGenAABB_t // server
 };
 class CInfoChoreoAnchorPosition // server
 {
-	Vector m_vOrigin; // 0x0000
-	QAngle m_qAngles; // 0x000C
-	Vector m_vExtentsMin; // 0x0018
-	Vector m_vExtentsMax; // 0x0024
-	float32 m_flRadius; // 0x0030
-	CInfoChoreoLocatorShapeType_t m_nShapeType; // 0x0034
+	Vector m_vOriginLS; // 0x0000
+	Quaternion m_qAnglesLS; // 0x0010
+	Vector m_vExtentsMin; // 0x0020
+	Vector m_vExtentsMax; // 0x002C
+	float32 m_flRadius; // 0x0038
+	bool m_bOnlyWarpPosition; // 0x003C
+	CHandle< CBaseEntity > m_hParent; // 0x0040
+	CInfoChoreoLocatorShapeType_t m_nShapeType; // 0x0044
 };
 class CSkillInt // server
 {
@@ -12741,10 +13032,8 @@ class AI_DefaultNPC_DebugSnapshotData_t : public DebugSnapshotBaseStructuredData
 	CGlobalSymbol s_npc_tactic_current; // 0x0010
 	CGlobalSymbol s_npc_tactic_phase; // 0x0018
 	CUtlVector< CGlobalSymbol > tactic_interrupt_conditions; // 0x0020
-	CUtlString s_npc_current_movement; // 0x0038
-	AI_DefaultNPC_DebugSnapshotData_t::PathQuery_t path_query_schedule; // 0x0040
-	AI_DefaultNPC_DebugSnapshotData_t::PathQuery_t path_query_tactic; // 0x0068
-	CUtlVector< AI_DefaultNPC_DebugSnapshotData_t::PathQuery_t > path_queries_speculative; // 0x0090
+	AI_DefaultNPC_DebugSnapshotData_t::PathQuery_t path_query; // 0x0038
+	CUtlVector< AI_DefaultNPC_DebugSnapshotData_t::PathQuery_t > path_queries_speculative; // 0x0060
 };
 class C_OP_CPVelocityForce : public CParticleFunctionForce // particles
 {
@@ -12935,11 +13224,6 @@ class CRagdollAnimTag : public CAnimTagBase // animgraphlib
 {
 	CGlobalSymbol m_profileName; // 0x0058
 };
-class AI_MotorGroundAnimgraph_DebugSnapshotData_t::Event_t // server
-{
-	CUtlString description; // 0x0000
-	VectorWS location; // 0x0008
-};
 class C_OP_RenderRopes : public CBaseRendererSource2 // particles
 {
 	bool m_bEnableFadingAndClamping; // 0x2DF0
@@ -12949,31 +13233,32 @@ class C_OP_RenderRopes : public CBaseRendererSource2 // particles
 	float32 m_flEndFadeSize; // 0x2E00
 	float32 m_flStartFadeDot; // 0x2E04
 	float32 m_flEndFadeDot; // 0x2E08
-	float32 m_flRadiusTaper; // 0x2E0C
-	int32 m_nMinTesselation; // 0x2E10
-	int32 m_nMaxTesselation; // 0x2E14
-	float32 m_flTessScale; // 0x2E18
-	CParticleCollectionRendererFloatInput m_flTextureVWorldSize; // 0x2E20
-	CParticleCollectionRendererFloatInput m_flTextureVScrollRate; // 0x2F90
-	CParticleCollectionRendererFloatInput m_flTextureVOffset; // 0x3100
-	int32 m_nTextureVParamsCP; // 0x3270
-	bool m_bClampV; // 0x3274
-	int32 m_nScaleCP1; // 0x3278
-	int32 m_nScaleCP2; // 0x327C
-	float32 m_flScaleVSizeByControlPointDistance; // 0x3280
-	float32 m_flScaleVScrollByControlPointDistance; // 0x3284
-	float32 m_flScaleVOffsetByControlPointDistance; // 0x3288
-	bool m_bUseScalarForTextureCoordinate; // 0x328D
-	ParticleAttributeIndex_t m_nScalarFieldForTextureCoordinate; // 0x3290
-	float32 m_flScalarAttributeTextureCoordScale; // 0x3294
-	bool m_bReverseOrder; // 0x3298
-	bool m_bClosedLoop; // 0x3299
-	ParticleAttributeIndex_t m_nSplitField; // 0x329C
-	bool m_bSortBySegmentID; // 0x32A0
-	ParticleOrientationChoiceList_t m_nOrientationType; // 0x32A4
-	ParticleAttributeIndex_t m_nVectorFieldForOrientation; // 0x32A8
-	bool m_bDrawAsOpaque; // 0x32AC
-	bool m_bGenerateNormals; // 0x32AD
+	CParticleCollectionRendererFloatInput m_flSubPixelAAScale; // 0x2E10
+	float32 m_flRadiusTaper; // 0x2F80
+	int32 m_nMinTesselation; // 0x2F84
+	int32 m_nMaxTesselation; // 0x2F88
+	float32 m_flTessScale; // 0x2F8C
+	CParticleCollectionRendererFloatInput m_flTextureVWorldSize; // 0x2F90
+	CParticleCollectionRendererFloatInput m_flTextureVScrollRate; // 0x3100
+	CParticleCollectionRendererFloatInput m_flTextureVOffset; // 0x3270
+	int32 m_nTextureVParamsCP; // 0x33E0
+	bool m_bClampV; // 0x33E4
+	int32 m_nScaleCP1; // 0x33E8
+	int32 m_nScaleCP2; // 0x33EC
+	float32 m_flScaleVSizeByControlPointDistance; // 0x33F0
+	float32 m_flScaleVScrollByControlPointDistance; // 0x33F4
+	float32 m_flScaleVOffsetByControlPointDistance; // 0x33F8
+	bool m_bUseScalarForTextureCoordinate; // 0x33FD
+	ParticleAttributeIndex_t m_nScalarFieldForTextureCoordinate; // 0x3400
+	float32 m_flScalarAttributeTextureCoordScale; // 0x3404
+	bool m_bReverseOrder; // 0x3408
+	bool m_bClosedLoop; // 0x3409
+	ParticleAttributeIndex_t m_nSplitField; // 0x340C
+	bool m_bSortBySegmentID; // 0x3410
+	ParticleOrientationChoiceList_t m_nOrientationType; // 0x3414
+	ParticleAttributeIndex_t m_nVectorFieldForOrientation; // 0x3418
+	bool m_bDrawAsOpaque; // 0x341C
+	bool m_bGenerateNormals; // 0x341D
 };
 class CParticleVisibilityInputs // particles
 {
@@ -13032,8 +13317,8 @@ class DynamicVolumeDef_t // server
 	CHandle< CBaseEntity > m_source; // 0x0000
 	CHandle< CBaseEntity > m_target; // 0x0004
 	int32 m_nHullIdx; // 0x0008
-	Vector m_vSourceAnchorPos; // 0x000C
-	Vector m_vTargetAnchorPos; // 0x0018
+	VectorWS m_vSourceAnchorPos; // 0x000C
+	VectorWS m_vTargetAnchorPos; // 0x0018
 	uint32 m_nAreaSrc; // 0x0024
 	uint32 m_nAreaDst; // 0x0028
 	bool m_bAttached; // 0x002C
@@ -13056,9 +13341,9 @@ class CSteamAudioProbeLineSegment // steamaudio
 };
 class CVoiceContainerBlender : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CSoundContainerReference m_firstSound; // 0x00A8
-	CSoundContainerReference m_secondSound; // 0x00C8
-	float32 m_flBlendFactor; // 0x00E8
+	CSoundContainerReference m_firstSound; // 0x0070
+	CSoundContainerReference m_secondSound; // 0x0090
+	float32 m_flBlendFactor; // 0x00B0
 };
 class CSosGroupActionSoundeventClusterSchema : public CSosGroupActionSchema // soundsystem
 {
@@ -13077,9 +13362,9 @@ class CVMixCurveHeader // soundsystem_lowlevel
 };
 class CVoiceContainerEnum : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CSoundContainerReferenceArray m_soundsToPlay; // 0x00A8
-	int32 m_iSelection; // 0x00E0
-	float32 m_flCrossfadeTime; // 0x00E4
+	CSoundContainerReferenceArray m_soundsToPlay; // 0x0070
+	int32 m_iSelection; // 0x00A8
+	float32 m_flCrossfadeTime; // 0x00AC
 };
 class CNmIsTargetSetNode::CDefinition : public CNmBoolValueNode::CDefinition // animlib
 {
@@ -13226,8 +13511,8 @@ class CEntityIdentity // entity2
 };
 class CPulseCell_WaitForCursorsWithTag : public CPulseCell_WaitForCursorsWithTagBase // pulse_runtime_lib
 {
-	bool m_bTagSelfWhenComplete; // 0x0098
-	PulseCursorCancelPriority_t m_nDesiredKillPriority; // 0x009C
+	bool m_bTagSelfWhenComplete; // 0x0128
+	PulseCursorCancelPriority_t m_nDesiredKillPriority; // 0x012C
 };
 class CPulseCell_Base // pulse_runtime_lib
 {
@@ -13246,8 +13531,8 @@ class CParticleBindingRealPulse : public CParticleCollectionBindingInstance // p
 };
 class CPulseCell_WaitForObservable : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	PulseObservableBoolExpression_t m_Condition; // 0x0048
-	CPulse_ResumePoint m_OnTrue; // 0x00C0
+	CPulseObservableExpression< bool > m_Condition; // 0x00D8
+	CPulse_ResumePoint m_OnTrue; // 0x0150
 };
 class CPulse_OutflowConnection // pulse_runtime_lib
 {
@@ -13275,10 +13560,9 @@ class CPulseGraphDef // pulse_runtime_lib
 };
 class CPulseCell_FireCursors : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CUtlVector< CPulse_OutflowConnection > m_Outflows; // 0x0048
-	bool m_bWaitForChildOutflows; // 0x0060
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlVector< CPulse_OutflowConnection > m_Outflows; // 0x00D8
+	bool m_bWaitForChildOutflows; // 0x00F0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class CPulseCell_Timeline::TimelineEvent_t // pulse_runtime_lib
 {
@@ -13338,8 +13622,8 @@ class CPulseCell_Inflow_BaseEntrypoint : public CPulseCell_BaseFlow // pulse_run
 };
 class CPulseCell_WaitForCursorsWithTagBase : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	int32 m_nCursorsAllowedToWait; // 0x0048
-	CPulse_ResumePoint m_WaitComplete; // 0x0050
+	int32 m_nCursorsAllowedToWait; // 0x00D8
+	CPulse_ResumePoint m_WaitComplete; // 0x00E0
 };
 class CPulse_InvokeBinding // pulse_runtime_lib
 {
@@ -13351,15 +13635,15 @@ class CPulse_InvokeBinding // pulse_runtime_lib
 };
 class CPulseCell_IntervalTimer : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_Completed; // 0x0048
-	SignatureOutflow_Continue m_OnInterval; // 0x0090
+	CPulse_ResumePoint m_Completed; // 0x00D8
+	SignatureOutflow_Continue m_OnInterval; // 0x0120
 };
 class CPulseTestScriptLib // pulse_runtime_lib
 {
 };
 class CPulseCell_BaseLerp : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_WakeResume; // 0x0048
+	CPulse_ResumePoint m_WakeResume; // 0x00D8
 };
 class CPulseCell_Value_Curve : public CPulseCell_BaseValue // pulse_runtime_lib
 {
@@ -13382,10 +13666,6 @@ class CPulseCell_BaseLerp::CursorState_t // pulse_runtime_lib
 	GameTime_t m_StartTime; // 0x0000
 	GameTime_t m_EndTime; // 0x0004
 };
-class CPulseCell_WaitForCursorsWithTagBase::CursorState_t // pulse_runtime_lib
-{
-	PulseSymbol_t m_TagName; // 0x0000
-};
 class CPulseArraylib // pulse_runtime_lib
 {
 };
@@ -13394,10 +13674,9 @@ class SignatureOutflow_Continue : public CPulse_OutflowConnection // pulse_runti
 };
 class CPulseCell_Timeline : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CUtlVector< CPulseCell_Timeline::TimelineEvent_t > m_TimelineEvents; // 0x0048
-	bool m_bWaitForChildOutflows; // 0x0060
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlVector< CPulseCell_Timeline::TimelineEvent_t > m_TimelineEvents; // 0x00D8
+	bool m_bWaitForChildOutflows; // 0x00F0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class CPulseCell_Inflow_EntOutputHandler : public CPulseCell_Inflow_BaseEntrypoint // pulse_runtime_lib
 {
@@ -13421,6 +13700,8 @@ class CPulseCell_Step_DebugLog : public CPulseCell_BaseFlow // pulse_runtime_lib
 };
 class CPulseCell_BaseYieldingInflow : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
+	CPulse_ResumePoint m_BaseFlow_OnAfterCancel; // 0x0048
+	CPulse_ResumePoint m_BaseFlow_WhileActive; // 0x0090
 };
 class PulseNodeDynamicOutflows_t // pulse_runtime_lib
 {
@@ -13445,7 +13726,7 @@ class PulseSelectorOutflowList_t // pulse_runtime_lib
 };
 class CPulseCell_Inflow_Wait : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_WakeResume; // 0x0048
+	CPulse_ResumePoint m_WakeResume; // 0x00D8
 };
 class CPulseCell_Outflow_CycleShuffled : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
@@ -13464,14 +13745,13 @@ class CPulseCell_BaseValue : public CPulseCell_Base // pulse_runtime_lib
 };
 class CPulseCell_BooleanSwitchState : public CPulseCell_BaseState // pulse_runtime_lib
 {
-	PulseObservableBoolExpression_t m_Condition; // 0x0048
-	CPulse_OutflowConnection m_Always; // 0x00C0
-	CPulse_OutflowConnection m_WhenTrue; // 0x0108
-	CPulse_OutflowConnection m_WhenFalse; // 0x0150
+	CPulseObservableExpression< bool > m_Condition; // 0x00D8
+	CPulse_OutflowConnection m_WhenTrue; // 0x0150
+	CPulse_OutflowConnection m_WhenFalse; // 0x0198
 };
 class CPulseCell_Inflow_Yield : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_UnyieldResume; // 0x0048
+	CPulse_ResumePoint m_UnyieldResume; // 0x00D8
 };
 class CPulseMathlib // pulse_runtime_lib
 {
@@ -13479,6 +13759,9 @@ class CPulseMathlib // pulse_runtime_lib
 class CPulseCell_Unknown : public CPulseCell_Base // pulse_runtime_lib
 {
 	KeyValues3 m_UnknownKeys; // 0x0048
+};
+class CPulseStringlib // pulse_runtime_lib
+{
 };
 class CPulseCell_Outflow_CycleRandom : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
@@ -13512,6 +13795,9 @@ class CAnimationLayer // animgraphlib
 	float32 m_flKillDelay; // 0x0044
 	int32 m_nPriority; // 0x0048
 };
+class CPulseEnumlib // pulse_runtime_lib
+{
+};
 class CPulse_CallInfo // pulse_runtime_lib
 {
 	PulseSymbol_t m_PortName; // 0x0000
@@ -13534,17 +13820,11 @@ class CPulseCell_LimitCount : public CPulseCell_BaseRequirement // pulse_runtime
 };
 class CPulseCell_Step_CallExternalMethod : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	PulseSymbol_t m_MethodName; // 0x0048
-	PulseRuntimeBlackboardReferenceIndex_t m_nBlackboardIndex; // 0x0058
-	CUtlLeanVector< CPulseRuntimeMethodArg > m_ExpectedArgs; // 0x0060
-	PulseMethodCallMode_t m_nAsyncCallMode; // 0x0070
-	CPulse_ResumePoint m_OnFinished; // 0x0078
-};
-class PulseObservableBoolExpression_t // pulse_runtime_lib
-{
-	CPulse_OutflowConnection m_EvaluateConnection; // 0x0000
-	CUtlVector< PulseRuntimeVarIndex_t > m_DependentObservableVars; // 0x0048
-	CUtlVector< PulseRuntimeBlackboardReferenceIndex_t > m_DependentObservableBlackboardReferences; // 0x0060
+	PulseSymbol_t m_MethodName; // 0x00D8
+	PulseRuntimeBlackboardReferenceIndex_t m_nBlackboardIndex; // 0x00E8
+	CUtlLeanVector< CPulseRuntimeMethodArg > m_ExpectedArgs; // 0x00F0
+	PulseMethodCallMode_t m_nAsyncCallMode; // 0x0100
+	CPulse_ResumePoint m_OnFinished; // 0x0108
 };
 class CPulseCell_LimitCount::Criteria_t // pulse_runtime_lib
 {
@@ -13552,7 +13832,7 @@ class CPulseCell_LimitCount::Criteria_t // pulse_runtime_lib
 };
 class CPulseCell_CursorQueue : public CPulseCell_WaitForCursorsWithTagBase // pulse_runtime_lib
 {
-	int32 m_nCursorsAllowedToRunParallel; // 0x0098
+	int32 m_nCursorsAllowedToRunParallel; // 0x0128
 };
 class CPulseCell_Value_RandomFloat : public CPulseCell_BaseValue // pulse_runtime_lib
 {
@@ -13593,8 +13873,8 @@ class CPulseCell_Step_TestDomainDestroyFakeEntity : public CPulseCell_BaseFlow /
 };
 class CPulseCell_WaitForCursorsWithTag : public CPulseCell_WaitForCursorsWithTagBase // pulse_runtime_lib
 {
-	bool m_bTagSelfWhenComplete; // 0x0098
-	PulseCursorCancelPriority_t m_nDesiredKillPriority; // 0x009C
+	bool m_bTagSelfWhenComplete; // 0x0128
+	PulseCursorCancelPriority_t m_nDesiredKillPriority; // 0x012C
 };
 class CPulseCell_Test_NoInflow : public CPulseCell_BaseFlow // pulse_system
 {
@@ -13624,8 +13904,8 @@ class CPulseTestFuncs_LibraryA // pulse_system
 };
 class CPulseCell_WaitForObservable : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	PulseObservableBoolExpression_t m_Condition; // 0x0048
-	CPulse_ResumePoint m_OnTrue; // 0x00C0
+	CPulseObservableExpression< bool > m_Condition; // 0x00D8
+	CPulse_ResumePoint m_OnTrue; // 0x0150
 };
 class CPulse_OutflowConnection // pulse_runtime_lib
 {
@@ -13651,15 +13931,21 @@ class CPulseGraphDef // pulse_runtime_lib
 	CUtlVector< CPulse_BlackboardReference > m_BlackboardReferences; // 0x0110
 	CUtlVector< CPulse_OutputConnection* > m_OutputConnections; // 0x0128
 };
+class CPulseCell_TestYieldForever : public CPulseCell_BaseYieldingInflow // pulse_system
+{
+};
 class CPulseGraphInstance_TestDomain_UseReadOnlyBlackboardView : public CPulseGraphInstance_TestDomain // pulse_system
 {
 };
+class CPulseCell_TestWaitWithCursorState::InstanceState_t // pulse_system
+{
+	int32 m_nDummy; // 0x0000
+};
 class CPulseCell_FireCursors : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CUtlVector< CPulse_OutflowConnection > m_Outflows; // 0x0048
-	bool m_bWaitForChildOutflows; // 0x0060
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlVector< CPulse_OutflowConnection > m_Outflows; // 0x00D8
+	bool m_bWaitForChildOutflows; // 0x00F0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class CPulseCell_Timeline::TimelineEvent_t // pulse_runtime_lib
 {
@@ -13693,6 +13979,11 @@ class CPulseCell_IsRequirementValid : public CPulseCell_BaseRequirement // pulse
 class CPulseCell_Value_Gradient : public CPulseCell_BaseValue // pulse_runtime_lib
 {
 	CColorGradient m_Gradient; // 0x0048
+};
+class CPulseCell_TestWaitWithAutoTracepoints : public CPulseCell_BaseYieldingInflow // pulse_system
+{
+	CUtlString m_TracePrefix; // 0x00D8
+	CPulse_ResumePoint m_WakeResume; // 0x00E0
 };
 class CPulseCursorFuncs // pulse_runtime_lib
 {
@@ -13731,7 +14022,10 @@ class CPulseTurtleGraphicsCursor : public CPulseExecCursor // pulse_system
 class CPulseCell_TestWaitWithCursorState::CursorState_t // pulse_system
 {
 	float32 flWaitValue; // 0x0000
-	bool bFailOnCancel; // 0x0004
+	bool bFail; // 0x0004
+	HYieldedCursor m_hSelfCursor; // 0x0008
+	HPulseCellBase m_hSelfCellInstanceUntyped; // 0x0014
+	HPulseCell< CPulseCell_TestWaitWithCursorState > m_hSelfCellInstance; // 0x001C
 };
 class CPulseCell_Inflow_BaseEntrypoint : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
@@ -13743,8 +14037,8 @@ class CPulseCell_Test_MultiInflow_NoDefault : public CPulseCell_BaseFlow // puls
 };
 class CPulseCell_WaitForCursorsWithTagBase : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	int32 m_nCursorsAllowedToWait; // 0x0048
-	CPulse_ResumePoint m_WaitComplete; // 0x0050
+	int32 m_nCursorsAllowedToWait; // 0x00D8
+	CPulse_ResumePoint m_WaitComplete; // 0x00E0
 };
 class CPulse_InvokeBinding // pulse_runtime_lib
 {
@@ -13756,26 +14050,26 @@ class CPulse_InvokeBinding // pulse_runtime_lib
 };
 class CPulseCell_IntervalTimer : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_Completed; // 0x0048
-	SignatureOutflow_Continue m_OnInterval; // 0x0090
+	CPulse_ResumePoint m_Completed; // 0x00D8
+	SignatureOutflow_Continue m_OnInterval; // 0x0120
 };
 class CPulseTestScriptLib // pulse_runtime_lib
 {
 };
 class CPulseCell_BaseLerp : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_WakeResume; // 0x0048
+	CPulse_ResumePoint m_WakeResume; // 0x00D8
 };
 class CPulseCell_Value_TestValue50 : public CPulseCell_BaseValue // pulse_system
 {
 };
 class CPulseCell_Test_MultiOutflow_WithParams_Yielding : public CPulseCell_BaseYieldingInflow // pulse_system
 {
-	SignatureOutflow_Continue m_Out1; // 0x0048
-	SignatureOutflow_Continue m_AsyncChild1; // 0x0090
-	SignatureOutflow_Continue m_AsyncChild2; // 0x00D8
-	SignatureOutflow_Resume m_YieldResume1; // 0x0120
-	SignatureOutflow_Resume m_YieldResume2; // 0x0168
+	SignatureOutflow_Continue m_Out1; // 0x00D8
+	SignatureOutflow_Continue m_AsyncChild1; // 0x0120
+	SignatureOutflow_Continue m_AsyncChild2; // 0x0168
+	SignatureOutflow_Resume m_YieldResume1; // 0x01B0
+	SignatureOutflow_Resume m_YieldResume2; // 0x01F8
 };
 class TestComponent_tAPI // pulse_system
 {
@@ -13806,36 +14100,31 @@ class CPulseCell_BaseLerp::CursorState_t // pulse_runtime_lib
 };
 class CPulseGraphInstance_TestDomain_Derived : public CPulseGraphInstance_TestDomain // pulse_system
 {
-	int32 m_nInstanceValueX; // 0x0160
-};
-class CPulseCell_WaitForCursorsWithTagBase::CursorState_t // pulse_runtime_lib
-{
-	PulseSymbol_t m_TagName; // 0x0000
+	int32 m_nInstanceValueX; // 0x0158
 };
 class CPulseArraylib // pulse_runtime_lib
 {
 };
 class CPulseGraphInstance_TestDomain : public CBasePulseGraphInstance // pulse_system
 {
-	bool m_bIsRunningUnitTests; // 0x0130
-	bool m_bExplicitTimeStepping; // 0x0131
-	bool m_bExpectingToDestroyWithYieldedCursors; // 0x0132
-	bool m_bQuietTracepoints; // 0x0133
-	bool m_bExpectingCursorTerminatedDueToMaxInstructions; // 0x0134
-	int32 m_nCursorsTerminatedDueToMaxInstructions; // 0x0138
-	int32 m_nNextValidateIndex; // 0x013C
-	CUtlVector< CUtlString > m_Tracepoints; // 0x0140
-	bool m_bTestYesOrNoPath; // 0x0158
+	bool m_bIsRunningUnitTests; // 0x0128
+	bool m_bExplicitTimeStepping; // 0x0129
+	bool m_bExpectingToDestroyWithYieldedCursors; // 0x012A
+	bool m_bQuietTracepoints; // 0x012B
+	bool m_bExpectingCursorTerminatedDueToMaxInstructions; // 0x012C
+	int32 m_nCursorsTerminatedDueToMaxInstructions; // 0x0130
+	int32 m_nNextValidateIndex; // 0x0134
+	CUtlVector< CUtlString > m_Tracepoints; // 0x0138
+	bool m_bTestYesOrNoPath; // 0x0150
 };
 class SignatureOutflow_Continue : public CPulse_OutflowConnection // pulse_runtime_lib
 {
 };
 class CPulseCell_Timeline : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CUtlVector< CPulseCell_Timeline::TimelineEvent_t > m_TimelineEvents; // 0x0048
-	bool m_bWaitForChildOutflows; // 0x0060
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlVector< CPulseCell_Timeline::TimelineEvent_t > m_TimelineEvents; // 0x00D8
+	bool m_bWaitForChildOutflows; // 0x00F0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class CPulseCell_Inflow_EntOutputHandler : public CPulseCell_Inflow_BaseEntrypoint // pulse_runtime_lib
 {
@@ -13872,6 +14161,8 @@ class CPulseCell_Step_DebugLog : public CPulseCell_BaseFlow // pulse_runtime_lib
 };
 class CPulseCell_BaseYieldingInflow : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
+	CPulse_ResumePoint m_BaseFlow_OnAfterCancel; // 0x0048
+	CPulse_ResumePoint m_BaseFlow_WhileActive; // 0x0090
 };
 class PulseNodeDynamicOutflows_t // pulse_runtime_lib
 {
@@ -13902,13 +14193,12 @@ class CPulseCell_Val_TestDomainGetEntityName : public CPulseCell_BaseValue // pu
 };
 class CPulseCell_Inflow_Wait : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_WakeResume; // 0x0048
+	CPulse_ResumePoint m_WakeResume; // 0x00D8
 };
 class CPulseCell_TestWaitWithCursorState : public CPulseCell_BaseYieldingInflow // pulse_system
 {
-	CPulse_ResumePoint m_WakeResume; // 0x0048
-	CPulse_ResumePoint m_WakeCancel; // 0x0090
-	CPulse_ResumePoint m_WakeFail; // 0x00D8
+	CPulse_ResumePoint m_WakeResume; // 0x00D8
+	CPulse_ResumePoint m_WakeFail; // 0x0120
 };
 class CPulseCell_Outflow_CycleShuffled : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
@@ -13927,17 +14217,16 @@ class CPulseCell_BaseValue : public CPulseCell_Base // pulse_runtime_lib
 };
 class CPulseCell_BooleanSwitchState : public CPulseCell_BaseState // pulse_runtime_lib
 {
-	PulseObservableBoolExpression_t m_Condition; // 0x0048
-	CPulse_OutflowConnection m_Always; // 0x00C0
-	CPulse_OutflowConnection m_WhenTrue; // 0x0108
-	CPulse_OutflowConnection m_WhenFalse; // 0x0150
+	CPulseObservableExpression< bool > m_Condition; // 0x00D8
+	CPulse_OutflowConnection m_WhenTrue; // 0x0150
+	CPulse_OutflowConnection m_WhenFalse; // 0x0198
 };
 class FakeEntityDerivedB_tAPI // pulse_system
 {
 };
 class CPulseCell_Inflow_Yield : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_UnyieldResume; // 0x0048
+	CPulse_ResumePoint m_UnyieldResume; // 0x00D8
 };
 class CPulseMathlib // pulse_runtime_lib
 {
@@ -13945,6 +14234,9 @@ class CPulseMathlib // pulse_runtime_lib
 class CPulseCell_Unknown : public CPulseCell_Base // pulse_runtime_lib
 {
 	KeyValues3 m_UnknownKeys; // 0x0048
+};
+class CPulseStringlib // pulse_runtime_lib
+{
 };
 class CPulseCell_Outflow_CycleRandom : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
@@ -13967,9 +14259,17 @@ class CPulse_BlackboardReference // pulse_runtime_lib
 class CPulseCell_Value_RandomInt : public CPulseCell_BaseValue // pulse_runtime_lib
 {
 };
+class CPulseCell_TestEnums : public CPulseCell_BaseValue // pulse_system
+{
+	PulseTestEnumColor_t m_nReferenceColor; // 0x0048
+	PulseTestEnumFlags_t m_nReferenceFlags; // 0x004C
+};
 class CPulseCell_Step_TestDomainEntFire : public CPulseCell_BaseFlow // pulse_system
 {
 	CUtlString m_Input; // 0x0048
+};
+class CPulseEnumlib // pulse_runtime_lib
+{
 };
 class FakeEntityDerivedA_tAPI // pulse_system
 {
@@ -14009,17 +14309,11 @@ class CPulseCell_LimitCount : public CPulseCell_BaseRequirement // pulse_runtime
 };
 class CPulseCell_Step_CallExternalMethod : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	PulseSymbol_t m_MethodName; // 0x0048
-	PulseRuntimeBlackboardReferenceIndex_t m_nBlackboardIndex; // 0x0058
-	CUtlLeanVector< CPulseRuntimeMethodArg > m_ExpectedArgs; // 0x0060
-	PulseMethodCallMode_t m_nAsyncCallMode; // 0x0070
-	CPulse_ResumePoint m_OnFinished; // 0x0078
-};
-class PulseObservableBoolExpression_t // pulse_runtime_lib
-{
-	CPulse_OutflowConnection m_EvaluateConnection; // 0x0000
-	CUtlVector< PulseRuntimeVarIndex_t > m_DependentObservableVars; // 0x0048
-	CUtlVector< PulseRuntimeBlackboardReferenceIndex_t > m_DependentObservableBlackboardReferences; // 0x0060
+	PulseSymbol_t m_MethodName; // 0x00D8
+	PulseRuntimeBlackboardReferenceIndex_t m_nBlackboardIndex; // 0x00E8
+	CUtlLeanVector< CPulseRuntimeMethodArg > m_ExpectedArgs; // 0x00F0
+	PulseMethodCallMode_t m_nAsyncCallMode; // 0x0100
+	CPulse_ResumePoint m_OnFinished; // 0x0108
 };
 class CPulseCell_LimitCount::Criteria_t // pulse_runtime_lib
 {
@@ -14028,9 +14322,17 @@ class CPulseCell_LimitCount::Criteria_t // pulse_runtime_lib
 class CPulseCell_Step_TestDomainCreateFakeEntity : public CPulseCell_BaseFlow // pulse_system
 {
 };
+class CPulseCell_TestYieldWithObservables : public CPulseCell_BaseYieldingInflow // pulse_system
+{
+	float32 m_flWatchForFloatValue; // 0x00D8
+	CPulseObservableExpression< float32 > m_LiveFloatValue; // 0x00E0
+	CUtlString m_WatchForStringValue; // 0x0158
+	CPulseObservableExpression< CUtlString > m_LiveStringValue; // 0x0160
+	CPulse_ResumePoint m_WakeResume; // 0x01D8
+};
 class CPulseCell_CursorQueue : public CPulseCell_WaitForCursorsWithTagBase // pulse_runtime_lib
 {
-	int32 m_nCursorsAllowedToRunParallel; // 0x0098
+	int32 m_nCursorsAllowedToRunParallel; // 0x0128
 };
 class CPulseCell_Value_RandomFloat : public CPulseCell_BaseValue // pulse_runtime_lib
 {
@@ -14040,8 +14342,8 @@ class CPulseExecCursor // pulse_runtime_lib
 };
 class CPulseCell_WaitForCursorsWithTag : public CPulseCell_WaitForCursorsWithTagBase // pulse_runtime_lib
 {
-	bool m_bTagSelfWhenComplete; // 0x0098
-	PulseCursorCancelPriority_t m_nDesiredKillPriority; // 0x009C
+	bool m_bTagSelfWhenComplete; // 0x0128
+	PulseCursorCancelPriority_t m_nDesiredKillPriority; // 0x012C
 };
 class CPulseCell_Base // pulse_runtime_lib
 {
@@ -14060,8 +14362,8 @@ class CParticleBindingRealPulse : public CParticleCollectionBindingInstance // p
 };
 class CPulseCell_WaitForObservable : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	PulseObservableBoolExpression_t m_Condition; // 0x0048
-	CPulse_ResumePoint m_OnTrue; // 0x00C0
+	CPulseObservableExpression< bool > m_Condition; // 0x00D8
+	CPulse_ResumePoint m_OnTrue; // 0x0150
 };
 class CPulse_OutflowConnection // pulse_runtime_lib
 {
@@ -14089,10 +14391,9 @@ class CPulseGraphDef // pulse_runtime_lib
 };
 class CPulseCell_FireCursors : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CUtlVector< CPulse_OutflowConnection > m_Outflows; // 0x0048
-	bool m_bWaitForChildOutflows; // 0x0060
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlVector< CPulse_OutflowConnection > m_Outflows; // 0x00D8
+	bool m_bWaitForChildOutflows; // 0x00F0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class CPulseCell_Timeline::TimelineEvent_t // pulse_runtime_lib
 {
@@ -14152,8 +14453,8 @@ class CPulseCell_Inflow_BaseEntrypoint : public CPulseCell_BaseFlow // pulse_run
 };
 class CPulseCell_WaitForCursorsWithTagBase : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	int32 m_nCursorsAllowedToWait; // 0x0048
-	CPulse_ResumePoint m_WaitComplete; // 0x0050
+	int32 m_nCursorsAllowedToWait; // 0x00D8
+	CPulse_ResumePoint m_WaitComplete; // 0x00E0
 };
 class CPulse_InvokeBinding // pulse_runtime_lib
 {
@@ -14165,15 +14466,15 @@ class CPulse_InvokeBinding // pulse_runtime_lib
 };
 class CPulseCell_IntervalTimer : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_Completed; // 0x0048
-	SignatureOutflow_Continue m_OnInterval; // 0x0090
+	CPulse_ResumePoint m_Completed; // 0x00D8
+	SignatureOutflow_Continue m_OnInterval; // 0x0120
 };
 class CPulseTestScriptLib // pulse_runtime_lib
 {
 };
 class CPulseCell_BaseLerp : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_WakeResume; // 0x0048
+	CPulse_ResumePoint m_WakeResume; // 0x00D8
 };
 class CPulseCell_Value_Curve : public CPulseCell_BaseValue // pulse_runtime_lib
 {
@@ -14196,10 +14497,6 @@ class CPulseCell_BaseLerp::CursorState_t // pulse_runtime_lib
 	GameTime_t m_StartTime; // 0x0000
 	GameTime_t m_EndTime; // 0x0004
 };
-class CPulseCell_WaitForCursorsWithTagBase::CursorState_t // pulse_runtime_lib
-{
-	PulseSymbol_t m_TagName; // 0x0000
-};
 class CPulseArraylib // pulse_runtime_lib
 {
 };
@@ -14208,10 +14505,9 @@ class SignatureOutflow_Continue : public CPulse_OutflowConnection // pulse_runti
 };
 class CPulseCell_Timeline : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CUtlVector< CPulseCell_Timeline::TimelineEvent_t > m_TimelineEvents; // 0x0048
-	bool m_bWaitForChildOutflows; // 0x0060
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlVector< CPulseCell_Timeline::TimelineEvent_t > m_TimelineEvents; // 0x00D8
+	bool m_bWaitForChildOutflows; // 0x00F0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class CPulseCell_Inflow_EntOutputHandler : public CPulseCell_Inflow_BaseEntrypoint // pulse_runtime_lib
 {
@@ -14235,6 +14531,8 @@ class CPulseCell_Step_DebugLog : public CPulseCell_BaseFlow // pulse_runtime_lib
 };
 class CPulseCell_BaseYieldingInflow : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
+	CPulse_ResumePoint m_BaseFlow_OnAfterCancel; // 0x0048
+	CPulse_ResumePoint m_BaseFlow_WhileActive; // 0x0090
 };
 class PulseNodeDynamicOutflows_t // pulse_runtime_lib
 {
@@ -14259,7 +14557,7 @@ class PulseSelectorOutflowList_t // pulse_runtime_lib
 };
 class CPulseCell_Inflow_Wait : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_WakeResume; // 0x0048
+	CPulse_ResumePoint m_WakeResume; // 0x00D8
 };
 class CPulseCell_Outflow_CycleShuffled : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
@@ -14278,14 +14576,13 @@ class CPulseCell_BaseValue : public CPulseCell_Base // pulse_runtime_lib
 };
 class CPulseCell_BooleanSwitchState : public CPulseCell_BaseState // pulse_runtime_lib
 {
-	PulseObservableBoolExpression_t m_Condition; // 0x0048
-	CPulse_OutflowConnection m_Always; // 0x00C0
-	CPulse_OutflowConnection m_WhenTrue; // 0x0108
-	CPulse_OutflowConnection m_WhenFalse; // 0x0150
+	CPulseObservableExpression< bool > m_Condition; // 0x00D8
+	CPulse_OutflowConnection m_WhenTrue; // 0x0150
+	CPulse_OutflowConnection m_WhenFalse; // 0x0198
 };
 class CPulseCell_Inflow_Yield : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_UnyieldResume; // 0x0048
+	CPulse_ResumePoint m_UnyieldResume; // 0x00D8
 };
 class CPulseMathlib // pulse_runtime_lib
 {
@@ -14293,6 +14590,9 @@ class CPulseMathlib // pulse_runtime_lib
 class CPulseCell_Unknown : public CPulseCell_Base // pulse_runtime_lib
 {
 	KeyValues3 m_UnknownKeys; // 0x0048
+};
+class CPulseStringlib // pulse_runtime_lib
+{
 };
 class CPulseCell_Outflow_CycleRandom : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
@@ -14310,6 +14610,9 @@ class CPulse_BlackboardReference // pulse_runtime_lib
 	CGlobalSymbol m_NodeName; // 0x0020
 };
 class CPulseCell_Value_RandomInt : public CPulseCell_BaseValue // pulse_runtime_lib
+{
+};
+class CPulseEnumlib // pulse_runtime_lib
 {
 };
 class CPulse_CallInfo // pulse_runtime_lib
@@ -14334,17 +14637,11 @@ class CPulseCell_LimitCount : public CPulseCell_BaseRequirement // pulse_runtime
 };
 class CPulseCell_Step_CallExternalMethod : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	PulseSymbol_t m_MethodName; // 0x0048
-	PulseRuntimeBlackboardReferenceIndex_t m_nBlackboardIndex; // 0x0058
-	CUtlLeanVector< CPulseRuntimeMethodArg > m_ExpectedArgs; // 0x0060
-	PulseMethodCallMode_t m_nAsyncCallMode; // 0x0070
-	CPulse_ResumePoint m_OnFinished; // 0x0078
-};
-class PulseObservableBoolExpression_t // pulse_runtime_lib
-{
-	CPulse_OutflowConnection m_EvaluateConnection; // 0x0000
-	CUtlVector< PulseRuntimeVarIndex_t > m_DependentObservableVars; // 0x0048
-	CUtlVector< PulseRuntimeBlackboardReferenceIndex_t > m_DependentObservableBlackboardReferences; // 0x0060
+	PulseSymbol_t m_MethodName; // 0x00D8
+	PulseRuntimeBlackboardReferenceIndex_t m_nBlackboardIndex; // 0x00E8
+	CUtlLeanVector< CPulseRuntimeMethodArg > m_ExpectedArgs; // 0x00F0
+	PulseMethodCallMode_t m_nAsyncCallMode; // 0x0100
+	CPulse_ResumePoint m_OnFinished; // 0x0108
 };
 class CPulseCell_LimitCount::Criteria_t // pulse_runtime_lib
 {
@@ -14352,7 +14649,7 @@ class CPulseCell_LimitCount::Criteria_t // pulse_runtime_lib
 };
 class CPulseCell_CursorQueue : public CPulseCell_WaitForCursorsWithTagBase // pulse_runtime_lib
 {
-	int32 m_nCursorsAllowedToRunParallel; // 0x0098
+	int32 m_nCursorsAllowedToRunParallel; // 0x0128
 };
 class CPulseCell_Value_RandomFloat : public CPulseCell_BaseValue // pulse_runtime_lib
 {
@@ -14365,22 +14662,22 @@ class CWeaponNOVA : public CCSWeaponBaseShotgun // server
 };
 class CPointWorldText : public CModelPointEntity // server
 {
-	char[512] m_messageText; // 0x0768
-	char[64] m_FontName; // 0x0968
-	char[64] m_BackgroundMaterialName; // 0x09A8
-	bool m_bEnabled; // 0x09E8
-	bool m_bFullbright; // 0x09E9
-	float32 m_flWorldUnitsPerPx; // 0x09EC
-	float32 m_flFontSize; // 0x09F0
-	float32 m_flDepthOffset; // 0x09F4
-	bool m_bDrawBackground; // 0x09F8
-	float32 m_flBackgroundBorderWidth; // 0x09FC
-	float32 m_flBackgroundBorderHeight; // 0x0A00
-	float32 m_flBackgroundWorldToUV; // 0x0A04
-	Color m_Color; // 0x0A08
-	PointWorldTextJustifyHorizontal_t m_nJustifyHorizontal; // 0x0A0C
-	PointWorldTextJustifyVertical_t m_nJustifyVertical; // 0x0A10
-	PointWorldTextReorientMode_t m_nReorientMode; // 0x0A14
+	char[512] m_messageText; // 0x0770
+	char[64] m_FontName; // 0x0970
+	char[64] m_BackgroundMaterialName; // 0x09B0
+	bool m_bEnabled; // 0x09F0
+	bool m_bFullbright; // 0x09F1
+	float32 m_flWorldUnitsPerPx; // 0x09F4
+	float32 m_flFontSize; // 0x09F8
+	float32 m_flDepthOffset; // 0x09FC
+	bool m_bDrawBackground; // 0x0A00
+	float32 m_flBackgroundBorderWidth; // 0x0A04
+	float32 m_flBackgroundBorderHeight; // 0x0A08
+	float32 m_flBackgroundWorldToUV; // 0x0A0C
+	Color m_Color; // 0x0A10
+	PointWorldTextJustifyHorizontal_t m_nJustifyHorizontal; // 0x0A14
+	PointWorldTextJustifyVertical_t m_nJustifyVertical; // 0x0A18
+	PointWorldTextReorientMode_t m_nReorientMode; // 0x0A1C
 };
 class CAmbientGeneric : public CPointEntity // server
 {
@@ -14390,7 +14687,7 @@ class CAmbientGeneric : public CPointEntity // server
 	dynpitchvol_t m_dpv; // 0x04B4
 	bool m_fActive; // 0x0518
 	bool m_fLooping; // 0x0519
-	CUtlSymbolLarge m_iszSound; // 0x0520
+	CGameSoundEventName m_iszSound; // 0x0520
 	CUtlSymbolLarge m_sSourceEntName; // 0x0528
 	CHandle< CBaseEntity > m_hSoundSource; // 0x0530
 	CEntityIndex m_nSoundSourceEntIndex; // 0x0534
@@ -14401,7 +14698,7 @@ class CEnvEntityMaker : public CPointEntity // server
 	Vector m_vecEntityMaxs; // 0x04B4
 	CHandle< CBaseEntity > m_hCurrentInstance; // 0x04C0
 	CHandle< CBaseEntity > m_hCurrentBlocker; // 0x04C4
-	Vector m_vecBlockerOrigin; // 0x04C8
+	VectorWS m_vecBlockerOrigin; // 0x04C8
 	QAngle m_angPostSpawnDirection; // 0x04D4
 	float32 m_flPostSpawnDirectionVariance; // 0x04E0
 	float32 m_flPostSpawnSpeed; // 0x04E4
@@ -14429,8 +14726,8 @@ class CCSGO_WingmanIntroCounterTerroristPosition : public CCSGO_WingmanIntroChar
 };
 class CPulseCell_WaitForCursorsWithTag : public CPulseCell_WaitForCursorsWithTagBase // pulse_runtime_lib
 {
-	bool m_bTagSelfWhenComplete; // 0x0098
-	PulseCursorCancelPriority_t m_nDesiredKillPriority; // 0x009C
+	bool m_bTagSelfWhenComplete; // 0x0128
+	PulseCursorCancelPriority_t m_nDesiredKillPriority; // 0x012C
 };
 class CFuncTrackAuto : public CFuncTrackChange // server
 {
@@ -14517,7 +14814,7 @@ class CScriptedSequence : public CBaseEntity // server
 };
 class CFogTrigger : public CBaseTrigger // server
 {
-	fogparams_t m_fog; // 0x08C8
+	fogparams_t m_fog; // 0x08E8
 };
 class CInfoTeleportDestination : public CPointEntity // server
 {
@@ -14577,10 +14874,13 @@ class CBtActionCombatPositioning : public CBtNode // server
 class CFuncRetakeBarrier : public CDynamicProp // server
 {
 };
+class CHostage_API // server
+{
+};
 class CTriggerBuoyancy : public CBaseTrigger // server
 {
-	CBuoyancyHelper m_BuoyancyHelper; // 0x08C8
-	float32 m_flFluidDensity; // 0x09E0
+	CBuoyancyHelper m_BuoyancyHelper; // 0x08E8
+	float32 m_flFluidDensity; // 0x0A00
 };
 class CTonemapController2Alias_env_tonemap_controller2 : public CTonemapController2 // server
 {
@@ -14590,8 +14890,9 @@ class CPathTrack : public CPointEntity // server
 	CHandle< CPathTrack > m_pnext; // 0x04A8
 	CHandle< CPathTrack > m_pprevious; // 0x04AC
 	CHandle< CPathTrack > m_paltpath; // 0x04B0
-	float32 m_flRadius; // 0x04B4
-	float32 m_length; // 0x04B8
+	float32 m_flSpeed; // 0x04B4
+	float32 m_flRadius; // 0x04B8
+	float32 m_length; // 0x04BC
 	CUtlSymbolLarge m_altName; // 0x04C0
 	int32 m_nIterVal; // 0x04C8
 	TrackOrientationType_t m_eOrientationType; // 0x04CC
@@ -14606,11 +14907,11 @@ class CPulseCell_Base // pulse_runtime_lib
 };
 class CTriggerProximity : public CBaseTrigger // server
 {
-	CHandle< CBaseEntity > m_hMeasureTarget; // 0x08C8
-	CUtlSymbolLarge m_iszMeasureTarget; // 0x08D0
-	float32 m_fRadius; // 0x08D8
-	int32 m_nTouchers; // 0x08DC
-	CEntityOutputTemplate< float32 > m_NearestEntityDistance; // 0x08E0
+	CHandle< CBaseEntity > m_hMeasureTarget; // 0x08E8
+	CUtlSymbolLarge m_iszMeasureTarget; // 0x08F0
+	float32 m_fRadius; // 0x08F8
+	int32 m_nTouchers; // 0x08FC
+	CEntityOutputTemplate< float32 > m_NearestEntityDistance; // 0x0900
 };
 class CTankTrainAI : public CPointEntity // server
 {
@@ -14624,8 +14925,8 @@ class CTankTrainAI : public CPointEntity // server
 };
 class CGameText : public CRulePointEntity // server
 {
-	CUtlSymbolLarge m_iszMessage; // 0x0778
-	hudtextparms_t m_textParms; // 0x0780
+	CUtlSymbolLarge m_iszMessage; // 0x0780
+	hudtextparms_t m_textParms; // 0x0788
 };
 class CGameEnd : public CRulePointEntity // server
 {
@@ -14658,36 +14959,39 @@ class CCSPlayerModernJump // server
 	float32 m_flLastLandedVelocityY; // 0x002C
 	float32 m_flLastLandedVelocityZ; // 0x0030
 };
+class CCSGO_TeamPreviewCharacterPosition_API // server
+{
+};
 class CPulse_ResumePoint : public CPulse_OutflowConnection // pulse_runtime_lib
 {
 };
 class CTriggerFan : public CBaseTrigger // server
 {
-	Vector m_vFanOriginOffset; // 0x08C8
-	Vector m_vDirection; // 0x08D4
-	bool m_bPushTowardsInfoTarget; // 0x08E0
-	bool m_bPushAwayFromInfoTarget; // 0x08E1
-	Quaternion m_qNoiseDelta; // 0x08F0
-	CHandle< CInfoFan > m_hInfoFan; // 0x0900
-	float32 m_flForce; // 0x0904
-	bool m_bFalloff; // 0x0908
-	CountdownTimer m_RampTimer; // 0x0910
-	VectorWS m_vFanOriginWS; // 0x0928
-	Vector m_vFanOriginLS; // 0x0934
-	Vector m_vFanEndLS; // 0x0940
-	Vector m_vNoiseDirectionTarget; // 0x094C
-	CUtlSymbolLarge m_iszInfoFan; // 0x0958
-	float32 m_flRopeForceScale; // 0x0960
-	float32 m_flParticleForceScale; // 0x0964
-	float32 m_flPlayerForce; // 0x0968
-	bool m_bPlayerWindblock; // 0x096C
-	float32 m_flNPCForce; // 0x0970
-	float32 m_flRampTime; // 0x0974
-	float32 m_fNoiseDegrees; // 0x0978
-	float32 m_fNoiseSpeed; // 0x097C
-	bool m_bPushPlayer; // 0x0980
-	bool m_bRampDown; // 0x0981
-	int32 m_nManagerFanIdx; // 0x0984
+	Vector m_vFanOriginOffset; // 0x08E8
+	Vector m_vDirection; // 0x08F4
+	bool m_bPushTowardsInfoTarget; // 0x0900
+	bool m_bPushAwayFromInfoTarget; // 0x0901
+	Quaternion m_qNoiseDelta; // 0x0910
+	CHandle< CInfoFan > m_hInfoFan; // 0x0920
+	float32 m_flForce; // 0x0924
+	bool m_bFalloff; // 0x0928
+	CountdownTimer m_RampTimer; // 0x0930
+	VectorWS m_vFanOriginWS; // 0x0948
+	Vector m_vFanOriginLS; // 0x0954
+	Vector m_vFanEndLS; // 0x0960
+	Vector m_vNoiseDirectionTarget; // 0x096C
+	CUtlSymbolLarge m_iszInfoFan; // 0x0978
+	float32 m_flRopeForceScale; // 0x0980
+	float32 m_flParticleForceScale; // 0x0984
+	float32 m_flPlayerForce; // 0x0988
+	bool m_bPlayerWindblock; // 0x098C
+	float32 m_flNPCForce; // 0x0990
+	float32 m_flRampTime; // 0x0994
+	float32 m_fNoiseDegrees; // 0x0998
+	float32 m_fNoiseSpeed; // 0x099C
+	bool m_bPushPlayer; // 0x09A0
+	bool m_bRampDown; // 0x09A1
+	int32 m_nManagerFanIdx; // 0x09A4
 };
 class CPhysHingeAlias_phys_hinge_local : public CPhysHinge // server
 {
@@ -14703,7 +15007,7 @@ class CLogicCase : public CLogicalEntity // server
 };
 class CPulseCell_Outflow_PlayVOLine : public CPulseCell_BaseYieldingInflow // server
 {
-	CPulse_ResumePoint m_OnFinished; // 0x0048
+	CPulse_ResumePoint m_OnFinished; // 0x00D8
 };
 class CInfoGameEventProxy : public CPointEntity // server
 {
@@ -14718,29 +15022,29 @@ class CWeaponBizon : public CCSWeaponBaseGun // server
 };
 class CGamePlayerZone : public CRuleBrushEntity // server
 {
-	CEntityIOOutput m_OnPlayerInZone; // 0x0770
-	CEntityIOOutput m_OnPlayerOutZone; // 0x0788
-	CEntityOutputTemplate< int32 > m_PlayersInCount; // 0x07A0
-	CEntityOutputTemplate< int32 > m_PlayersOutCount; // 0x07C0
+	CEntityIOOutput m_OnPlayerInZone; // 0x0778
+	CEntityIOOutput m_OnPlayerOutZone; // 0x0790
+	CEntityOutputTemplate< int32 > m_PlayersInCount; // 0x07A8
+	CEntityOutputTemplate< int32 > m_PlayersOutCount; // 0x07C8
 };
 class CBaseToggle : public CBaseModelEntity // server
 {
-	TOGGLE_STATE m_toggle_state; // 0x0768
-	float32 m_flMoveDistance; // 0x076C
-	float32 m_flWait; // 0x0770
-	float32 m_flLip; // 0x0774
-	bool m_bAlwaysFireBlockedOutputs; // 0x0778
-	Vector m_vecPosition1; // 0x077C
-	Vector m_vecPosition2; // 0x0788
-	QAngle m_vecMoveAng; // 0x0794
-	QAngle m_vecAngle1; // 0x07A0
-	QAngle m_vecAngle2; // 0x07AC
-	float32 m_flHeight; // 0x07B8
-	CHandle< CBaseEntity > m_hActivator; // 0x07BC
-	Vector m_vecFinalDest; // 0x07C0
-	QAngle m_vecFinalAngle; // 0x07CC
-	int32 m_movementType; // 0x07D8
-	CUtlSymbolLarge m_sMaster; // 0x07E0
+	TOGGLE_STATE m_toggle_state; // 0x0770
+	float32 m_flMoveDistance; // 0x0774
+	float32 m_flWait; // 0x0778
+	float32 m_flLip; // 0x077C
+	bool m_bAlwaysFireBlockedOutputs; // 0x0780
+	Vector m_vecPosition1; // 0x0784
+	Vector m_vecPosition2; // 0x0790
+	QAngle m_vecMoveAng; // 0x079C
+	QAngle m_vecAngle1; // 0x07A8
+	QAngle m_vecAngle2; // 0x07B4
+	float32 m_flHeight; // 0x07C0
+	CHandle< CBaseEntity > m_hActivator; // 0x07C4
+	Vector m_vecFinalDest; // 0x07C8
+	QAngle m_vecFinalAngle; // 0x07D4
+	int32 m_movementType; // 0x07E0
+	CUtlSymbolLarge m_sMaster; // 0x07E8
 };
 class CPulseServerCursor : public CPulseExecCursor // server
 {
@@ -14749,69 +15053,67 @@ class CPulseServerCursor : public CPulseExecCursor // server
 };
 class CPulseCell_PlaySequence : public CPulseCell_BaseYieldingInflow // server
 {
-	CUtlString m_SequenceName; // 0x0048
-	PulseNodeDynamicOutflows_t m_PulseAnimEvents; // 0x0050
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlString m_SequenceName; // 0x00D8
+	PulseNodeDynamicOutflows_t m_PulseAnimEvents; // 0x00E0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class CInferno : public CBaseModelEntity // server
 {
-	Vector[64] m_firePositions; // 0x0768
-	Vector[64] m_fireParentPositions; // 0x0A68
-	bool[64] m_bFireIsBurning; // 0x0D68
-	Vector[64] m_BurnNormal; // 0x0DA8
-	int32 m_fireCount; // 0x10A8
-	int32 m_nInfernoType; // 0x10AC
-	int32 m_nFireEffectTickBegin; // 0x10B0
-	float32 m_nFireLifetime; // 0x10B4
-	bool m_bInPostEffectTime; // 0x10B8
-	bool m_bWasCreatedInSmoke; // 0x10B9
-	Extent m_extent; // 0x12C0
-	CountdownTimer m_damageTimer; // 0x12D8
-	CountdownTimer m_damageRampTimer; // 0x12F0
-	Vector m_splashVelocity; // 0x1308
-	Vector m_InitialSplashVelocity; // 0x1314
-	Vector m_startPos; // 0x1320
-	Vector m_vecOriginalSpawnLocation; // 0x132C
-	IntervalTimer m_activeTimer; // 0x1338
-	int32 m_fireSpawnOffset; // 0x1348
-	int32 m_nMaxFlames; // 0x134C
-	int32 m_nSpreadCount; // 0x1350
-	CountdownTimer m_BookkeepingTimer; // 0x1358
-	CountdownTimer m_NextSpreadTimer; // 0x1370
-	uint16 m_nSourceItemDefIndex; // 0x1388
+	VectorWS[64] m_firePositions; // 0x0770
+	VectorWS[64] m_fireParentPositions; // 0x0A70
+	bool[64] m_bFireIsBurning; // 0x0D70
+	Vector[64] m_BurnNormal; // 0x0DB0
+	int32 m_fireCount; // 0x10B0
+	int32 m_nInfernoType; // 0x10B4
+	int32 m_nFireEffectTickBegin; // 0x10B8
+	float32 m_nFireLifetime; // 0x10BC
+	bool m_bInPostEffectTime; // 0x10C0
+	bool m_bWasCreatedInSmoke; // 0x10C1
+	Extent m_extent; // 0x12C8
+	CountdownTimer m_damageTimer; // 0x12E0
+	CountdownTimer m_damageRampTimer; // 0x12F8
+	Vector m_splashVelocity; // 0x1310
+	Vector m_InitialSplashVelocity; // 0x131C
+	VectorWS m_startPos; // 0x1328
+	VectorWS m_vecOriginalSpawnLocation; // 0x1334
+	IntervalTimer m_activeTimer; // 0x1340
+	int32 m_fireSpawnOffset; // 0x1350
+	int32 m_nMaxFlames; // 0x1354
+	int32 m_nSpreadCount; // 0x1358
+	CountdownTimer m_BookkeepingTimer; // 0x1360
+	CountdownTimer m_NextSpreadTimer; // 0x1378
+	uint16 m_nSourceItemDefIndex; // 0x1390
 };
 class CTouchExpansionComponent : public CEntityComponent // server
 {
 };
 class CPulseCell_Outflow_PlaySceneBase : public CPulseCell_BaseYieldingInflow // server
 {
-	CPulse_ResumePoint m_OnFinished; // 0x0048
-	CPulse_ResumePoint m_OnCanceled; // 0x0090
-	CUtlVector< CPulse_OutflowConnection > m_Triggers; // 0x00D8
+	CPulse_ResumePoint m_OnFinished; // 0x00D8
+	CUtlVector< CPulse_OutflowConnection > m_Triggers; // 0x0120
 };
 class CPulseCell_LerpCameraSettings : public CPulseCell_BaseLerp // server
 {
-	float32 m_flSeconds; // 0x0090
-	PointCameraSettings_t m_Start; // 0x0094
-	PointCameraSettings_t m_End; // 0x00A4
+	float32 m_flSeconds; // 0x0120
+	PointCameraSettings_t m_Start; // 0x0124
+	PointCameraSettings_t m_End; // 0x0134
 };
 class CWeaponSCAR20 : public CCSWeaponBaseGun // server
 {
 };
 class CFuncInteractionLayerClip : public CBaseModelEntity // server
 {
-	bool m_bDisabled; // 0x0768
-	CUtlSymbolLarge m_iszInteractsAs; // 0x0770
-	CUtlSymbolLarge m_iszInteractsWith; // 0x0778
+	bool m_bDisabled; // 0x0770
+	CUtlSymbolLarge m_iszInteractsAs; // 0x0778
+	CUtlSymbolLarge m_iszInteractsWith; // 0x0780
 };
 class CCSObserver_UseServices : public CPlayer_UseServices // server
 {
 };
 class CTriggerDetectBulletFire : public CBaseTrigger // server
 {
-	bool m_bPlayerFireOnly; // 0x08C8
-	CEntityIOOutput m_OnDetectedBulletFire; // 0x08D0
+	bool m_bPlayerFireOnly; // 0x08E8
+	CEntityIOOutput m_OnDetectedBulletFire; // 0x08F0
 };
 class CCSPlayer_UseServices : public CPlayer_UseServices // server
 {
@@ -14834,6 +15136,9 @@ class CInfoFan : public CPointEntity // server
 	float32 m_flCurveDistRange; // 0x04F0
 	CUtlSymbolLarge m_FanForceCurveString; // 0x04F8
 };
+class CCSWeaponBase_API // server
+{
+};
 class CGameRules // server
 {
 	CNetworkVarChainer __m_pChainEntity; // 0x0008
@@ -14847,30 +15152,30 @@ class CGameRules // server
 };
 class CFish : public CBaseAnimGraph // server
 {
-	CHandle< CFishPool > m_pool; // 0x0940
-	uint32 m_id; // 0x0944
-	float32 m_x; // 0x0948
-	float32 m_y; // 0x094C
-	float32 m_z; // 0x0950
-	float32 m_angle; // 0x0954
-	float32 m_angleChange; // 0x0958
-	Vector m_forward; // 0x095C
-	Vector m_perp; // 0x0968
-	Vector m_poolOrigin; // 0x0974
-	float32 m_waterLevel; // 0x0980
-	float32 m_speed; // 0x0984
-	float32 m_desiredSpeed; // 0x0988
-	float32 m_calmSpeed; // 0x098C
-	float32 m_panicSpeed; // 0x0990
-	float32 m_avoidRange; // 0x0994
-	CountdownTimer m_turnTimer; // 0x0998
-	bool m_turnClockwise; // 0x09B0
-	CountdownTimer m_goTimer; // 0x09B8
-	CountdownTimer m_moveTimer; // 0x09D0
-	CountdownTimer m_panicTimer; // 0x09E8
-	CountdownTimer m_disperseTimer; // 0x0A00
-	CountdownTimer m_proximityTimer; // 0x0A18
-	CUtlVector< CFish* > m_visible; // 0x0A30
+	CHandle< CFishPool > m_pool; // 0x0960
+	uint32 m_id; // 0x0964
+	float32 m_x; // 0x0968
+	float32 m_y; // 0x096C
+	float32 m_z; // 0x0970
+	float32 m_angle; // 0x0974
+	float32 m_angleChange; // 0x0978
+	Vector m_forward; // 0x097C
+	Vector m_perp; // 0x0988
+	VectorWS m_poolOrigin; // 0x0994
+	float32 m_waterLevel; // 0x09A0
+	float32 m_speed; // 0x09A4
+	float32 m_desiredSpeed; // 0x09A8
+	float32 m_calmSpeed; // 0x09AC
+	float32 m_panicSpeed; // 0x09B0
+	float32 m_avoidRange; // 0x09B4
+	CountdownTimer m_turnTimer; // 0x09B8
+	bool m_turnClockwise; // 0x09D0
+	CountdownTimer m_goTimer; // 0x09D8
+	CountdownTimer m_moveTimer; // 0x09F0
+	CountdownTimer m_panicTimer; // 0x0A08
+	CountdownTimer m_disperseTimer; // 0x0A20
+	CountdownTimer m_proximityTimer; // 0x0A38
+	CUtlVector< CFish* > m_visible; // 0x0A50
 };
 class CCSBot : public CBot // server
 {
@@ -14905,115 +15210,115 @@ class CCSBot : public CBot // server
 	bool m_hasVisitedEnemySpawn; // 0x05FD
 	IntervalTimer m_stillTimer; // 0x0600
 	bool m_bEyeAnglesUnderPathFinderControl; // 0x0610
-	int32 m_pathIndex; // 0x4F10
-	GameTime_t m_areaEnteredTimestamp; // 0x4F14
-	CountdownTimer m_repathTimer; // 0x4F18
-	CountdownTimer m_avoidFriendTimer; // 0x4F30
-	bool m_isFriendInTheWay; // 0x4F48
-	CountdownTimer m_politeTimer; // 0x4F50
-	bool m_isWaitingBehindFriend; // 0x4F68
-	float32 m_pathLadderEnd; // 0x4F94
-	CountdownTimer m_mustRunTimer; // 0x4FE0
-	CountdownTimer m_waitTimer; // 0x4FF8
-	CountdownTimer m_updateTravelDistanceTimer; // 0x5010
-	float32[64] m_playerTravelDistance; // 0x5028
-	uint8 m_travelDistancePhase; // 0x5128
-	uint8 m_hostageEscortCount; // 0x52C0
-	float32 m_hostageEscortCountTimestamp; // 0x52C4
-	int32 m_desiredTeam; // 0x52C8
-	bool m_hasJoined; // 0x52CC
-	bool m_isWaitingForHostage; // 0x52CD
-	CountdownTimer m_inhibitWaitingForHostageTimer; // 0x52D0
-	CountdownTimer m_waitForHostageTimer; // 0x52E8
-	Vector m_noisePosition; // 0x5300
-	float32 m_noiseTravelDistance; // 0x530C
-	float32 m_noiseTimestamp; // 0x5310
-	CCSPlayerPawn* m_noiseSource; // 0x5318
-	CountdownTimer m_noiseBendTimer; // 0x5330
-	Vector m_bentNoisePosition; // 0x5348
-	bool m_bendNoisePositionValid; // 0x5354
-	float32 m_lookAroundStateTimestamp; // 0x5358
-	float32 m_lookAheadAngle; // 0x535C
-	float32 m_lookUpAngle; // 0x5360
-	float32 m_forwardAngle; // 0x5364
-	float32 m_inhibitLookAroundTimestamp; // 0x5368
-	Vector m_lookAtSpot; // 0x5370
-	float32 m_lookAtSpotDuration; // 0x5380
-	float32 m_lookAtSpotTimestamp; // 0x5384
-	float32 m_lookAtSpotAngleTolerance; // 0x5388
-	bool m_lookAtSpotClearIfClose; // 0x538C
-	bool m_lookAtSpotAttack; // 0x538D
-	char* m_lookAtDesc; // 0x5390
-	float32 m_peripheralTimestamp; // 0x5398
-	uint8 m_approachPointCount; // 0x5520
-	Vector m_approachPointViewPosition; // 0x5524
-	IntervalTimer m_viewSteadyTimer; // 0x5530
-	CountdownTimer m_tossGrenadeTimer; // 0x5548
-	CountdownTimer m_isAvoidingGrenade; // 0x5568
-	float32 m_spotCheckTimestamp; // 0x5588
-	int32 m_checkedHidingSpotCount; // 0x5990
-	float32 m_lookPitch; // 0x5994
-	float32 m_lookPitchVel; // 0x5998
-	float32 m_lookYaw; // 0x599C
-	float32 m_lookYawVel; // 0x59A0
-	Vector m_targetSpot; // 0x59A4
-	Vector m_targetSpotVelocity; // 0x59B0
-	Vector m_targetSpotPredicted; // 0x59BC
-	QAngle m_aimError; // 0x59C8
-	QAngle m_aimGoal; // 0x59D4
-	GameTime_t m_targetSpotTime; // 0x59E0
-	float32 m_aimFocus; // 0x59E4
-	float32 m_aimFocusInterval; // 0x59E8
-	GameTime_t m_aimFocusNextUpdate; // 0x59EC
-	CountdownTimer m_ignoreEnemiesTimer; // 0x59F8
-	CHandle< CCSPlayerPawn > m_enemy; // 0x5A10
-	bool m_isEnemyVisible; // 0x5A14
-	uint8 m_visibleEnemyParts; // 0x5A15
-	Vector m_lastEnemyPosition; // 0x5A18
-	float32 m_lastSawEnemyTimestamp; // 0x5A24
-	float32 m_firstSawEnemyTimestamp; // 0x5A28
-	float32 m_currentEnemyAcquireTimestamp; // 0x5A2C
-	float32 m_enemyDeathTimestamp; // 0x5A30
-	float32 m_friendDeathTimestamp; // 0x5A34
-	bool m_isLastEnemyDead; // 0x5A38
-	int32 m_nearbyEnemyCount; // 0x5A3C
-	CHandle< CCSPlayerPawn > m_bomber; // 0x5C48
-	int32 m_nearbyFriendCount; // 0x5C4C
-	CHandle< CCSPlayerPawn > m_closestVisibleFriend; // 0x5C50
-	CHandle< CCSPlayerPawn > m_closestVisibleHumanFriend; // 0x5C54
-	IntervalTimer m_attentionInterval; // 0x5C58
-	CHandle< CCSPlayerPawn > m_attacker; // 0x5C68
-	float32 m_attackedTimestamp; // 0x5C6C
-	IntervalTimer m_burnedByFlamesTimer; // 0x5C70
-	int32 m_lastVictimID; // 0x5C80
-	bool m_isAimingAtEnemy; // 0x5C84
-	bool m_isRapidFiring; // 0x5C85
-	IntervalTimer m_equipTimer; // 0x5C88
-	CountdownTimer m_zoomTimer; // 0x5C98
-	GameTime_t m_fireWeaponTimestamp; // 0x5CB0
-	CountdownTimer m_lookForWeaponsOnGroundTimer; // 0x5CB8
-	bool m_bIsSleeping; // 0x5CD0
-	bool m_isEnemySniperVisible; // 0x5CD1
-	CountdownTimer m_sawEnemySniperTimer; // 0x5CD8
-	uint8 m_enemyQueueIndex; // 0x5D90
-	uint8 m_enemyQueueCount; // 0x5D91
-	uint8 m_enemyQueueAttendIndex; // 0x5D92
-	bool m_isStuck; // 0x5D93
-	GameTime_t m_stuckTimestamp; // 0x5D94
-	Vector m_stuckSpot; // 0x5D98
-	CountdownTimer m_wiggleTimer; // 0x5DA8
-	CountdownTimer m_stuckJumpTimer; // 0x5DC0
-	GameTime_t m_nextCleanupCheckTimestamp; // 0x5DD8
-	float32[10] m_avgVel; // 0x5DDC
-	int32 m_avgVelIndex; // 0x5E04
-	int32 m_avgVelCount; // 0x5E08
-	Vector m_lastOrigin; // 0x5E0C
-	float32 m_lastRadioRecievedTimestamp; // 0x5E1C
-	float32 m_lastRadioSentTimestamp; // 0x5E20
-	CHandle< CCSPlayerPawn > m_radioSubject; // 0x5E24
-	Vector m_radioPosition; // 0x5E28
-	float32 m_voiceEndTimestamp; // 0x5E34
-	int32 m_lastValidReactionQueueFrame; // 0x5E40
+	int32 m_pathIndex; // 0x4F08
+	GameTime_t m_areaEnteredTimestamp; // 0x4F0C
+	CountdownTimer m_repathTimer; // 0x4F10
+	CountdownTimer m_avoidFriendTimer; // 0x4F28
+	bool m_isFriendInTheWay; // 0x4F40
+	CountdownTimer m_politeTimer; // 0x4F48
+	bool m_isWaitingBehindFriend; // 0x4F60
+	float32 m_pathLadderEnd; // 0x4F8C
+	CountdownTimer m_mustRunTimer; // 0x4FD8
+	CountdownTimer m_waitTimer; // 0x4FF0
+	CountdownTimer m_updateTravelDistanceTimer; // 0x5008
+	float32[64] m_playerTravelDistance; // 0x5020
+	uint8 m_travelDistancePhase; // 0x5120
+	uint8 m_hostageEscortCount; // 0x52B8
+	float32 m_hostageEscortCountTimestamp; // 0x52BC
+	int32 m_desiredTeam; // 0x52C0
+	bool m_hasJoined; // 0x52C4
+	bool m_isWaitingForHostage; // 0x52C5
+	CountdownTimer m_inhibitWaitingForHostageTimer; // 0x52C8
+	CountdownTimer m_waitForHostageTimer; // 0x52E0
+	VectorWS m_noisePosition; // 0x52F8
+	float32 m_noiseTravelDistance; // 0x5304
+	float32 m_noiseTimestamp; // 0x5308
+	CCSPlayerPawn* m_noiseSource; // 0x5310
+	CountdownTimer m_noiseBendTimer; // 0x5328
+	VectorWS m_bentNoisePosition; // 0x5340
+	bool m_bendNoisePositionValid; // 0x534C
+	float32 m_lookAroundStateTimestamp; // 0x5350
+	float32 m_lookAheadAngle; // 0x5354
+	float32 m_lookUpAngle; // 0x5358
+	float32 m_forwardAngle; // 0x535C
+	float32 m_inhibitLookAroundTimestamp; // 0x5360
+	VectorWS m_lookAtSpot; // 0x5368
+	float32 m_lookAtSpotDuration; // 0x5378
+	float32 m_lookAtSpotTimestamp; // 0x537C
+	float32 m_lookAtSpotAngleTolerance; // 0x5380
+	bool m_lookAtSpotClearIfClose; // 0x5384
+	bool m_lookAtSpotAttack; // 0x5385
+	char* m_lookAtDesc; // 0x5388
+	float32 m_peripheralTimestamp; // 0x5390
+	uint8 m_approachPointCount; // 0x5518
+	VectorWS m_approachPointViewPosition; // 0x551C
+	IntervalTimer m_viewSteadyTimer; // 0x5528
+	CountdownTimer m_tossGrenadeTimer; // 0x5540
+	CountdownTimer m_isAvoidingGrenade; // 0x5560
+	float32 m_spotCheckTimestamp; // 0x5580
+	int32 m_checkedHidingSpotCount; // 0x5988
+	float32 m_lookPitch; // 0x598C
+	float32 m_lookPitchVel; // 0x5990
+	float32 m_lookYaw; // 0x5994
+	float32 m_lookYawVel; // 0x5998
+	VectorWS m_targetSpot; // 0x599C
+	Vector m_targetSpotVelocity; // 0x59A8
+	VectorWS m_targetSpotPredicted; // 0x59B4
+	QAngle m_aimError; // 0x59C0
+	QAngle m_aimGoal; // 0x59CC
+	GameTime_t m_targetSpotTime; // 0x59D8
+	float32 m_aimFocus; // 0x59DC
+	float32 m_aimFocusInterval; // 0x59E0
+	GameTime_t m_aimFocusNextUpdate; // 0x59E4
+	CountdownTimer m_ignoreEnemiesTimer; // 0x59F0
+	CHandle< CCSPlayerPawn > m_enemy; // 0x5A08
+	bool m_isEnemyVisible; // 0x5A0C
+	uint8 m_visibleEnemyParts; // 0x5A0D
+	VectorWS m_lastEnemyPosition; // 0x5A10
+	float32 m_lastSawEnemyTimestamp; // 0x5A1C
+	float32 m_firstSawEnemyTimestamp; // 0x5A20
+	float32 m_currentEnemyAcquireTimestamp; // 0x5A24
+	float32 m_enemyDeathTimestamp; // 0x5A28
+	float32 m_friendDeathTimestamp; // 0x5A2C
+	bool m_isLastEnemyDead; // 0x5A30
+	int32 m_nearbyEnemyCount; // 0x5A34
+	CHandle< CCSPlayerPawn > m_bomber; // 0x5C40
+	int32 m_nearbyFriendCount; // 0x5C44
+	CHandle< CCSPlayerPawn > m_closestVisibleFriend; // 0x5C48
+	CHandle< CCSPlayerPawn > m_closestVisibleHumanFriend; // 0x5C4C
+	IntervalTimer m_attentionInterval; // 0x5C50
+	CHandle< CCSPlayerPawn > m_attacker; // 0x5C60
+	float32 m_attackedTimestamp; // 0x5C64
+	IntervalTimer m_burnedByFlamesTimer; // 0x5C68
+	int32 m_lastVictimID; // 0x5C78
+	bool m_isAimingAtEnemy; // 0x5C7C
+	bool m_isRapidFiring; // 0x5C7D
+	IntervalTimer m_equipTimer; // 0x5C80
+	CountdownTimer m_zoomTimer; // 0x5C90
+	GameTime_t m_fireWeaponTimestamp; // 0x5CA8
+	CountdownTimer m_lookForWeaponsOnGroundTimer; // 0x5CB0
+	bool m_bIsSleeping; // 0x5CC8
+	bool m_isEnemySniperVisible; // 0x5CC9
+	CountdownTimer m_sawEnemySniperTimer; // 0x5CD0
+	uint8 m_enemyQueueIndex; // 0x5D88
+	uint8 m_enemyQueueCount; // 0x5D89
+	uint8 m_enemyQueueAttendIndex; // 0x5D8A
+	bool m_isStuck; // 0x5D8B
+	GameTime_t m_stuckTimestamp; // 0x5D8C
+	VectorWS m_stuckSpot; // 0x5D90
+	CountdownTimer m_wiggleTimer; // 0x5DA0
+	CountdownTimer m_stuckJumpTimer; // 0x5DB8
+	GameTime_t m_nextCleanupCheckTimestamp; // 0x5DD0
+	float32[10] m_avgVel; // 0x5DD4
+	int32 m_avgVelIndex; // 0x5DFC
+	int32 m_avgVelCount; // 0x5E00
+	VectorWS m_lastOrigin; // 0x5E04
+	float32 m_lastRadioRecievedTimestamp; // 0x5E14
+	float32 m_lastRadioSentTimestamp; // 0x5E18
+	CHandle< CCSPlayerPawn > m_radioSubject; // 0x5E1C
+	VectorWS m_radioPosition; // 0x5E20
+	float32 m_voiceEndTimestamp; // 0x5E2C
+	int32 m_lastValidReactionQueueFrame; // 0x5E38
 };
 class CHandleTest : public CBaseEntity // server
 {
@@ -15123,60 +15428,64 @@ class CCSWeaponBaseShotgun : public CCSWeaponBase // server
 class CPrecipitationVData : public CEntitySubclassVDataBase // server
 {
 	CResourceNameTyped< CWeakHandle< InfoForResourceTypeIParticleSystemDefinition > > m_szParticlePrecipitationEffect; // 0x0028
-	float32 m_flInnerDistance; // 0x0108
-	ParticleAttachment_t m_nAttachType; // 0x010C
-	bool m_bBatchSameVolumeType; // 0x0110
-	int32 m_nRTEnvCP; // 0x0114
-	int32 m_nRTEnvCPComponent; // 0x0118
-	CUtlString m_szModifier; // 0x0120
-	int32 m_nUseSnapshotFromSurfaceGraph; // 0x0128
-	PrecipitationFilter_t m_snapshotFilter; // 0x012C
+	CResourceNameTyped< CWeakHandle< InfoForResourceTypeIParticleSystemDefinition > > m_szParticlePrecipitationPuddleEffect; // 0x0108
+	CResourceNameTyped< CWeakHandle< InfoForResourceTypeIParticleSystemDefinition > > m_szParticlePrecipitationPostEffect; // 0x01E8
+	float32 m_flInnerDistance; // 0x02C8
+	ParticleAttachment_t m_nAttachType; // 0x02CC
+	bool m_bBatchSameVolumeType; // 0x02D0
+	int32 m_nRTEnvCP; // 0x02D4
+	int32 m_nRTEnvCPComponent; // 0x02D8
+	CUtlString m_szModifier; // 0x02E0
+	int32 m_nUseSnapshotFromSurfaceGraph; // 0x02E8
+	PrecipitationFilter_t m_snapshotFilter; // 0x02EC
 };
 class CFuncMoveLinear : public CBaseToggle // server
 {
-	MoveLinearAuthoredPos_t m_authoredPosition; // 0x07E8
-	QAngle m_angMoveEntitySpace; // 0x07EC
-	Vector m_vecMoveDirParentSpace; // 0x07F8
-	CUtlSymbolLarge m_soundStart; // 0x0808
-	CUtlSymbolLarge m_soundStop; // 0x0810
-	CUtlSymbolLarge m_currentSound; // 0x0818
-	float32 m_flBlockDamage; // 0x0820
-	float32 m_flStartPosition; // 0x0824
-	CEntityIOOutput m_OnFullyOpen; // 0x0830
-	CEntityIOOutput m_OnFullyClosed; // 0x0848
-	bool m_bCreateMovableNavMesh; // 0x0860
-	bool m_bAllowMovableNavMeshDockingOnEntireEntity; // 0x0861
-	bool m_bCreateNavObstacle; // 0x0862
+	MoveLinearAuthoredPos_t m_authoredPosition; // 0x07F0
+	QAngle m_angMoveEntitySpace; // 0x07F4
+	Vector m_vecMoveDirParentSpace; // 0x0800
+	CGameSoundEventName m_soundStart; // 0x0810
+	CGameSoundEventName m_soundStop; // 0x0818
+	CUtlSymbolLarge m_currentSound; // 0x0820
+	float32 m_flBlockDamage; // 0x0828
+	float32 m_flStartPosition; // 0x082C
+	CEntityIOOutput m_OnFullyOpen; // 0x0838
+	CEntityIOOutput m_OnFullyClosed; // 0x0850
+	float32 m_flSpeed; // 0x0868
+	bool m_bCreateMovableNavMesh; // 0x086C
+	bool m_bAllowMovableNavMeshDockingOnEntireEntity; // 0x086D
+	bool m_bCreateNavObstacle; // 0x086E
 };
 class CPhysMotorAPI // server
 {
 };
 class CPulseCell_WaitForObservable : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	PulseObservableBoolExpression_t m_Condition; // 0x0048
-	CPulse_ResumePoint m_OnTrue; // 0x00C0
+	CPulseObservableExpression< bool > m_Condition; // 0x00D8
+	CPulse_ResumePoint m_OnTrue; // 0x0150
 };
 class CScriptItem : public CItem // server
 {
-	MoveType_t m_MoveTypeOverride; // 0x09E0
+	MoveType_t m_MoveTypeOverride; // 0x0A00
 };
 class CDynamicPropAlias_prop_dynamic_override : public CDynamicProp // server
 {
 };
 class CBaseTrigger : public CBaseToggle // server
 {
-	CEntityIOOutput m_OnStartTouch; // 0x07E8
-	CEntityIOOutput m_OnStartTouchAll; // 0x0800
-	CEntityIOOutput m_OnEndTouch; // 0x0818
-	CEntityIOOutput m_OnEndTouchAll; // 0x0830
-	CEntityIOOutput m_OnTouching; // 0x0848
-	CEntityIOOutput m_OnTouchingEachEntity; // 0x0860
-	CEntityIOOutput m_OnNotTouching; // 0x0878
-	CUtlVector< CHandle< CBaseEntity > > m_hTouchingEntities; // 0x0890
-	CUtlSymbolLarge m_iFilterName; // 0x08A8
-	CHandle< CBaseFilter > m_hFilter; // 0x08B0
-	bool m_bDisabled; // 0x08B4
-	bool m_bUseAsyncQueries; // 0x08C0
+	CEntityIOOutput m_OnStartTouch; // 0x07F0
+	CEntityIOOutput m_OnStartTouchAll; // 0x0808
+	CEntityIOOutput m_OnEndTouch; // 0x0820
+	CEntityIOOutput m_OnEndTouchAll; // 0x0838
+	CEntityIOOutput m_OnTouching; // 0x0850
+	CEntityIOOutput m_OnTouchingEachEntity; // 0x0868
+	CEntityIOOutput m_OnNotTouching; // 0x0880
+	CEntityIOOutput m_OnTouchingChanged; // 0x0898
+	CUtlVector< CHandle< CBaseEntity > > m_hTouchingEntities; // 0x08B0
+	CUtlSymbolLarge m_iFilterName; // 0x08C8
+	CHandle< CBaseFilter > m_hFilter; // 0x08D0
+	bool m_bDisabled; // 0x08D4
+	bool m_bUseAsyncQueries; // 0x08E0
 };
 class CPointPush : public CPointEntity // server
 {
@@ -15209,43 +15518,47 @@ class CHitboxComponent : public CEntityComponent // server
 };
 class CRopeKeyframe : public CBaseModelEntity // server
 {
-	uint16 m_RopeFlags; // 0x0770
-	CUtlSymbolLarge m_iNextLinkName; // 0x0778
-	int16 m_Slack; // 0x0780
-	float32 m_Width; // 0x0784
-	float32 m_TextureScale; // 0x0788
-	uint8 m_nSegments; // 0x078C
-	bool m_bConstrainBetweenEndpoints; // 0x078D
-	CUtlSymbolLarge m_strRopeMaterialModel; // 0x0790
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_iRopeMaterialModelIndex; // 0x0798
-	uint8 m_Subdiv; // 0x07A0
-	uint8 m_nChangeCount; // 0x07A1
-	int16 m_RopeLength; // 0x07A2
-	uint8 m_fLockedPoints; // 0x07A4
-	bool m_bCreatedFromMapFile; // 0x07A5
-	float32 m_flScrollSpeed; // 0x07A8
-	bool m_bStartPointValid; // 0x07AC
-	bool m_bEndPointValid; // 0x07AD
-	CHandle< CBaseEntity > m_hStartPoint; // 0x07B0
-	CHandle< CBaseEntity > m_hEndPoint; // 0x07B4
-	AttachmentHandle_t m_iStartAttachment; // 0x07B8
-	AttachmentHandle_t m_iEndAttachment; // 0x07B9
+	uint16 m_RopeFlags; // 0x0778
+	CUtlSymbolLarge m_iNextLinkName; // 0x0780
+	int16 m_Slack; // 0x0788
+	float32 m_Width; // 0x078C
+	float32 m_TextureScale; // 0x0790
+	uint8 m_nSegments; // 0x0794
+	bool m_bConstrainBetweenEndpoints; // 0x0795
+	CUtlSymbolLarge m_strRopeMaterialModel; // 0x0798
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_iRopeMaterialModelIndex; // 0x07A0
+	uint8 m_Subdiv; // 0x07A8
+	uint8 m_nChangeCount; // 0x07A9
+	int16 m_RopeLength; // 0x07AA
+	uint8 m_fLockedPoints; // 0x07AC
+	bool m_bCreatedFromMapFile; // 0x07AD
+	float32 m_flScrollSpeed; // 0x07B0
+	bool m_bStartPointValid; // 0x07B4
+	bool m_bEndPointValid; // 0x07B5
+	CHandle< CBaseEntity > m_hStartPoint; // 0x07B8
+	CHandle< CBaseEntity > m_hEndPoint; // 0x07BC
+	AttachmentHandle_t m_iStartAttachment; // 0x07C0
+	AttachmentHandle_t m_iEndAttachment; // 0x07C1
 };
 class CSmokeGrenade : public CBaseCSGrenade // server
 {
 };
 class CBaseCombatCharacter : public CBaseAnimGraph // server
 {
-	bool m_bForceServerRagdoll; // 0x0940
-	CNetworkUtlVectorBase< CHandle< CEconWearable > > m_hMyWearables; // 0x0948
-	float32 m_impactEnergyScale; // 0x0960
-	bool m_bApplyStressDamage; // 0x0964
-	bool m_bDeathEventsDispatched; // 0x0965
-	CUtlVector< RelationshipOverride_t >* m_pVecRelationships; // 0x09A8
-	CUtlSymbolLarge m_strRelationships; // 0x09B0
-	Hull_t m_eHull; // 0x09B8
-	uint32 m_nNavHullIdx; // 0x09BC
-	CMovementStatsProperty m_movementStats; // 0x09C0
+	bool m_bForceServerRagdoll; // 0x0960
+	CNetworkUtlVectorBase< CHandle< CEconWearable > > m_hMyWearables; // 0x0968
+	float32 m_impactEnergyScale; // 0x0980
+	bool m_bApplyStressDamage; // 0x0984
+	bool m_bDeathEventsDispatched; // 0x0985
+	CUtlVector< RelationshipOverride_t > m_vecRelationships; // 0x09C8
+	CUtlSymbolLarge m_strRelationships; // 0x09E0
+	Hull_t m_eHull; // 0x09E8
+	uint32 m_nNavHullIdx; // 0x09EC
+	CMovementStatsProperty m_movementStats; // 0x09F0
+};
+class CLogicGameStateReport : public CBaseEntity // server
+{
+	bool m_bDisabled; // 0x04A8
 };
 class ServerAuthoritativeWeaponSlot_t // server
 {
@@ -15346,7 +15659,7 @@ class CPulseGraphDef // pulse_runtime_lib
 };
 class CKnife : public CCSWeaponBase // server
 {
-	bool m_bFirstAttack; // 0x1030
+	bool m_bFirstAttack; // 0x1050
 };
 class CLogicPlayerProxy : public CLogicalEntity // server
 {
@@ -15376,6 +15689,9 @@ class CCSPlayer_HostageServices : public CPlayerPawnComponent // server
 	CHandle< CBaseEntity > m_hCarriedHostage; // 0x0048
 	CHandle< CBaseEntity > m_hCarriedHostageProp; // 0x004C
 };
+class CEnvLightProbeVolumeAPI // server
+{
+};
 class CRenderComponent : public CEntityComponent // server
 {
 	CNetworkVarChainer __m_pChainEntity; // 0x0010
@@ -15389,9 +15705,12 @@ class CWaterBullet : public CBaseAnimGraph // server
 };
 class CTriggerSoundscape : public CBaseTrigger // server
 {
-	CHandle< CEnvSoundscapeTriggerable > m_hSoundscape; // 0x08C8
-	CUtlSymbolLarge m_SoundscapeName; // 0x08D0
-	CUtlVector< CHandle< CBasePlayerPawn > > m_spectators; // 0x08D8
+	CHandle< CEnvSoundscapeTriggerable > m_hSoundscape; // 0x08E8
+	CUtlSymbolLarge m_SoundscapeName; // 0x08F0
+	CUtlVector< CHandle< CBasePlayerPawn > > m_spectators; // 0x08F8
+};
+class CBaseGrenade_API // server
+{
 };
 class CPulseCell_Outflow_PlayVOLine::CursorState_t // server
 {
@@ -15402,7 +15721,7 @@ class CPointTeleportAPI // server
 };
 class CHostageExpresserShim : public CBaseCombatCharacter // server
 {
-	CAI_Expresser* m_pExpresser; // 0x0A00
+	CAI_Expresser* m_pExpresser; // 0x0A30
 };
 class CPointChildModifier : public CPointEntity // server
 {
@@ -15416,11 +15735,12 @@ class CCSPlayerLegacyJump // server
 class CWeaponHKP2000 : public CCSWeaponBaseGun // server
 {
 };
-class CShatterGlassShardPhysics : public CPhysicsProp // server
+class CShatterGlassShardPhysics : public CBaseModelEntity // server
 {
-	bool m_bDebris; // 0x0C10
-	uint32 m_hParentShard; // 0x0C14
-	shard_model_desc_t m_ShardDesc; // 0x0C18
+	uint32 m_hParentShard; // 0x0770
+	shard_model_desc_t m_ShardDesc; // 0x0778
+	ShatterGlassEntityPoolState_t m_nPoolState; // 0x07F8
+	bool m_bTouchedByPlayer; // 0x07FC
 };
 class CPathParticleRope : public CBaseEntity // server
 {
@@ -15486,43 +15806,43 @@ class CRagdollPropAlias_physics_prop_ragdoll : public CRagdollProp // server
 };
 class CBreakableProp : public CBaseProp // server
 {
-	CPropDataComponent m_CPropDataComponent; // 0x0978
-	CEntityIOOutput m_OnStartDeath; // 0x09B8
-	CEntityIOOutput m_OnBreak; // 0x09D0
-	CEntityOutputTemplate< float32 > m_OnHealthChanged; // 0x09E8
-	CEntityIOOutput m_OnTakeDamage; // 0x0A08
-	float32 m_impactEnergyScale; // 0x0A20
-	int32 m_iMinHealthDmg; // 0x0A24
-	QAngle m_preferredCarryAngles; // 0x0A28
-	float32 m_flPressureDelay; // 0x0A34
-	float32 m_flDefBurstScale; // 0x0A38
-	Vector m_vDefBurstOffset; // 0x0A3C
-	CHandle< CBaseEntity > m_hBreaker; // 0x0A48
-	PerformanceMode_t m_PerformanceMode; // 0x0A4C
-	GameTime_t m_flPreventDamageBeforeTime; // 0x0A50
-	BreakableContentsType_t m_BreakableContentsType; // 0x0A54
-	CUtlString m_strBreakableContentsPropGroupOverride; // 0x0A58
-	CUtlString m_strBreakableContentsParticleOverride; // 0x0A60
-	bool m_bHasBreakPiecesOrCommands; // 0x0A68
-	float32 m_explodeDamage; // 0x0A6C
-	float32 m_explodeRadius; // 0x0A70
-	CGlobalSymbol m_sExplosionType; // 0x0A78
-	float32 m_explosionDelay; // 0x0A80
-	CUtlSymbolLarge m_explosionBuildupSound; // 0x0A88
-	CUtlSymbolLarge m_explosionCustomEffect; // 0x0A90
-	CUtlSymbolLarge m_explosionCustomSound; // 0x0A98
-	CUtlSymbolLarge m_explosionModifier; // 0x0AA0
-	CHandle< CBasePlayerPawn > m_hPhysicsAttacker; // 0x0AA8
-	GameTime_t m_flLastPhysicsInfluenceTime; // 0x0AAC
-	float32 m_flDefaultFadeScale; // 0x0AB0
-	CHandle< CBaseEntity > m_hLastAttacker; // 0x0AB4
-	CUtlSymbolLarge m_iszPuntSound; // 0x0AB8
-	bool m_bUsePuntSound; // 0x0AC0
-	bool m_bOriginalBlockLOS; // 0x0AC1
+	CPropDataComponent m_CPropDataComponent; // 0x0998
+	CEntityIOOutput m_OnStartDeath; // 0x09D8
+	CEntityIOOutput m_OnBreak; // 0x09F0
+	CEntityOutputTemplate< float32 > m_OnHealthChanged; // 0x0A08
+	CEntityIOOutput m_OnTakeDamage; // 0x0A28
+	float32 m_impactEnergyScale; // 0x0A40
+	int32 m_iMinHealthDmg; // 0x0A44
+	QAngle m_preferredCarryAngles; // 0x0A48
+	float32 m_flPressureDelay; // 0x0A54
+	float32 m_flDefBurstScale; // 0x0A58
+	Vector m_vDefBurstOffset; // 0x0A5C
+	CHandle< CBaseEntity > m_hBreaker; // 0x0A68
+	PerformanceMode_t m_PerformanceMode; // 0x0A6C
+	GameTime_t m_flPreventDamageBeforeTime; // 0x0A70
+	BreakableContentsType_t m_BreakableContentsType; // 0x0A74
+	CUtlString m_strBreakableContentsPropGroupOverride; // 0x0A78
+	CUtlString m_strBreakableContentsParticleOverride; // 0x0A80
+	bool m_bHasBreakPiecesOrCommands; // 0x0A88
+	float32 m_explodeDamage; // 0x0A8C
+	float32 m_explodeRadius; // 0x0A90
+	CGlobalSymbol m_sExplosionType; // 0x0A98
+	float32 m_explosionDelay; // 0x0AA0
+	CUtlSymbolLarge m_explosionBuildupSound; // 0x0AA8
+	CUtlSymbolLarge m_explosionCustomEffect; // 0x0AB0
+	CUtlSymbolLarge m_explosionCustomSound; // 0x0AB8
+	CUtlSymbolLarge m_explosionModifier; // 0x0AC0
+	CHandle< CBasePlayerPawn > m_hPhysicsAttacker; // 0x0AC8
+	GameTime_t m_flLastPhysicsInfluenceTime; // 0x0ACC
+	float32 m_flDefaultFadeScale; // 0x0AD0
+	CHandle< CBaseEntity > m_hLastAttacker; // 0x0AD4
+	CUtlSymbolLarge m_iszPuntSound; // 0x0AD8
+	bool m_bUsePuntSound; // 0x0AE0
+	bool m_bOriginalBlockLOS; // 0x0AE1
 };
 class CLightEntity : public CBaseModelEntity // server
 {
-	CLightComponent* m_CLightComponent; // 0x0768
+	CLightComponent* m_CLightComponent; // 0x0770
 };
 class CInfoDynamicShadowHintBox : public CInfoDynamicShadowHint // server
 {
@@ -15560,8 +15880,8 @@ class CBaseAnimGraphController : public CSkeletonAnimationController // server
 	CNetworkUtlVectorBase< ResourceId_t > m_vecExternalGraphIds; // 0x03D0
 	CNetworkUtlVectorBase< ResourceId_t > m_vecExternalClipIds; // 0x03E8
 	CGlobalSymbol m_sAnimGraph2Identifier; // 0x0400
-	CNmGraphInstance* m_pGraphInstanceAG2; // 0x0408
-	CUtlVector< ExternalAnimGraph_t > m_vecExternalGraphs; // 0x0620
+	CAnimGraph2InstancePtr m_pGraphInstanceAG2; // 0x0408
+	CExternalAnimGraphList m_vecExternalGraphs; // 0x0628
 };
 class AnimGraph2SerializedPoseRecipeSlot_t // server
 {
@@ -15583,7 +15903,7 @@ class CBuoyancyHelper // server
 };
 class COrnamentProp : public CDynamicProp // server
 {
-	CUtlSymbolLarge m_initialOwner; // 0x0B80
+	CUtlSymbolLarge m_initialOwner; // 0x0BA0
 };
 class CCSPlayer_CameraServices : public CCSPlayerBase_CameraServices // server
 {
@@ -15593,7 +15913,7 @@ class CModelPointEntity : public CBaseModelEntity // server
 };
 class CRectLight : public CBarnLight // server
 {
-	bool m_bShowLight; // 0x0A50
+	bool m_bShowLight; // 0x0A58
 };
 class CFilterMultiple : public CBaseFilter // server
 {
@@ -15606,8 +15926,8 @@ class CCSPlayerResource : public CBaseEntity // server
 	bool[12] m_bHostageAlive; // 0x04A8
 	bool[12] m_isHostageFollowingSomeone; // 0x04B4
 	CEntityIndex[12] m_iHostageEntityIDs; // 0x04C0
-	Vector m_bombsiteCenterA; // 0x04F0
-	Vector m_bombsiteCenterB; // 0x04FC
+	VectorWS m_bombsiteCenterA; // 0x04F0
+	VectorWS m_bombsiteCenterB; // 0x04FC
 	int32[4] m_hostageRescueX; // 0x0508
 	int32[4] m_hostageRescueY; // 0x0518
 	int32[4] m_hostageRescueZ; // 0x0528
@@ -15616,15 +15936,14 @@ class CCSPlayerResource : public CBaseEntity // server
 };
 class CPulseCell_FireCursors : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CUtlVector< CPulse_OutflowConnection > m_Outflows; // 0x0048
-	bool m_bWaitForChildOutflows; // 0x0060
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlVector< CPulse_OutflowConnection > m_Outflows; // 0x00D8
+	bool m_bWaitForChildOutflows; // 0x00F0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class CFuncNavBlocker : public CBaseModelEntity // server
 {
-	bool m_bDisabled; // 0x0770
-	int32 m_nBlockedTeamNumber; // 0x0774
+	bool m_bDisabled; // 0x0778
+	int32 m_nBlockedTeamNumber; // 0x077C
 };
 class CMoverPathNode : public CPathNode // server
 {
@@ -15638,7 +15957,7 @@ class CEnvSoundscape : public CBaseEntity // server
 {
 	CEntityIOOutput m_OnPlay; // 0x04A8
 	float32 m_flRadius; // 0x04C0
-	CUtlSymbolLarge m_soundEventName; // 0x04C8
+	CGameSoundEventName m_soundEventName; // 0x04C8
 	bool m_bOverrideWithEvent; // 0x04D0
 	int32 m_soundscapeIndex; // 0x04D4
 	int32 m_soundscapeEntityListId; // 0x04D8
@@ -15650,12 +15969,15 @@ class CEnvSoundscape : public CBaseEntity // server
 };
 class CFuncBrush : public CBaseModelEntity // server
 {
-	BrushSolidities_e m_iSolidity; // 0x0768
-	int32 m_iDisabled; // 0x076C
-	bool m_bSolidBsp; // 0x0770
-	CUtlSymbolLarge m_iszExcludedClass; // 0x0778
-	bool m_bInvertExclusion; // 0x0780
-	bool m_bScriptedMovement; // 0x0781
+	BrushSolidities_e m_iSolidity; // 0x0770
+	int32 m_iDisabled; // 0x0774
+	bool m_bSolidBsp; // 0x0778
+	CUtlSymbolLarge m_iszExcludedClass; // 0x0780
+	bool m_bInvertExclusion; // 0x0788
+	bool m_bScriptedMovement; // 0x0789
+};
+class CParticleSystemAPI // server
+{
 };
 class CBodyComponentPoint : public CBodyComponent // server
 {
@@ -15663,21 +15985,24 @@ class CBodyComponentPoint : public CBodyComponent // server
 };
 class CPhysBox : public CBreakable // server
 {
-	int32 m_damageType; // 0x0840
-	int32 m_damageToEnableMotion; // 0x0844
-	float32 m_flForceToEnableMotion; // 0x0848
-	Vector m_vHoverPosePosition; // 0x084C
-	QAngle m_angHoverPoseAngles; // 0x0858
-	bool m_bNotSolidToWorld; // 0x0864
-	bool m_bEnableUseOutput; // 0x0865
-	HoverPoseFlags_t m_nHoverPoseFlags; // 0x0866
-	float32 m_flTouchOutputPerEntityDelay; // 0x0868
-	CEntityIOOutput m_OnDamaged; // 0x0870
-	CEntityIOOutput m_OnAwakened; // 0x0888
-	CEntityIOOutput m_OnMotionEnabled; // 0x08A0
-	CEntityIOOutput m_OnPlayerUse; // 0x08B8
-	CEntityIOOutput m_OnStartTouch; // 0x08D0
-	CHandle< CBasePlayerPawn > m_hCarryingPlayer; // 0x08E8
+	int32 m_damageType; // 0x0848
+	int32 m_damageToEnableMotion; // 0x084C
+	float32 m_flForceToEnableMotion; // 0x0850
+	Vector m_vHoverPosePosition; // 0x0854
+	QAngle m_angHoverPoseAngles; // 0x0860
+	bool m_bNotSolidToWorld; // 0x086C
+	bool m_bEnableUseOutput; // 0x086D
+	HoverPoseFlags_t m_nHoverPoseFlags; // 0x086E
+	float32 m_flTouchOutputPerEntityDelay; // 0x0870
+	CUtlSymbolLarge m_iszCollisionGroup; // 0x0878
+	CUtlSymbolLarge m_iszInteractsAs; // 0x0880
+	CUtlSymbolLarge m_iszInteractsWith; // 0x0888
+	CUtlSymbolLarge m_iszInteractsExclude; // 0x0890
+	CEntityIOOutput m_OnDamaged; // 0x0898
+	CEntityIOOutput m_OnAwakened; // 0x08B0
+	CEntityIOOutput m_OnMotionEnabled; // 0x08C8
+	CEntityIOOutput m_OnPlayerUse; // 0x08E0
+	CEntityIOOutput m_OnStartTouch; // 0x08F8
 };
 class CSoundEventAABBEntity : public CSoundEventEntity // server
 {
@@ -15694,14 +16019,14 @@ class CPulseCell_Timeline::TimelineEvent_t // pulse_runtime_lib
 };
 class COmniLight : public CBarnLight // server
 {
-	float32 m_flInnerAngle; // 0x0A50
-	float32 m_flOuterAngle; // 0x0A54
-	bool m_bShowLight; // 0x0A58
+	float32 m_flInnerAngle; // 0x0A58
+	float32 m_flOuterAngle; // 0x0A5C
+	bool m_bShowLight; // 0x0A60
 };
 class CTriggerVolume : public CBaseModelEntity // server
 {
-	CUtlSymbolLarge m_iFilterName; // 0x0768
-	CHandle< CBaseFilter > m_hFilter; // 0x0770
+	CUtlSymbolLarge m_iFilterName; // 0x0770
+	CHandle< CBaseFilter > m_hFilter; // 0x0778
 };
 class CBtNodeCondition : public CBtNodeDecorator // server
 {
@@ -15720,21 +16045,21 @@ class CPulseCell_BaseRequirement : public CPulseCell_Base // pulse_runtime_lib
 };
 class CEnvExplosion : public CModelPointEntity // server
 {
-	int32 m_iMagnitude; // 0x0768
-	float32 m_flPlayerDamage; // 0x076C
-	int32 m_iRadiusOverride; // 0x0770
-	float32 m_flInnerRadius; // 0x0774
-	float32 m_flDamageForce; // 0x0778
-	CHandle< CBaseEntity > m_hInflictor; // 0x077C
-	DamageTypes_t m_iCustomDamageType; // 0x0780
-	bool m_bCreateDebris; // 0x0784
-	CUtlSymbolLarge m_iszCustomEffectName; // 0x0790
-	CUtlSymbolLarge m_iszCustomSoundName; // 0x0798
-	bool m_bSuppressParticleImpulse; // 0x07A0
-	Class_T m_iClassIgnore; // 0x07A4
-	Class_T m_iClassIgnore2; // 0x07A8
-	CUtlSymbolLarge m_iszEntityIgnoreName; // 0x07B0
-	CHandle< CBaseEntity > m_hEntityIgnore; // 0x07B8
+	int32 m_iMagnitude; // 0x0770
+	float32 m_flPlayerDamage; // 0x0774
+	int32 m_iRadiusOverride; // 0x0778
+	float32 m_flInnerRadius; // 0x077C
+	float32 m_flDamageForce; // 0x0780
+	CHandle< CBaseEntity > m_hInflictor; // 0x0784
+	DamageTypes_t m_iCustomDamageType; // 0x0788
+	bool m_bCreateDebris; // 0x078C
+	CUtlSymbolLarge m_iszCustomEffectName; // 0x0798
+	CUtlSymbolLarge m_iszCustomSoundName; // 0x07A0
+	bool m_bSuppressParticleImpulse; // 0x07A8
+	Class_T m_iClassIgnore; // 0x07AC
+	Class_T m_iClassIgnore2; // 0x07B0
+	CUtlSymbolLarge m_iszEntityIgnoreName; // 0x07B8
+	CHandle< CBaseEntity > m_hEntityIgnore; // 0x07C0
 };
 class CPulseCell_BaseState : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
@@ -15757,8 +16082,8 @@ class CPulseCell_IsRequirementValid : public CPulseCell_BaseRequirement // pulse
 };
 class CFootstepControl : public CBaseTrigger // server
 {
-	CUtlSymbolLarge m_source; // 0x08C8
-	CUtlSymbolLarge m_destination; // 0x08D0
+	CUtlSymbolLarge m_source; // 0x08E8
+	CUtlSymbolLarge m_destination; // 0x08F0
 };
 class CCSPlayer_ItemServices : public CPlayer_ItemServices // server
 {
@@ -15771,36 +16096,38 @@ class CPulseCell_Value_Gradient : public CPulseCell_BaseValue // pulse_runtime_l
 };
 class CParticleSystem : public CBaseModelEntity // server
 {
-	char[512] m_szSnapshotFileName; // 0x0768
-	bool m_bActive; // 0x0968
-	bool m_bFrozen; // 0x0969
-	float32 m_flFreezeTransitionDuration; // 0x096C
-	int32 m_nStopType; // 0x0970
-	bool m_bAnimateDuringGameplayPause; // 0x0974
-	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_iEffectIndex; // 0x0978
-	GameTime_t m_flStartTime; // 0x0980
-	float32 m_flPreSimTime; // 0x0984
-	Vector[4] m_vServerControlPoints; // 0x0988
-	uint8[4] m_iServerControlPointAssignments; // 0x09B8
-	CHandle< CBaseEntity >[64] m_hControlPointEnts; // 0x09BC
-	bool m_bNoSave; // 0x0ABC
-	bool m_bNoFreeze; // 0x0ABD
-	bool m_bNoRamp; // 0x0ABE
-	bool m_bStartActive; // 0x0ABF
-	CUtlSymbolLarge m_iszEffectName; // 0x0AC0
-	CUtlSymbolLarge[64] m_iszControlPointNames; // 0x0AC8
-	int32 m_nDataCP; // 0x0CC8
-	Vector m_vecDataCPValue; // 0x0CCC
-	int32 m_nTintCP; // 0x0CD8
-	Color m_clrTint; // 0x0CDC
+	char[512] m_szSnapshotFileName; // 0x0770
+	bool m_bActive; // 0x0970
+	bool m_bFrozen; // 0x0971
+	float32 m_flFreezeTransitionDuration; // 0x0974
+	int32 m_nStopType; // 0x0978
+	bool m_bAnimateDuringGameplayPause; // 0x097C
+	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_iEffectIndex; // 0x0980
+	GameTime_t m_flStartTime; // 0x0988
+	float32 m_flPreSimTime; // 0x098C
+	Vector[4] m_vServerControlPoints; // 0x0990
+	uint8[4] m_iServerControlPointAssignments; // 0x09C0
+	CHandle< CBaseEntity >[64] m_hControlPointEnts; // 0x09C4
+	bool m_bDataStringLocalized; // 0x0AC4
+	CUtlString m_strDataString; // 0x0AC8
+	bool m_bNoSave; // 0x0AD0
+	bool m_bNoFreeze; // 0x0AD1
+	bool m_bNoRamp; // 0x0AD2
+	bool m_bStartActive; // 0x0AD3
+	CUtlSymbolLarge m_iszEffectName; // 0x0AD8
+	CUtlSymbolLarge[64] m_iszControlPointNames; // 0x0AE0
+	int32 m_nDataCP; // 0x0CE0
+	Vector m_vecDataCPValue; // 0x0CE4
+	int32 m_nTintCP; // 0x0CF0
+	Color m_clrTint; // 0x0CF4
 };
 class CTriggerBrush : public CBaseModelEntity // server
 {
-	CEntityIOOutput m_OnStartTouch; // 0x0768
-	CEntityIOOutput m_OnEndTouch; // 0x0780
-	CEntityIOOutput m_OnUse; // 0x0798
-	int32 m_iInputFilter; // 0x07B0
-	int32 m_iDontMessageParent; // 0x07B4
+	CEntityIOOutput m_OnStartTouch; // 0x0770
+	CEntityIOOutput m_OnEndTouch; // 0x0788
+	CEntityIOOutput m_OnUse; // 0x07A0
+	int32 m_iInputFilter; // 0x07B8
+	int32 m_iDontMessageParent; // 0x07BC
 };
 class IntervalTimer // server
 {
@@ -15809,7 +16136,7 @@ class IntervalTimer // server
 };
 class audioparams_t // server
 {
-	Vector[8] localSound; // 0x0008
+	VectorWS[8] localSound; // 0x0008
 	int32 soundscapeIndex; // 0x0068
 	uint8 localBits; // 0x006C
 	int32 soundscapeEntityListIndex; // 0x0070
@@ -15833,6 +16160,9 @@ class CTimeline : public IntervalTimer // server
 	float32 m_flFinalValue; // 0x0218
 	TimelineCompression_t m_nCompressionType; // 0x021C
 	bool m_bStopped; // 0x0220
+};
+class CEnvCubemapAPI // server
+{
 };
 class CPulseCursorFuncs // pulse_runtime_lib
 {
@@ -15859,30 +16189,29 @@ class CItemAssaultSuit : public CItem // server
 };
 class CBeam : public CBaseModelEntity // server
 {
-	float32 m_flFrameRate; // 0x0768
-	float32 m_flHDRColorScale; // 0x076C
-	GameTime_t m_flFireTime; // 0x0770
-	float32 m_flDamage; // 0x0774
-	uint8 m_nNumBeamEnts; // 0x0778
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hBaseMaterial; // 0x0780
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_nHaloIndex; // 0x0788
-	BeamType_t m_nBeamType; // 0x0790
-	uint32 m_nBeamFlags; // 0x0794
-	CHandle< CBaseEntity >[10] m_hAttachEntity; // 0x0798
-	AttachmentHandle_t[10] m_nAttachIndex; // 0x07C0
-	float32 m_fWidth; // 0x07CC
-	float32 m_fEndWidth; // 0x07D0
-	float32 m_fFadeLength; // 0x07D4
-	float32 m_fHaloScale; // 0x07D8
-	float32 m_fAmplitude; // 0x07DC
-	float32 m_fStartFrame; // 0x07E0
-	float32 m_fSpeed; // 0x07E4
-	float32 m_flFrame; // 0x07E8
-	BeamClipStyle_t m_nClipStyle; // 0x07EC
-	bool m_bTurnedOff; // 0x07F0
-	VectorWS m_vecEndPos; // 0x07F4
-	CHandle< CBaseEntity > m_hEndEntity; // 0x0800
-	int32 m_nDissolveType; // 0x0804
+	float32 m_flFrameRate; // 0x0770
+	float32 m_flHDRColorScale; // 0x0774
+	GameTime_t m_flFireTime; // 0x0778
+	float32 m_flDamage; // 0x077C
+	uint8 m_nNumBeamEnts; // 0x0780
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hBaseMaterial; // 0x0788
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_nHaloIndex; // 0x0790
+	BeamType_t m_nBeamType; // 0x0798
+	uint32 m_nBeamFlags; // 0x079C
+	CHandle< CBaseEntity >[10] m_hAttachEntity; // 0x07A0
+	AttachmentHandle_t[10] m_nAttachIndex; // 0x07C8
+	float32 m_fWidth; // 0x07D4
+	float32 m_fEndWidth; // 0x07D8
+	float32 m_fFadeLength; // 0x07DC
+	float32 m_fHaloScale; // 0x07E0
+	float32 m_fAmplitude; // 0x07E4
+	float32 m_fStartFrame; // 0x07E8
+	float32 m_fSpeed; // 0x07EC
+	float32 m_flFrame; // 0x07F0
+	bool m_bTurnedOff; // 0x07F4
+	VectorWS m_vecEndPos; // 0x07F8
+	CHandle< CBaseEntity > m_hEndEntity; // 0x0804
+	int32 m_nDissolveType; // 0x0808
 };
 class CLogicEventListener : public CLogicalEntity // server
 {
@@ -15905,31 +16234,31 @@ class CWeaponElite : public CCSWeaponBaseGun // server
 };
 class CBasePlayerPawn : public CBaseCombatCharacter // server
 {
-	CPlayer_WeaponServices* m_pWeaponServices; // 0x0A00
-	CPlayer_ItemServices* m_pItemServices; // 0x0A08
-	CPlayer_AutoaimServices* m_pAutoaimServices; // 0x0A10
-	CPlayer_ObserverServices* m_pObserverServices; // 0x0A18
-	CPlayer_WaterServices* m_pWaterServices; // 0x0A20
-	CPlayer_UseServices* m_pUseServices; // 0x0A28
-	CPlayer_FlashlightServices* m_pFlashlightServices; // 0x0A30
-	CPlayer_CameraServices* m_pCameraServices; // 0x0A38
-	CPlayer_MovementServices* m_pMovementServices; // 0x0A40
-	CUtlVectorEmbeddedNetworkVar< ViewAngleServerChange_t > m_ServerViewAngleChanges; // 0x0A50
-	QAngle v_angle; // 0x0AB8
-	QAngle v_anglePrevious; // 0x0AC4
-	uint32 m_iHideHUD; // 0x0AD0
-	sky3dparams_t m_skybox3d; // 0x0AD8
-	GameTime_t m_fTimeLastHurt; // 0x0B68
-	GameTime_t m_flDeathTime; // 0x0B6C
-	GameTime_t m_fNextSuicideTime; // 0x0B70
-	bool m_fInitHUD; // 0x0B74
-	CAI_Expresser* m_pExpresser; // 0x0B78
-	CHandle< CBasePlayerController > m_hController; // 0x0B80
-	CHandle< CBasePlayerController > m_hDefaultController; // 0x0B84
-	float32 m_fHltvReplayDelay; // 0x0B8C
-	float32 m_fHltvReplayEnd; // 0x0B90
-	CEntityIndex m_iHltvReplayEntity; // 0x0B94
-	CUtlVector< sndopvarlatchdata_t > m_sndOpvarLatchData; // 0x0B98
+	CPlayer_WeaponServices* m_pWeaponServices; // 0x0A30
+	CPlayer_ItemServices* m_pItemServices; // 0x0A38
+	CPlayer_AutoaimServices* m_pAutoaimServices; // 0x0A40
+	CPlayer_ObserverServices* m_pObserverServices; // 0x0A48
+	CPlayer_WaterServices* m_pWaterServices; // 0x0A50
+	CPlayer_UseServices* m_pUseServices; // 0x0A58
+	CPlayer_FlashlightServices* m_pFlashlightServices; // 0x0A60
+	CPlayer_CameraServices* m_pCameraServices; // 0x0A68
+	CPlayer_MovementServices* m_pMovementServices; // 0x0A70
+	CUtlVectorEmbeddedNetworkVar< ViewAngleServerChange_t > m_ServerViewAngleChanges; // 0x0A80
+	QAngle v_angle; // 0x0AE8
+	QAngle v_anglePrevious; // 0x0AF4
+	uint32 m_iHideHUD; // 0x0B00
+	sky3dparams_t m_skybox3d; // 0x0B08
+	GameTime_t m_fTimeLastHurt; // 0x0B98
+	GameTime_t m_flDeathTime; // 0x0B9C
+	GameTime_t m_fNextSuicideTime; // 0x0BA0
+	bool m_fInitHUD; // 0x0BA4
+	CAI_Expresser* m_pExpresser; // 0x0BA8
+	CHandle< CBasePlayerController > m_hController; // 0x0BB0
+	CHandle< CBasePlayerController > m_hDefaultController; // 0x0BB4
+	float32 m_fHltvReplayDelay; // 0x0BBC
+	float32 m_fHltvReplayEnd; // 0x0BC0
+	CEntityIndex m_iHltvReplayEntity; // 0x0BC4
+	CUtlVector< sndopvarlatchdata_t > m_sndOpvarLatchData; // 0x0BC8
 };
 class WeaponPurchaseCount_t // server
 {
@@ -15958,6 +16287,7 @@ class CMathColorBlend : public CLogicalEntity // server
 };
 class CShower : public CModelPointEntity // server
 {
+	float32 m_flSpeed; // 0x0770
 };
 class CPulseCell_Inflow_GraphHook : public CPulseCell_Inflow_BaseEntrypoint // pulse_runtime_lib
 {
@@ -15965,12 +16295,18 @@ class CPulseCell_Inflow_GraphHook : public CPulseCell_Inflow_BaseEntrypoint // p
 };
 class CScriptNavBlocker : public CFuncNavBlocker // server
 {
-	Vector m_vExtent; // 0x0780
+	Vector m_vExtent; // 0x0788
 };
 class CEntityBlocker : public CBaseModelEntity // server
 {
 };
+class CCSPlace_API // server
+{
+};
 class SignatureOutflow_Resume : public CPulse_ResumePoint // pulse_runtime_lib
+{
+};
+class CPulseCell_Outflow_PlayVCDBase : public CPulseCell_Outflow_PlaySceneBase // server
 {
 };
 class CPathSimpleAPI // server
@@ -15981,8 +16317,11 @@ class CCSObserverPawn : public CCSPlayerPawnBase // server
 };
 class CTriggerActiveWeaponDetect : public CBaseTrigger // server
 {
-	CEntityIOOutput m_OnTouchedActiveWeapon; // 0x08C8
-	CUtlSymbolLarge m_iszWeaponClassName; // 0x08E0
+	CEntityIOOutput m_OnTouchedActiveWeapon; // 0x08E8
+	CUtlSymbolLarge m_iszWeaponClassName; // 0x0900
+};
+class CEnvHudHint_API // server
+{
 };
 class CFuncLadderAlias_func_useableladder : public CFuncLadder // server
 {
@@ -16011,25 +16350,25 @@ class shard_model_desc_t // server
 };
 class CPlayerSprayDecal : public CModelPointEntity // server
 {
-	int32 m_nUniqueID; // 0x0768
-	uint32 m_unAccountID; // 0x076C
-	uint32 m_unTraceID; // 0x0770
-	uint32 m_rtGcTime; // 0x0774
-	Vector m_vecEndPos; // 0x0778
-	Vector m_vecStart; // 0x0784
-	Vector m_vecLeft; // 0x0790
-	Vector m_vecNormal; // 0x079C
-	int32 m_nPlayer; // 0x07A8
-	int32 m_nEntity; // 0x07AC
-	int32 m_nHitbox; // 0x07B0
-	float32 m_flCreationTime; // 0x07B4
-	int32 m_nTintID; // 0x07B8
-	uint8 m_nVersion; // 0x07BC
-	uint8[128] m_ubSignature; // 0x07BD
+	int32 m_nUniqueID; // 0x0770
+	uint32 m_unAccountID; // 0x0774
+	uint32 m_unTraceID; // 0x0778
+	uint32 m_rtGcTime; // 0x077C
+	VectorWS m_vecEndPos; // 0x0780
+	VectorWS m_vecStart; // 0x078C
+	Vector m_vecLeft; // 0x0798
+	Vector m_vecNormal; // 0x07A4
+	int32 m_nPlayer; // 0x07B0
+	int32 m_nEntity; // 0x07B4
+	int32 m_nHitbox; // 0x07B8
+	float32 m_flCreationTime; // 0x07BC
+	int32 m_nTintID; // 0x07C0
+	uint8 m_nVersion; // 0x07C4
+	uint8[128] m_ubSignature; // 0x07C5
 };
 class CFuncWater : public CBaseModelEntity // server
 {
-	CBuoyancyHelper m_BuoyancyHelper; // 0x0768
+	CBuoyancyHelper m_BuoyancyHelper; // 0x0770
 };
 class CCSGameModeRules // server
 {
@@ -16045,15 +16384,15 @@ class CPulseCell_Outflow_PlayVCD::VCDRequirementInfo_t // server
 };
 class CEconEntity : public CBaseAnimGraph // server
 {
-	CAttributeContainer m_AttributeManager; // 0x0958
-	uint32 m_OriginalOwnerXuidLow; // 0x0C50
-	uint32 m_OriginalOwnerXuidHigh; // 0x0C54
-	int32 m_nFallbackPaintKit; // 0x0C58
-	int32 m_nFallbackSeed; // 0x0C5C
-	float32 m_flFallbackWear; // 0x0C60
-	int32 m_nFallbackStatTrak; // 0x0C64
-	CHandle< CBaseEntity > m_hOldProvidee; // 0x0C68
-	int32 m_iOldOwnerClass; // 0x0C6C
+	CAttributeContainer m_AttributeManager; // 0x0978
+	uint32 m_OriginalOwnerXuidLow; // 0x0C70
+	uint32 m_OriginalOwnerXuidHigh; // 0x0C74
+	int32 m_nFallbackPaintKit; // 0x0C78
+	int32 m_nFallbackSeed; // 0x0C7C
+	float32 m_flFallbackWear; // 0x0C80
+	int32 m_nFallbackStatTrak; // 0x0C84
+	CHandle< CBaseEntity > m_hOldProvidee; // 0x0C88
+	int32 m_iOldOwnerClass; // 0x0C8C
 };
 class CTankTargetChange : public CPointEntity // server
 {
@@ -16135,68 +16474,68 @@ class CLogicBranch : public CLogicalEntity // server
 };
 class CPulseCell_Outflow_ScriptedSequence : public CPulseCell_BaseYieldingInflow // server
 {
-	CUtlString m_szSyncGroup; // 0x0048
-	int32 m_nExpectedNumSequencesInSyncGroup; // 0x0050
-	bool m_bEnsureOnNavmeshOnFinish; // 0x0054
-	bool m_bDontTeleportAtEnd; // 0x0055
-	bool m_bDisallowInterrupts; // 0x0056
-	PulseScriptedSequenceData_t m_scriptedSequenceDataMain; // 0x0058
-	CUtlVector< PulseScriptedSequenceData_t > m_vecAdditionalActors; // 0x0090
-	CPulse_ResumePoint m_OnFinished; // 0x00A8
-	CPulse_ResumePoint m_OnCanceled; // 0x00F0
-	CUtlVector< CPulse_OutflowConnection > m_Triggers; // 0x0138
+	CUtlString m_szSyncGroup; // 0x00D8
+	int32 m_nExpectedNumSequencesInSyncGroup; // 0x00E0
+	bool m_bEnsureOnNavmeshOnFinish; // 0x00E4
+	bool m_bDontTeleportAtEnd; // 0x00E5
+	bool m_bDisallowInterrupts; // 0x00E6
+	PulseScriptedSequenceData_t m_scriptedSequenceDataMain; // 0x00E8
+	CUtlVector< PulseScriptedSequenceData_t > m_vecAdditionalActors; // 0x0120
+	CPulse_ResumePoint m_OnFinished; // 0x0138
+	CUtlVector< CPulse_OutflowConnection > m_Triggers; // 0x0180
 };
 class CFuncTrackChange : public CFuncPlatRot // server
 {
-	CHandle< CPathTrack > m_trackTop; // 0x0830
-	CHandle< CPathTrack > m_trackBottom; // 0x0834
-	CHandle< CFuncTrackTrain > m_train; // 0x0838
-	CUtlSymbolLarge m_trackTopName; // 0x0840
-	CUtlSymbolLarge m_trackBottomName; // 0x0848
-	CUtlSymbolLarge m_trainName; // 0x0850
-	TRAIN_CODE m_code; // 0x0858
-	int32 m_targetState; // 0x085C
-	int32 m_use; // 0x0860
+	CHandle< CPathTrack > m_trackTop; // 0x0840
+	CHandle< CPathTrack > m_trackBottom; // 0x0844
+	CHandle< CFuncTrackTrain > m_train; // 0x0848
+	CUtlSymbolLarge m_trackTopName; // 0x0850
+	CUtlSymbolLarge m_trackBottomName; // 0x0858
+	CUtlSymbolLarge m_trainName; // 0x0860
+	TRAIN_CODE m_code; // 0x0868
+	int32 m_targetState; // 0x086C
+	int32 m_use; // 0x0870
 };
 class CFuncTrackTrain : public CBaseModelEntity // server
 {
-	CHandle< CPathTrack > m_ppath; // 0x0768
-	float32 m_length; // 0x076C
-	Vector m_vPosPrev; // 0x0770
-	QAngle m_angPrev; // 0x077C
-	Vector m_controlMins; // 0x0788
-	Vector m_controlMaxs; // 0x0794
-	Vector m_lastBlockPos; // 0x07A0
-	int32 m_lastBlockTick; // 0x07AC
-	float32 m_flVolume; // 0x07B0
-	float32 m_flBank; // 0x07B4
-	float32 m_oldSpeed; // 0x07B8
-	float32 m_flBlockDamage; // 0x07BC
-	float32 m_height; // 0x07C0
-	float32 m_maxSpeed; // 0x07C4
-	float32 m_dir; // 0x07C8
-	CUtlSymbolLarge m_iszSoundMove; // 0x07D0
-	CUtlSymbolLarge m_iszSoundMovePing; // 0x07D8
-	CUtlSymbolLarge m_iszSoundStart; // 0x07E0
-	CUtlSymbolLarge m_iszSoundStop; // 0x07E8
-	CUtlSymbolLarge m_strPathTarget; // 0x07F0
-	float32 m_flMoveSoundMinDuration; // 0x07F8
-	float32 m_flMoveSoundMaxDuration; // 0x07FC
-	GameTime_t m_flNextMoveSoundTime; // 0x0800
-	float32 m_flMoveSoundMinPitch; // 0x0804
-	float32 m_flMoveSoundMaxPitch; // 0x0808
-	TrainOrientationType_t m_eOrientationType; // 0x080C
-	TrainVelocityType_t m_eVelocityType; // 0x0810
-	CEntityIOOutput m_OnStart; // 0x0828
-	CEntityIOOutput m_OnNext; // 0x0840
-	CEntityIOOutput m_OnArrivedAtDestinationNode; // 0x0858
-	bool m_bManualSpeedChanges; // 0x0870
-	float32 m_flDesiredSpeed; // 0x0874
-	GameTime_t m_flSpeedChangeTime; // 0x0878
-	float32 m_flAccelSpeed; // 0x087C
-	float32 m_flDecelSpeed; // 0x0880
-	bool m_bAccelToSpeed; // 0x0884
-	GameTime_t m_flNextMPSoundTime; // 0x0888
+	CHandle< CPathTrack > m_ppath; // 0x0770
+	float32 m_length; // 0x0774
+	Vector m_vPosPrev; // 0x0778
+	QAngle m_angPrev; // 0x0784
+	float32 m_flSpeed; // 0x0790
+	Vector m_controlMins; // 0x0794
+	Vector m_controlMaxs; // 0x07A0
+	VectorWS m_lastBlockPos; // 0x07AC
+	int32 m_lastBlockTick; // 0x07B8
+	float32 m_flVolume; // 0x07BC
+	float32 m_flBank; // 0x07C0
+	float32 m_oldSpeed; // 0x07C4
+	float32 m_flBlockDamage; // 0x07C8
+	float32 m_height; // 0x07CC
+	float32 m_maxSpeed; // 0x07D0
+	float32 m_dir; // 0x07D4
+	CGameSoundEventName m_iszSoundMove; // 0x07D8
+	CGameSoundEventName m_iszSoundMovePing; // 0x07E0
+	CGameSoundEventName m_iszSoundStart; // 0x07E8
+	CGameSoundEventName m_iszSoundStop; // 0x07F0
+	CGameSoundEventName m_strPathTarget; // 0x07F8
+	float32 m_flMoveSoundMinDuration; // 0x0800
+	float32 m_flMoveSoundMaxDuration; // 0x0804
+	GameTime_t m_flNextMoveSoundTime; // 0x0808
+	float32 m_flMoveSoundMinPitch; // 0x080C
+	float32 m_flMoveSoundMaxPitch; // 0x0810
+	TrainOrientationType_t m_eOrientationType; // 0x0814
+	TrainVelocityType_t m_eVelocityType; // 0x0818
+	CEntityIOOutput m_OnStart; // 0x0830
+	CEntityIOOutput m_OnNext; // 0x0848
+	CEntityIOOutput m_OnArrivedAtDestinationNode; // 0x0860
+	bool m_bManualSpeedChanges; // 0x0878
+	float32 m_flDesiredSpeed; // 0x087C
+	GameTime_t m_flSpeedChangeTime; // 0x0880
+	float32 m_flAccelSpeed; // 0x0884
+	float32 m_flDecelSpeed; // 0x0888
+	bool m_bAccelToSpeed; // 0x088C
+	GameTime_t m_flNextMPSoundTime; // 0x0890
 };
 class CEnvInstructorHint : public CPointEntity // server
 {
@@ -16256,130 +16595,129 @@ class CPulseCell_Inflow_BaseEntrypoint : public CPulseCell_BaseFlow // pulse_run
 };
 class CDynamicNavConnectionsVolume : public CTriggerMultiple // server
 {
-	CUtlSymbolLarge m_iszConnectionTarget; // 0x08E0
-	CUtlVector< DynamicVolumeDef_t > m_vecConnections; // 0x08E8
-	CGlobalSymbol m_sTransitionType; // 0x0900
-	bool m_bConnectionsEnabled; // 0x0908
-	float32 m_flTargetAreaSearchRadius; // 0x090C
-	float32 m_flUpdateDistance; // 0x0910
-	float32 m_flMaxConnectionDistance; // 0x0914
+	CUtlSymbolLarge m_iszConnectionTarget; // 0x0900
+	CUtlVector< DynamicVolumeDef_t > m_vecConnections; // 0x0908
+	CGlobalSymbol m_sTransitionType; // 0x0920
+	bool m_bConnectionsEnabled; // 0x0928
+	float32 m_flTargetAreaSearchRadius; // 0x092C
+	float32 m_flUpdateDistance; // 0x0930
+	float32 m_flMaxConnectionDistance; // 0x0934
 };
 class CConstraintAnchor : public CBaseAnimGraph // server
 {
-	float32 m_massScale; // 0x0940
+	float32 m_massScale; // 0x0960
 };
 class CPulseCell_WaitForCursorsWithTagBase : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	int32 m_nCursorsAllowedToWait; // 0x0048
-	CPulse_ResumePoint m_WaitComplete; // 0x0050
+	int32 m_nCursorsAllowedToWait; // 0x00D8
+	CPulse_ResumePoint m_WaitComplete; // 0x00E0
 };
 class CCSPlayerPawn : public CCSPlayerPawnBase // server
 {
-	CCSPlayer_BulletServices* m_pBulletServices; // 0x0D08
-	CCSPlayer_HostageServices* m_pHostageServices; // 0x0D10
-	CCSPlayer_BuyServices* m_pBuyServices; // 0x0D18
-	CCSPlayer_ActionTrackingServices* m_pActionTrackingServices; // 0x0D20
-	CCSPlayer_AimPunchServices* m_pAimPunchServices; // 0x0D28
-	CCSPlayer_RadioServices* m_pRadioServices; // 0x0D30
-	CCSPlayer_DamageReactServices* m_pDamageReactServices; // 0x0D38
-	uint16 m_nCharacterDefIndex; // 0x0D40
-	bool m_bHasFemaleVoice; // 0x0D42
-	CUtlString m_strVOPrefix; // 0x0D48
-	char[18] m_szLastPlaceName; // 0x0D50
-	bool m_bInHostageResetZone; // 0x0E40
-	bool m_bInBuyZone; // 0x0E41
-	CUtlVector< CHandle< CBaseEntity > > m_TouchingBuyZones; // 0x0E48
-	bool m_bWasInBuyZone; // 0x0E60
-	bool m_bInHostageRescueZone; // 0x0E61
-	bool m_bInBombZone; // 0x0E62
-	bool m_bWasInHostageRescueZone; // 0x0E63
-	int32 m_iRetakesOffering; // 0x0E64
-	int32 m_iRetakesOfferingCard; // 0x0E68
-	bool m_bRetakesHasDefuseKit; // 0x0E6C
-	bool m_bRetakesMVPLastRound; // 0x0E6D
-	int32 m_iRetakesMVPBoostItem; // 0x0E70
-	loadout_slot_t m_RetakesMVPBoostExtraUtility; // 0x0E74
-	GameTime_t m_flHealthShotBoostExpirationTime; // 0x0E78
-	float32 m_flLandingTimeSeconds; // 0x0E7C
-	bool m_bIsBuyMenuOpen; // 0x0E80
-	GameTime_t m_lastLandTime; // 0x0EB8
-	bool m_bOnGroundLastTick; // 0x0EBC
-	int32 m_iPlayerLocked; // 0x0EC0
-	GameTime_t m_flTimeOfLastInjury; // 0x0EC8
-	GameTime_t m_flNextSprayDecalTime; // 0x0ECC
-	bool m_bNextSprayDecalTimeExpedited; // 0x0ED0
-	int32 m_nRagdollDamageBone; // 0x0ED4
-	Vector m_vRagdollDamageForce; // 0x0ED8
-	Vector m_vRagdollDamagePosition; // 0x0EE4
-	char[64] m_szRagdollDamageWeaponName; // 0x0EF0
-	bool m_bRagdollDamageHeadshot; // 0x0F30
-	Vector m_vRagdollServerOrigin; // 0x0F34
-	CEconItemView m_EconGloves; // 0x0F40
-	uint8 m_nEconGlovesChanged; // 0x11E8
-	QAngle m_qDeathEyeAngles; // 0x11EC
-	bool m_bLeftHanded; // 0x11F8
-	GameTime_t m_fSwitchedHandednessTime; // 0x11FC
-	float32 m_flViewmodelOffsetX; // 0x1200
-	float32 m_flViewmodelOffsetY; // 0x1204
-	float32 m_flViewmodelOffsetZ; // 0x1208
-	float32 m_flViewmodelFOV; // 0x120C
-	bool m_bIsWalking; // 0x1210
-	float32 m_fLastGivenDefuserTime; // 0x1214
-	float32 m_fLastGivenBombTime; // 0x1218
-	float32 m_flDealtDamageToEnemyMostRecentTimestamp; // 0x121C
-	uint32 m_iDisplayHistoryBits; // 0x1220
-	float32 m_flLastAttackedTeammate; // 0x1224
-	GameTime_t m_allowAutoFollowTime; // 0x1228
-	bool m_bResetArmorNextSpawn; // 0x122C
-	CEntityIndex m_nLastKillerIndex; // 0x1230
-	EntitySpottedState_t m_entitySpottedState; // 0x1238
-	int32 m_nSpotRules; // 0x1250
-	bool m_bIsScoped; // 0x1254
-	bool m_bResumeZoom; // 0x1255
-	bool m_bIsDefusing; // 0x1256
-	bool m_bIsGrabbingHostage; // 0x1257
-	CSPlayerBlockingUseAction_t m_iBlockingUseActionInProgress; // 0x1258
-	GameTime_t m_flEmitSoundTime; // 0x125C
-	bool m_bInNoDefuseArea; // 0x1260
-	CEntityIndex m_iBombSiteIndex; // 0x1264
-	int32 m_nWhichBombZone; // 0x1268
-	bool m_bInBombZoneTrigger; // 0x126C
-	bool m_bWasInBombZoneTrigger; // 0x126D
-	int32 m_iShotsFired; // 0x1270
-	float32 m_flFlinchStack; // 0x1274
-	float32 m_flVelocityModifier; // 0x1278
-	Vector m_vecTotalBulletForce; // 0x127C
-	bool m_bWaitForNoAttack; // 0x1288
-	float32 m_ignoreLadderJumpTime; // 0x128C
-	bool m_bKilledByHeadshot; // 0x1290
-	int32 m_LastHitBox; // 0x1294
-	CCSBot* m_pBot; // 0x1298
-	bool m_bBotAllowActive; // 0x12A0
-	int32 m_nLastPickupPriority; // 0x12A4
-	float32 m_flLastPickupPriorityTime; // 0x12A8
-	int32 m_ArmorValue; // 0x12AC
-	uint16 m_unCurrentEquipmentValue; // 0x12B0
-	uint16 m_unRoundStartEquipmentValue; // 0x12B2
-	uint16 m_unFreezetimeEndEquipmentValue; // 0x12B4
-	int32 m_iLastWeaponFireUsercmd; // 0x12B8
-	bool m_bIsSpawning; // 0x12BC
-	int32 m_iDeathFlags; // 0x12C8
-	bool m_bHasDeathInfo; // 0x12CC
-	float32 m_flDeathInfoTime; // 0x12D0
-	Vector m_vecDeathInfoOrigin; // 0x12D4
-	uint32[5] m_vecPlayerPatchEconIndices; // 0x12E0
-	Color m_GunGameImmunityColor; // 0x12F4
-	GameTime_t m_grenadeParameterStashTime; // 0x12F8
-	bool m_bGrenadeParametersStashed; // 0x12FC
-	QAngle m_angStashedShootAngles; // 0x1300
-	Vector m_vecStashedGrenadeThrowPosition; // 0x130C
-	Vector m_vecStashedVelocity; // 0x1318
-	bool m_bCommittingSuicideOnTeamChange; // 0x1330
-	bool m_wasNotKilledNaturally; // 0x1331
-	GameTime_t m_fImmuneToGunGameDamageTime; // 0x1334
-	bool m_bGunGameImmunity; // 0x1338
-	float32 m_fMolotovDamageTime; // 0x133C
-	QAngle m_angEyeAngles; // 0x1340
+	CCSPlayer_BulletServices* m_pBulletServices; // 0x0D38
+	CCSPlayer_HostageServices* m_pHostageServices; // 0x0D40
+	CCSPlayer_BuyServices* m_pBuyServices; // 0x0D48
+	CCSPlayer_ActionTrackingServices* m_pActionTrackingServices; // 0x0D50
+	CCSPlayer_AimPunchServices* m_pAimPunchServices; // 0x0D58
+	CCSPlayer_RadioServices* m_pRadioServices; // 0x0D60
+	CCSPlayer_DamageReactServices* m_pDamageReactServices; // 0x0D68
+	uint16 m_nCharacterDefIndex; // 0x0D70
+	bool m_bHasFemaleVoice; // 0x0D72
+	CUtlString m_strVOPrefix; // 0x0D78
+	char[18] m_szLastPlaceName; // 0x0D80
+	bool m_bInHostageResetZone; // 0x0E70
+	bool m_bInBuyZone; // 0x0E71
+	CUtlVector< CHandle< CBaseEntity > > m_TouchingBuyZones; // 0x0E78
+	bool m_bWasInBuyZone; // 0x0E90
+	bool m_bInHostageRescueZone; // 0x0E91
+	bool m_bInBombZone; // 0x0E92
+	bool m_bWasInHostageRescueZone; // 0x0E93
+	int32 m_iRetakesOffering; // 0x0E94
+	int32 m_iRetakesOfferingCard; // 0x0E98
+	bool m_bRetakesHasDefuseKit; // 0x0E9C
+	bool m_bRetakesMVPLastRound; // 0x0E9D
+	int32 m_iRetakesMVPBoostItem; // 0x0EA0
+	loadout_slot_t m_RetakesMVPBoostExtraUtility; // 0x0EA4
+	GameTime_t m_flHealthShotBoostExpirationTime; // 0x0EA8
+	float32 m_flLandingTimeSeconds; // 0x0EAC
+	bool m_bIsBuyMenuOpen; // 0x0EB0
+	GameTime_t m_lastLandTime; // 0x0EE8
+	bool m_bOnGroundLastTick; // 0x0EEC
+	int32 m_iPlayerLocked; // 0x0EF0
+	GameTime_t m_flTimeOfLastInjury; // 0x0EF8
+	GameTime_t m_flNextSprayDecalTime; // 0x0EFC
+	bool m_bNextSprayDecalTimeExpedited; // 0x0F00
+	int32 m_nRagdollDamageBone; // 0x0F04
+	Vector m_vRagdollDamageForce; // 0x0F08
+	char[64] m_szRagdollDamageWeaponName; // 0x0F14
+	bool m_bRagdollDamageHeadshot; // 0x0F54
+	VectorWS m_vRagdollServerOrigin; // 0x0F58
+	CEconItemView m_EconGloves; // 0x0F68
+	uint8 m_nEconGlovesChanged; // 0x1210
+	QAngle m_qDeathEyeAngles; // 0x1214
+	bool m_bLeftHanded; // 0x1220
+	GameTime_t m_fSwitchedHandednessTime; // 0x1224
+	float32 m_flViewmodelOffsetX; // 0x1228
+	float32 m_flViewmodelOffsetY; // 0x122C
+	float32 m_flViewmodelOffsetZ; // 0x1230
+	float32 m_flViewmodelFOV; // 0x1234
+	bool m_bIsWalking; // 0x1238
+	float32 m_fLastGivenDefuserTime; // 0x123C
+	float32 m_fLastGivenBombTime; // 0x1240
+	float32 m_flDealtDamageToEnemyMostRecentTimestamp; // 0x1244
+	uint32 m_iDisplayHistoryBits; // 0x1248
+	float32 m_flLastAttackedTeammate; // 0x124C
+	GameTime_t m_allowAutoFollowTime; // 0x1250
+	bool m_bResetArmorNextSpawn; // 0x1254
+	CEntityIndex m_nLastKillerIndex; // 0x1258
+	EntitySpottedState_t m_entitySpottedState; // 0x1260
+	int32 m_nSpotRules; // 0x1278
+	bool m_bIsScoped; // 0x127C
+	bool m_bResumeZoom; // 0x127D
+	bool m_bIsDefusing; // 0x127E
+	bool m_bIsGrabbingHostage; // 0x127F
+	CSPlayerBlockingUseAction_t m_iBlockingUseActionInProgress; // 0x1280
+	GameTime_t m_flEmitSoundTime; // 0x1284
+	bool m_bInNoDefuseArea; // 0x1288
+	CEntityIndex m_iBombSiteIndex; // 0x128C
+	int32 m_nWhichBombZone; // 0x1290
+	bool m_bInBombZoneTrigger; // 0x1294
+	bool m_bWasInBombZoneTrigger; // 0x1295
+	int32 m_iShotsFired; // 0x1298
+	float32 m_flFlinchStack; // 0x129C
+	float32 m_flVelocityModifier; // 0x12A0
+	Vector m_vecTotalBulletForce; // 0x12A4
+	bool m_bWaitForNoAttack; // 0x12B0
+	float32 m_ignoreLadderJumpTime; // 0x12B4
+	bool m_bKilledByHeadshot; // 0x12B8
+	int32 m_LastHitBox; // 0x12BC
+	CCSBot* m_pBot; // 0x12C0
+	bool m_bBotAllowActive; // 0x12C8
+	int32 m_nLastPickupPriority; // 0x12CC
+	float32 m_flLastPickupPriorityTime; // 0x12D0
+	int32 m_ArmorValue; // 0x12D4
+	uint16 m_unCurrentEquipmentValue; // 0x12D8
+	uint16 m_unRoundStartEquipmentValue; // 0x12DA
+	uint16 m_unFreezetimeEndEquipmentValue; // 0x12DC
+	int32 m_iLastWeaponFireUsercmd; // 0x12E0
+	bool m_bIsSpawning; // 0x12E4
+	int32 m_iDeathFlags; // 0x12F0
+	bool m_bHasDeathInfo; // 0x12F4
+	float32 m_flDeathInfoTime; // 0x12F8
+	VectorWS m_vecDeathInfoOrigin; // 0x12FC
+	uint32[5] m_vecPlayerPatchEconIndices; // 0x1308
+	Color m_GunGameImmunityColor; // 0x131C
+	GameTime_t m_grenadeParameterStashTime; // 0x1320
+	bool m_bGrenadeParametersStashed; // 0x1324
+	QAngle m_angStashedShootAngles; // 0x1328
+	VectorWS m_vecStashedGrenadeThrowPosition; // 0x1334
+	Vector m_vecStashedVelocity; // 0x1340
+	bool m_bCommittingSuicideOnTeamChange; // 0x1358
+	bool m_wasNotKilledNaturally; // 0x1359
+	GameTime_t m_fImmuneToGunGameDamageTime; // 0x135C
+	bool m_bGunGameImmunity; // 0x1360
+	float32 m_fMolotovDamageTime; // 0x1364
+	QAngle m_angEyeAngles; // 0x1368
 };
 class CEnvLightProbeVolume : public CBaseEntity // server
 {
@@ -16448,7 +16786,6 @@ class CGameSceneNode // server
 	CUtlStringToken m_name; // 0x00F0
 	CUtlStringToken m_hierarchyAttachName; // 0x0104
 	float32 m_flClientLocalScale; // 0x0108
-	Vector m_vRenderOrigin; // 0x010C
 };
 class CWeaponM249 : public CCSWeaponBaseGun // server
 {
@@ -16471,7 +16808,7 @@ class CPlayer_ObserverServices : public CPlayerPawnComponent // server
 };
 class CCashStack : public CBaseModelEntity // server
 {
-	int32 m_nCashStackValue; // 0x0768
+	int32 m_nCashStackValue; // 0x0770
 };
 class CLogicScript : public CPointEntity // server
 {
@@ -16484,12 +16821,12 @@ class CAttributeManager::cached_attribute_float_t // server
 };
 class CPulseGraphInstance_ServerEntity : public CBasePulseGraphInstance // server
 {
-	CHandle< CBaseEntity > m_hOwner; // 0x01A8
-	bool m_bActivated; // 0x01AC
-	CUtlSymbolLarge m_sNameFixupStaticPrefix; // 0x01B0
-	CUtlSymbolLarge m_sNameFixupParent; // 0x01B8
-	CUtlSymbolLarge m_sNameFixupLocal; // 0x01C0
-	CUtlSymbolLarge m_sProceduralWorldNameForRelays; // 0x01C8
+	CHandle< CBaseEntity > m_hOwner; // 0x01A0
+	bool m_bActivated; // 0x01A4
+	CUtlSymbolLarge m_sNameFixupStaticPrefix; // 0x01A8
+	CUtlSymbolLarge m_sNameFixupParent; // 0x01B0
+	CUtlSymbolLarge m_sNameFixupLocal; // 0x01B8
+	CUtlSymbolLarge m_sProceduralWorldNameForRelays; // 0x01C0
 };
 class CSceneEntityAlias_logic_choreographed_scene : public CSceneEntity // server
 {
@@ -16501,20 +16838,32 @@ class CRagdollManager : public CBaseEntity // server
 	bool m_bSaveImportant; // 0x04B0
 	bool m_bCanTakeDamage; // 0x04B1
 };
+class CSoundOpvarSetBoxEntity : public CSoundOpvarSetPointEntity // server
+{
+	Vector m_vDistanceInnerMins; // 0x0640
+	Vector m_vDistanceInnerMaxs; // 0x064C
+	Vector m_vDistanceOuterMins; // 0x0658
+	Vector m_vDistanceOuterMaxs; // 0x0664
+	int32 m_nBoxDirection; // 0x0670
+	Vector m_vInnerMins; // 0x0674
+	Vector m_vInnerMaxs; // 0x0680
+	Vector m_vOuterMins; // 0x068C
+	Vector m_vOuterMaxs; // 0x0698
+};
 class CPostProcessingVolume : public CBaseTrigger // server
 {
-	CStrongHandle< InfoForResourceTypeCPostProcessingResource > m_hPostSettings; // 0x08D8
-	float32 m_flFadeDuration; // 0x08E0
-	float32 m_flMinLogExposure; // 0x08E4
-	float32 m_flMaxLogExposure; // 0x08E8
-	float32 m_flMinExposure; // 0x08EC
-	float32 m_flMaxExposure; // 0x08F0
-	float32 m_flExposureCompensation; // 0x08F4
-	float32 m_flExposureFadeSpeedUp; // 0x08F8
-	float32 m_flExposureFadeSpeedDown; // 0x08FC
-	float32 m_flTonemapEVSmoothingRange; // 0x0900
-	bool m_bMaster; // 0x0904
-	bool m_bExposureControl; // 0x0905
+	CStrongHandle< InfoForResourceTypeCPostProcessingResource > m_hPostSettings; // 0x08F8
+	float32 m_flFadeDuration; // 0x0900
+	float32 m_flMinLogExposure; // 0x0904
+	float32 m_flMaxLogExposure; // 0x0908
+	float32 m_flMinExposure; // 0x090C
+	float32 m_flMaxExposure; // 0x0910
+	float32 m_flExposureCompensation; // 0x0914
+	float32 m_flExposureFadeSpeedUp; // 0x0918
+	float32 m_flExposureFadeSpeedDown; // 0x091C
+	float32 m_flTonemapEVSmoothingRange; // 0x0920
+	bool m_bMaster; // 0x0924
+	bool m_bExposureControl; // 0x0925
 };
 class CPointProximitySensor : public CPointEntity // server
 {
@@ -16532,28 +16881,31 @@ class CPulse_InvokeBinding // pulse_runtime_lib
 };
 class CTriggerLook : public CTriggerOnce // server
 {
-	CHandle< CBaseEntity > m_hLookTarget; // 0x08E0
-	float32 m_flFieldOfView; // 0x08E4
-	float32 m_flLookTime; // 0x08E8
-	float32 m_flLookTimeTotal; // 0x08EC
-	GameTime_t m_flLookTimeLast; // 0x08F0
-	float32 m_flTimeoutDuration; // 0x08F4
-	bool m_bTimeoutFired; // 0x08F8
-	bool m_bIsLooking; // 0x08F9
-	bool m_b2DFOV; // 0x08FA
-	bool m_bUseVelocity; // 0x08FB
-	bool m_bTestOcclusion; // 0x08FC
-	bool m_bTestAllVisibleOcclusion; // 0x08FD
-	CEntityIOOutput m_OnTimeout; // 0x0900
-	CEntityIOOutput m_OnStartLook; // 0x0918
-	CEntityIOOutput m_OnEndLook; // 0x0930
+	CHandle< CBaseEntity > m_hLookTarget; // 0x0900
+	float32 m_flFieldOfView; // 0x0904
+	float32 m_flLookTime; // 0x0908
+	float32 m_flLookTimeTotal; // 0x090C
+	GameTime_t m_flLookTimeLast; // 0x0910
+	float32 m_flTimeoutDuration; // 0x0914
+	bool m_bTimeoutFired; // 0x0918
+	bool m_bIsLooking; // 0x0919
+	bool m_b2DFOV; // 0x091A
+	bool m_bUseVelocity; // 0x091B
+	bool m_bTestOcclusion; // 0x091C
+	bool m_bTestAllVisibleOcclusion; // 0x091D
+	CEntityIOOutput m_OnTimeout; // 0x0920
+	CEntityIOOutput m_OnStartLook; // 0x0938
+	CEntityIOOutput m_OnEndLook; // 0x0950
 };
-class CPulseCell_Outflow_PlayVCD : public CPulseCell_Outflow_PlaySceneBase // server
+class CPulseCell_Outflow_PlayVCD : public CPulseCell_Outflow_PlayVCDBase // server
 {
-	CStrongHandle< InfoForResourceTypeCChoreoSceneResource > m_hChoreoScene; // 0x00F0
-	CPulse_OutflowConnection m_OnPaused; // 0x00F8
-	CPulse_OutflowConnection m_OnResumed; // 0x0140
-	CUtlVector< CPulseCell_Outflow_PlayVCD::VCDRequirementInfo_t > m_OutRequirements; // 0x0188
+	CStrongHandle< InfoForResourceTypeCChoreoSceneResource > m_hChoreoScene; // 0x0138
+	CPulse_OutflowConnection m_OnPaused; // 0x0140
+	CPulse_OutflowConnection m_OnResumed; // 0x0188
+	CUtlVector< CPulseCell_Outflow_PlayVCD::VCDRequirementInfo_t > m_OutRequirements; // 0x01D0
+};
+class CCSPointScriptEntity_API // server
+{
 };
 class CMultiplayRules : public CGameRules // server
 {
@@ -16563,7 +16915,7 @@ class CMolotovGrenade : public CBaseCSGrenade // server
 };
 class CPhysTorque : public CPhysForce // server
 {
-	VectorWS m_axis; // 0x0508
+	Vector m_axis; // 0x0508
 };
 class CMultiSource : public CLogicalEntity // server
 {
@@ -16575,19 +16927,19 @@ class CMultiSource : public CLogicalEntity // server
 };
 class CBaseCSGrenade : public CCSWeaponBase // server
 {
-	bool m_bRedraw; // 0x1030
-	bool m_bIsHeldByPlayer; // 0x1031
-	bool m_bPinPulled; // 0x1032
-	bool m_bJumpThrow; // 0x1033
-	bool m_bThrowAnimating; // 0x1034
-	GameTime_t m_fThrowTime; // 0x1038
-	float32 m_flThrowStrength; // 0x103C
-	GameTime_t m_fDropTime; // 0x1040
-	GameTime_t m_fPinPullTime; // 0x1044
-	bool m_bJustPulledPin; // 0x1048
-	GameTick_t m_nNextHoldTick; // 0x104C
-	float32 m_flNextHoldFrac; // 0x1050
-	CHandle< CCSWeaponBase > m_hSwitchToWeaponAfterThrow; // 0x1054
+	bool m_bRedraw; // 0x1050
+	bool m_bIsHeldByPlayer; // 0x1051
+	bool m_bPinPulled; // 0x1052
+	bool m_bJumpThrow; // 0x1053
+	bool m_bThrowAnimating; // 0x1054
+	GameTime_t m_fThrowTime; // 0x1058
+	float32 m_flThrowStrength; // 0x105C
+	GameTime_t m_fDropTime; // 0x1060
+	GameTime_t m_fPinPullTime; // 0x1064
+	bool m_bJustPulledPin; // 0x1068
+	GameTick_t m_nNextHoldTick; // 0x106C
+	float32 m_flNextHoldFrac; // 0x1070
+	CHandle< CCSWeaponBase > m_hSwitchToWeaponAfterThrow; // 0x1074
 };
 class CLogicAuto : public CBaseEntity // server
 {
@@ -16620,7 +16972,7 @@ class CInfoDynamicShadowHint : public CPointEntity // server
 };
 class CMarkupVolume : public CBaseModelEntity // server
 {
-	bool m_bDisabled; // 0x0768
+	bool m_bDisabled; // 0x0770
 };
 class CPathNode : public CPointEntity // server
 {
@@ -16628,15 +16980,18 @@ class CPathNode : public CPointEntity // server
 	Vector m_vOutTangentLocal; // 0x04B4
 	CUtlString m_strParentPathUniqueID; // 0x04C0
 	CUtlString m_strPathNodeParameter; // 0x04C8
-	CTransform m_xWSPrevParent; // 0x04D0
+	CTransformWS m_xWSPrevParent; // 0x04D0
 	CHandle< CPathWithDynamicNodes > m_hPath; // 0x04F0
 };
 class CCSGO_TeamSelectCounterTerroristPosition : public CCSGO_TeamSelectCharacterPosition // server
 {
 };
+class CPointGiveAmmo_API // server
+{
+};
 class CTriggerRemove : public CBaseTrigger // server
 {
-	CEntityIOOutput m_OnRemove; // 0x08C8
+	CEntityIOOutput m_OnRemove; // 0x08E8
 };
 class CLogicGameEventListener : public CLogicalEntity // server
 {
@@ -16651,12 +17006,12 @@ class CServerOnlyModelEntity : public CBaseModelEntity // server
 };
 class CPulseCell_IntervalTimer : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_Completed; // 0x0048
-	SignatureOutflow_Continue m_OnInterval; // 0x0090
+	CPulse_ResumePoint m_Completed; // 0x00D8
+	SignatureOutflow_Continue m_OnInterval; // 0x0120
 };
 class CMarkupVolumeTagged_Nav : public CMarkupVolumeTagged // server
 {
-	NavScopeFlags_t m_nScopes; // 0x07A8
+	NavScopeFlags_t m_nScopes; // 0x07B0
 };
 class CInfoPlayerTerrorist : public SpawnPoint // server
 {
@@ -16709,7 +17064,7 @@ class CPointPrefab : public CServerOnlyPointEntity // server
 };
 class CPulseCell_BaseLerp : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_WakeResume; // 0x0048
+	CPulse_ResumePoint m_WakeResume; // 0x00D8
 };
 class CEnvInstructorVRHint : public CPointEntity // server
 {
@@ -16726,6 +17081,9 @@ class CEnvInstructorVRHint : public CPointEntity // server
 class CCSGameRulesProxy : public CGameRulesProxy // server
 {
 	CCSGameRules* m_pGameRules; // 0x04A8
+};
+class CPointValueRemapperAPI // server
+{
 };
 class CPrecipitation : public CBaseTrigger // server
 {
@@ -16746,7 +17104,7 @@ class CLogicNPCCounterOBB : public CLogicNPCCounterAABB // server
 };
 class CPlatTrigger : public CBaseModelEntity // server
 {
-	CHandle< CFuncPlat > m_pPlatform; // 0x0768
+	CHandle< CFuncPlat > m_pPlatform; // 0x0770
 };
 class CSceneEntity : public CPointEntity // server
 {
@@ -16773,25 +17131,23 @@ class CSceneEntity : public CPointEntity // server
 	bool m_bPaused; // 0x0529
 	bool m_bMultiplayer; // 0x052A
 	bool m_bAutogenerated; // 0x052B
-	bool m_bAllRequirementsComplete; // 0x052C
-	float32 m_flForceClientTime; // 0x0530
-	float32 m_flCurrentTime; // 0x0534
-	float32 m_flFrameTime; // 0x0538
-	bool m_bCancelAtNextInterrupt; // 0x053C
-	float32 m_fPitch; // 0x0540
-	bool m_bAutomated; // 0x0544
-	int32 m_nAutomatedAction; // 0x0548
-	float32 m_flAutomationDelay; // 0x054C
-	float32 m_flAutomationTime; // 0x0550
-	int32 m_nSpeechPriority; // 0x0554
-	bool m_bPausedViaInput; // 0x0558
-	bool m_bPauseAtNextInterrupt; // 0x0559
-	bool m_bWaitingForActor; // 0x055A
-	bool m_bWaitingForInterrupt; // 0x055B
-	bool m_bInterruptedActorsScenes; // 0x055C
-	bool m_bTakeOverNPCBehavior; // 0x055D
-	bool m_bBreakOnNonIdle; // 0x055E
-	bool m_bSceneFinished; // 0x055F
+	float32 m_flForceClientTime; // 0x052C
+	float32 m_flCurrentTime; // 0x0530
+	float32 m_flFrameTime; // 0x0534
+	bool m_bCancelAtNextInterrupt; // 0x0538
+	float32 m_fPitch; // 0x053C
+	bool m_bAutomated; // 0x0540
+	int32 m_nAutomatedAction; // 0x0544
+	float32 m_flAutomationDelay; // 0x0548
+	float32 m_flAutomationTime; // 0x054C
+	int32 m_nSpeechPriority; // 0x0550
+	bool m_bPausedViaInput; // 0x0554
+	bool m_bPauseAtNextInterrupt; // 0x0555
+	bool m_bWaitingForActor; // 0x0556
+	bool m_bWaitingForInterrupt; // 0x0557
+	bool m_bInterruptedActorsScenes; // 0x0558
+	bool m_bBreakOnNonIdle; // 0x0559
+	bool m_bSceneFinished; // 0x055A
 	CNetworkUtlVectorBase< CHandle< CBaseModelEntity > > m_hActorList; // 0x0560
 	CUtlVector< CHandle< CBaseEntity > > m_hRemoveActorList; // 0x0578
 	uint16 m_nSceneStringIndex; // 0x05C0
@@ -16801,21 +17157,22 @@ class CSceneEntity : public CPointEntity // server
 	CEntityIOOutput m_OnPaused; // 0x0610
 	CEntityIOOutput m_OnResumed; // 0x0628
 	CEntityIOOutput m_OnPulseRequirement; // 0x0640
-	CHandle< CSceneEntity > m_hInterruptScene; // 0x0758
-	int32 m_nInterruptCount; // 0x075C
-	bool m_bSceneMissing; // 0x0760
-	bool m_bInterrupted; // 0x0761
-	bool m_bCompletedEarly; // 0x0762
-	bool m_bInterruptSceneFinished; // 0x0763
-	bool m_bRestoring; // 0x0764
-	CUtlVector< CHandle< CSceneEntity > > m_hNotifySceneCompletion; // 0x0768
-	CUtlVector< CHandle< CSceneListManager > > m_hListManagers; // 0x0780
-	CUtlSymbolLarge m_iszSoundName; // 0x0798
-	CUtlSymbolLarge m_iszSequenceName; // 0x07A0
-	CHandle< CBaseModelEntity > m_hActor; // 0x07A8
-	CHandle< CBaseEntity > m_hActivator; // 0x07AC
-	int32 m_BusyActor; // 0x07B0
-	SceneOnPlayerDeath_t m_iPlayerDeathBehavior; // 0x07B4
+	CUtlVector< ActorMapping_t > m_ActorMap; // 0x0748
+	CHandle< CSceneEntity > m_hInterruptScene; // 0x0788
+	int32 m_nInterruptCount; // 0x078C
+	bool m_bSceneMissing; // 0x0790
+	bool m_bInterrupted; // 0x0791
+	bool m_bCompletedEarly; // 0x0792
+	bool m_bInterruptSceneFinished; // 0x0793
+	bool m_bRestoring; // 0x0794
+	CUtlVector< CHandle< CSceneEntity > > m_hNotifySceneCompletion; // 0x0798
+	CUtlVector< CHandle< CSceneListManager > > m_hListManagers; // 0x07B0
+	CUtlSymbolLarge m_iszSoundName; // 0x07C8
+	CUtlSymbolLarge m_iszSequenceName; // 0x07D0
+	CHandle< CBaseModelEntity > m_hActor; // 0x07D8
+	CHandle< CBaseEntity > m_hActivator; // 0x07DC
+	int32 m_BusyActor; // 0x07E0
+	SceneOnPlayerDeath_t m_iPlayerDeathBehavior; // 0x07E4
 };
 class CChoreoInfoTarget : public CPointEntity // server
 {
@@ -16848,18 +17205,18 @@ class CNetworkedSequenceOperation // server
 };
 class CPhysMagnet : public CBaseAnimGraph // server
 {
-	CEntityIOOutput m_OnMagnetAttach; // 0x0940
-	CEntityIOOutput m_OnMagnetDetach; // 0x0958
-	float32 m_massScale; // 0x0970
-	float32 m_forceLimit; // 0x0974
-	float32 m_torqueLimit; // 0x0978
-	CUtlVector< magnetted_objects_t > m_MagnettedEntities; // 0x0980
-	bool m_bActive; // 0x0998
-	bool m_bHasHitSomething; // 0x0999
-	float32 m_flTotalMass; // 0x099C
-	float32 m_flRadius; // 0x09A0
-	GameTime_t m_flNextSuckTime; // 0x09A4
-	int32 m_iMaxObjectsAttached; // 0x09A8
+	CEntityIOOutput m_OnMagnetAttach; // 0x0960
+	CEntityIOOutput m_OnMagnetDetach; // 0x0978
+	float32 m_massScale; // 0x0990
+	float32 m_forceLimit; // 0x0994
+	float32 m_torqueLimit; // 0x0998
+	CUtlVector< magnetted_objects_t > m_MagnettedEntities; // 0x09A0
+	bool m_bActive; // 0x09B8
+	bool m_bHasHitSomething; // 0x09B9
+	float32 m_flTotalMass; // 0x09BC
+	float32 m_flRadius; // 0x09C0
+	GameTime_t m_flNextSuckTime; // 0x09C4
+	int32 m_iMaxObjectsAttached; // 0x09C8
 };
 class CEntityInstance // entity2
 {
@@ -16913,19 +17270,25 @@ class CPhysPulley : public CPhysConstraint // server
 class CCSPetPlacement : public CBaseEntity // server
 {
 };
+class CEnvWindSharedAPI // server
+{
+};
 class CWeaponMP5SD : public CCSWeaponBaseGun // server
 {
 };
 class CWeaponBaseItem : public CCSWeaponBase // server
 {
-	bool m_bSequenceInProgress; // 0x1030
-	bool m_bRedraw; // 0x1031
+	bool m_bSequenceInProgress; // 0x1050
+	bool m_bRedraw; // 0x1051
 };
 class CCommentaryAuto : public CBaseEntity // server
 {
 	CEntityIOOutput m_OnCommentaryNewGame; // 0x04A8
 	CEntityIOOutput m_OnCommentaryMidGame; // 0x04C0
 	CEntityIOOutput m_OnCommentaryMultiplayerSpawn; // 0x04D8
+};
+class CMapInfo_API // server
+{
 };
 class CPulseCell_Outflow_ListenForEntityOutput::CursorState_t // server
 {
@@ -16964,24 +17327,34 @@ class CLogicMeasureMovement : public CLogicalEntity // server
 	float32 m_flScale; // 0x04D0
 	int32 m_nMeasureType; // 0x04D4
 };
+class CLogicActivityEvent : public CLogicalEntity // server
+{
+	int32 m_nEventType; // 0x04A8
+	float32 m_flDuration; // 0x04AC
+	CUtlSymbolLarge m_iszSourceEntityName; // 0x04B0
+	CEntityHandle m_hSource; // 0x04B8
+};
 class CC4 : public CCSWeaponBase // server
 {
-	Vector m_vecLastValidPlayerHeldPosition; // 0x1060
-	Vector m_vecLastValidDroppedPosition; // 0x106C
-	bool m_bDoValidDroppedPositionCheck; // 0x1078
-	bool m_bStartedArming; // 0x1079
-	GameTime_t m_fArmedTime; // 0x107C
-	bool m_bBombPlacedAnimation; // 0x1080
-	bool m_bIsPlantingViaUse; // 0x1081
-	EntitySpottedState_t m_entitySpottedState; // 0x1088
-	int32 m_nSpotRules; // 0x10A0
-	bool[7] m_bPlayedArmingBeeps; // 0x10A4
-	bool m_bBombPlanted; // 0x10AB
+	VectorWS m_vecLastValidPlayerHeldPosition; // 0x1080
+	VectorWS m_vecLastValidDroppedPosition; // 0x108C
+	bool m_bDoValidDroppedPositionCheck; // 0x1098
+	bool m_bStartedArming; // 0x1099
+	GameTime_t m_fArmedTime; // 0x109C
+	bool m_bBombPlacedAnimation; // 0x10A0
+	bool m_bIsPlantingViaUse; // 0x10A1
+	EntitySpottedState_t m_entitySpottedState; // 0x10A8
+	int32 m_nSpotRules; // 0x10C0
+	bool[7] m_bPlayedArmingBeeps; // 0x10C4
+	bool m_bBombPlanted; // 0x10CB
 };
 class CHostageCarriableProp : public CBaseAnimGraph // server
 {
 };
 class CDynamicPropAlias_cable_dynamic : public CDynamicProp // server
+{
+};
+class CLogicEventListener_API // server
 {
 };
 class CCSObserver_CameraServices : public CCSPlayerBase_CameraServices // server
@@ -16994,21 +17367,21 @@ class CEnvDetailController : public CBaseEntity // server
 };
 class CCSPlayerPawnBase : public CBasePlayerPawn // server
 {
-	CTouchExpansionComponent m_CTouchExpansionComponent; // 0x0BC0
-	CCSPlayer_PingServices* m_pPingServices; // 0x0C10
-	GameTime_t m_blindUntilTime; // 0x0C18
-	GameTime_t m_blindStartTime; // 0x0C1C
-	CSPlayerState m_iPlayerState; // 0x0C20
-	bool m_bRespawning; // 0x0CD0
-	bool m_bHasMovedSinceSpawn; // 0x0CD1
-	int32 m_iNumSpawns; // 0x0CD4
-	float32 m_flIdleTimeSinceLastAction; // 0x0CDC
-	float32 m_fNextRadarUpdateTime; // 0x0CE0
-	float32 m_flFlashDuration; // 0x0CE4
-	float32 m_flFlashMaxAlpha; // 0x0CE8
-	float32 m_flProgressBarStartTime; // 0x0CEC
-	int32 m_iProgressBarDuration; // 0x0CF0
-	CHandle< CCSPlayerController > m_hOriginalController; // 0x0CF4
+	CTouchExpansionComponent m_CTouchExpansionComponent; // 0x0BF0
+	CCSPlayer_PingServices* m_pPingServices; // 0x0C40
+	GameTime_t m_blindUntilTime; // 0x0C48
+	GameTime_t m_blindStartTime; // 0x0C4C
+	CSPlayerState m_iPlayerState; // 0x0C50
+	bool m_bRespawning; // 0x0D00
+	bool m_bHasMovedSinceSpawn; // 0x0D01
+	int32 m_iNumSpawns; // 0x0D04
+	float32 m_flIdleTimeSinceLastAction; // 0x0D0C
+	float32 m_fNextRadarUpdateTime; // 0x0D10
+	float32 m_flFlashDuration; // 0x0D14
+	float32 m_flFlashMaxAlpha; // 0x0D18
+	float32 m_flProgressBarStartTime; // 0x0D1C
+	int32 m_iProgressBarDuration; // 0x0D20
+	CHandle< CCSPlayerController > m_hOriginalController; // 0x0D24
 };
 class CEnvSoundscapeProxy : public CEnvSoundscape // server
 {
@@ -17026,19 +17399,19 @@ class CPulseCell_BaseFlow : public CPulseCell_Base // pulse_runtime_lib
 };
 class CBombTarget : public CBaseTrigger // server
 {
-	CEntityIOOutput m_OnBombExplode; // 0x08C8
-	CEntityIOOutput m_OnBombPlanted; // 0x08E0
-	CEntityIOOutput m_OnBombDefused; // 0x08F8
-	bool m_bIsBombSiteB; // 0x0910
-	bool m_bIsHeistBombTarget; // 0x0911
-	bool m_bBombPlantedHere; // 0x0912
-	CUtlSymbolLarge m_szMountTarget; // 0x0918
-	CHandle< CBaseEntity > m_hInstructorHint; // 0x0920
-	int32 m_nBombSiteDesignation; // 0x0924
+	CEntityIOOutput m_OnBombExplode; // 0x08E8
+	CEntityIOOutput m_OnBombPlanted; // 0x0900
+	CEntityIOOutput m_OnBombDefused; // 0x0918
+	bool m_bIsBombSiteB; // 0x0930
+	bool m_bIsHeistBombTarget; // 0x0931
+	bool m_bBombPlantedHere; // 0x0932
+	CUtlSymbolLarge m_szMountTarget; // 0x0938
+	CHandle< CBaseEntity > m_hInstructorHint; // 0x0940
+	int32 m_nBombSiteDesignation; // 0x0944
 };
 class CRuleEntity : public CBaseModelEntity // server
 {
-	CUtlSymbolLarge m_iszMaster; // 0x0768
+	CUtlSymbolLarge m_iszMaster; // 0x0770
 };
 class CPhysThruster : public CPhysForce // server
 {
@@ -17065,38 +17438,38 @@ class CEntityFlame : public CBaseEntity // server
 };
 class CSkeletonInstance : public CGameSceneNode // server
 {
-	CModelState m_modelState; // 0x0130
-	bool m_bUseParentRenderBounds; // 0x0380
-	bool m_bDisableSolidCollisionsForHierarchy; // 0x0381
-	bitfield:1 m_bDirtyMotionType; // 0x0000
-	bitfield:1 m_bIsGeneratingLatchedParentSpaceState; // 0x0000
-	CUtlStringToken m_materialGroup; // 0x0384
-	uint8 m_nHitboxSet; // 0x0388
-	bool m_bForceServerConstraintsEnabled; // 0x03E4
+	CModelState m_modelState; // 0x0120
+	bool m_bUseParentRenderBounds; // 0x03B0
+	bool m_bDisableSolidCollisionsForHierarchy; // 0x03B1
+	bool m_bDirtyMotionType; // 0x03B2
+	bool m_bIsGeneratingLatchedParentSpaceState; // 0x03B3
+	CUtlStringToken m_materialGroup; // 0x03B8
+	uint8 m_nHitboxSet; // 0x03BC
+	bool m_bForceServerConstraintsEnabled; // 0x041C
 };
 class CEntityComponent // entity2
 {
 };
 class CBasePlatTrain : public CBaseToggle // server
 {
-	CUtlSymbolLarge m_NoiseMoving; // 0x07E8
-	CUtlSymbolLarge m_NoiseArrived; // 0x07F0
-	float32 m_volume; // 0x0800
-	float32 m_flTWidth; // 0x0804
-	float32 m_flTLength; // 0x0808
+	CGameSoundEventName m_NoiseMoving; // 0x07F0
+	CGameSoundEventName m_NoiseArrived; // 0x07F8
+	float32 m_volume; // 0x0808
+	float32 m_flTWidth; // 0x080C
+	float32 m_flTLength; // 0x0810
 };
 class CPointTeleport : public CServerOnlyPointEntity // server
 {
-	Vector m_vSaveOrigin; // 0x04A8
+	VectorWS m_vSaveOrigin; // 0x04A8
 	QAngle m_vSaveAngles; // 0x04B4
 	bool m_bTeleportParentedEntities; // 0x04C0
 	bool m_bTeleportUseCurrentAngle; // 0x04C1
 };
 class CTriggerGameEvent : public CBaseTrigger // server
 {
-	CUtlString m_strStartTouchEventName; // 0x08C8
-	CUtlString m_strEndTouchEventName; // 0x08D0
-	CUtlString m_strTriggerID; // 0x08D8
+	CUtlString m_strStartTouchEventName; // 0x08E8
+	CUtlString m_strEndTouchEventName; // 0x08F0
+	CUtlString m_strTriggerID; // 0x08F8
 };
 class CMessageEntity : public CPointEntity // server
 {
@@ -17122,9 +17495,9 @@ class CPulseCell_BaseLerp::CursorState_t // pulse_runtime_lib
 };
 class CMarkupVolumeTagged_NavGame : public CMarkupVolumeWithRef // server
 {
-	NavScopeFlags_t m_nScopes; // 0x07D0
-	bool m_bFloodFillAttribute; // 0x07D1
-	bool m_bSplitNavSpace; // 0x07D2
+	NavScopeFlags_t m_nScopes; // 0x07D8
+	bool m_bFloodFillAttribute; // 0x07D9
+	bool m_bSplitNavSpace; // 0x07DA
 };
 class CMultiLightProxy : public CLogicalEntity // server
 {
@@ -17137,23 +17510,22 @@ class CMultiLightProxy : public CLogicalEntity // server
 	float32 m_flCurrentBrightnessMultiplier; // 0x04C8
 	CUtlVector< CHandle< CLightEntity > > m_vecLights; // 0x04D0
 };
+class CPlantedC4_API // server
+{
+};
 class CWeaponM4A1 : public CCSWeaponBaseGun // server
 {
 };
 class CTriggerHostageReset : public CBaseTrigger // server
 {
 };
-class CPulseAnimFuncs // server
-{
-};
 class CEconWearable : public CEconEntity // server
 {
-	int32 m_nForceSkin; // 0x0C70
-	bool m_bAlwaysAllow; // 0x0C74
+	int32 m_nForceSkin; // 0x0C90
+	bool m_bAlwaysAllow; // 0x0C94
 };
-class CPulseCell_WaitForCursorsWithTagBase::CursorState_t // pulse_runtime_lib
+class CChicken_API // server
 {
-	PulseSymbol_t m_TagName; // 0x0000
 };
 class CPulseArraylib // pulse_runtime_lib
 {
@@ -17163,18 +17535,18 @@ class CWeaponMAC10 : public CCSWeaponBaseGun // server
 };
 class CFuncLadder : public CBaseModelEntity // server
 {
-	Vector m_vecLadderDir; // 0x0768
-	CUtlVector< CHandle< CInfoLadderDismount > > m_Dismounts; // 0x0778
-	Vector m_vecLocalTop; // 0x0790
-	VectorWS m_vecPlayerMountPositionTop; // 0x079C
-	VectorWS m_vecPlayerMountPositionBottom; // 0x07A8
-	float32 m_flAutoRideSpeed; // 0x07B4
-	bool m_bDisabled; // 0x07B8
-	bool m_bFakeLadder; // 0x07B9
-	bool m_bHasSlack; // 0x07BA
-	CUtlSymbolLarge m_surfacePropName; // 0x07C0
-	CEntityIOOutput m_OnPlayerGotOnLadder; // 0x07C8
-	CEntityIOOutput m_OnPlayerGotOffLadder; // 0x07E0
+	Vector m_vecLadderDir; // 0x0770
+	CUtlVector< CHandle< CInfoLadderDismount > > m_Dismounts; // 0x0780
+	Vector m_vecLocalTop; // 0x0798
+	VectorWS m_vecPlayerMountPositionTop; // 0x07A4
+	VectorWS m_vecPlayerMountPositionBottom; // 0x07B0
+	float32 m_flAutoRideSpeed; // 0x07BC
+	bool m_bDisabled; // 0x07C0
+	bool m_bFakeLadder; // 0x07C1
+	bool m_bHasSlack; // 0x07C2
+	CUtlSymbolLarge m_surfacePropName; // 0x07C8
+	CEntityIOOutput m_OnPlayerGotOnLadder; // 0x07D0
+	CEntityIOOutput m_OnPlayerGotOffLadder; // 0x07E8
 };
 class CFogController : public CBaseEntity // server
 {
@@ -17187,31 +17559,32 @@ class CPointTemplateAPI // server
 };
 class CItem : public CBaseAnimGraph // server
 {
-	CEntityIOOutput m_OnPlayerTouch; // 0x0948
-	CEntityIOOutput m_OnPlayerPickup; // 0x0960
-	bool m_bActivateWhenAtRest; // 0x0978
-	CEntityIOOutput m_OnCacheInteraction; // 0x0980
-	CEntityIOOutput m_OnGlovePulled; // 0x0998
-	VectorWS m_vOriginalSpawnOrigin; // 0x09B0
-	QAngle m_vOriginalSpawnAngles; // 0x09BC
-	bool m_bPhysStartAsleep; // 0x09C8
+	CEntityIOOutput m_OnPlayerTouch; // 0x0968
+	CEntityIOOutput m_OnPlayerPickup; // 0x0980
+	bool m_bActivateWhenAtRest; // 0x0998
+	CEntityIOOutput m_OnCacheInteraction; // 0x09A0
+	CEntityIOOutput m_OnGlovePulled; // 0x09B8
+	VectorWS m_vOriginalSpawnOrigin; // 0x09D0
+	QAngle m_vOriginalSpawnAngles; // 0x09DC
+	bool m_bPhysStartAsleep; // 0x09E8
 };
 class CTriggerPush : public CBaseTrigger // server
 {
-	QAngle m_angPushEntitySpace; // 0x08C8
-	Vector m_vecPushDirEntitySpace; // 0x08D4
-	bool m_bTriggerOnStartTouch; // 0x08E0
-	bool m_bUsePathSimple; // 0x08E1
-	CUtlSymbolLarge m_iszPathSimpleName; // 0x08E8
-	CHandle< CPathSimple > m_PathSimple; // 0x08F0
-	uint32 m_splinePushType; // 0x08F4
+	QAngle m_angPushEntitySpace; // 0x08E8
+	Vector m_vecPushDirEntitySpace; // 0x08F4
+	bool m_bTriggerOnStartTouch; // 0x0900
+	bool m_bUsePathSimple; // 0x0901
+	CUtlSymbolLarge m_iszPathSimpleName; // 0x0908
+	CHandle< CPathSimple > m_PathSimple; // 0x0910
+	uint32 m_splinePushType; // 0x0914
+	float32 m_flSpeed; // 0x0918
 };
 class CBaseProp : public CBaseAnimGraph // server
 {
-	bool m_bModelOverrodeBlockLOS; // 0x0940
-	int32 m_iShapeType; // 0x0944
-	bool m_bConformToCollisionBounds; // 0x0948
-	CTransform m_mPreferredCatchTransform; // 0x0950
+	bool m_bModelOverrodeBlockLOS; // 0x0960
+	int32 m_iShapeType; // 0x0964
+	bool m_bConformToCollisionBounds; // 0x0968
+	CTransform m_mPreferredCatchTransform; // 0x0970
 };
 class CInfoOffscreenPanoramaTexture : public CPointEntity // server
 {
@@ -17265,14 +17638,14 @@ class CFlashbang : public CBaseCSGrenade // server
 };
 class CBasePlayerWeapon : public CEconEntity // server
 {
-	GameTick_t m_nNextPrimaryAttackTick; // 0x0C70
-	float32 m_flNextPrimaryAttackTickRatio; // 0x0C74
-	GameTick_t m_nNextSecondaryAttackTick; // 0x0C78
-	float32 m_flNextSecondaryAttackTickRatio; // 0x0C7C
-	int32 m_iClip1; // 0x0C80
-	int32 m_iClip2; // 0x0C84
-	int32[2] m_pReserveAmmo; // 0x0C88
-	CEntityIOOutput m_OnPlayerUse; // 0x0C90
+	GameTick_t m_nNextPrimaryAttackTick; // 0x0C90
+	float32 m_flNextPrimaryAttackTickRatio; // 0x0C94
+	GameTick_t m_nNextSecondaryAttackTick; // 0x0C98
+	float32 m_flNextSecondaryAttackTickRatio; // 0x0C9C
+	int32 m_iClip1; // 0x0CA0
+	int32 m_iClip2; // 0x0CA4
+	int32[2] m_pReserveAmmo; // 0x0CA8
+	CEntityIOOutput m_OnPlayerUse; // 0x0CB0
 };
 class CCSWeaponBaseVData : public CBasePlayerWeaponVData // server
 {
@@ -17403,10 +17776,9 @@ class CPlayer_CameraServices : public CPlayerPawnComponent // server
 };
 class CPulseCell_Timeline : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CUtlVector< CPulseCell_Timeline::TimelineEvent_t > m_TimelineEvents; // 0x0048
-	bool m_bWaitForChildOutflows; // 0x0060
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlVector< CPulseCell_Timeline::TimelineEvent_t > m_TimelineEvents; // 0x00D8
+	bool m_bWaitForChildOutflows; // 0x00F0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class CPulseCell_Inflow_EntOutputHandler : public CPulseCell_Inflow_BaseEntrypoint // pulse_runtime_lib
 {
@@ -17416,13 +17788,6 @@ class CPulseCell_Inflow_EntOutputHandler : public CPulseCell_Inflow_BaseEntrypoi
 };
 class CPulseFuncs_GameParticleManager // server
 {
-};
-class CScenePayloadVData // server
-{
-	ENPCBehaviorOverride_t m_eNPCBehavior; // 0x0000
-	CResourceNameTyped< CWeakHandle< InfoForResourceTypeIPulseGraphDef > > m_sPulseFile; // 0x0008
-	CResourceNameTyped< CWeakHandle< InfoForResourceTypeCChoreoSceneResource > > m_sSceneFile; // 0x00E8
-	InteractionPriority_t m_ePriority; // 0x01C8
 };
 class CFilterAttributeInt : public CBaseFilter // server
 {
@@ -17626,12 +17991,15 @@ class CTeam : public CBaseEntity // server
 	int32 m_iScore; // 0x04D8
 	char[129] m_szTeamname; // 0x04DC
 };
+class CFuncConveyor_API // server
+{
+};
 class CLogicNPCCounterAABB : public CLogicNPCCounter // server
 {
 	Vector m_vDistanceOuterMins; // 0x0728
 	Vector m_vDistanceOuterMaxs; // 0x0734
-	Vector m_vOuterMins; // 0x0740
-	Vector m_vOuterMaxs; // 0x074C
+	VectorWS m_vOuterMins; // 0x0740
+	VectorWS m_vOuterMaxs; // 0x074C
 };
 class CPulseCell_Outflow_CycleOrdered::InstanceState_t // pulse_runtime_lib
 {
@@ -17639,64 +18007,59 @@ class CPulseCell_Outflow_CycleOrdered::InstanceState_t // pulse_runtime_lib
 };
 class CChicken : public CDynamicProp // server
 {
-	CAttributeContainer m_AttributeManager; // 0x0BA0
-	CountdownTimer m_updateTimer; // 0x0E98
-	Vector m_stuckAnchor; // 0x0EB0
-	CountdownTimer m_stuckTimer; // 0x0EC0
-	CountdownTimer m_collisionStuckTimer; // 0x0ED8
-	bool m_isOnGround; // 0x0EF0
-	Vector m_vFallVelocity; // 0x0EF4
-	ChickenActivity m_desiredActivity; // 0x0F00
-	ChickenActivity m_currentActivity; // 0x0F04
-	CountdownTimer m_activityTimer; // 0x0F08
-	float32 m_turnRate; // 0x0F20
-	CHandle< CBaseEntity > m_fleeFrom; // 0x0F24
-	CountdownTimer m_moveRateThrottleTimer; // 0x0F28
-	CountdownTimer m_startleTimer; // 0x0F40
-	CountdownTimer m_vocalizeTimer; // 0x0F58
-	GameTime_t m_flWhenZombified; // 0x0F70
-	bool m_jumpedThisFrame; // 0x0F74
+	CAttributeContainer m_AttributeManager; // 0x0BC0
+	CountdownTimer m_updateTimer; // 0x0EB8
+	VectorWS m_stuckAnchor; // 0x0ED0
+	CountdownTimer m_collisionStuckTimer; // 0x0EE0
+	bool m_isOnGround; // 0x0EF8
+	Vector m_vFallVelocity; // 0x0EFC
+	EChickenActivity m_desiredActivity; // 0x0F08
+	EChickenActivity m_currentActivity; // 0x0F0C
+	CountdownTimer m_activityTimer; // 0x0F10
+	float32 m_turnRate; // 0x0F28
+	CHandle< CBaseEntity > m_fleeFrom; // 0x0F2C
+	CountdownTimer m_moveRateThrottleTimer; // 0x0F30
+	CountdownTimer m_startleTimer; // 0x0F48
+	CountdownTimer m_vocalizeTimer; // 0x0F60
 	CHandle< CCSPlayerPawn > m_leader; // 0x0F78
 	CountdownTimer m_reuseTimer; // 0x0F90
-	bool m_hasBeenUsed; // 0x0FA8
-	CountdownTimer m_jumpTimer; // 0x0FB0
-	float32 m_flLastJumpTime; // 0x0FC8
-	bool m_bInJump; // 0x0FCC
-	CountdownTimer m_repathTimer; // 0x2FD8
-	Vector m_vecPathGoal; // 0x3070
-	GameTime_t m_flActiveFollowStartTime; // 0x307C
-	CountdownTimer m_followMinuteTimer; // 0x3080
-	CountdownTimer m_BlockDirectionTimer; // 0x30A0
+	CountdownTimer m_jumpTimer; // 0x0FA8
+	float32 m_flLastJumpTime; // 0x0FC0
+	CountdownTimer m_repathTimer; // 0x2FD0
+	VectorWS m_vecPathGoal; // 0x3068
+	GameTime_t m_flActiveFollowStartTime; // 0x3074
+	CountdownTimer m_followMinuteTimer; // 0x3078
+	CountdownTimer m_BlockDirectionTimer; // 0x3098
 };
 class CPhysicsPropRespawnable : public CPhysicsProp // server
 {
-	VectorWS m_vOriginalSpawnOrigin; // 0x0C10
-	QAngle m_vOriginalSpawnAngles; // 0x0C1C
-	Vector m_vOriginalMins; // 0x0C28
-	Vector m_vOriginalMaxs; // 0x0C34
-	float32 m_flRespawnDuration; // 0x0C40
+	VectorWS m_vOriginalSpawnOrigin; // 0x0C30
+	QAngle m_vOriginalSpawnAngles; // 0x0C3C
+	Vector m_vOriginalMins; // 0x0C48
+	Vector m_vOriginalMaxs; // 0x0C54
+	float32 m_flRespawnDuration; // 0x0C60
 };
 class CEnvBeam : public CBeam // server
 {
-	int32 m_active; // 0x0808
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_spriteTexture; // 0x0810
-	CUtlSymbolLarge m_iszStartEntity; // 0x0818
-	CUtlSymbolLarge m_iszEndEntity; // 0x0820
-	float32 m_life; // 0x0828
-	float32 m_boltWidth; // 0x082C
-	float32 m_noiseAmplitude; // 0x0830
-	int32 m_speed; // 0x0834
-	float32 m_restrike; // 0x0838
-	CUtlSymbolLarge m_iszSpriteName; // 0x0840
-	int32 m_frameStart; // 0x0848
-	VectorWS m_vEndPointWorld; // 0x084C
-	Vector m_vEndPointRelative; // 0x0858
-	float32 m_radius; // 0x0864
-	Touch_t m_TouchType; // 0x0868
-	CUtlSymbolLarge m_iFilterName; // 0x0870
-	CHandle< CBaseEntity > m_hFilter; // 0x0878
-	CUtlSymbolLarge m_iszDecal; // 0x0880
-	CEntityIOOutput m_OnTouchedByEntity; // 0x0888
+	int32 m_active; // 0x0810
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_spriteTexture; // 0x0818
+	CUtlSymbolLarge m_iszStartEntity; // 0x0820
+	CUtlSymbolLarge m_iszEndEntity; // 0x0828
+	float32 m_life; // 0x0830
+	float32 m_boltWidth; // 0x0834
+	float32 m_noiseAmplitude; // 0x0838
+	int32 m_speed; // 0x083C
+	float32 m_restrike; // 0x0840
+	CUtlSymbolLarge m_iszSpriteName; // 0x0848
+	int32 m_frameStart; // 0x0850
+	VectorWS m_vEndPointWorld; // 0x0854
+	Vector m_vEndPointRelative; // 0x0860
+	float32 m_radius; // 0x086C
+	Touch_t m_TouchType; // 0x0870
+	CUtlSymbolLarge m_iFilterName; // 0x0878
+	CHandle< CBaseEntity > m_hFilter; // 0x0880
+	CUtlSymbolLarge m_iszDecal; // 0x0888
+	CEntityIOOutput m_OnTouchedByEntity; // 0x0890
 };
 class CLightSpotEntity : public CLightEntity // server
 {
@@ -17706,8 +18069,8 @@ class CWeaponSawedoff : public CCSWeaponBaseShotgun // server
 };
 class CTonemapTrigger : public CBaseTrigger // server
 {
-	CUtlSymbolLarge m_tonemapControllerName; // 0x08C8
-	CEntityHandle m_hTonemapController; // 0x08D0
+	CUtlSymbolLarge m_tonemapControllerName; // 0x08E8
+	CEntityHandle m_hTonemapController; // 0x08F0
 };
 class CEnvShake : public CPointEntity // server
 {
@@ -17756,27 +18119,25 @@ class CCSPlayer_MovementServices : public CPlayer_MovementServices_Humanoid // s
 	bool m_bMadeFootstepNoise; // 0x0684
 	int32 m_iFootsteps; // 0x0688
 	GameTime_t m_fStashGrenadeParameterWhen; // 0x068C
-	uint64 m_nButtonDownMaskPrev; // 0x0690
-	bool m_bUseFrictionStashedSpeed; // 0x0698
-	float32 m_flUseFrictionStashedSpeedUntilFrac; // 0x069C
-	float32 m_flFrictionStashedSpeed; // 0x06A0
-	float32 m_flStamina; // 0x06A4
-	float32 m_flHeightAtJumpStart; // 0x06A8
-	float32 m_flMaxJumpHeightThisJump; // 0x06AC
-	float32 m_flMaxJumpHeightLastJump; // 0x06B0
-	float32 m_flStaminaAtJumpStart; // 0x06B4
-	float32 m_flVelMulAtJumpStart; // 0x06B8
-	float32 m_flAccumulatedJumpError; // 0x06BC
-	CCSPlayerLegacyJump m_LegacyJump; // 0x06C0
-	CCSPlayerModernJump m_ModernJump; // 0x06D8
-	GameTick_t m_nLastJumpTick; // 0x0710
-	float32 m_flLastJumpFrac; // 0x0714
-	float32 m_flLastJumpVelocityZ; // 0x0718
-	bool m_bJumpApexPending; // 0x071C
-	float32 m_flTicksSinceLastSurfingDetected; // 0x0720
-	bool m_bWasSurfing; // 0x0724
-	Vector2D m_vecWalkWishVel; // 0x07B4
-	bool m_bHasEverProcessedCommand; // 0x0FE0
+	bool m_bUseFrictionStashedSpeed; // 0x0690
+	float32 m_flUseFrictionStashedSpeedUntilFrac; // 0x0694
+	float32 m_flFrictionStashedSpeed; // 0x0698
+	float32 m_flStamina; // 0x069C
+	float32 m_flHeightAtJumpStart; // 0x06A0
+	float32 m_flMaxJumpHeightThisJump; // 0x06A4
+	float32 m_flMaxJumpHeightLastJump; // 0x06A8
+	float32 m_flStaminaAtJumpStart; // 0x06AC
+	float32 m_flVelMulAtJumpStart; // 0x06B0
+	float32 m_flAccumulatedJumpError; // 0x06B4
+	CCSPlayerLegacyJump m_LegacyJump; // 0x06B8
+	CCSPlayerModernJump m_ModernJump; // 0x06D0
+	GameTick_t m_nLastJumpTick; // 0x0708
+	float32 m_flLastJumpFrac; // 0x070C
+	float32 m_flLastJumpVelocityZ; // 0x0710
+	bool m_bJumpApexPending; // 0x0714
+	float32 m_flTicksSinceLastSurfingDetected; // 0x0718
+	Vector2D m_vecWalkWishVel; // 0x07A8
+	bool m_bHasEverProcessedCommand; // 0x0FD0
 };
 class SellbackPurchaseEntry_t // server
 {
@@ -17791,6 +18152,13 @@ class CTestPulseIO::EntityNameStringArgs_t // server
 	CEntityNameString nameA; // 0x0000
 	CUtlSymbolLarge strValueB; // 0x0008
 };
+class CFuncMoverRouter : public CLogicalEntity // server
+{
+	int32 m_nMoverIndex; // 0x04B0
+	bool m_bRouteToAllMovers; // 0x04B4
+	CHandle< CPathMover > m_hPathMover; // 0x04B8
+	CUtlSymbolLarge m_iszPathMoverName; // 0x04C0
+};
 class CTriggerCallback : public CBaseTrigger // server
 {
 };
@@ -17804,11 +18172,10 @@ class CSoundOpvarSetAutoRoomEntity : public CSoundOpvarSetPointEntity // server
 };
 class CPulseCell_Outflow_ListenForEntityOutput : public CPulseCell_BaseYieldingInflow // server
 {
-	SignatureOutflow_Resume m_OnFired; // 0x0048
-	CPulse_ResumePoint m_OnCanceled; // 0x0090
-	CGlobalSymbol m_strEntityOutput; // 0x00D8
-	CUtlString m_strEntityOutputParam; // 0x00E0
-	bool m_bListenUntilCanceled; // 0x00E8
+	SignatureOutflow_Resume m_OnFired; // 0x00D8
+	CGlobalSymbol m_strEntityOutput; // 0x0120
+	CUtlString m_strEntityOutputParam; // 0x0128
+	bool m_bListenUntilCanceled; // 0x0130
 };
 class CPushable : public CBreakable // server
 {
@@ -17833,6 +18200,7 @@ class CLogicCollisionPair : public CLogicalEntity // server
 	bool m_supportMultipleEntitiesWithSameName; // 0x04B9
 	bool m_disabled; // 0x04BA
 	bool m_succeeded; // 0x04BB
+	bool m_allowMissing; // 0x04BC
 };
 class CTestEffect : public CBaseEntity // server
 {
@@ -17848,32 +18216,32 @@ class CPulseCell_Outflow_ScriptedSequence::CursorState_t // server
 };
 class CPropDoorRotating : public CBasePropDoor // server
 {
-	Vector m_vecAxis; // 0x0D80
-	float32 m_flDistance; // 0x0D8C
-	PropDoorRotatingSpawnPos_t m_eSpawnPosition; // 0x0D90
-	PropDoorRotatingOpenDirection_e m_eOpenDirection; // 0x0D94
-	PropDoorRotatingOpenDirection_e m_eCurrentOpenDirection; // 0x0D98
-	doorCheck_e m_eDefaultCheckDirection; // 0x0D9C
-	float32 m_flAjarAngle; // 0x0DA0
-	QAngle m_angRotationAjarDeprecated; // 0x0DA4
-	QAngle m_angRotationClosed; // 0x0DB0
-	QAngle m_angRotationOpenForward; // 0x0DBC
-	QAngle m_angRotationOpenBack; // 0x0DC8
-	QAngle m_angGoal; // 0x0DD4
-	Vector m_vecForwardBoundsMin; // 0x0DE0
-	Vector m_vecForwardBoundsMax; // 0x0DEC
-	Vector m_vecBackBoundsMin; // 0x0DF8
-	Vector m_vecBackBoundsMax; // 0x0E04
-	bool m_bAjarDoorShouldntAlwaysOpen; // 0x0E10
-	CHandle< CEntityBlocker > m_hEntityBlocker; // 0x0E14
+	Vector m_vecAxis; // 0x0DA0
+	float32 m_flDistance; // 0x0DAC
+	PropDoorRotatingSpawnPos_t m_eSpawnPosition; // 0x0DB0
+	PropDoorRotatingOpenDirection_e m_eOpenDirection; // 0x0DB4
+	PropDoorRotatingOpenDirection_e m_eCurrentOpenDirection; // 0x0DB8
+	doorCheck_e m_eDefaultCheckDirection; // 0x0DBC
+	float32 m_flAjarAngle; // 0x0DC0
+	QAngle m_angRotationAjarDeprecated; // 0x0DC4
+	QAngle m_angRotationClosed; // 0x0DD0
+	QAngle m_angRotationOpenForward; // 0x0DDC
+	QAngle m_angRotationOpenBack; // 0x0DE8
+	QAngle m_angGoal; // 0x0DF4
+	Vector m_vecForwardBoundsMin; // 0x0E00
+	Vector m_vecForwardBoundsMax; // 0x0E0C
+	Vector m_vecBackBoundsMin; // 0x0E18
+	Vector m_vecBackBoundsMax; // 0x0E24
+	bool m_bAjarDoorShouldntAlwaysOpen; // 0x0E30
+	CHandle< CEntityBlocker > m_hEntityBlocker; // 0x0E34
 };
 class CEnvParticleGlow : public CParticleSystem // server
 {
-	float32 m_flAlphaScale; // 0x0CE0
-	float32 m_flRadiusScale; // 0x0CE4
-	float32 m_flSelfIllumScale; // 0x0CE8
-	Color m_ColorTint; // 0x0CEC
-	CStrongHandle< InfoForResourceTypeCTextureBase > m_hTextureOverride; // 0x0CF0
+	float32 m_flAlphaScale; // 0x0CF8
+	float32 m_flRadiusScale; // 0x0CFC
+	float32 m_flSelfIllumScale; // 0x0D00
+	Color m_ColorTint; // 0x0D04
+	CStrongHandle< InfoForResourceTypeCTextureBase > m_hTextureOverride; // 0x0D08
 };
 class CMathRemap : public CLogicalEntity // server
 {
@@ -17921,7 +18289,7 @@ class CPropDataComponent : public CEntityComponent // server
 };
 class CScriptTriggerOnce : public CTriggerOnce // server
 {
-	Vector m_vExtent; // 0x08E0
+	Vector m_vExtent; // 0x0900
 };
 class CLightOrthoEntity : public CLightEntity // server
 {
@@ -17935,14 +18303,14 @@ class CPulseCell_LimitCount::InstanceState_t // pulse_runtime_lib
 };
 class CTriggerTeleport : public CBaseTrigger // server
 {
-	CUtlSymbolLarge m_iLandmark; // 0x08C8
-	bool m_bUseLandmarkAngles; // 0x08D0
-	bool m_bMirrorPlayer; // 0x08D1
-	bool m_bCheckDestIfClearForPlayer; // 0x08D2
+	CUtlSymbolLarge m_iLandmark; // 0x08E8
+	bool m_bUseLandmarkAngles; // 0x08F0
+	bool m_bMirrorPlayer; // 0x08F1
+	bool m_bCheckDestIfClearForPlayer; // 0x08F2
 };
 class CFuncWall : public CBaseModelEntity // server
 {
-	int32 m_nState; // 0x0768
+	int32 m_nState; // 0x0770
 };
 class CBtActionAim : public CBtNode // server
 {
@@ -17979,13 +18347,16 @@ class CInfoLadderDismount : public CBaseEntity // server
 class CPulseServerFuncs // server
 {
 };
+class CLightEntityAPI // server
+{
+};
 class CMessage : public CPointEntity // server
 {
 	CUtlSymbolLarge m_iszMessage; // 0x04A8
 	float32 m_MessageVolume; // 0x04B0
 	int32 m_MessageAttenuation; // 0x04B4
 	float32 m_Radius; // 0x04B8
-	CUtlSymbolLarge m_sNoise; // 0x04C0
+	CGameSoundEventName m_sNoise; // 0x04C0
 	CEntityIOOutput m_OnShowMessage; // 0x04C8
 };
 class CPointVelocitySensor : public CPointEntity // server
@@ -18039,49 +18410,49 @@ class CBaseModelEntityAPI // server
 };
 class CScriptTriggerMultiple : public CTriggerMultiple // server
 {
-	Vector m_vExtent; // 0x08E0
+	Vector m_vExtent; // 0x0900
 };
 class CHostage : public CHostageExpresserShim // server
 {
-	CEntityIOOutput m_OnHostageBeginGrab; // 0x0A28
-	CEntityIOOutput m_OnFirstPickedUp; // 0x0A40
-	CEntityIOOutput m_OnDroppedNotRescued; // 0x0A58
-	CEntityIOOutput m_OnRescued; // 0x0A70
-	EntitySpottedState_t m_entitySpottedState; // 0x0A88
-	int32 m_nSpotRules; // 0x0AA0
-	uint32 m_uiHostageSpawnExclusionGroupMask; // 0x0AA4
-	uint32 m_nHostageSpawnRandomFactor; // 0x0AA8
-	bool m_bRemove; // 0x0AAC
-	Vector m_vel; // 0x0AB0
-	bool m_isRescued; // 0x0ABC
-	bool m_jumpedThisFrame; // 0x0ABD
-	int32 m_nHostageState; // 0x0AC0
-	CHandle< CBaseEntity > m_leader; // 0x0AC4
-	CHandle< CCSPlayerPawnBase > m_lastLeader; // 0x0AC8
-	CountdownTimer m_reuseTimer; // 0x0AD0
-	bool m_hasBeenUsed; // 0x0AE8
-	Vector m_accel; // 0x0AEC
-	bool m_isRunning; // 0x0AF8
-	bool m_isCrouching; // 0x0AF9
-	CountdownTimer m_jumpTimer; // 0x0B00
-	bool m_isWaitingForLeader; // 0x0B18
-	CountdownTimer m_repathTimer; // 0x2B28
-	CountdownTimer m_inhibitDoorTimer; // 0x2B40
-	CountdownTimer m_inhibitObstacleAvoidanceTimer; // 0x2BD0
-	CountdownTimer m_wiggleTimer; // 0x2BF0
-	bool m_isAdjusted; // 0x2C0C
-	bool m_bHandsHaveBeenCut; // 0x2C0D
-	CHandle< CCSPlayerPawn > m_hHostageGrabber; // 0x2C10
-	GameTime_t m_fLastGrabTime; // 0x2C14
-	Vector m_vecPositionWhenStartedDroppingToGround; // 0x2C18
-	Vector m_vecGrabbedPos; // 0x2C24
-	GameTime_t m_flRescueStartTime; // 0x2C30
-	GameTime_t m_flGrabSuccessTime; // 0x2C34
-	GameTime_t m_flDropStartTime; // 0x2C38
-	int32 m_nApproachRewardPayouts; // 0x2C3C
-	int32 m_nPickupEventCount; // 0x2C40
-	Vector m_vecSpawnGroundPos; // 0x2C44
-	VectorWS m_vecHostageResetPosition; // 0x2C7C
+	CEntityIOOutput m_OnHostageBeginGrab; // 0x0A58
+	CEntityIOOutput m_OnFirstPickedUp; // 0x0A70
+	CEntityIOOutput m_OnDroppedNotRescued; // 0x0A88
+	CEntityIOOutput m_OnRescued; // 0x0AA0
+	EntitySpottedState_t m_entitySpottedState; // 0x0AB8
+	int32 m_nSpotRules; // 0x0AD0
+	uint32 m_uiHostageSpawnExclusionGroupMask; // 0x0AD4
+	uint32 m_nHostageSpawnRandomFactor; // 0x0AD8
+	bool m_bRemove; // 0x0ADC
+	Vector m_vel; // 0x0AE0
+	bool m_isRescued; // 0x0AEC
+	bool m_jumpedThisFrame; // 0x0AED
+	int32 m_nHostageState; // 0x0AF0
+	CHandle< CBaseEntity > m_leader; // 0x0AF4
+	CHandle< CCSPlayerPawnBase > m_lastLeader; // 0x0AF8
+	CountdownTimer m_reuseTimer; // 0x0B00
+	bool m_hasBeenUsed; // 0x0B18
+	Vector m_accel; // 0x0B1C
+	bool m_isRunning; // 0x0B28
+	bool m_isCrouching; // 0x0B29
+	CountdownTimer m_jumpTimer; // 0x0B30
+	bool m_isWaitingForLeader; // 0x0B48
+	CountdownTimer m_repathTimer; // 0x2B58
+	CountdownTimer m_inhibitDoorTimer; // 0x2B70
+	CountdownTimer m_inhibitObstacleAvoidanceTimer; // 0x2C00
+	CountdownTimer m_wiggleTimer; // 0x2C20
+	bool m_isAdjusted; // 0x2C3C
+	bool m_bHandsHaveBeenCut; // 0x2C3D
+	CHandle< CCSPlayerPawn > m_hHostageGrabber; // 0x2C40
+	GameTime_t m_fLastGrabTime; // 0x2C44
+	VectorWS m_vecPositionWhenStartedDroppingToGround; // 0x2C48
+	VectorWS m_vecGrabbedPos; // 0x2C54
+	GameTime_t m_flRescueStartTime; // 0x2C60
+	GameTime_t m_flGrabSuccessTime; // 0x2C64
+	GameTime_t m_flDropStartTime; // 0x2C68
+	int32 m_nApproachRewardPayouts; // 0x2C6C
+	int32 m_nPickupEventCount; // 0x2C70
+	VectorWS m_vecSpawnGroundPos; // 0x2C74
+	VectorWS m_vecHostageResetPosition; // 0x2CAC
 };
 class CEnvSpark : public CPointEntity // server
 {
@@ -18122,7 +18493,7 @@ class CPointOrient : public CBaseEntity // server
 class sky3dparams_t // server
 {
 	int16 scale; // 0x0008
-	Vector origin; // 0x000C
+	VectorWS origin; // 0x000C
 	bool bClip3DSkyBoxNearToWorldFar; // 0x0018
 	float32 flClip3DSkyBoxNearToWorldFarOffset; // 0x001C
 	fogparams_t fog; // 0x0020
@@ -18136,45 +18507,46 @@ class CDestructiblePartsComponent // server
 	CNetworkVarChainer __m_pChainEntity; // 0x0000
 	CUtlVector< uint16 > m_vecDamageTakenByHitGroup; // 0x0048
 	CHandle< CBaseModelEntity > m_hOwner; // 0x0060
-	CBaseAnimGraphDestructibleParts_GraphController* m_pAnimGraphDestructibleGraphController; // 0x0068
+	CAnimGraphControllerPtr m_pAnimGraphDestructibleGraphController; // 0x0068
 };
 class CChangeLevel : public CBaseTrigger // server
 {
-	CUtlString m_sMapName; // 0x08C8
-	CUtlString m_sLandmarkName; // 0x08D0
-	CEntityIOOutput m_OnChangeLevel; // 0x08D8
-	bool m_bTouched; // 0x08F0
-	bool m_bNoTouch; // 0x08F1
-	bool m_bNewChapter; // 0x08F2
-	bool m_bOnChangeLevelFired; // 0x08F3
+	CUtlString m_sMapName; // 0x08E8
+	CUtlString m_sLandmarkName; // 0x08F0
+	CEntityIOOutput m_OnChangeLevel; // 0x08F8
+	bool m_bTouched; // 0x0910
+	bool m_bNoTouch; // 0x0911
+	bool m_bNewChapter; // 0x0912
+	bool m_bOnChangeLevelFired; // 0x0913
 };
 class CBaseButton : public CBaseToggle // server
 {
-	QAngle m_angMoveEntitySpace; // 0x07E8
-	bool m_fStayPushed; // 0x07F4
-	bool m_fRotating; // 0x07F5
-	locksound_t m_ls; // 0x07F8
-	CUtlSymbolLarge m_sUseSound; // 0x0818
-	CUtlSymbolLarge m_sLockedSound; // 0x0820
-	CUtlSymbolLarge m_sUnlockedSound; // 0x0828
-	CUtlSymbolLarge m_sOverrideAnticipationName; // 0x0830
-	bool m_bLocked; // 0x0838
-	bool m_bDisabled; // 0x0839
-	GameTime_t m_flUseLockedTime; // 0x083C
-	bool m_bSolidBsp; // 0x0840
-	CEntityIOOutput m_OnDamaged; // 0x0848
-	CEntityIOOutput m_OnPressed; // 0x0860
-	CEntityIOOutput m_OnUseLocked; // 0x0878
-	CEntityIOOutput m_OnIn; // 0x0890
-	CEntityIOOutput m_OnOut; // 0x08A8
-	int32 m_nState; // 0x08C0
-	CEntityHandle m_hConstraint; // 0x08C4
-	CEntityHandle m_hConstraintParent; // 0x08C8
-	bool m_bForceNpcExclude; // 0x08CC
-	CUtlSymbolLarge m_sGlowEntity; // 0x08D0
-	CHandle< CBaseModelEntity > m_glowEntity; // 0x08D8
-	bool m_usable; // 0x08DC
-	CUtlSymbolLarge m_szDisplayText; // 0x08E0
+	QAngle m_angMoveEntitySpace; // 0x07F0
+	bool m_fStayPushed; // 0x07FC
+	bool m_fRotating; // 0x07FD
+	locksound_t m_ls; // 0x0800
+	CGameSoundEventName m_sUseSound; // 0x0820
+	CGameSoundEventName m_sLockedSound; // 0x0828
+	CGameSoundEventName m_sUnlockedSound; // 0x0830
+	CUtlSymbolLarge m_sOverrideAnticipationName; // 0x0838
+	bool m_bLocked; // 0x0840
+	bool m_bDisabled; // 0x0841
+	float32 m_flSpeed; // 0x0844
+	GameTime_t m_flUseLockedTime; // 0x0848
+	bool m_bSolidBsp; // 0x084C
+	CEntityIOOutput m_OnDamaged; // 0x0850
+	CEntityIOOutput m_OnPressed; // 0x0868
+	CEntityIOOutput m_OnUseLocked; // 0x0880
+	CEntityIOOutput m_OnIn; // 0x0898
+	CEntityIOOutput m_OnOut; // 0x08B0
+	int32 m_nState; // 0x08C8
+	CEntityHandle m_hConstraint; // 0x08CC
+	CEntityHandle m_hConstraintParent; // 0x08D0
+	bool m_bForceNpcExclude; // 0x08D4
+	CUtlSymbolLarge m_sGlowEntity; // 0x08D8
+	CHandle< CBaseModelEntity > m_glowEntity; // 0x08E0
+	bool m_usable; // 0x08E4
+	CUtlSymbolLarge m_szDisplayText; // 0x08E8
 };
 class CPulseCell_SoundEventStart : public CPulseCell_BaseFlow // server
 {
@@ -18188,31 +18560,32 @@ class CItem_Healthshot : public CWeaponBaseItem // server
 };
 class CBaseGrenade : public CBaseAnimGraph // server
 {
-	CEntityIOOutput m_OnPlayerPickup; // 0x0948
-	CEntityIOOutput m_OnExplode; // 0x0960
-	bool m_bHasWarnedAI; // 0x0978
-	bool m_bIsSmokeGrenade; // 0x0979
-	bool m_bIsLive; // 0x097A
-	float32 m_DmgRadius; // 0x097C
-	GameTime_t m_flDetonateTime; // 0x0980
-	float32 m_flWarnAITime; // 0x0984
-	float32 m_flDamage; // 0x0988
-	CUtlSymbolLarge m_iszBounceSound; // 0x0990
-	CUtlString m_ExplosionSound; // 0x0998
-	CHandle< CCSPlayerPawn > m_hThrower; // 0x09A0
-	GameTime_t m_flNextAttack; // 0x09B8
-	CHandle< CCSPlayerPawn > m_hOriginalThrower; // 0x09BC
+	bool m_bDamageDetonating; // 0x0968
+	CEntityIOOutput m_OnPlayerPickup; // 0x0970
+	CEntityIOOutput m_OnExplode; // 0x0988
+	bool m_bHasWarnedAI; // 0x09A0
+	bool m_bIsSmokeGrenade; // 0x09A1
+	bool m_bIsLive; // 0x09A2
+	float32 m_DmgRadius; // 0x09A4
+	GameTime_t m_flDetonateTime; // 0x09A8
+	float32 m_flWarnAITime; // 0x09AC
+	float32 m_flDamage; // 0x09B0
+	CUtlSymbolLarge m_iszBounceSound; // 0x09B8
+	CUtlString m_ExplosionSound; // 0x09C0
+	CHandle< CCSPlayerPawn > m_hThrower; // 0x09C8
+	GameTime_t m_flNextAttack; // 0x09E0
+	CHandle< CCSPlayerPawn > m_hOriginalThrower; // 0x09E4
 };
 class CColorCorrectionVolume : public CBaseTrigger // server
 {
-	float32 m_MaxWeight; // 0x08C8
-	float32 m_FadeDuration; // 0x08CC
-	float32 m_Weight; // 0x08D0
-	char[512] m_lookupFilename; // 0x08D4
-	float32 m_LastEnterWeight; // 0x0AD4
-	GameTime_t m_LastEnterTime; // 0x0AD8
-	float32 m_LastExitWeight; // 0x0ADC
-	GameTime_t m_LastExitTime; // 0x0AE0
+	float32 m_MaxWeight; // 0x08E8
+	float32 m_FadeDuration; // 0x08EC
+	float32 m_Weight; // 0x08F0
+	char[512] m_lookupFilename; // 0x08F4
+	float32 m_LastEnterWeight; // 0x0AF4
+	GameTime_t m_LastEnterTime; // 0x0AF8
+	float32 m_LastExitWeight; // 0x0AFC
+	GameTime_t m_LastExitTime; // 0x0B00
 };
 class CCSPlayerController_ActionTrackingServices : public CPlayerControllerComponent // server
 {
@@ -18224,10 +18597,12 @@ class CCSPlayerController_ActionTrackingServices : public CPlayerControllerCompo
 };
 class CBodyComponentBaseAnimGraph : public CBodyComponentSkeletonInstance // server
 {
-	CBaseAnimGraphController m_animationController; // 0x04A0
+	CBaseAnimGraphController m_animationController; // 0x04E0
 };
 class CPulseCell_BaseYieldingInflow : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
+	CPulse_ResumePoint m_BaseFlow_OnAfterCancel; // 0x0048
+	CPulse_ResumePoint m_BaseFlow_WhileActive; // 0x0090
 };
 class PulseNodeDynamicOutflows_t // pulse_runtime_lib
 {
@@ -18235,32 +18610,33 @@ class PulseNodeDynamicOutflows_t // pulse_runtime_lib
 };
 class CFogVolume : public CServerOnlyModelEntity // server
 {
-	CUtlSymbolLarge m_fogName; // 0x0768
-	CUtlSymbolLarge m_postProcessName; // 0x0770
-	CUtlSymbolLarge m_colorCorrectionName; // 0x0778
-	bool m_bDisabled; // 0x0788
-	bool m_bInFogVolumesList; // 0x0789
+	CUtlSymbolLarge m_fogName; // 0x0770
+	CUtlSymbolLarge m_postProcessName; // 0x0778
+	CUtlSymbolLarge m_colorCorrectionName; // 0x0780
+	bool m_bDisabled; // 0x0790
+	bool m_bInFogVolumesList; // 0x0791
 };
 class CFuncRotating : public CBaseModelEntity // server
 {
-	CEntityIOOutput m_OnStopped; // 0x0768
-	CEntityIOOutput m_OnStarted; // 0x0780
-	CEntityIOOutput m_OnReachedStart; // 0x0798
-	RotationVector m_localRotationVector; // 0x07B0
-	float32 m_flFanFriction; // 0x07BC
-	float32 m_flAttenuation; // 0x07C0
-	float32 m_flVolume; // 0x07C4
-	float32 m_flTargetSpeed; // 0x07C8
-	float32 m_flMaxSpeed; // 0x07CC
-	float32 m_flBlockDamage; // 0x07D0
-	CUtlSymbolLarge m_NoiseRunning; // 0x07D8
-	bool m_bReversed; // 0x07E0
-	bool m_bAccelDecel; // 0x07E1
-	QAngle m_prevLocalAngles; // 0x07F8
-	QAngle m_angStart; // 0x0804
-	bool m_bStopAtStartPos; // 0x0810
-	Vector m_vecClientOrigin; // 0x0814
-	QAngle m_vecClientAngles; // 0x0820
+	CEntityIOOutput m_OnStopped; // 0x0770
+	CEntityIOOutput m_OnStarted; // 0x0788
+	CEntityIOOutput m_OnReachedStart; // 0x07A0
+	RotationVector m_localRotationVector; // 0x07B8
+	float32 m_flSpeed; // 0x07C4
+	float32 m_flFanFriction; // 0x07C8
+	float32 m_flAttenuation; // 0x07CC
+	float32 m_flVolume; // 0x07D0
+	float32 m_flTargetSpeed; // 0x07D4
+	float32 m_flMaxSpeed; // 0x07D8
+	float32 m_flBlockDamage; // 0x07DC
+	CGameSoundEventName m_NoiseRunning; // 0x07E0
+	bool m_bReversed; // 0x07E8
+	bool m_bAccelDecel; // 0x07E9
+	QAngle m_prevLocalAngles; // 0x0800
+	QAngle m_angStart; // 0x080C
+	bool m_bStopAtStartPos; // 0x0818
+	Vector m_vecClientOrigin; // 0x081C
+	QAngle m_vecClientAngles; // 0x0828
 };
 class CTimerEntity : public CLogicalEntity // server
 {
@@ -18283,7 +18659,7 @@ class CBtActionMoveTo : public CBtNode // server
 	CUtlString m_szDestinationInputKey; // 0x0060
 	CUtlString m_szHidingSpotInputKey; // 0x0068
 	CUtlString m_szThreatInputKey; // 0x0070
-	Vector m_vecDestination; // 0x0078
+	VectorWS m_vecDestination; // 0x0078
 	bool m_bAutoLookAdjust; // 0x0084
 	bool m_bComputePath; // 0x0085
 	float32 m_flDamagingAreasPenaltyCost; // 0x0088
@@ -18354,15 +18730,15 @@ class CPulseCell_Inflow_ObservableVariableListener : public CPulseCell_Inflow_Ba
 };
 class CFuncMonitor : public CFuncBrush // server
 {
-	CUtlString m_targetCamera; // 0x0788
-	int32 m_nResolutionEnum; // 0x0790
-	bool m_bRenderShadows; // 0x0794
-	bool m_bUseUniqueColorTarget; // 0x0795
-	CUtlString m_brushModelName; // 0x0798
-	CHandle< CBaseEntity > m_hTargetCamera; // 0x07A0
-	bool m_bEnabled; // 0x07A4
-	bool m_bDraw3DSkybox; // 0x07A5
-	bool m_bStartEnabled; // 0x07A6
+	CUtlString m_targetCamera; // 0x0790
+	int32 m_nResolutionEnum; // 0x0798
+	bool m_bRenderShadows; // 0x079C
+	bool m_bUseUniqueColorTarget; // 0x079D
+	CUtlString m_brushModelName; // 0x07A0
+	CHandle< CBaseEntity > m_hTargetCamera; // 0x07A8
+	bool m_bEnabled; // 0x07AC
+	bool m_bDraw3DSkybox; // 0x07AD
+	bool m_bStartEnabled; // 0x07AE
 };
 class CInfoVisibilityBox : public CBaseEntity // server
 {
@@ -18372,9 +18748,10 @@ class CInfoVisibilityBox : public CBaseEntity // server
 };
 class CGunTarget : public CBaseToggle // server
 {
-	bool m_on; // 0x07E8
-	CHandle< CBaseEntity > m_hTargetEnt; // 0x07EC
-	CEntityIOOutput m_OnDeath; // 0x07F0
+	float32 m_flSpeed; // 0x07F0
+	bool m_on; // 0x07F4
+	CHandle< CBaseEntity > m_hTargetEnt; // 0x07F8
+	CEntityIOOutput m_OnDeath; // 0x0800
 };
 class CSoundEventConeEntity : public CSoundEventEntity // server
 {
@@ -18384,6 +18761,9 @@ class CSoundEventConeEntity : public CSoundEventEntity // server
 	float32 m_flAttenMax; // 0x0574
 	CUtlSymbolLarge m_iszParameterName; // 0x0578
 };
+class CCSObserverPawn_API // server
+{
+};
 class CSoundOpvarSetOBBEntity : public CSoundOpvarSetAABBEntity // server
 {
 };
@@ -18392,10 +18772,10 @@ class CFilterMultipleAPI // server
 };
 class CDecoyProjectile : public CBaseCSGrenadeProjectile // server
 {
-	int32 m_nDecoyShotTick; // 0x0A48
-	int32 m_shotsRemaining; // 0x0A4C
-	GameTime_t m_fExpireTime; // 0x0A50
-	uint16 m_decoyWeaponDefIndex; // 0x0A60
+	int32 m_nDecoyShotTick; // 0x0A78
+	int32 m_shotsRemaining; // 0x0A7C
+	GameTime_t m_fExpireTime; // 0x0A80
+	uint16 m_decoyWeaponDefIndex; // 0x0A90
 };
 class CPrecipitationBlocker : public CBaseModelEntity // server
 {
@@ -18432,6 +18812,8 @@ class CPathMoverEntitySpawner : public CLogicalEntity // server
 	CUtlVector< CHandle< CFuncMover > > m_vecQueuedRemovals; // 0x0508
 	CEntityIOOutput m_OnTemplateSpawned; // 0x0520
 	CEntityIOOutput m_OnTemplateGroupSpawned; // 0x0538
+	CUtlSymbolLarge m_iszPathMoverName; // 0x0550
+	bool m_bPrepopulateOnSpawn; // 0x0558
 };
 class CModelState // server
 {
@@ -18443,12 +18825,12 @@ class CModelState // server
 	float32 m_flRootBoneOffset_z; // 0x00F0
 	uint8 m_nRootBoneOffsetResetSerialNumber; // 0x00F4
 	bool m_bClientClothCreationSuppressed; // 0x00F5
-	uint8 m_nAnimStateNoInterpSerialNumber; // 0x01A0
-	uint64 m_MeshGroupMask; // 0x01A8
-	CNetworkUtlVectorBase< int32 > m_nBodyGroupChoices; // 0x01F8
-	int8 m_nIdealMotionType; // 0x0242
-	int8 m_nForceLOD; // 0x0243
-	int8 m_nClothUpdateFlags; // 0x0244
+	uint8 m_nAnimStateNoInterpSerialNumber; // 0x01E0
+	uint64 m_MeshGroupMask; // 0x01E8
+	CNetworkUtlVectorBase< int32 > m_nBodyGroupChoices; // 0x0238
+	int8 m_nIdealMotionType; // 0x0282
+	int8 m_nForceLOD; // 0x0283
+	int8 m_nClothUpdateFlags; // 0x0284
 };
 class CPulseCell_LerpCameraSettings::CursorState_t : public CPulseCell_BaseLerp::CursorState_t // server
 {
@@ -18501,16 +18883,16 @@ class CWeaponMP7 : public CCSWeaponBaseGun // server
 };
 class CCSWeaponBaseGun : public CCSWeaponBase // server
 {
-	int32 m_zoomLevel; // 0x1030
-	int32 m_iBurstShotsRemaining; // 0x1034
-	int32 m_silencedModelIndex; // 0x1040
-	bool m_inPrecache; // 0x1044
-	bool m_bNeedsBoltAction; // 0x1045
-	int32 m_nRevolverCylinderIdx; // 0x1048
-	bool m_bSkillReloadAvailable; // 0x104C
-	bool m_bSkillReloadLiftedReloadKey; // 0x104D
-	bool m_bSkillBoltInterruptAvailable; // 0x104E
-	bool m_bSkillBoltLiftedFireKey; // 0x104F
+	int32 m_zoomLevel; // 0x1050
+	int32 m_iBurstShotsRemaining; // 0x1054
+	int32 m_silencedModelIndex; // 0x1060
+	bool m_inPrecache; // 0x1064
+	bool m_bNeedsBoltAction; // 0x1065
+	int32 m_nRevolverCylinderIdx; // 0x1068
+	bool m_bSkillReloadAvailable; // 0x106C
+	bool m_bSkillReloadLiftedReloadKey; // 0x106D
+	bool m_bSkillBoltInterruptAvailable; // 0x106E
+	bool m_bSkillBoltLiftedFireKey; // 0x106F
 };
 class CEnableMotionFixup : public CBaseEntity // server
 {
@@ -18546,7 +18928,7 @@ class CAttributeContainer : public CAttributeManager // server
 };
 class CCSPlace : public CServerOnlyModelEntity // server
 {
-	CUtlSymbolLarge m_name; // 0x0780
+	CUtlSymbolLarge m_name; // 0x0788
 };
 class PulseSelectorOutflowList_t // pulse_runtime_lib
 {
@@ -18561,15 +18943,15 @@ class CLightEnvironmentEntity : public CLightDirectionalEntity // server
 };
 class CEnvDecal : public CBaseModelEntity // server
 {
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hDecalMaterial; // 0x0768
-	float32 m_flWidth; // 0x0770
-	float32 m_flHeight; // 0x0774
-	float32 m_flDepth; // 0x0778
-	uint32 m_nRenderOrder; // 0x077C
-	bool m_bProjectOnWorld; // 0x0780
-	bool m_bProjectOnCharacters; // 0x0781
-	bool m_bProjectOnWater; // 0x0782
-	float32 m_flDepthSortBias; // 0x0784
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hDecalMaterial; // 0x0770
+	float32 m_flWidth; // 0x0778
+	float32 m_flHeight; // 0x077C
+	float32 m_flDepth; // 0x0780
+	uint32 m_nRenderOrder; // 0x0784
+	bool m_bProjectOnWorld; // 0x0788
+	bool m_bProjectOnCharacters; // 0x0789
+	bool m_bProjectOnWater; // 0x078A
+	float32 m_flDepthSortBias; // 0x078C
 };
 class CEnvVolumetricFogVolume : public CBaseEntity // server
 {
@@ -18605,38 +18987,38 @@ class CBodyComponentSkeletonInstance : public CBodyComponent // server
 };
 class CItemGeneric : public CItem // server
 {
-	bool m_bHasTriggerRadius; // 0x09F4
-	bool m_bHasPickupRadius; // 0x09F5
-	float32 m_flPickupRadiusSqr; // 0x09F8
-	float32 m_flTriggerRadiusSqr; // 0x09FC
-	GameTime_t m_flLastPickupCheck; // 0x0A00
-	bool m_bPlayerCounterListenerAdded; // 0x0A04
-	bool m_bPlayerInTriggerRadius; // 0x0A05
-	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_hSpawnParticleEffect; // 0x0A08
-	CUtlSymbolLarge m_pAmbientSoundEffect; // 0x0A10
-	bool m_bAutoStartAmbientSound; // 0x0A18
-	CUtlSymbolLarge m_pSpawnScriptFunction; // 0x0A20
-	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_hPickupParticleEffect; // 0x0A28
-	CUtlSymbolLarge m_pPickupSoundEffect; // 0x0A30
-	CUtlSymbolLarge m_pPickupScriptFunction; // 0x0A38
-	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_hTimeoutParticleEffect; // 0x0A40
-	CUtlSymbolLarge m_pTimeoutSoundEffect; // 0x0A48
-	CUtlSymbolLarge m_pTimeoutScriptFunction; // 0x0A50
-	CUtlSymbolLarge m_pPickupFilterName; // 0x0A58
-	CHandle< CBaseFilter > m_hPickupFilter; // 0x0A60
-	CEntityIOOutput m_OnPickup; // 0x0A68
-	CEntityIOOutput m_OnTimeout; // 0x0A80
-	CEntityIOOutput m_OnTriggerStartTouch; // 0x0A98
-	CEntityIOOutput m_OnTriggerTouch; // 0x0AB0
-	CEntityIOOutput m_OnTriggerEndTouch; // 0x0AC8
-	CUtlSymbolLarge m_pAllowPickupScriptFunction; // 0x0AE0
-	float32 m_flPickupRadius; // 0x0AE8
-	float32 m_flTriggerRadius; // 0x0AEC
-	CUtlSymbolLarge m_pTriggerSoundEffect; // 0x0AF0
-	bool m_bGlowWhenInTrigger; // 0x0AF8
-	Color m_glowColor; // 0x0AF9
-	bool m_bUseable; // 0x0AFD
-	CHandle< CItemGenericTriggerHelper > m_hTriggerHelper; // 0x0B00
+	bool m_bHasTriggerRadius; // 0x0A14
+	bool m_bHasPickupRadius; // 0x0A15
+	float32 m_flPickupRadiusSqr; // 0x0A18
+	float32 m_flTriggerRadiusSqr; // 0x0A1C
+	GameTime_t m_flLastPickupCheck; // 0x0A20
+	bool m_bPlayerCounterListenerAdded; // 0x0A24
+	bool m_bPlayerInTriggerRadius; // 0x0A25
+	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_hSpawnParticleEffect; // 0x0A28
+	CUtlSymbolLarge m_pAmbientSoundEffect; // 0x0A30
+	bool m_bAutoStartAmbientSound; // 0x0A38
+	CUtlSymbolLarge m_pSpawnScriptFunction; // 0x0A40
+	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_hPickupParticleEffect; // 0x0A48
+	CUtlSymbolLarge m_pPickupSoundEffect; // 0x0A50
+	CUtlSymbolLarge m_pPickupScriptFunction; // 0x0A58
+	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_hTimeoutParticleEffect; // 0x0A60
+	CUtlSymbolLarge m_pTimeoutSoundEffect; // 0x0A68
+	CUtlSymbolLarge m_pTimeoutScriptFunction; // 0x0A70
+	CUtlSymbolLarge m_pPickupFilterName; // 0x0A78
+	CHandle< CBaseFilter > m_hPickupFilter; // 0x0A80
+	CEntityIOOutput m_OnPickup; // 0x0A88
+	CEntityIOOutput m_OnTimeout; // 0x0AA0
+	CEntityIOOutput m_OnTriggerStartTouch; // 0x0AB8
+	CEntityIOOutput m_OnTriggerTouch; // 0x0AD0
+	CEntityIOOutput m_OnTriggerEndTouch; // 0x0AE8
+	CUtlSymbolLarge m_pAllowPickupScriptFunction; // 0x0B00
+	float32 m_flPickupRadius; // 0x0B08
+	float32 m_flTriggerRadius; // 0x0B0C
+	CUtlSymbolLarge m_pTriggerSoundEffect; // 0x0B10
+	bool m_bGlowWhenInTrigger; // 0x0B18
+	Color m_glowColor; // 0x0B19
+	bool m_bUseable; // 0x0B1D
+	CHandle< CItemGenericTriggerHelper > m_hTriggerHelper; // 0x0B20
 };
 class CPointValueRemapper : public CBaseEntity // server
 {
@@ -18669,7 +19051,7 @@ class CPointValueRemapper : public CBaseEntity // server
 	bool m_bFirstUpdate; // 0x0539
 	float32 m_flPreviousValue; // 0x053C
 	GameTime_t m_flPreviousUpdateTickTime; // 0x0540
-	Vector m_vecPreviousTestPoint; // 0x0544
+	VectorWS m_vecPreviousTestPoint; // 0x0544
 	CHandle< CBasePlayerPawn > m_hUsingPlayer; // 0x0550
 	float32 m_flCustomOutputValue; // 0x0554
 	CUtlSymbolLarge m_iszSoundEngage; // 0x0558
@@ -18696,37 +19078,40 @@ class CCSGO_TeamIntroCounterTerroristPosition : public CCSGO_TeamIntroCharacterP
 };
 class CRagdollProp : public CBaseAnimGraph // server
 {
-	ragdoll_t m_ragdoll; // 0x0950
-	bool m_bStartDisabled; // 0x09A0
-	CNetworkUtlVectorBase< bool > m_ragEnabled; // 0x09A8
-	CNetworkUtlVectorBase< Vector > m_ragPos; // 0x09C0
-	CNetworkUtlVectorBase< QAngle > m_ragAngles; // 0x09D8
-	uint32 m_lastUpdateTickCount; // 0x09F0
-	bool m_allAsleep; // 0x09F4
-	bool m_bFirstCollisionAfterLaunch; // 0x09F5
-	INavObstacle::NavObstacleType_t m_nNavObstacleType; // 0x09F8
-	bool m_bUpdateNavWhenMoving; // 0x09FC
-	bool m_bForceNavObstacleCut; // 0x09FD
-	bool m_bAttachedToReferenceFrame; // 0x09FE
-	CHandle< CBaseEntity > m_hDamageEntity; // 0x0A00
-	CHandle< CBaseEntity > m_hKiller; // 0x0A04
-	CHandle< CBasePlayerPawn > m_hPhysicsAttacker; // 0x0A08
-	GameTime_t m_flLastPhysicsInfluenceTime; // 0x0A0C
-	GameTime_t m_flFadeOutStartTime; // 0x0A10
-	float32 m_flFadeTime; // 0x0A14
-	VectorWS m_vecLastOrigin; // 0x0A18
-	GameTime_t m_flAwakeTime; // 0x0A24
-	GameTime_t m_flLastOriginChangeTime; // 0x0A28
-	CUtlSymbolLarge m_strOriginClassName; // 0x0A30
-	CUtlSymbolLarge m_strSourceClassName; // 0x0A38
-	bool m_bHasBeenPhysgunned; // 0x0A40
-	bool m_bAllowStretch; // 0x0A41
-	float32 m_flBlendWeight; // 0x0A44
-	float32 m_flDefaultFadeScale; // 0x0A48
-	CUtlVector< Vector > m_ragdollMins; // 0x0A50
-	CUtlVector< Vector > m_ragdollMaxs; // 0x0A68
-	bool m_bShouldDeleteActivationRecord; // 0x0A80
-	CUtlVector< INavObstacle* > m_vecNavObstacles; // 0x0A98
+	CPropDataComponent m_CPropDataComponent; // 0x0970
+	ragdoll_t m_ragdoll; // 0x09B0
+	bool m_bStartDisabled; // 0x0A00
+	float32 m_massScale; // 0x0A04
+	float32 m_buoyancyScale; // 0x0A08
+	CNetworkUtlVectorBase< bool > m_ragEnabled; // 0x0A10
+	CNetworkUtlVectorBase< Vector > m_ragPos; // 0x0A28
+	CNetworkUtlVectorBase< QAngle > m_ragAngles; // 0x0A40
+	uint32 m_lastUpdateTickCount; // 0x0A58
+	bool m_allAsleep; // 0x0A5C
+	bool m_bFirstCollisionAfterLaunch; // 0x0A5D
+	INavObstacle::NavObstacleType_t m_nNavObstacleType; // 0x0A60
+	bool m_bUpdateNavWhenMoving; // 0x0A64
+	bool m_bForceNavObstacleCut; // 0x0A65
+	bool m_bAttachedToReferenceFrame; // 0x0A66
+	CHandle< CBaseEntity > m_hDamageEntity; // 0x0A68
+	CHandle< CBaseEntity > m_hKiller; // 0x0A6C
+	CHandle< CBasePlayerPawn > m_hPhysicsAttacker; // 0x0A70
+	GameTime_t m_flLastPhysicsInfluenceTime; // 0x0A74
+	GameTime_t m_flFadeOutStartTime; // 0x0A78
+	float32 m_flFadeTime; // 0x0A7C
+	VectorWS m_vecLastOrigin; // 0x0A80
+	GameTime_t m_flAwakeTime; // 0x0A8C
+	GameTime_t m_flLastOriginChangeTime; // 0x0A90
+	CUtlSymbolLarge m_strOriginClassName; // 0x0A98
+	CUtlSymbolLarge m_strSourceClassName; // 0x0AA0
+	bool m_bHasBeenPhysgunned; // 0x0AA8
+	bool m_bAllowStretch; // 0x0AA9
+	float32 m_flBlendWeight; // 0x0AAC
+	float32 m_flDefaultFadeScale; // 0x0AB0
+	CUtlVector< Vector > m_ragdollMins; // 0x0AB8
+	CUtlVector< Vector > m_ragdollMaxs; // 0x0AD0
+	bool m_bShouldDeleteActivationRecord; // 0x0AE8
+	CUtlVector< INavObstacle* > m_vecNavObstacles; // 0x0B00
 };
 class CScriptComponent : public CEntityComponent // entity2
 {
@@ -18734,12 +19119,13 @@ class CScriptComponent : public CEntityComponent // entity2
 };
 class CFuncTrain : public CBasePlatTrain // server
 {
-	CHandle< CBaseEntity > m_hCurrentTarget; // 0x0810
-	bool m_activated; // 0x0814
-	CHandle< CBaseEntity > m_hEnemy; // 0x0818
-	float32 m_flBlockDamage; // 0x081C
-	GameTime_t m_flNextBlockTime; // 0x0820
-	CUtlSymbolLarge m_iszLastTarget; // 0x0828
+	CHandle< CBaseEntity > m_hCurrentTarget; // 0x0818
+	bool m_activated; // 0x081C
+	CHandle< CBaseEntity > m_hEnemy; // 0x0820
+	float32 m_flBlockDamage; // 0x0824
+	GameTime_t m_flNextBlockTime; // 0x0828
+	CUtlSymbolLarge m_iszLastTarget; // 0x0830
+	float32 m_flSpeed; // 0x0838
 };
 class CAI_ChangeHintGroup : public CBaseEntity // server
 {
@@ -18779,7 +19165,7 @@ class CPhysHinge : public CPhysConstraint // server
 };
 class CBuyZone : public CBaseTrigger // server
 {
-	int32 m_LegacyTeamNum; // 0x08C8
+	int32 m_LegacyTeamNum; // 0x08E8
 };
 class CInfoChoreoAnchor : public CPointEntity // server
 {
@@ -18851,6 +19237,9 @@ class CPointCamera : public CBaseEntity // server
 	bool m_bIsOn; // 0x04FC
 	CPointCamera* m_pNext; // 0x0500
 };
+class CBuyZone_API // server
+{
+};
 class CAttributeList // server
 {
 	CUtlVectorEmbeddedNetworkVar< CEconItemAttribute > m_Attributes; // 0x0008
@@ -18858,7 +19247,7 @@ class CAttributeList // server
 };
 class CPulseCell_Inflow_Wait : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_WakeResume; // 0x0048
+	CPulse_ResumePoint m_WakeResume; // 0x00D8
 };
 class CFilterProximity : public CBaseFilter // server
 {
@@ -18912,16 +19301,16 @@ class CEffectData // server
 };
 class CEntityDissolve : public CBaseModelEntity // server
 {
-	float32 m_flFadeInStart; // 0x0768
-	float32 m_flFadeInLength; // 0x076C
-	float32 m_flFadeOutModelStart; // 0x0770
-	float32 m_flFadeOutModelLength; // 0x0774
-	float32 m_flFadeOutStart; // 0x0778
-	float32 m_flFadeOutLength; // 0x077C
-	GameTime_t m_flStartTime; // 0x0780
-	EntityDisolveType_t m_nDissolveType; // 0x0784
-	Vector m_vDissolverOrigin; // 0x0788
-	uint32 m_nMagnitude; // 0x0794
+	float32 m_flFadeInStart; // 0x0770
+	float32 m_flFadeInLength; // 0x0774
+	float32 m_flFadeOutModelStart; // 0x0778
+	float32 m_flFadeOutModelLength; // 0x077C
+	float32 m_flFadeOutStart; // 0x0780
+	float32 m_flFadeOutLength; // 0x0784
+	GameTime_t m_flStartTime; // 0x0788
+	EntityDissolveType_t m_nDissolveType; // 0x078C
+	VectorWS m_vDissolverOrigin; // 0x0790
+	uint32 m_nMagnitude; // 0x079C
 };
 class CCSGameRules : public CTeamplayRules // server
 {
@@ -18988,8 +19377,8 @@ class CCSGameRules : public CTeamplayRules // server
 	int32[30] m_iMatchStats_PlayersAlive_T; // 0x0B40
 	float32[32] m_TeamRespawnWaveTimes; // 0x0BB8
 	GameTime_t[32] m_flNextRespawnWave; // 0x0C38
-	Vector m_vMinimapMins; // 0x0CB8
-	Vector m_vMinimapMaxs; // 0x0CC4
+	VectorWS m_vMinimapMins; // 0x0CB8
+	VectorWS m_vMinimapMaxs; // 0x0CC4
 	float32[8] m_MinimapVerticalSectionHeights; // 0x0CD0
 	uint64 m_ullLocalMatchID; // 0x0CF0
 	int32[10] m_nEndMatchMapGroupVoteTypes; // 0x0CF8
@@ -19063,7 +19452,7 @@ class CCSGameRules : public CTeamplayRules // server
 	bool m_bTargetBombed; // 0x0F00
 	bool m_bBombDefused; // 0x0F01
 	bool m_bMapHasBombZone; // 0x0F02
-	Vector m_vecMainCTSpawnPos; // 0x0F50
+	VectorWS m_vecMainCTSpawnPos; // 0x0F50
 	CUtlVector< CHandle< SpawnPoint > > m_CTSpawnPointsMasterList; // 0x0F60
 	CUtlVector< CHandle< SpawnPoint > > m_TerroristSpawnPointsMasterList; // 0x0F78
 	bool m_bRespawningAllRespawnablePlayers; // 0x0F90
@@ -19115,28 +19504,31 @@ class CCSGameRules : public CTeamplayRules // server
 	uint8 m_nRoundStartCount; // 0x1414
 	float64 m_flLastPerfSampleTime; // 0x5420
 };
+class CEnvSkyAPI // server
+{
+};
 class CPulseCell_Outflow_CycleShuffled : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
 	CUtlVector< CPulse_OutflowConnection > m_Outputs; // 0x0048
 };
 class CBaseCSGrenadeProjectile : public CBaseGrenade // server
 {
-	Vector m_vInitialPosition; // 0x09C0
-	Vector m_vInitialVelocity; // 0x09CC
-	int32 m_nBounces; // 0x09D8
-	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_nExplodeEffectIndex; // 0x09E0
-	int32 m_nExplodeEffectTickBegin; // 0x09E8
-	Vector m_vecExplodeEffectOrigin; // 0x09EC
-	GameTime_t m_flSpawnTime; // 0x09F8
-	uint8 m_unOGSExtraFlags; // 0x09FC
-	bool m_bDetonationRecorded; // 0x09FD
-	uint16 m_nItemIndex; // 0x09FE
-	Vector m_vecOriginalSpawnLocation; // 0x0A00
-	GameTime_t m_flLastBounceSoundTime; // 0x0A0C
-	RotationVector m_vecGrenadeSpin; // 0x0A10
-	Vector m_vecLastHitSurfaceNormal; // 0x0A1C
-	int32 m_nTicksAtZeroVelocity; // 0x0A28
-	bool m_bHasEverHitEnemy; // 0x0A2C
+	VectorWS m_vInitialPosition; // 0x09F0
+	Vector m_vInitialVelocity; // 0x09FC
+	int32 m_nBounces; // 0x0A08
+	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_nExplodeEffectIndex; // 0x0A10
+	int32 m_nExplodeEffectTickBegin; // 0x0A18
+	VectorWS m_vecExplodeEffectOrigin; // 0x0A1C
+	GameTime_t m_flSpawnTime; // 0x0A28
+	uint8 m_unOGSExtraFlags; // 0x0A2C
+	bool m_bDetonationRecorded; // 0x0A2D
+	uint16 m_nItemIndex; // 0x0A2E
+	VectorWS m_vecOriginalSpawnLocation; // 0x0A30
+	GameTime_t m_flLastBounceSoundTime; // 0x0A3C
+	RotationVector m_vecGrenadeSpin; // 0x0A40
+	Vector m_vecLastHitSurfaceNormal; // 0x0A4C
+	int32 m_nTicksAtZeroVelocity; // 0x0A58
+	bool m_bHasEverHitEnemy; // 0x0A5C
 };
 class CPhysConstraint : public CLogicalEntity // server
 {
@@ -19147,7 +19539,7 @@ class CPhysConstraint : public CLogicalEntity // server
 	CHandle< CBaseEntity > m_hAttach2; // 0x04C4
 	CUtlSymbolLarge m_nameAttachment1; // 0x04C8
 	CUtlSymbolLarge m_nameAttachment2; // 0x04D0
-	CUtlSymbolLarge m_breakSound; // 0x04D8
+	CGameSoundEventName m_breakSound; // 0x04D8
 	float32 m_forceLimit; // 0x04E0
 	float32 m_torqueLimit; // 0x04E4
 	float32 m_minTeleportDistance; // 0x04E8
@@ -19243,63 +19635,63 @@ class CLightComponent : public CEntityComponent // server
 };
 class CCSWeaponBase : public CBasePlayerWeapon // server
 {
-	bool m_bRemoveable; // 0x0CB8
-	bool m_bPlayerAmmoStockOnPickup; // 0x0CB9
-	bool m_bRequireUseToTouch; // 0x0CBA
-	WeaponGameplayAnimState m_iWeaponGameplayAnimState; // 0x0CBC
-	GameTime_t m_flWeaponGameplayAnimStateTimestamp; // 0x0CC0
-	GameTime_t m_flInspectCancelCompleteTime; // 0x0CC4
-	bool m_bInspectPending; // 0x0CC8
-	bool m_bInspectShouldLoop; // 0x0CC9
-	int32 m_nLastEmptySoundCmdNum; // 0x0CF4
-	bool m_bFireOnEmpty; // 0x0D10
-	CEntityIOOutput m_OnPlayerPickup; // 0x0D18
-	CSWeaponMode m_weaponMode; // 0x0D30
-	float32 m_flTurningInaccuracyDelta; // 0x0D34
-	Vector m_vecTurningInaccuracyEyeDirLast; // 0x0D38
-	float32 m_flTurningInaccuracy; // 0x0D44
-	float32 m_fAccuracyPenalty; // 0x0D48
-	GameTime_t m_flLastAccuracyUpdateTime; // 0x0D4C
-	float32 m_fAccuracySmoothedForZoom; // 0x0D50
-	int32 m_iRecoilIndex; // 0x0D54
-	float32 m_flRecoilIndex; // 0x0D58
-	bool m_bBurstMode; // 0x0D5C
-	GameTick_t m_nPostponeFireReadyTicks; // 0x0D60
-	float32 m_flPostponeFireReadyFrac; // 0x0D64
-	bool m_bInReload; // 0x0D68
-	GameTick_t m_nDeployTick; // 0x0D6C
-	GameTime_t m_flDroppedAtTime; // 0x0D70
-	bool m_bIsHauledBack; // 0x0D78
-	bool m_bSilencerOn; // 0x0D79
-	GameTime_t m_flTimeSilencerSwitchComplete; // 0x0D7C
-	float32 m_flWeaponActionPlaybackRate; // 0x0D80
-	int32 m_iOriginalTeamNumber; // 0x0D84
-	int32 m_iMostRecentTeamNumber; // 0x0D88
-	bool m_bDroppedNearBuyZone; // 0x0D8C
-	float32 m_flNextAttackRenderTimeOffset; // 0x0D90
-	bool m_bCanBePickedUp; // 0x0DA8
-	bool m_bUseCanOverrideNextOwnerTouchTime; // 0x0DA9
-	GameTime_t m_nextOwnerTouchTime; // 0x0DAC
-	GameTime_t m_nextPrevOwnerTouchTime; // 0x0DB0
-	GameTime_t m_nextPrevOwnerUseTime; // 0x0DB8
-	CHandle< CCSPlayerPawn > m_hPrevOwner; // 0x0DBC
-	GameTick_t m_nDropTick; // 0x0DC0
-	bool m_bWasActiveWeaponWhenDropped; // 0x0DC4
-	bool m_donated; // 0x0DE4
-	GameTime_t m_fLastShotTime; // 0x0DE8
-	bool m_bWasOwnedByCT; // 0x0DEC
-	bool m_bWasOwnedByTerrorist; // 0x0DED
-	int32 m_numRemoveUnownedWeaponThink; // 0x0DF0
-	CIronSightController m_IronSightController; // 0x0E50
-	int32 m_iIronSightMode; // 0x0E68
-	GameTime_t m_flLastLOSTraceFailureTime; // 0x0E6C
-	float32 m_flWatTickOffset; // 0x0E70
-	GameTime_t m_flLastShakeTime; // 0x0E80
+	bool m_bRemoveable; // 0x0CD8
+	bool m_bPlayerAmmoStockOnPickup; // 0x0CD9
+	bool m_bRequireUseToTouch; // 0x0CDA
+	WeaponGameplayAnimState m_iWeaponGameplayAnimState; // 0x0CDC
+	GameTime_t m_flWeaponGameplayAnimStateTimestamp; // 0x0CE0
+	GameTime_t m_flInspectCancelCompleteTime; // 0x0CE4
+	bool m_bInspectPending; // 0x0CE8
+	bool m_bInspectShouldLoop; // 0x0CE9
+	int32 m_nLastEmptySoundCmdNum; // 0x0D14
+	bool m_bFireOnEmpty; // 0x0D30
+	CEntityIOOutput m_OnPlayerPickup; // 0x0D38
+	CSWeaponMode m_weaponMode; // 0x0D50
+	float32 m_flTurningInaccuracyDelta; // 0x0D54
+	Vector m_vecTurningInaccuracyEyeDirLast; // 0x0D58
+	float32 m_flTurningInaccuracy; // 0x0D64
+	float32 m_fAccuracyPenalty; // 0x0D68
+	GameTime_t m_flLastAccuracyUpdateTime; // 0x0D6C
+	float32 m_fAccuracySmoothedForZoom; // 0x0D70
+	int32 m_iRecoilIndex; // 0x0D74
+	float32 m_flRecoilIndex; // 0x0D78
+	bool m_bBurstMode; // 0x0D7C
+	GameTick_t m_nPostponeFireReadyTicks; // 0x0D80
+	float32 m_flPostponeFireReadyFrac; // 0x0D84
+	bool m_bInReload; // 0x0D88
+	GameTick_t m_nDeployTick; // 0x0D8C
+	GameTime_t m_flDroppedAtTime; // 0x0D90
+	bool m_bIsHauledBack; // 0x0D98
+	bool m_bSilencerOn; // 0x0D99
+	GameTime_t m_flTimeSilencerSwitchComplete; // 0x0D9C
+	float32 m_flWeaponActionPlaybackRate; // 0x0DA0
+	int32 m_iOriginalTeamNumber; // 0x0DA4
+	int32 m_iMostRecentTeamNumber; // 0x0DA8
+	bool m_bDroppedNearBuyZone; // 0x0DAC
+	float32 m_flNextAttackRenderTimeOffset; // 0x0DB0
+	bool m_bCanBePickedUp; // 0x0DC8
+	bool m_bUseCanOverrideNextOwnerTouchTime; // 0x0DC9
+	GameTime_t m_nextOwnerTouchTime; // 0x0DCC
+	GameTime_t m_nextPrevOwnerTouchTime; // 0x0DD0
+	GameTime_t m_nextPrevOwnerUseTime; // 0x0DD8
+	CHandle< CCSPlayerPawn > m_hPrevOwner; // 0x0DDC
+	GameTick_t m_nDropTick; // 0x0DE0
+	bool m_bWasActiveWeaponWhenDropped; // 0x0DE4
+	bool m_donated; // 0x0E04
+	GameTime_t m_fLastShotTime; // 0x0E08
+	bool m_bWasOwnedByCT; // 0x0E0C
+	bool m_bWasOwnedByTerrorist; // 0x0E0D
+	int32 m_numRemoveUnownedWeaponThink; // 0x0E10
+	CIronSightController m_IronSightController; // 0x0E70
+	int32 m_iIronSightMode; // 0x0E88
+	GameTime_t m_flLastLOSTraceFailureTime; // 0x0E8C
+	float32 m_flWatTickOffset; // 0x0E90
+	GameTime_t m_flLastShakeTime; // 0x0EA0
 };
 class CPointClientUIDialog : public CBaseClientUIEntity // server
 {
-	CHandle< CBaseEntity > m_hActivator; // 0x08C8
-	bool m_bStartEnabled; // 0x08CC
+	CHandle< CBaseEntity > m_hActivator; // 0x08D0
+	bool m_bStartEnabled; // 0x08D4
 };
 class CLogicLineToEntity : public CLogicalEntity // server
 {
@@ -19351,10 +19743,9 @@ class CCSObserver_MovementServices : public CPlayer_MovementServices // server
 };
 class CPulseCell_Outflow_ListenForAnimgraphTag : public CPulseCell_BaseYieldingInflow // server
 {
-	CPulse_ResumePoint m_OnStart; // 0x0048
-	CPulse_ResumePoint m_OnEnd; // 0x0090
-	CPulse_ResumePoint m_OnCanceled; // 0x00D8
-	CGlobalSymbol m_TagName; // 0x0120
+	CPulse_ResumePoint m_OnStart; // 0x00D8
+	CPulse_ResumePoint m_OnEnd; // 0x0120
+	CGlobalSymbol m_TagName; // 0x0168
 };
 class CBodyComponent : public CEntityComponent // server
 {
@@ -19387,6 +19778,9 @@ class CEconItemView : public IEconItemInterface // server
 	CAttributeList m_NetworkedDynamicAttributes; // 0x00E8
 	char[161] m_szCustomName; // 0x0160
 	char[161] m_szCustomNameOverride; // 0x0201
+};
+class CGameStateReportAPI // server
+{
 };
 class CIncendiaryGrenade : public CMolotovGrenade // server
 {
@@ -19427,16 +19821,16 @@ class CBaseModelEntity : public CBaseEntity // server
 	bool m_bRenderToCubemaps; // 0x05E0
 	bool m_bNoInterpolate; // 0x05E1
 	CCollisionProperty m_Collision; // 0x05E8
-	CGlowProperty m_Glow; // 0x0698
-	float32 m_flGlowBackfaceMult; // 0x06F0
-	float32 m_fadeMinDist; // 0x06F4
-	float32 m_fadeMaxDist; // 0x06F8
-	float32 m_flFadeScale; // 0x06FC
-	float32 m_flShadowStrength; // 0x0700
-	uint8 m_nObjectCulling; // 0x0704
-	CUtlOrderedMap< CGlobalSymbol, int32 > m_bodyGroupChoices; // 0x0708
-	CNetworkViewOffsetVector m_vecViewOffset; // 0x0730
-	uint32[1] m_bvDisabledHitGroups; // 0x0760
+	CGlowProperty m_Glow; // 0x06A0
+	float32 m_flGlowBackfaceMult; // 0x06F8
+	float32 m_fadeMinDist; // 0x06FC
+	float32 m_fadeMaxDist; // 0x0700
+	float32 m_flFadeScale; // 0x0704
+	float32 m_flShadowStrength; // 0x0708
+	uint8 m_nObjectCulling; // 0x070C
+	CUtlOrderedMap< CGlobalSymbol, int32 > m_bodyGroupChoices; // 0x0710
+	CNetworkViewOffsetVector m_vecViewOffset; // 0x0738
+	uint32[1] m_bvDisabledHitGroups; // 0x0768
 };
 class fogplayerparams_t // server
 {
@@ -19471,13 +19865,13 @@ class CGlowProperty // server
 };
 class CInstancedSceneEntity : public CSceneEntity // server
 {
-	CHandle< CBaseEntity > m_hOwner; // 0x07C0
-	bool m_bHadOwner; // 0x07C4
-	float32 m_flPostSpeakDelay; // 0x07C8
-	float32 m_flPreDelay; // 0x07CC
-	bool m_bIsBackground; // 0x07D0
-	bool m_bRemoveOnCompletion; // 0x07D1
-	CHandle< CBaseEntity > m_hTarget; // 0x07D4
+	CHandle< CBaseEntity > m_hOwner; // 0x07F0
+	bool m_bHadOwner; // 0x07F4
+	float32 m_flPostSpeakDelay; // 0x07F8
+	float32 m_flPreDelay; // 0x07FC
+	bool m_bIsBackground; // 0x0800
+	bool m_bRemoveOnCompletion; // 0x0801
+	CHandle< CBaseEntity > m_hTarget; // 0x0804
 };
 class CPulseCell_BaseValue : public CPulseCell_Base // pulse_runtime_lib
 {
@@ -19503,10 +19897,9 @@ class CPlayer_WaterServices : public CPlayerPawnComponent // server
 };
 class CPulseCell_BooleanSwitchState : public CPulseCell_BaseState // pulse_runtime_lib
 {
-	PulseObservableBoolExpression_t m_Condition; // 0x0048
-	CPulse_OutflowConnection m_Always; // 0x00C0
-	CPulse_OutflowConnection m_WhenTrue; // 0x0108
-	CPulse_OutflowConnection m_WhenFalse; // 0x0150
+	CPulseObservableExpression< bool > m_Condition; // 0x00D8
+	CPulse_OutflowConnection m_WhenTrue; // 0x0150
+	CPulse_OutflowConnection m_WhenFalse; // 0x0198
 };
 class CRotButton : public CBaseButton // server
 {
@@ -19553,65 +19946,65 @@ class CItemKevlar : public CItem // server
 };
 class CFuncShatterglass : public CBaseModelEntity // server
 {
-	matrix3x4_t m_matPanelTransform; // 0x0768
-	matrix3x4_t m_matPanelTransformWsTemp; // 0x0798
-	CUtlVector< uint32 > m_vecShatterGlassShards; // 0x07C8
-	Vector2D m_PanelSize; // 0x07E0
-	GameTime_t m_flLastShatterSoundEmitTime; // 0x07E8
-	GameTime_t m_flLastCleanupTime; // 0x07EC
-	GameTime_t m_flInitAtTime; // 0x07F0
-	float32 m_flGlassThickness; // 0x07F4
-	float32 m_flSpawnInvulnerability; // 0x07F8
-	bool m_bBreakSilent; // 0x07FC
-	bool m_bBreakShardless; // 0x07FD
-	bool m_bBroken; // 0x07FE
-	bool m_bGlassNavIgnore; // 0x07FF
-	bool m_bGlassInFrame; // 0x0800
-	bool m_bStartBroken; // 0x0801
-	uint8 m_iInitialDamageType; // 0x0802
-	CUtlSymbolLarge m_szDamagePositioningEntityName01; // 0x0808
-	CUtlSymbolLarge m_szDamagePositioningEntityName02; // 0x0810
-	CUtlSymbolLarge m_szDamagePositioningEntityName03; // 0x0818
-	CUtlSymbolLarge m_szDamagePositioningEntityName04; // 0x0820
-	CUtlVector< Vector > m_vInitialDamagePositions; // 0x0828
-	CUtlVector< Vector > m_vExtraDamagePositions; // 0x0840
-	CUtlVector< Vector4D > m_vInitialPanelVertices; // 0x0858
-	CEntityIOOutput m_OnBroken; // 0x0870
-	uint8 m_iSurfaceType; // 0x0888
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hMaterialDamageBase; // 0x0890
+	matrix3x4_t m_matPanelTransform; // 0x0770
+	matrix3x4_t m_matPanelTransformWsTemp; // 0x07A0
+	CUtlVector< uint32 > m_vecShatterGlassShards; // 0x07D0
+	Vector2D m_PanelSize; // 0x07E8
+	GameTime_t m_flLastShatterSoundEmitTime; // 0x07F0
+	GameTime_t m_flLastCleanupTime; // 0x07F4
+	GameTime_t m_flInitAtTime; // 0x07F8
+	float32 m_flGlassThickness; // 0x07FC
+	float32 m_flSpawnInvulnerability; // 0x0800
+	bool m_bBreakSilent; // 0x0804
+	bool m_bBreakShardless; // 0x0805
+	bool m_bBroken; // 0x0806
+	bool m_bGlassNavIgnore; // 0x0807
+	bool m_bGlassInFrame; // 0x0808
+	bool m_bStartBroken; // 0x0809
+	uint8 m_iInitialDamageType; // 0x080A
+	CUtlSymbolLarge m_szDamagePositioningEntityName01; // 0x0810
+	CUtlSymbolLarge m_szDamagePositioningEntityName02; // 0x0818
+	CUtlSymbolLarge m_szDamagePositioningEntityName03; // 0x0820
+	CUtlSymbolLarge m_szDamagePositioningEntityName04; // 0x0828
+	CUtlVector< VectorWS > m_vInitialDamagePositions; // 0x0830
+	CUtlVector< VectorWS > m_vExtraDamagePositions; // 0x0848
+	CUtlVector< Vector4D > m_vInitialPanelVertices; // 0x0860
+	CEntityIOOutput m_OnBroken; // 0x0878
+	uint8 m_iSurfaceType; // 0x0890
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hMaterialDamageBase; // 0x0898
 };
 class CNavWalkable : public CPointEntity // server
 {
 };
 class CPlantedC4 : public CBaseAnimGraph // server
 {
-	bool m_bBombTicking; // 0x0948
-	GameTime_t m_flC4Blow; // 0x094C
-	int32 m_nBombSite; // 0x0950
-	int32 m_nSourceSoundscapeHash; // 0x0954
-	bool m_bAbortDetonationBecauseWorldIsFrozen; // 0x0958
-	CAttributeContainer m_AttributeManager; // 0x0960
-	CEntityIOOutput m_OnBombDefused; // 0x0C58
-	CEntityIOOutput m_OnBombBeginDefuse; // 0x0C70
-	CEntityIOOutput m_OnBombDefuseAborted; // 0x0C88
-	bool m_bCannotBeDefused; // 0x0CA0
-	EntitySpottedState_t m_entitySpottedState; // 0x0CA8
-	int32 m_nSpotRules; // 0x0CC0
-	bool m_bHasExploded; // 0x0CC4
-	bool m_bBombDefused; // 0x0CC5
-	bool m_bTrainingPlacedByPlayer; // 0x0CC6
-	float32 m_flTimerLength; // 0x0CC8
-	bool m_bBeingDefused; // 0x0CCC
-	GameTime_t m_fLastDefuseTime; // 0x0CD4
-	float32 m_flDefuseLength; // 0x0CDC
-	GameTime_t m_flDefuseCountDown; // 0x0CE0
-	CHandle< CCSPlayerPawn > m_hBombDefuser; // 0x0CE4
-	int32 m_iProgressBarTime; // 0x0CE8
-	bool m_bVoiceAlertFired; // 0x0CEC
-	bool[4] m_bVoiceAlertPlayed; // 0x0CED
-	GameTime_t m_flNextBotBeepTime; // 0x0CF4
-	QAngle m_angCatchUpToPlayerEye; // 0x0CFC
-	GameTime_t m_flLastSpinDetectionTime; // 0x0D08
+	bool m_bBombTicking; // 0x09B8
+	GameTime_t m_flC4Blow; // 0x09BC
+	int32 m_nBombSite; // 0x09C0
+	int32 m_nSourceSoundscapeHash; // 0x09C4
+	bool m_bAbortDetonationBecauseWorldIsFrozen; // 0x09C8
+	CAttributeContainer m_AttributeManager; // 0x09D0
+	CEntityIOOutput m_OnBombDefused; // 0x0CC8
+	CEntityIOOutput m_OnBombBeginDefuse; // 0x0CE0
+	CEntityIOOutput m_OnBombDefuseAborted; // 0x0CF8
+	bool m_bCannotBeDefused; // 0x0D10
+	EntitySpottedState_t m_entitySpottedState; // 0x0D18
+	int32 m_nSpotRules; // 0x0D30
+	bool m_bHasExploded; // 0x0D34
+	bool m_bBombDefused; // 0x0D35
+	bool m_bTrainingPlacedByPlayer; // 0x0D36
+	float32 m_flTimerLength; // 0x0D38
+	bool m_bBeingDefused; // 0x0D3C
+	GameTime_t m_fLastDefuseTime; // 0x0D44
+	float32 m_flDefuseLength; // 0x0D4C
+	GameTime_t m_flDefuseCountDown; // 0x0D50
+	CHandle< CCSPlayerPawn > m_hBombDefuser; // 0x0D54
+	int32 m_iProgressBarTime; // 0x0D58
+	bool m_bVoiceAlertFired; // 0x0D5C
+	bool[4] m_bVoiceAlertPlayed; // 0x0D5D
+	GameTime_t m_flNextBotBeepTime; // 0x0D64
+	QAngle m_angCatchUpToPlayerEye; // 0x0D6C
+	GameTime_t m_flLastSpinDetectionTime; // 0x0D78
 };
 class CEnvSoundscapeProxyAlias_snd_soundscape_proxy : public CEnvSoundscapeProxy // server
 {
@@ -19633,9 +20026,12 @@ class CVoteController : public CBaseEntity // server
 	CUtlVector< CBaseIssue* > m_potentialIssues; // 0x0628
 	CUtlVector< char* > m_VoteOptions; // 0x0640
 };
+class CFootstepControl_API // server
+{
+};
 class CPulseCell_Inflow_Yield : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_UnyieldResume; // 0x0048
+	CPulse_ResumePoint m_UnyieldResume; // 0x00D8
 };
 class CPulseMathlib // pulse_runtime_lib
 {
@@ -19645,6 +20041,9 @@ class CPhysImpact : public CPointEntity // server
 	float32 m_damage; // 0x04A8
 	float32 m_distance; // 0x04AC
 	CUtlSymbolLarge m_directionEntityName; // 0x04B0
+};
+class CCSPlayerPawnBase_API // server
+{
 };
 class CBaseEntity : public CEntityInstance // server
 {
@@ -19691,7 +20090,6 @@ class CBaseEntity : public CEntityInstance // server
 	uint8 m_iTeamNum; // 0x0344
 	CUtlSymbolLarge m_iGlobalname; // 0x0348
 	int32 m_iSentToClients; // 0x0350
-	float32 m_flSpeed; // 0x0354
 	CUtlString m_sUniqueHammerID; // 0x0358
 	uint32 m_spawnflags; // 0x0360
 	GameTick_t m_nNextThinkTick; // 0x0364
@@ -19745,10 +20143,13 @@ class CGameSceneNodeHandle // server
 };
 class CMarkupVolumeWithRef : public CMarkupVolumeTagged // server
 {
-	bool m_bUseRef; // 0x07B0
-	Vector m_vRefPosEntitySpace; // 0x07B4
-	VectorWS m_vRefPosWorldSpace; // 0x07C0
-	float32 m_flRefDot; // 0x07CC
+	bool m_bUseRef; // 0x07B8
+	Vector m_vRefPosEntitySpace; // 0x07BC
+	VectorWS m_vRefPosWorldSpace; // 0x07C8
+	float32 m_flRefDot; // 0x07D4
+};
+class CGameMoney_API // server
+{
 };
 class CCSGO_TeamSelectCharacterPosition : public CCSGO_TeamPreviewCharacterPosition // server
 {
@@ -19759,8 +20160,8 @@ class CPulseCell_Unknown : public CPulseCell_Base // pulse_runtime_lib
 };
 class CFuncPlatRot : public CFuncPlat // server
 {
-	QAngle m_end; // 0x0818
-	QAngle m_start; // 0x0824
+	QAngle m_end; // 0x0828
+	QAngle m_start; // 0x0834
 };
 class CRagdollMagnet : public CPointEntity // server
 {
@@ -19780,25 +20181,28 @@ class CFireCrackerBlast : public CInferno // server
 };
 class CSpotlightEnd : public CBaseModelEntity // server
 {
-	float32 m_flLightScale; // 0x0768
-	float32 m_Radius; // 0x076C
-	Vector m_vSpotlightDir; // 0x0770
-	VectorWS m_vSpotlightOrg; // 0x077C
+	float32 m_flLightScale; // 0x0770
+	float32 m_Radius; // 0x0774
+	Vector m_vSpotlightDir; // 0x0778
+	VectorWS m_vSpotlightOrg; // 0x0784
+};
+class CPulseStringlib // pulse_runtime_lib
+{
 };
 class CEnvSky : public CBaseModelEntity // server
 {
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSkyMaterial; // 0x0768
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSkyMaterialLightingOnly; // 0x0770
-	bool m_bStartDisabled; // 0x0778
-	Color m_vTintColor; // 0x0779
-	Color m_vTintColorLightingOnly; // 0x077D
-	float32 m_flBrightnessScale; // 0x0784
-	int32 m_nFogType; // 0x0788
-	float32 m_flFogMinStart; // 0x078C
-	float32 m_flFogMinEnd; // 0x0790
-	float32 m_flFogMaxStart; // 0x0794
-	float32 m_flFogMaxEnd; // 0x0798
-	bool m_bEnabled; // 0x079C
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSkyMaterial; // 0x0770
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSkyMaterialLightingOnly; // 0x0778
+	bool m_bStartDisabled; // 0x0780
+	Color m_vTintColor; // 0x0781
+	Color m_vTintColorLightingOnly; // 0x0785
+	float32 m_flBrightnessScale; // 0x078C
+	int32 m_nFogType; // 0x0790
+	float32 m_flFogMinStart; // 0x0794
+	float32 m_flFogMinEnd; // 0x0798
+	float32 m_flFogMaxStart; // 0x079C
+	float32 m_flFogMaxEnd; // 0x07A0
+	bool m_bEnabled; // 0x07A4
 };
 class CInfoSpawnGroupLandmark : public CPointEntity // server
 {
@@ -19910,11 +20314,11 @@ class CPulseCell_Step_PublicOutput : public CPulseCell_BaseFlow // pulse_runtime
 };
 class CEnvLaser : public CBeam // server
 {
-	CUtlSymbolLarge m_iszLaserTarget; // 0x0808
-	CHandle< CSprite > m_pSprite; // 0x0810
-	CUtlSymbolLarge m_iszSpriteName; // 0x0818
-	Vector m_firePosition; // 0x0820
-	float32 m_flStartFrame; // 0x082C
+	CUtlSymbolLarge m_iszLaserTarget; // 0x0810
+	CHandle< CSprite > m_pSprite; // 0x0818
+	CUtlSymbolLarge m_iszSpriteName; // 0x0820
+	Vector m_firePosition; // 0x0828
+	float32 m_flStartFrame; // 0x0834
 };
 class CSoundOpvarSetEntity : public CBaseEntity // server
 {
@@ -19953,6 +20357,9 @@ class CPhysMotor : public CLogicalEntity // server
 class CLogicGameEvent : public CLogicalEntity // server
 {
 	CUtlSymbolLarge m_iszEventName; // 0x04A8
+};
+class CBaseAnimGraphAPI // server
+{
 };
 class CPhysicsPropMultiplayer : public CPhysicsProp // server
 {
@@ -20010,34 +20417,35 @@ class CPulse_BlackboardReference // pulse_runtime_lib
 };
 class CFuncTankTrain : public CFuncTrackTrain // server
 {
-	CEntityIOOutput m_OnDeath; // 0x0890
+	CEntityIOOutput m_OnDeath; // 0x0898
 };
 class CPointClientUIWorldPanel : public CBaseClientUIEntity // server
 {
-	bool m_bIgnoreInput; // 0x08C8
-	bool m_bLit; // 0x08C9
-	bool m_bFollowPlayerAcrossTeleport; // 0x08CA
-	float32 m_flWidth; // 0x08CC
-	float32 m_flHeight; // 0x08D0
-	float32 m_flDPI; // 0x08D4
-	float32 m_flInteractDistance; // 0x08D8
-	float32 m_flDepthOffset; // 0x08DC
-	uint32 m_unOwnerContext; // 0x08E0
-	uint32 m_unHorizontalAlign; // 0x08E4
-	uint32 m_unVerticalAlign; // 0x08E8
-	uint32 m_unOrientation; // 0x08EC
-	bool m_bAllowInteractionFromAllSceneWorlds; // 0x08F0
-	CNetworkUtlVectorBase< CUtlSymbolLarge > m_vecCSSClasses; // 0x08F8
-	bool m_bOpaque; // 0x0910
-	bool m_bNoDepth; // 0x0911
-	bool m_bVisibleWhenParentNoDraw; // 0x0912
-	bool m_bRenderBackface; // 0x0913
-	bool m_bUseOffScreenIndicator; // 0x0914
-	bool m_bExcludeFromSaveGames; // 0x0915
-	bool m_bGrabbable; // 0x0916
-	bool m_bOnlyRenderToTexture; // 0x0917
-	bool m_bDisableMipGen; // 0x0918
-	int32 m_nExplicitImageLayout; // 0x091C
+	bool m_bIgnoreInput; // 0x08D0
+	bool m_bLit; // 0x08D1
+	bool m_bFollowPlayerAcrossTeleport; // 0x08D2
+	float32 m_flWidth; // 0x08D4
+	float32 m_flHeight; // 0x08D8
+	float32 m_flDPI; // 0x08DC
+	float32 m_flInteractDistance; // 0x08E0
+	float32 m_flDepthOffset; // 0x08E4
+	uint32 m_unOwnerContext; // 0x08E8
+	uint32 m_unHorizontalAlign; // 0x08EC
+	uint32 m_unVerticalAlign; // 0x08F0
+	uint32 m_unOrientation; // 0x08F4
+	bool m_bAllowInteractionFromAllSceneWorlds; // 0x08F8
+	CNetworkUtlVectorBase< CUtlSymbolLarge > m_vecCSSClasses; // 0x0900
+	bool m_bOpaque; // 0x0918
+	bool m_bNoDepth; // 0x0919
+	bool m_bVisibleWhenParentNoDraw; // 0x091A
+	bool m_bRenderBackface; // 0x091B
+	bool m_bUseOffScreenIndicator; // 0x091C
+	bool m_bExcludeFromSaveGames; // 0x091D
+	bool m_bGrabbable; // 0x091E
+	bool m_bOnlyRenderToTexture; // 0x091F
+	bool m_bDisableMipGen; // 0x0920
+	int32 m_nExplicitImageLayout; // 0x0924
+	bool m_bIgnoreParentOrientation; // 0x0928
 };
 class CSoundEventSphereEntity : public CSoundEventEntity // server
 {
@@ -20129,9 +20537,10 @@ class CChoreoComponent // server
 {
 	CNetworkVarChainer __m_pChainEntity; // 0x0008
 	CHandle< CBaseModelEntity > m_hOwner; // 0x0030
-	SceneEventId_t m_nNextSceneEventId; // 0x0068
-	bool m_bUpdateLayerPriorities; // 0x006C
-	GameTime_t m_flAllowResponsesEndTime; // 0x0070
+	int32 m_nExernalChoreoGraphCount; // 0x0034
+	CGlobalSymbol m_sActiveExternalChoreoGraphSlotID; // 0x0038
+	SceneEventId_t m_nNextSceneEventId; // 0x0070
+	GameTime_t m_flAllowResponsesEndTime; // 0x0074
 };
 class CPulseCell_Value_RandomInt : public CPulseCell_BaseValue // pulse_runtime_lib
 {
@@ -20143,40 +20552,41 @@ class CPointGamestatsCounter : public CPointEntity // server
 };
 class CTextureBasedAnimatable : public CBaseModelEntity // server
 {
-	bool m_bLoop; // 0x0768
-	float32 m_flFPS; // 0x076C
-	CStrongHandle< InfoForResourceTypeCTextureBase > m_hPositionKeys; // 0x0770
-	CStrongHandle< InfoForResourceTypeCTextureBase > m_hRotationKeys; // 0x0778
-	Vector m_vAnimationBoundsMin; // 0x0780
-	Vector m_vAnimationBoundsMax; // 0x078C
-	float32 m_flStartTime; // 0x0798
-	float32 m_flStartFrame; // 0x079C
+	bool m_bLoop; // 0x0770
+	float32 m_flFPS; // 0x0774
+	CStrongHandle< InfoForResourceTypeCTextureBase > m_hPositionKeys; // 0x0778
+	CStrongHandle< InfoForResourceTypeCTextureBase > m_hRotationKeys; // 0x0780
+	Vector m_vAnimationBoundsMin; // 0x0788
+	Vector m_vAnimationBoundsMax; // 0x0794
+	float32 m_flStartTime; // 0x07A0
+	float32 m_flStartFrame; // 0x07A4
 };
 class CSprite : public CBaseModelEntity // server
 {
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSpriteMaterial; // 0x0768
-	CHandle< CBaseEntity > m_hAttachedToEntity; // 0x0770
-	AttachmentHandle_t m_nAttachment; // 0x0774
-	float32 m_flSpriteFramerate; // 0x0778
-	float32 m_flFrame; // 0x077C
-	GameTime_t m_flDieTime; // 0x0780
-	uint32 m_nBrightness; // 0x0790
-	float32 m_flBrightnessDuration; // 0x0794
-	float32 m_flSpriteScale; // 0x0798
-	float32 m_flScaleDuration; // 0x079C
-	bool m_bWorldSpaceScale; // 0x07A0
-	float32 m_flGlowProxySize; // 0x07A4
-	float32 m_flHDRColorScale; // 0x07A8
-	GameTime_t m_flLastTime; // 0x07AC
-	float32 m_flMaxFrame; // 0x07B0
-	float32 m_flStartScale; // 0x07B4
-	float32 m_flDestScale; // 0x07B8
-	GameTime_t m_flScaleTimeStart; // 0x07BC
-	int32 m_nStartBrightness; // 0x07C0
-	int32 m_nDestBrightness; // 0x07C4
-	GameTime_t m_flBrightnessTimeStart; // 0x07C8
-	int32 m_nSpriteWidth; // 0x07CC
-	int32 m_nSpriteHeight; // 0x07D0
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSpriteMaterial; // 0x0770
+	CHandle< CBaseEntity > m_hAttachedToEntity; // 0x0778
+	AttachmentHandle_t m_nAttachment; // 0x077C
+	float32 m_flSpriteFramerate; // 0x0780
+	float32 m_flFrame; // 0x0784
+	GameTime_t m_flDieTime; // 0x0788
+	uint32 m_nBrightness; // 0x0798
+	float32 m_flBrightnessDuration; // 0x079C
+	float32 m_flSpriteScale; // 0x07A0
+	float32 m_flScaleDuration; // 0x07A4
+	bool m_bWorldSpaceScale; // 0x07A8
+	float32 m_flGlowProxySize; // 0x07AC
+	float32 m_flHDRColorScale; // 0x07B0
+	GameTime_t m_flLastTime; // 0x07B4
+	float32 m_flMaxFrame; // 0x07B8
+	float32 m_flStartScale; // 0x07BC
+	float32 m_flDestScale; // 0x07C0
+	GameTime_t m_flScaleTimeStart; // 0x07C4
+	int32 m_nStartBrightness; // 0x07C8
+	int32 m_nDestBrightness; // 0x07CC
+	GameTime_t m_flBrightnessTimeStart; // 0x07D0
+	int32 m_nSpriteWidth; // 0x07D4
+	int32 m_nSpriteHeight; // 0x07D8
+	float32 m_flSpeed; // 0x07DC
 };
 class CBaseMoveBehavior : public CPathKeyFrame // server
 {
@@ -20194,37 +20604,40 @@ class CBaseMoveBehavior : public CPathKeyFrame // server
 };
 class CDynamicLight : public CBaseModelEntity // server
 {
-	uint8 m_ActualFlags; // 0x0768
-	uint8 m_Flags; // 0x0769
-	uint8 m_LightStyle; // 0x076A
-	bool m_On; // 0x076B
-	float32 m_Radius; // 0x076C
-	int32 m_Exponent; // 0x0770
-	float32 m_InnerAngle; // 0x0774
-	float32 m_OuterAngle; // 0x0778
-	float32 m_SpotRadius; // 0x077C
+	uint8 m_ActualFlags; // 0x0770
+	uint8 m_Flags; // 0x0771
+	uint8 m_LightStyle; // 0x0772
+	bool m_On; // 0x0773
+	float32 m_Radius; // 0x0774
+	int32 m_Exponent; // 0x0778
+	float32 m_InnerAngle; // 0x077C
+	float32 m_OuterAngle; // 0x0780
+	float32 m_SpotRadius; // 0x0784
 };
 class CWeaponTaser : public CCSWeaponBaseGun // server
 {
-	GameTime_t m_fFireTime; // 0x1050
-	int32 m_nLastAttackTick; // 0x1054
+	GameTime_t m_fFireTime; // 0x1070
+	int32 m_nLastAttackTick; // 0x1074
 };
 class CEnvCubemapBox : public CEnvCubemap // server
 {
 };
 class CRotDoor : public CBaseDoor // server
 {
-	bool m_bSolidBsp; // 0x0968
+	bool m_bSolidBsp; // 0x0978
 };
 class CPathMover : public CPathWithDynamicNodes // server
 {
 	CUtlVector< CHandle< CFuncMover > > m_vecMovers; // 0x05F0
-	CHandle< CPathMoverEntitySpawner > m_hMoverSpawner; // 0x0608
-	CUtlSymbolLarge m_iszMoverSpawnerName; // 0x0610
+	CUtlVector< CHandle< CPathMoverEntitySpawner > > m_vecSpawners; // 0x0608
+	CUtlSymbolLarge m_iszMoverSpawnerName; // 0x0620
+	CHandle< CFuncMoverRouter > m_hMoverRouter; // 0x0628
+	CUtlSymbolLarge m_iszMoverRouterName; // 0x0630
+	float32 m_flSampleSpacing; // 0x0638
 };
 class CFuncVPhysicsClip : public CBaseModelEntity // server
 {
-	bool m_bDisabled; // 0x0768
+	bool m_bDisabled; // 0x0770
 };
 class CPhysFixed : public CPhysConstraint // server
 {
@@ -20268,10 +20681,10 @@ class CEnvWindVolume : public CBaseEntity // server
 };
 class CFuncElectrifiedVolume : public CFuncBrush // server
 {
-	CUtlSymbolLarge m_EffectName; // 0x0788
-	CUtlSymbolLarge m_EffectInterpenetrateName; // 0x0790
-	CUtlSymbolLarge m_EffectZapName; // 0x0798
-	CUtlSymbolLarge m_iszEffectSource; // 0x07A0
+	CUtlSymbolLarge m_EffectName; // 0x0790
+	CUtlSymbolLarge m_EffectInterpenetrateName; // 0x0798
+	CUtlSymbolLarge m_EffectZapName; // 0x07A0
+	CUtlSymbolLarge m_iszEffectSource; // 0x07A8
 };
 class CCSMinimapBoundary : public CBaseEntity // server
 {
@@ -20314,15 +20727,18 @@ class CSoundEventOBBEntity : public CSoundEventEntity // server
 	Vector m_vMins; // 0x0568
 	Vector m_vMaxs; // 0x0574
 };
+class CBaseEntity_SharedAPI // server
+{
+};
 class CFlashbangProjectile : public CBaseCSGrenadeProjectile // server
 {
-	float32 m_flTimeToDetonate; // 0x0A30
-	uint8 m_numOpponentsHit; // 0x0A34
-	uint8 m_numTeammatesHit; // 0x0A35
+	float32 m_flTimeToDetonate; // 0x0A60
+	uint8 m_numOpponentsHit; // 0x0A64
+	uint8 m_numTeammatesHit; // 0x0A65
 };
 class CTriggerMultiple : public CBaseTrigger // server
 {
-	CEntityIOOutput m_OnTrigger; // 0x08C8
+	CEntityIOOutput m_OnTrigger; // 0x08E8
 };
 class CPhysBallSocket : public CPhysConstraint // server
 {
@@ -20342,7 +20758,7 @@ class CSoundOpvarSetPointBase : public CBaseEntity // server
 	bool m_bDisabled; // 0x04A8
 	CEntityHandle m_hSource; // 0x04AC
 	CUtlSymbolLarge m_iszSourceEntityName; // 0x04C8
-	Vector m_vLastPosition; // 0x0520
+	VectorWS m_vLastPosition; // 0x0520
 	float32 m_flRefreshTime; // 0x052C
 	CUtlSymbolLarge m_iszStackName; // 0x0530
 	CUtlSymbolLarge m_iszOperatorName; // 0x0538
@@ -20370,39 +20786,45 @@ class CPathKeyFrame : public CLogicalEntity // server
 	CHandle< CPathKeyFrame > m_pPrevKey; // 0x04E0
 	float32 m_flMoveSpeed; // 0x04E4
 };
+class CCSPlayerController_API // server
+{
+};
 class CWeaponCZ75a : public CCSWeaponBaseGun // server
 {
-	bool m_bMagazineRemoved; // 0x1050
+	bool m_bMagazineRemoved; // 0x1070
 };
 class CScriptTriggerPush : public CTriggerPush // server
 {
-	Vector m_vExtent; // 0x08F8
+	Vector m_vExtent; // 0x0920
 };
 class CRevertSaved : public CModelPointEntity // server
 {
-	float32 m_loadTime; // 0x0768
-	float32 m_Duration; // 0x076C
-	float32 m_HoldTime; // 0x0770
+	float32 m_loadTime; // 0x0770
+	float32 m_Duration; // 0x0774
+	float32 m_HoldTime; // 0x0778
+};
+class CPulseEnumlib // pulse_runtime_lib
+{
 };
 class CTriggerBombReset : public CBaseTrigger // server
 {
 };
 class CTriggerHurt : public CBaseTrigger // server
 {
-	float32 m_flOriginalDamage; // 0x08C8
-	float32 m_flDamage; // 0x08CC
-	float32 m_flDamageCap; // 0x08D0
-	GameTime_t m_flLastDmgTime; // 0x08D4
-	float32 m_flForgivenessDelay; // 0x08D8
-	DamageTypes_t m_bitsDamageInflict; // 0x08DC
-	int32 m_damageModel; // 0x08E0
-	bool m_bNoDmgForce; // 0x08E4
-	Vector m_vDamageForce; // 0x08E8
-	bool m_thinkAlways; // 0x08F4
-	float32 m_hurtThinkPeriod; // 0x08F8
-	CEntityIOOutput m_OnHurt; // 0x0900
-	CEntityIOOutput m_OnHurtPlayer; // 0x0918
-	CUtlVector< CHandle< CBaseEntity > > m_hurtEntities; // 0x0930
+	float32 m_flOriginalDamage; // 0x08E8
+	float32 m_flDamage; // 0x08EC
+	float32 m_flDamageCap; // 0x08F0
+	GameTime_t m_flLastDmgTime; // 0x08F4
+	float32 m_flForgivenessDelay; // 0x08F8
+	DamageTypes_t m_bitsDamageInflict; // 0x08FC
+	int32 m_damageModel; // 0x0900
+	bool m_bNoDmgForce; // 0x0904
+	Vector m_vDamageForce; // 0x0908
+	bool m_thinkAlways; // 0x0914
+	float32 m_hurtThinkPeriod; // 0x0918
+	CEntityIOOutput m_OnHurt; // 0x0920
+	CEntityIOOutput m_OnHurtPlayer; // 0x0938
+	CUtlVector< CHandle< CBaseEntity > > m_hurtEntities; // 0x0950
 };
 class CCSPlayer_WeaponServices : public CPlayer_WeaponServices // server
 {
@@ -20440,9 +20862,12 @@ class CTeamplayRules : public CMultiplayRules // server
 };
 class CScriptTriggerHurt : public CTriggerHurt // server
 {
-	Vector m_vExtent; // 0x0950
+	Vector m_vExtent; // 0x0970
 };
 class CCSGO_WingmanIntroCharacterPosition : public CCSGO_TeamIntroCharacterPosition // server
+{
+};
+class SpawnPoint_API // server
 {
 };
 class CWeaponMP9 : public CCSWeaponBaseGun // server
@@ -20450,7 +20875,7 @@ class CWeaponMP9 : public CCSWeaponBaseGun // server
 };
 class CTriggerDetectExplosion : public CBaseTrigger // server
 {
-	CEntityIOOutput m_OnDetectedExplosion; // 0x08F0
+	CEntityIOOutput m_OnDetectedExplosion; // 0x0910
 };
 class CFilterName : public CBaseFilter // server
 {
@@ -20458,18 +20883,18 @@ class CFilterName : public CBaseFilter // server
 };
 class CSmokeGrenadeProjectile : public CBaseCSGrenadeProjectile // server
 {
-	int32 m_nSmokeEffectTickBegin; // 0x0A58
-	bool m_bDidSmokeEffect; // 0x0A5C
-	int32 m_nRandomSeed; // 0x0A60
-	Vector m_vSmokeColor; // 0x0A64
-	Vector m_vSmokeDetonationPos; // 0x0A70
-	CNetworkUtlVectorBase< uint8 > m_VoxelFrameData; // 0x0A80
-	int32 m_nVoxelFrameDataSize; // 0x0A98
-	int32 m_nVoxelUpdate; // 0x0A9C
-	GameTime_t m_flLastBounce; // 0x0AA0
-	GameTime_t m_fllastSimulationTime; // 0x0AA4
-	bool m_bExplodeFromInferno; // 0x2D28
-	bool m_bDidGroundScorch; // 0x2D29
+	int32 m_nSmokeEffectTickBegin; // 0x0A88
+	bool m_bDidSmokeEffect; // 0x0A8C
+	int32 m_nRandomSeed; // 0x0A90
+	Vector m_vSmokeColor; // 0x0A94
+	VectorWS m_vSmokeDetonationPos; // 0x0AA0
+	CNetworkUtlVectorBase< uint8 > m_VoxelFrameData; // 0x0AB0
+	int32 m_nVoxelFrameDataSize; // 0x0AC8
+	int32 m_nVoxelUpdate; // 0x0ACC
+	GameTime_t m_flLastBounce; // 0x0AD0
+	GameTime_t m_fllastSimulationTime; // 0x0AD4
+	bool m_bExplodeFromInferno; // 0x2D58
+	bool m_bDidGroundScorch; // 0x2D59
 };
 class CBlood : public CPointEntity // server
 {
@@ -20497,7 +20922,7 @@ class CCSTeam : public CTeam // server
 };
 class CRulePointEntity : public CRuleEntity // server
 {
-	int32 m_Score; // 0x0770
+	int32 m_Score; // 0x0778
 };
 class CPulse_CallInfo // pulse_runtime_lib
 {
@@ -20513,19 +20938,21 @@ class CFuncMoveLinearAlias_momentary_door : public CFuncMoveLinear // server
 };
 class CBaseAnimGraph : public CBaseModelEntity // server
 {
-	CAnimGraphControllerManager m_graphControllerManager; // 0x0768
-	CAnimGraphControllerBase* m_pMainGraphController; // 0x0818
-	bool m_bInitiallyPopulateInterpHistory; // 0x0820
-	IChoreoServices* m_pChoreoServices; // 0x0828
-	bool m_bAnimGraphUpdateEnabled; // 0x0830
-	bool m_bAnimationUpdateScheduled; // 0x0831
-	Vector m_vecForce; // 0x0834
-	int32 m_nForceBone; // 0x0840
-	IPhysicsRagdollControl* m_pRagdollControl; // 0x0850
-	PhysicsRagdollPose_t m_RagdollPose; // 0x0858
-	bool m_bRagdollEnabled; // 0x0880
-	bool m_bRagdollClientSide; // 0x0881
-	CTransform m_xParentedRagdollRootInEntitySpace; // 0x0890
+	CAnimGraphControllerManager m_graphControllerManager; // 0x0770
+	CAnimGraphControllerPtr m_pMainGraphController; // 0x0808
+	bool m_bInitiallyPopulateInterpHistory; // 0x0810
+	CEntityOutputTemplate< float32 > m_OnLayerCycleUpdated; // 0x0818
+	CEntityIOOutput m_OnExternalChoreoGraphChanged; // 0x0838
+	IChoreoServices* m_pChoreoServices; // 0x0850
+	bool m_bAnimGraphUpdateEnabled; // 0x0858
+	bool m_bAnimationUpdateScheduled; // 0x0859
+	Vector m_vecForce; // 0x085C
+	int32 m_nForceBone; // 0x0868
+	IPhysicsRagdollControl* m_pRagdollControl; // 0x0878
+	PhysicsRagdollPose_t m_RagdollPose; // 0x0880
+	bool m_bRagdollEnabled; // 0x08A8
+	bool m_bRagdollClientSide; // 0x08A9
+	CTransform m_xParentedRagdollRootInEntitySpace; // 0x08B0
 };
 class CEnvCubemapFog : public CBaseEntity // server
 {
@@ -20554,6 +20981,9 @@ class CEnvCubemapFog : public CBaseEntity // server
 	bool m_bHasHeightFogEnd; // 0x05A0
 	bool m_bFirstTime; // 0x05A1
 };
+class CMapVetoPickController_API // server
+{
+};
 class CPulseCell_InlineNodeSkipSelector : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
 	PulseDocNodeID_t m_nFlowNodeID; // 0x0048
@@ -20563,44 +20993,51 @@ class CPulseCell_InlineNodeSkipSelector : public CPulseCell_BaseFlow // pulse_ru
 };
 class CBaseDoor : public CBaseToggle // server
 {
-	QAngle m_angMoveEntitySpace; // 0x07F8
-	Vector m_vecMoveDirParentSpace; // 0x0804
-	locksound_t m_ls; // 0x0810
-	bool m_bForceClosed; // 0x0830
-	bool m_bDoorGroup; // 0x0831
-	bool m_bLocked; // 0x0832
-	bool m_bIgnoreDebris; // 0x0833
-	bool m_bNoNPCs; // 0x0834
-	FuncDoorSpawnPos_t m_eSpawnPosition; // 0x0838
-	float32 m_flBlockDamage; // 0x083C
-	CUtlSymbolLarge m_NoiseMoving; // 0x0840
-	CUtlSymbolLarge m_NoiseArrived; // 0x0848
-	CUtlSymbolLarge m_NoiseMovingClosed; // 0x0850
-	CUtlSymbolLarge m_NoiseArrivedClosed; // 0x0858
-	CUtlSymbolLarge m_ChainTarget; // 0x0860
-	CEntityIOOutput m_OnBlockedClosing; // 0x0868
-	CEntityIOOutput m_OnBlockedOpening; // 0x0880
-	CEntityIOOutput m_OnUnblockedClosing; // 0x0898
-	CEntityIOOutput m_OnUnblockedOpening; // 0x08B0
-	CEntityIOOutput m_OnFullyClosed; // 0x08C8
-	CEntityIOOutput m_OnFullyOpen; // 0x08E0
-	CEntityIOOutput m_OnClose; // 0x08F8
-	CEntityIOOutput m_OnOpen; // 0x0910
-	CEntityIOOutput m_OnLockedUse; // 0x0928
-	bool m_bLoopMoveSound; // 0x0940
-	bool m_bCreateNavObstacle; // 0x0960
-	bool m_isChaining; // 0x0961
-	bool m_bIsUsable; // 0x0962
+	QAngle m_angMoveEntitySpace; // 0x0800
+	Vector m_vecMoveDirParentSpace; // 0x080C
+	locksound_t m_ls; // 0x0818
+	bool m_bForceClosed; // 0x0838
+	bool m_bDoorGroup; // 0x0839
+	bool m_bLocked; // 0x083A
+	bool m_bIgnoreDebris; // 0x083B
+	bool m_bNoNPCs; // 0x083C
+	FuncDoorSpawnPos_t m_eSpawnPosition; // 0x0840
+	float32 m_flBlockDamage; // 0x0844
+	CGameSoundEventName m_NoiseMoving; // 0x0848
+	CGameSoundEventName m_NoiseArrived; // 0x0850
+	CGameSoundEventName m_NoiseMovingClosed; // 0x0858
+	CGameSoundEventName m_NoiseArrivedClosed; // 0x0860
+	CUtlSymbolLarge m_ChainTarget; // 0x0868
+	CEntityIOOutput m_OnBlockedClosing; // 0x0870
+	CEntityIOOutput m_OnBlockedOpening; // 0x0888
+	CEntityIOOutput m_OnUnblockedClosing; // 0x08A0
+	CEntityIOOutput m_OnUnblockedOpening; // 0x08B8
+	CEntityIOOutput m_OnFullyClosed; // 0x08D0
+	CEntityIOOutput m_OnFullyOpen; // 0x08E8
+	CEntityIOOutput m_OnClose; // 0x0900
+	CEntityIOOutput m_OnOpen; // 0x0918
+	CEntityIOOutput m_OnLockedUse; // 0x0930
+	bool m_bLoopMoveSound; // 0x0948
+	bool m_bCreateNavObstacle; // 0x0968
+	float32 m_flSpeed; // 0x096C
+	bool m_isChaining; // 0x0970
+	bool m_bIsUsable; // 0x0971
+};
+class CBarnLightAPI // server
+{
 };
 class CServerOnlyPointEntity : public CServerOnlyEntity // server
 {
 };
 class CGameMoney : public CRulePointEntity // server
 {
-	CEntityIOOutput m_OnMoneySpent; // 0x0778
-	CEntityIOOutput m_OnMoneySpentFail; // 0x0790
-	int32 m_nMoney; // 0x07A8
-	CUtlString m_strAwardText; // 0x07B0
+	CEntityIOOutput m_OnMoneySpent; // 0x0780
+	CEntityIOOutput m_OnMoneySpentFail; // 0x0798
+	int32 m_nMoney; // 0x07B0
+	CUtlString m_strAwardText; // 0x07B8
+};
+class CFlashbangProjectile_API // server
+{
 };
 class CEnvHudHint : public CPointEntity // server
 {
@@ -20614,12 +21051,12 @@ class CLogicalEntity : public CServerOnlyEntity // server
 };
 class CItemDefuser : public CItem // server
 {
-	EntitySpottedState_t m_entitySpottedState; // 0x09E0
-	int32 m_nSpotRules; // 0x09F8
+	EntitySpottedState_t m_entitySpottedState; // 0x0A00
+	int32 m_nSpotRules; // 0x0A18
 };
 class CItemGenericTriggerHelper : public CBaseModelEntity // server
 {
-	CHandle< CItemGeneric > m_hParentItem; // 0x0768
+	CHandle< CItemGeneric > m_hParentItem; // 0x0770
 };
 class CPlayer_WeaponServices : public CPlayerPawnComponent // server
 {
@@ -20631,101 +21068,102 @@ class CPlayer_WeaponServices : public CPlayerPawnComponent // server
 };
 class CRagdollPropAttached : public CRagdollProp // server
 {
-	uint32 m_boneIndexAttached; // 0x0AB0
-	uint32 m_ragdollAttachedObjectIndex; // 0x0AB4
-	Vector m_attachmentPointBoneSpace; // 0x0AB8
-	Vector m_attachmentPointRagdollSpace; // 0x0AC4
-	bool m_bShouldDetach; // 0x0AD0
-	bool m_bShouldDeleteAttachedActivationRecord; // 0x0AE0
+	uint32 m_boneIndexAttached; // 0x0B20
+	uint32 m_ragdollAttachedObjectIndex; // 0x0B24
+	Vector m_attachmentPointBoneSpace; // 0x0B28
+	Vector m_attachmentPointRagdollSpace; // 0x0B34
+	bool m_bShouldDetach; // 0x0B40
+	bool m_bShouldDeleteAttachedActivationRecord; // 0x0B50
 };
 class CItemDogtags : public CItem // server
 {
-	CHandle< CCSPlayerPawn > m_OwningPlayer; // 0x09E0
-	CHandle< CCSPlayerPawn > m_KillingPlayer; // 0x09E4
+	CHandle< CCSPlayerPawn > m_OwningPlayer; // 0x0A00
+	CHandle< CCSPlayerPawn > m_KillingPlayer; // 0x0A04
 };
 class CFuncPlat : public CBasePlatTrain // server
 {
-	CUtlSymbolLarge m_sNoise; // 0x0810
+	float32 m_flSpeed; // 0x0818
+	CUtlSymbolLarge m_sNoise; // 0x0820
 };
 class CBarnLight : public CBaseModelEntity // server
 {
-	bool m_bEnabled; // 0x0768
-	int32 m_nColorMode; // 0x076C
-	Color m_Color; // 0x0770
-	float32 m_flColorTemperature; // 0x0774
-	float32 m_flBrightness; // 0x0778
-	float32 m_flBrightnessScale; // 0x077C
-	int32 m_nDirectLight; // 0x0780
-	int32 m_nBakedShadowIndex; // 0x0784
-	int32 m_nLightPathUniqueId; // 0x0788
-	int32 m_nLightMapUniqueId; // 0x078C
-	int32 m_nLuminaireShape; // 0x0790
-	float32 m_flLuminaireSize; // 0x0794
-	float32 m_flLuminaireAnisotropy; // 0x0798
-	CUtlString m_LightStyleString; // 0x07A0
-	GameTime_t m_flLightStyleStartTime; // 0x07A8
-	CNetworkUtlVectorBase< CUtlString > m_QueuedLightStyleStrings; // 0x07B0
-	CNetworkUtlVectorBase< CUtlString > m_LightStyleEvents; // 0x07C8
-	CNetworkUtlVectorBase< CHandle< CBaseModelEntity > > m_LightStyleTargets; // 0x07E0
-	CEntityIOOutput[4] m_StyleEvent; // 0x07F8
-	CStrongHandle< InfoForResourceTypeCTextureBase > m_hLightCookie; // 0x0878
-	float32 m_flShape; // 0x0880
-	float32 m_flSoftX; // 0x0884
-	float32 m_flSoftY; // 0x0888
-	float32 m_flSkirt; // 0x088C
-	float32 m_flSkirtNear; // 0x0890
-	Vector m_vSizeParams; // 0x0894
-	float32 m_flRange; // 0x08A0
-	Vector m_vShear; // 0x08A4
-	int32 m_nBakeSpecularToCubemaps; // 0x08B0
-	Vector m_vBakeSpecularToCubemapsSize; // 0x08B4
-	float32 m_flBakeSpecularToCubemapsScale; // 0x08C0
-	int32 m_nCastShadows; // 0x08C4
-	int32 m_nShadowMapSize; // 0x08C8
-	int32 m_nShadowPriority; // 0x08CC
-	bool m_bContactShadow; // 0x08D0
-	bool m_bForceShadowsEnabled; // 0x08D1
-	int32 m_nBounceLight; // 0x08D4
-	float32 m_flBounceScale; // 0x08D8
-	float32 m_flMinRoughness; // 0x08DC
-	Vector m_vAlternateColor; // 0x08E0
-	float32 m_fAlternateColorBrightness; // 0x08EC
-	int32 m_nFog; // 0x08F0
-	float32 m_flFogStrength; // 0x08F4
-	int32 m_nFogShadows; // 0x08F8
-	float32 m_flFogScale; // 0x08FC
-	float32 m_flFadeSizeStart; // 0x0900
-	float32 m_flFadeSizeEnd; // 0x0904
-	float32 m_flShadowFadeSizeStart; // 0x0908
-	float32 m_flShadowFadeSizeEnd; // 0x090C
-	bool m_bPrecomputedFieldsValid; // 0x0910
-	Vector m_vPrecomputedBoundsMins; // 0x0914
-	Vector m_vPrecomputedBoundsMaxs; // 0x0920
-	Vector m_vPrecomputedOBBOrigin; // 0x092C
-	QAngle m_vPrecomputedOBBAngles; // 0x0938
-	Vector m_vPrecomputedOBBExtent; // 0x0944
-	int32 m_nPrecomputedSubFrusta; // 0x0950
-	Vector m_vPrecomputedOBBOrigin0; // 0x0954
-	QAngle m_vPrecomputedOBBAngles0; // 0x0960
-	Vector m_vPrecomputedOBBExtent0; // 0x096C
-	Vector m_vPrecomputedOBBOrigin1; // 0x0978
-	QAngle m_vPrecomputedOBBAngles1; // 0x0984
-	Vector m_vPrecomputedOBBExtent1; // 0x0990
-	Vector m_vPrecomputedOBBOrigin2; // 0x099C
-	QAngle m_vPrecomputedOBBAngles2; // 0x09A8
-	Vector m_vPrecomputedOBBExtent2; // 0x09B4
-	Vector m_vPrecomputedOBBOrigin3; // 0x09C0
-	QAngle m_vPrecomputedOBBAngles3; // 0x09CC
-	Vector m_vPrecomputedOBBExtent3; // 0x09D8
-	Vector m_vPrecomputedOBBOrigin4; // 0x09E4
-	QAngle m_vPrecomputedOBBAngles4; // 0x09F0
-	Vector m_vPrecomputedOBBExtent4; // 0x09FC
-	Vector m_vPrecomputedOBBOrigin5; // 0x0A08
-	QAngle m_vPrecomputedOBBAngles5; // 0x0A14
-	Vector m_vPrecomputedOBBExtent5; // 0x0A20
-	bool m_bPvsModifyEntity; // 0x0A2C
-	bool m_bTransmitAlways; // 0x0A2D
-	CNetworkUtlVectorBase< uint16 > m_VisClusters; // 0x0A30
+	bool m_bEnabled; // 0x0770
+	int32 m_nColorMode; // 0x0774
+	Color m_Color; // 0x0778
+	float32 m_flColorTemperature; // 0x077C
+	float32 m_flBrightness; // 0x0780
+	float32 m_flBrightnessScale; // 0x0784
+	int32 m_nDirectLight; // 0x0788
+	int32 m_nBakedShadowIndex; // 0x078C
+	int32 m_nLightPathUniqueId; // 0x0790
+	int32 m_nLightMapUniqueId; // 0x0794
+	int32 m_nLuminaireShape; // 0x0798
+	float32 m_flLuminaireSize; // 0x079C
+	float32 m_flLuminaireAnisotropy; // 0x07A0
+	CUtlString m_LightStyleString; // 0x07A8
+	GameTime_t m_flLightStyleStartTime; // 0x07B0
+	CNetworkUtlVectorBase< CUtlString > m_QueuedLightStyleStrings; // 0x07B8
+	CNetworkUtlVectorBase< CUtlString > m_LightStyleEvents; // 0x07D0
+	CNetworkUtlVectorBase< CHandle< CBaseModelEntity > > m_LightStyleTargets; // 0x07E8
+	CEntityIOOutput[4] m_StyleEvent; // 0x0800
+	CStrongHandle< InfoForResourceTypeCTextureBase > m_hLightCookie; // 0x0880
+	float32 m_flShape; // 0x0888
+	float32 m_flSoftX; // 0x088C
+	float32 m_flSoftY; // 0x0890
+	float32 m_flSkirt; // 0x0894
+	float32 m_flSkirtNear; // 0x0898
+	Vector m_vSizeParams; // 0x089C
+	float32 m_flRange; // 0x08A8
+	Vector m_vShear; // 0x08AC
+	int32 m_nBakeSpecularToCubemaps; // 0x08B8
+	Vector m_vBakeSpecularToCubemapsSize; // 0x08BC
+	float32 m_flBakeSpecularToCubemapsScale; // 0x08C8
+	int32 m_nCastShadows; // 0x08CC
+	int32 m_nShadowMapSize; // 0x08D0
+	int32 m_nShadowPriority; // 0x08D4
+	bool m_bContactShadow; // 0x08D8
+	bool m_bForceShadowsEnabled; // 0x08D9
+	int32 m_nBounceLight; // 0x08DC
+	float32 m_flBounceScale; // 0x08E0
+	float32 m_flMinRoughness; // 0x08E4
+	Vector m_vAlternateColor; // 0x08E8
+	float32 m_fAlternateColorBrightness; // 0x08F4
+	int32 m_nFog; // 0x08F8
+	float32 m_flFogStrength; // 0x08FC
+	int32 m_nFogShadows; // 0x0900
+	float32 m_flFogScale; // 0x0904
+	float32 m_flFadeSizeStart; // 0x0908
+	float32 m_flFadeSizeEnd; // 0x090C
+	float32 m_flShadowFadeSizeStart; // 0x0910
+	float32 m_flShadowFadeSizeEnd; // 0x0914
+	bool m_bPrecomputedFieldsValid; // 0x0918
+	Vector m_vPrecomputedBoundsMins; // 0x091C
+	Vector m_vPrecomputedBoundsMaxs; // 0x0928
+	Vector m_vPrecomputedOBBOrigin; // 0x0934
+	QAngle m_vPrecomputedOBBAngles; // 0x0940
+	Vector m_vPrecomputedOBBExtent; // 0x094C
+	int32 m_nPrecomputedSubFrusta; // 0x0958
+	Vector m_vPrecomputedOBBOrigin0; // 0x095C
+	QAngle m_vPrecomputedOBBAngles0; // 0x0968
+	Vector m_vPrecomputedOBBExtent0; // 0x0974
+	Vector m_vPrecomputedOBBOrigin1; // 0x0980
+	QAngle m_vPrecomputedOBBAngles1; // 0x098C
+	Vector m_vPrecomputedOBBExtent1; // 0x0998
+	Vector m_vPrecomputedOBBOrigin2; // 0x09A4
+	QAngle m_vPrecomputedOBBAngles2; // 0x09B0
+	Vector m_vPrecomputedOBBExtent2; // 0x09BC
+	Vector m_vPrecomputedOBBOrigin3; // 0x09C8
+	QAngle m_vPrecomputedOBBAngles3; // 0x09D4
+	Vector m_vPrecomputedOBBExtent3; // 0x09E0
+	Vector m_vPrecomputedOBBOrigin4; // 0x09EC
+	QAngle m_vPrecomputedOBBAngles4; // 0x09F8
+	Vector m_vPrecomputedOBBExtent4; // 0x0A04
+	Vector m_vPrecomputedOBBOrigin5; // 0x0A10
+	QAngle m_vPrecomputedOBBAngles5; // 0x0A1C
+	Vector m_vPrecomputedOBBExtent5; // 0x0A28
+	bool m_bPvsModifyEntity; // 0x0A34
+	bool m_bTransmitAlways; // 0x0A35
+	CNetworkUtlVectorBase< uint16 > m_VisClusters; // 0x0A38
 };
 class CInstructorEventEntity : public CPointEntity // server
 {
@@ -20738,26 +21176,27 @@ class CWeaponTec9 : public CCSWeaponBaseGun // server
 };
 class CPathCorner : public CPointEntity // server
 {
-	float32 m_flWait; // 0x04A8
-	float32 m_flRadius; // 0x04AC
-	CEntityIOOutput m_OnPass; // 0x04B0
+	float32 m_flSpeed; // 0x04A8
+	float32 m_flWait; // 0x04AC
+	float32 m_flRadius; // 0x04B0
+	CEntityIOOutput m_OnPass; // 0x04B8
 };
 class CTriggerSndSosOpvar : public CBaseTrigger // server
 {
-	CUtlVector< CHandle< CBaseEntity > > m_hTouchingPlayers; // 0x08C8
-	Vector m_flPosition; // 0x08E0
-	float32 m_flCenterSize; // 0x08EC
-	float32 m_flMinVal; // 0x08F0
-	float32 m_flMaxVal; // 0x08F4
-	CUtlSymbolLarge m_opvarName; // 0x08F8
-	CUtlSymbolLarge m_stackName; // 0x0900
-	CUtlSymbolLarge m_operatorName; // 0x0908
-	bool m_bVolIs2D; // 0x0910
-	char[256] m_opvarNameChar; // 0x0911
-	char[256] m_stackNameChar; // 0x0A11
-	char[256] m_operatorNameChar; // 0x0B11
-	Vector m_VecNormPos; // 0x0C14
-	float32 m_flNormCenterSize; // 0x0C20
+	CUtlVector< CHandle< CBaseEntity > > m_hTouchingPlayers; // 0x08E8
+	VectorWS m_flPosition; // 0x0900
+	float32 m_flCenterSize; // 0x090C
+	float32 m_flMinVal; // 0x0910
+	float32 m_flMaxVal; // 0x0914
+	CUtlSymbolLarge m_opvarName; // 0x0918
+	CUtlSymbolLarge m_stackName; // 0x0920
+	CUtlSymbolLarge m_operatorName; // 0x0928
+	bool m_bVolIs2D; // 0x0930
+	char[256] m_opvarNameChar; // 0x0931
+	char[256] m_stackNameChar; // 0x0A31
+	char[256] m_operatorNameChar; // 0x0B31
+	Vector m_VecNormPos; // 0x0C34
+	float32 m_flNormCenterSize; // 0x0C40
 };
 class CPulseCell_LimitCount : public CPulseCell_BaseRequirement // pulse_runtime_lib
 {
@@ -20765,61 +21204,61 @@ class CPulseCell_LimitCount : public CPulseCell_BaseRequirement // pulse_runtime
 };
 class CPulseCell_Step_CallExternalMethod : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	PulseSymbol_t m_MethodName; // 0x0048
-	PulseRuntimeBlackboardReferenceIndex_t m_nBlackboardIndex; // 0x0058
-	CUtlLeanVector< CPulseRuntimeMethodArg > m_ExpectedArgs; // 0x0060
-	PulseMethodCallMode_t m_nAsyncCallMode; // 0x0070
-	CPulse_ResumePoint m_OnFinished; // 0x0078
+	PulseSymbol_t m_MethodName; // 0x00D8
+	PulseRuntimeBlackboardReferenceIndex_t m_nBlackboardIndex; // 0x00E8
+	CUtlLeanVector< CPulseRuntimeMethodArg > m_ExpectedArgs; // 0x00F0
+	PulseMethodCallMode_t m_nAsyncCallMode; // 0x0100
+	CPulse_ResumePoint m_OnFinished; // 0x0108
 };
 class CPointCommentaryNode : public CBaseAnimGraph // server
 {
-	CUtlSymbolLarge m_iszPreCommands; // 0x0940
-	CUtlSymbolLarge m_iszPostCommands; // 0x0948
-	CUtlSymbolLarge m_iszCommentaryFile; // 0x0950
-	CUtlSymbolLarge m_iszViewTarget; // 0x0958
-	CHandle< CBaseEntity > m_hViewTarget; // 0x0960
-	CHandle< CBaseEntity > m_hViewTargetAngles; // 0x0964
-	CUtlSymbolLarge m_iszViewPosition; // 0x0968
-	CHandle< CBaseEntity > m_hViewPosition; // 0x0970
-	CHandle< CBaseEntity > m_hViewPositionMover; // 0x0974
-	bool m_bPreventMovement; // 0x0978
-	bool m_bUnderCrosshair; // 0x0979
-	bool m_bUnstoppable; // 0x097A
-	GameTime_t m_flFinishedTime; // 0x097C
-	Vector m_vecFinishOrigin; // 0x0980
-	QAngle m_vecOriginalAngles; // 0x098C
-	QAngle m_vecFinishAngles; // 0x0998
-	bool m_bPreventChangesWhileMoving; // 0x09A4
-	bool m_bDisabled; // 0x09A5
-	VectorWS m_vecTeleportOrigin; // 0x09A8
-	GameTime_t m_flAbortedPlaybackAt; // 0x09B4
-	CEntityIOOutput m_pOnCommentaryStarted; // 0x09B8
-	CEntityIOOutput m_pOnCommentaryStopped; // 0x09D0
-	bool m_bActive; // 0x09E8
-	GameTime_t m_flStartTime; // 0x09EC
-	float32 m_flStartTimeInCommentary; // 0x09F0
-	CUtlSymbolLarge m_iszTitle; // 0x09F8
-	CUtlSymbolLarge m_iszSpeakers; // 0x0A00
-	int32 m_iNodeNumber; // 0x0A08
-	int32 m_iNodeNumberMax; // 0x0A0C
-	bool m_bListenedTo; // 0x0A10
+	CUtlSymbolLarge m_iszPreCommands; // 0x0960
+	CUtlSymbolLarge m_iszPostCommands; // 0x0968
+	CUtlSymbolLarge m_iszCommentaryFile; // 0x0970
+	CUtlSymbolLarge m_iszViewTarget; // 0x0978
+	CHandle< CBaseEntity > m_hViewTarget; // 0x0980
+	CHandle< CBaseEntity > m_hViewTargetAngles; // 0x0984
+	CUtlSymbolLarge m_iszViewPosition; // 0x0988
+	CHandle< CBaseEntity > m_hViewPosition; // 0x0990
+	CHandle< CBaseEntity > m_hViewPositionMover; // 0x0994
+	bool m_bPreventMovement; // 0x0998
+	bool m_bUnderCrosshair; // 0x0999
+	bool m_bUnstoppable; // 0x099A
+	GameTime_t m_flFinishedTime; // 0x099C
+	VectorWS m_vecFinishOrigin; // 0x09A0
+	QAngle m_vecOriginalAngles; // 0x09AC
+	QAngle m_vecFinishAngles; // 0x09B8
+	bool m_bPreventChangesWhileMoving; // 0x09C4
+	bool m_bDisabled; // 0x09C5
+	VectorWS m_vecTeleportOrigin; // 0x09C8
+	GameTime_t m_flAbortedPlaybackAt; // 0x09D4
+	CEntityIOOutput m_pOnCommentaryStarted; // 0x09D8
+	CEntityIOOutput m_pOnCommentaryStopped; // 0x09F0
+	bool m_bActive; // 0x0A08
+	GameTime_t m_flStartTime; // 0x0A0C
+	float32 m_flStartTimeInCommentary; // 0x0A10
+	CUtlSymbolLarge m_iszTitle; // 0x0A18
+	CUtlSymbolLarge m_iszSpeakers; // 0x0A20
+	int32 m_iNodeNumber; // 0x0A28
+	int32 m_iNodeNumberMax; // 0x0A2C
+	bool m_bListenedTo; // 0x0A30
 };
 class CMomentaryRotButton : public CRotButton // server
 {
-	CEntityOutputTemplate< float32 > m_Position; // 0x08E8
-	CEntityIOOutput m_OnUnpressed; // 0x0908
-	CEntityIOOutput m_OnFullyOpen; // 0x0920
-	CEntityIOOutput m_OnFullyClosed; // 0x0938
-	CEntityIOOutput m_OnReachedPosition; // 0x0950
-	int32 m_lastUsed; // 0x0968
-	QAngle m_start; // 0x096C
-	QAngle m_end; // 0x0978
-	float32 m_IdealYaw; // 0x0984
-	CUtlSymbolLarge m_sNoise; // 0x0988
-	bool m_bUpdateTarget; // 0x0990
-	int32 m_direction; // 0x0994
-	float32 m_returnSpeed; // 0x0998
-	float32 m_flStartPosition; // 0x099C
+	CEntityOutputTemplate< float32 > m_Position; // 0x08F0
+	CEntityIOOutput m_OnUnpressed; // 0x0910
+	CEntityIOOutput m_OnFullyOpen; // 0x0928
+	CEntityIOOutput m_OnFullyClosed; // 0x0940
+	CEntityIOOutput m_OnReachedPosition; // 0x0958
+	int32 m_lastUsed; // 0x0970
+	QAngle m_start; // 0x0974
+	QAngle m_end; // 0x0980
+	float32 m_IdealYaw; // 0x098C
+	CUtlSymbolLarge m_sNoise; // 0x0990
+	bool m_bUpdateTarget; // 0x0998
+	int32 m_direction; // 0x099C
+	float32 m_returnSpeed; // 0x09A0
+	float32 m_flStartPosition; // 0x09A4
 };
 class CSceneListManager : public CLogicalEntity // server
 {
@@ -20839,71 +21278,74 @@ class CEnvSoundscapeTriggerable : public CEnvSoundscape // server
 };
 class CFuncMover : public CBaseModelEntity // server
 {
-	CUtlSymbolLarge m_iszPathName; // 0x0768
-	CHandle< CPathMover > m_hPathMover; // 0x0770
-	CHandle< CPathMover > m_hPrevPathMover; // 0x0774
-	CUtlSymbolLarge m_iszPathNodeStart; // 0x0778
-	CUtlSymbolLarge m_iszPathNodeEnd; // 0x0780
-	bool m_bIgnoreEndNode; // 0x0788
-	CFuncMover::Move_t m_eMoveType; // 0x078C
-	bool m_bIsReversing; // 0x0790
-	float32 m_flStartSpeed; // 0x0794
-	float32 m_flPathLocation; // 0x0798
-	float32 m_flT; // 0x079C
-	int32 m_nCurrentNodeIndex; // 0x07A0
-	int32 m_nPreviousNodeIndex; // 0x07A4
-	SolidType_t m_eSolidType; // 0x07A8
-	bool m_bIsMoving; // 0x07A9
-	float32 m_flTimeToReachMaxSpeed; // 0x07AC
-	float32 m_flDistanceToReachMaxSpeed; // 0x07B0
-	float32 m_flTimeToReachZeroSpeed; // 0x07B4
-	float32 m_flComputedDistanceToReachMaxSpeed; // 0x07B8
-	float32 m_flComputedDistanceToReachZeroSpeed; // 0x07BC
-	float32 m_flStartCurveScale; // 0x07C0
-	float32 m_flStopCurveScale; // 0x07C4
-	float32 m_flDistanceToReachZeroSpeed; // 0x07C8
-	GameTime_t m_flTimeMovementStart; // 0x07CC
-	GameTime_t m_flTimeMovementStop; // 0x07D0
-	CHandle< CMoverPathNode > m_hStopAtNode; // 0x07D4
-	float32 m_flPathLocationToBeginStop; // 0x07D8
-	float32 m_flPathLocationStart; // 0x07DC
-	float32 m_flBeginStopT; // 0x07E0
-	CUtlSymbolLarge m_iszStartForwardSound; // 0x07E8
-	CUtlSymbolLarge m_iszLoopForwardSound; // 0x07F0
-	CUtlSymbolLarge m_iszStopForwardSound; // 0x07F8
-	CUtlSymbolLarge m_iszStartReverseSound; // 0x0800
-	CUtlSymbolLarge m_iszLoopReverseSound; // 0x0808
-	CUtlSymbolLarge m_iszStopReverseSound; // 0x0810
-	CUtlSymbolLarge m_iszArriveAtDestinationSound; // 0x0818
-	CEntityIOOutput m_OnMovementEnd; // 0x0838
-	bool m_bStartAtClosestPoint; // 0x0850
-	bool m_bStartAtEnd; // 0x0851
-	bool m_bStartFollowingClosestMover; // 0x0852
-	CFuncMover::OrientationUpdate_t m_eOrientationUpdate; // 0x0854
-	GameTime_t m_flTimeStartOrientationChange; // 0x0858
-	float32 m_flTimeToBlendToNewOrientation; // 0x085C
-	float32 m_flDurationBlendToNewOrientationRan; // 0x0860
-	bool m_bCreateMovableNavMesh; // 0x0864
-	bool m_bAllowMovableNavMeshDockingOnEntireEntity; // 0x0865
-	CEntityOutputTemplate< CUtlString > m_OnNodePassed; // 0x0868
-	CUtlSymbolLarge m_iszOrientationMatchEntityName; // 0x0888
-	CHandle< CBaseEntity > m_hOrientationMatchEntity; // 0x0890
-	float32 m_flTimeToTraverseToNextNode; // 0x0894
-	Vector m_vLerpToNewPosStartInPathEntitySpace; // 0x0898
-	Vector m_vLerpToNewPosEndInPathEntitySpace; // 0x08A4
-	float32 m_flLerpToPositionT; // 0x08B0
-	float32 m_flLerpToPositionDeltaT; // 0x08B4
-	CEntityIOOutput m_OnLerpToPositionComplete; // 0x08B8
-	bool m_bIsPaused; // 0x08D0
-	CFuncMover::TransitionToPathNodeAction_t m_eTransitionedToPathNodeAction; // 0x08D4
+	CUtlSymbolLarge m_iszPathName; // 0x0770
+	CHandle< CPathMover > m_hPathMover; // 0x0778
+	CHandle< CPathMover > m_hPrevPathMover; // 0x077C
+	CUtlSymbolLarge m_iszPathNodeStart; // 0x0780
+	CUtlSymbolLarge m_iszPathNodeEnd; // 0x0788
+	bool m_bIgnoreEndNode; // 0x0790
+	CFuncMover::Move_t m_eMoveType; // 0x0794
+	bool m_bIsReversing; // 0x0798
+	float32 m_flStartSpeed; // 0x079C
+	float32 m_flPathLocation; // 0x07A0
+	float32 m_flT; // 0x07A4
+	int32 m_nCurrentNodeIndex; // 0x07A8
+	int32 m_nPreviousNodeIndex; // 0x07AC
+	SolidType_t m_eSolidType; // 0x07B0
+	bool m_bIsMoving; // 0x07B1
+	float32 m_flTimeToReachMaxSpeed; // 0x07B4
+	float32 m_flDistanceToReachMaxSpeed; // 0x07B8
+	float32 m_flTimeToReachZeroSpeed; // 0x07BC
+	float32 m_flComputedDistanceToReachMaxSpeed; // 0x07C0
+	float32 m_flComputedDistanceToReachZeroSpeed; // 0x07C4
+	float32 m_flStartCurveScale; // 0x07C8
+	float32 m_flStopCurveScale; // 0x07CC
+	float32 m_flDistanceToReachZeroSpeed; // 0x07D0
+	GameTime_t m_flTimeMovementStart; // 0x07D4
+	GameTime_t m_flTimeMovementStop; // 0x07D8
+	CHandle< CMoverPathNode > m_hStopAtNode; // 0x07DC
+	float32 m_flPathLocationToBeginStop; // 0x07E0
+	float32 m_flPathLocationStart; // 0x07E4
+	float32 m_flBeginStopT; // 0x07E8
+	CGameSoundEventName m_iszStartForwardSound; // 0x07F0
+	CGameSoundEventName m_iszLoopForwardSound; // 0x07F8
+	CGameSoundEventName m_iszStopForwardSound; // 0x0800
+	CGameSoundEventName m_iszStartReverseSound; // 0x0808
+	CGameSoundEventName m_iszLoopReverseSound; // 0x0810
+	CGameSoundEventName m_iszStopReverseSound; // 0x0818
+	CGameSoundEventName m_iszArriveAtDestinationSound; // 0x0820
+	CEntityIOOutput m_OnMovementEnd; // 0x0840
+	bool m_bStartAtClosestPoint; // 0x0858
+	bool m_bStartAtEnd; // 0x0859
+	bool m_bStartFollowingClosestMover; // 0x085A
+	CFuncMover::OrientationUpdate_t m_eOrientationUpdate; // 0x085C
+	GameTime_t m_flTimeStartOrientationChange; // 0x0860
+	float32 m_flTimeToBlendToNewOrientation; // 0x0864
+	float32 m_flDurationBlendToNewOrientationRan; // 0x0868
+	bool m_bCreateMovableNavMesh; // 0x086C
+	bool m_bCreateMovableSurfaceGraph; // 0x086D
+	bool m_bAllowMovableNavMeshDockingOnEntireEntity; // 0x086E
+	CEntityOutputTemplate< CUtlString > m_OnNodePassed; // 0x0870
+	CUtlSymbolLarge m_iszOrientationMatchEntityName; // 0x0890
+	CHandle< CBaseEntity > m_hOrientationMatchEntity; // 0x0898
+	float32 m_flTimeToTraverseToNextNode; // 0x089C
+	Vector m_vLerpToNewPosStartInPathEntitySpace; // 0x08A0
+	Vector m_vLerpToNewPosEndInPathEntitySpace; // 0x08AC
+	float32 m_flLerpToPositionT; // 0x08B8
+	float32 m_flLerpToPositionDeltaT; // 0x08BC
+	CEntityIOOutput m_OnLerpToPositionComplete; // 0x08C0
+	bool m_bIsPaused; // 0x08D8
+	CFuncMover::TransitionToPathNodeAction_t m_eTransitionedToPathNodeAction; // 0x08DC
 	Quaternion m_qTransitionSourceOrientation; // 0x08E0
 	int32 m_nDelayedTeleportToNode; // 0x08F0
 	bool m_bIsImGuiLogging; // 0x08F4
-	CHandle< CBaseEntity > m_hFollowEntity; // 0x08F8
-	float32 m_flFollowDistance; // 0x08FC
-	float32 m_flFollowMinimumSpeed; // 0x0900
-	float32 m_flCurFollowEntityT; // 0x0904
-	float32 m_flCurFollowSpeed; // 0x0908
+	bool m_bIsImGuiEntTextLogging; // 0x08F5
+	float32 m_flSpeed; // 0x08F8
+	CHandle< CBaseEntity > m_hFollowEntity; // 0x08FC
+	float32 m_flFollowDistance; // 0x0900
+	float32 m_flFollowMinimumSpeed; // 0x0904
+	float32 m_flCurFollowEntityT; // 0x0908
+	float32 m_flCurFollowSpeed; // 0x090C
 	CUtlSymbolLarge m_strOrientationFaceEntityName; // 0x0910
 	CHandle< CBaseEntity > m_hOrientationFaceEntity; // 0x0918
 	CEntityIOOutput m_OnStart; // 0x0920
@@ -20915,71 +21357,75 @@ class CFuncMover : public CBaseModelEntity // server
 	bool m_bStartedMoving; // 0x0999
 	CFuncMover::FollowEntityDirection_t m_eFollowEntityDirection; // 0x09B8
 	CHandle< CFuncMover > m_hFollowMover; // 0x09BC
-	CUtlSymbolLarge m_iszFollowMoverEntityName; // 0x09C0
-	float32 m_flFollowMoverDistance; // 0x09C8
-	float32 m_flFollowMoverRatio; // 0x09CC
-	float32 m_flFollowMoverCalculatedDistance; // 0x09D0
-	float32 m_flFollowMoverSpringStrength; // 0x09D4
-	int32 m_nFollowMoverConstraintPriority; // 0x09D8
-	bool m_bFollowConstraintsInitialized; // 0x09DC
-	CFuncMover::FollowConstraint_t m_eFollowConstraint; // 0x09E0
-	float32 m_flFollowMoverSpeed; // 0x09E4
-	float32 m_flFollowMoverVelocity; // 0x09E8
-	GameTick_t m_nTickMovementRan; // 0x09EC
-	FuncMoverMovementSummary_t m_movementSummary; // 0x09F0
-	bool m_bStopFromBeginStopTarget; // 0x0A10
-	bool m_bQueueStop; // 0x0A11
-	bool m_bQueueStopMoving; // 0x0A12
+	CUtlSymbolLarge m_iszFollowEntityName; // 0x09C0
+	CUtlSymbolLarge m_iszFollowMoverEntityName; // 0x09C8
+	float32 m_flFollowMoverDistance; // 0x09D0
+	float32 m_flFollowMoverRatio; // 0x09D4
+	float32 m_flFollowMoverCalculatedDistance; // 0x09D8
+	float32 m_flFollowMoverSpringStrength; // 0x09DC
+	int32 m_nFollowMoverConstraintPriority; // 0x09E0
+	Vector2D m_vecFollowMoverCouplerRange; // 0x09E4
+	bool m_bFollowConstraintsInitialized; // 0x09EC
+	CFuncMover::FollowConstraint_t m_eFollowConstraint; // 0x09F0
+	float32 m_flFollowMoverSpeed; // 0x09F4
+	float32 m_flFollowMoverVelocity; // 0x09F8
+	GameTick_t m_nTickMovementRan; // 0x09FC
+	FuncMoverMovementSummary_t m_movementSummary; // 0x0A00
+	bool m_bStopFromBeginStopTarget; // 0x0A20
+	bool m_bQueueStop; // 0x0A21
+	bool m_bQueueStopMoving; // 0x0A22
+	bool m_bQueueSetupPathMover; // 0x0A23
+	CFuncMover::PathRebuildStrategy_t m_ePathRebuildStrategy; // 0x0A24
 };
 class CPhysicsProp : public CBreakableProp // server
 {
-	CEntityIOOutput m_MotionEnabled; // 0x0AE0
-	CEntityIOOutput m_OnAwakened; // 0x0AF8
-	CEntityIOOutput m_OnAwake; // 0x0B10
-	CEntityIOOutput m_OnAsleep; // 0x0B28
-	CEntityIOOutput m_OnPlayerUse; // 0x0B40
-	CEntityIOOutput m_OnOutOfWorld; // 0x0B58
-	CEntityIOOutput m_OnPlayerPickup; // 0x0B70
-	bool m_bForceNavIgnore; // 0x0B88
-	bool m_bNoNavmeshBlocker; // 0x0B89
-	bool m_bForceNpcExclude; // 0x0B8A
-	float32 m_massScale; // 0x0B8C
-	float32 m_buoyancyScale; // 0x0B90
-	int32 m_damageType; // 0x0B94
-	int32 m_damageToEnableMotion; // 0x0B98
-	float32 m_flForceToEnableMotion; // 0x0B9C
-	bool m_bThrownByPlayer; // 0x0BA0
-	bool m_bDroppedByPlayer; // 0x0BA1
-	bool m_bTouchedByPlayer; // 0x0BA2
-	bool m_bFirstCollisionAfterLaunch; // 0x0BA3
-	bool m_bHasBeenAwakened; // 0x0BA4
-	bool m_bIsOverrideProp; // 0x0BA5
-	GameTime_t m_flLastBurn; // 0x0BA8
-	DynamicContinuousContactBehavior_t m_nDynamicContinuousContactBehavior; // 0x0BAC
-	GameTime_t m_fNextCheckDisableMotionContactsTime; // 0x0BB0
-	int32 m_iInitialGlowState; // 0x0BB4
-	int32 m_nGlowRange; // 0x0BB8
-	int32 m_nGlowRangeMin; // 0x0BBC
-	Color m_glowColor; // 0x0BC0
-	bool m_bShouldAutoConvertBackFromDebris; // 0x0BC4
-	bool m_bMuteImpactEffects; // 0x0BC5
-	INavObstacle::NavObstacleType_t m_nNavObstacleType; // 0x0BC8
-	bool m_bUpdateNavWhenMoving; // 0x0BCC
-	bool m_bForceNavObstacleCut; // 0x0BCD
-	bool m_bAllowObstacleConvexHullMerging; // 0x0BCE
-	bool m_bAcceptDamageFromHeldObjects; // 0x0BCF
-	bool m_bEnableUseOutput; // 0x0BD0
-	CPhysicsProp::CrateType_t m_CrateType; // 0x0BD4
-	CUtlSymbolLarge[4] m_strItemClass; // 0x0BD8
-	int32[4] m_nItemCount; // 0x0BF8
-	bool m_bRemovableForAmmoBalancing; // 0x0C08
-	bool m_bAwake; // 0x0C09
-	bool m_bAttachedToReferenceFrame; // 0x0C0A
+	CEntityIOOutput m_MotionEnabled; // 0x0B00
+	CEntityIOOutput m_OnAwakened; // 0x0B18
+	CEntityIOOutput m_OnAwake; // 0x0B30
+	CEntityIOOutput m_OnAsleep; // 0x0B48
+	CEntityIOOutput m_OnPlayerUse; // 0x0B60
+	CEntityIOOutput m_OnOutOfWorld; // 0x0B78
+	CEntityIOOutput m_OnPlayerPickup; // 0x0B90
+	bool m_bForceNavIgnore; // 0x0BA8
+	bool m_bNoNavmeshBlocker; // 0x0BA9
+	bool m_bForceNpcExclude; // 0x0BAA
+	float32 m_massScale; // 0x0BAC
+	float32 m_buoyancyScale; // 0x0BB0
+	int32 m_damageType; // 0x0BB4
+	int32 m_damageToEnableMotion; // 0x0BB8
+	float32 m_flForceToEnableMotion; // 0x0BBC
+	bool m_bThrownByPlayer; // 0x0BC0
+	bool m_bDroppedByPlayer; // 0x0BC1
+	bool m_bTouchedByPlayer; // 0x0BC2
+	bool m_bFirstCollisionAfterLaunch; // 0x0BC3
+	bool m_bHasBeenAwakened; // 0x0BC4
+	bool m_bIsOverrideProp; // 0x0BC5
+	GameTime_t m_flLastBurn; // 0x0BC8
+	DynamicContinuousContactBehavior_t m_nDynamicContinuousContactBehavior; // 0x0BCC
+	GameTime_t m_fNextCheckDisableMotionContactsTime; // 0x0BD0
+	int32 m_iInitialGlowState; // 0x0BD4
+	int32 m_nGlowRange; // 0x0BD8
+	int32 m_nGlowRangeMin; // 0x0BDC
+	Color m_glowColor; // 0x0BE0
+	bool m_bShouldAutoConvertBackFromDebris; // 0x0BE4
+	bool m_bMuteImpactEffects; // 0x0BE5
+	INavObstacle::NavObstacleType_t m_nNavObstacleType; // 0x0BE8
+	bool m_bUpdateNavWhenMoving; // 0x0BEC
+	bool m_bForceNavObstacleCut; // 0x0BED
+	bool m_bAllowObstacleConvexHullMerging; // 0x0BEE
+	bool m_bAcceptDamageFromHeldObjects; // 0x0BEF
+	bool m_bEnableUseOutput; // 0x0BF0
+	CPhysicsProp::CrateType_t m_CrateType; // 0x0BF4
+	CUtlSymbolLarge[4] m_strItemClass; // 0x0BF8
+	int32[4] m_nItemCount; // 0x0C18
+	bool m_bRemovableForAmmoBalancing; // 0x0C28
+	bool m_bAwake; // 0x0C29
+	bool m_bAttachedToReferenceFrame; // 0x0C2A
 };
 class CFuncNavObstruction : public CBaseModelEntity // server
 {
-	bool m_bDisabled; // 0x0780
-	bool m_bUseAsyncObstacleUpdate; // 0x0781
+	bool m_bDisabled; // 0x0788
+	bool m_bUseAsyncObstacleUpdate; // 0x0789
 };
 class CPhysWheelConstraint : public CPhysConstraint // server
 {
@@ -21004,18 +21450,18 @@ class CSkyboxReference : public CBaseEntity // server
 class CPointPulse : public CBaseEntity // server
 {
 };
+class CCSPlayerPawn_API // server
+{
+};
 class CMolotovProjectile : public CBaseCSGrenadeProjectile // server
 {
-	bool m_bIsIncGrenade; // 0x0A30
-	bool m_bDetonated; // 0x0A48
-	IntervalTimer m_stillTimer; // 0x0A50
+	bool m_bIsIncGrenade; // 0x0A60
+	bool m_bDetonated; // 0x0A78
+	IntervalTimer m_stillTimer; // 0x0A80
 };
 class CFilterClass : public CBaseFilter // server
 {
 	CUtlSymbolLarge m_iFilterClass; // 0x04E0
-};
-class CTriggerToggleSave : public CBaseTrigger // server
-{
 };
 class CPathWithDynamicNodes : public CPathSimple // server
 {
@@ -21044,49 +21490,49 @@ class CColorCorrection : public CBaseEntity // server
 };
 class CPropDoorRotatingBreakable : public CPropDoorRotating // server
 {
-	bool m_bBreakable; // 0x0E20
-	bool m_isAbleToCloseAreaPortals; // 0x0E21
-	int32 m_currentDamageState; // 0x0E24
-	CUtlVector< CUtlSymbolLarge > m_damageStates; // 0x0E28
+	bool m_bBreakable; // 0x0E40
+	bool m_isAbleToCloseAreaPortals; // 0x0E41
+	int32 m_currentDamageState; // 0x0E44
+	CUtlVector< CUtlSymbolLarge > m_damageStates; // 0x0E48
 };
 class CLightDirectionalEntity : public CLightEntity // server
 {
 };
 class CBaseClientUIEntity : public CBaseModelEntity // server
 {
-	bool m_bEnabled; // 0x0768
-	CUtlSymbolLarge m_DialogXMLName; // 0x0770
-	CUtlSymbolLarge m_PanelClassName; // 0x0778
-	CUtlSymbolLarge m_PanelID; // 0x0780
-	CEntityOutputTemplate< CUtlString > m_CustomOutput0; // 0x0788
-	CEntityOutputTemplate< CUtlString > m_CustomOutput1; // 0x07A8
-	CEntityOutputTemplate< CUtlString > m_CustomOutput2; // 0x07C8
-	CEntityOutputTemplate< CUtlString > m_CustomOutput3; // 0x07E8
-	CEntityOutputTemplate< CUtlString > m_CustomOutput4; // 0x0808
-	CEntityOutputTemplate< CUtlString > m_CustomOutput5; // 0x0828
-	CEntityOutputTemplate< CUtlString > m_CustomOutput6; // 0x0848
-	CEntityOutputTemplate< CUtlString > m_CustomOutput7; // 0x0868
-	CEntityOutputTemplate< CUtlString > m_CustomOutput8; // 0x0888
-	CEntityOutputTemplate< CUtlString > m_CustomOutput9; // 0x08A8
+	bool m_bEnabled; // 0x0770
+	CUtlSymbolLarge m_DialogXMLName; // 0x0778
+	CUtlSymbolLarge m_PanelClassName; // 0x0780
+	CUtlSymbolLarge m_PanelID; // 0x0788
+	CEntityOutputTemplate< CUtlString > m_CustomOutput0; // 0x0790
+	CEntityOutputTemplate< CUtlString > m_CustomOutput1; // 0x07B0
+	CEntityOutputTemplate< CUtlString > m_CustomOutput2; // 0x07D0
+	CEntityOutputTemplate< CUtlString > m_CustomOutput3; // 0x07F0
+	CEntityOutputTemplate< CUtlString > m_CustomOutput4; // 0x0810
+	CEntityOutputTemplate< CUtlString > m_CustomOutput5; // 0x0830
+	CEntityOutputTemplate< CUtlString > m_CustomOutput6; // 0x0850
+	CEntityOutputTemplate< CUtlString > m_CustomOutput7; // 0x0870
+	CEntityOutputTemplate< CUtlString > m_CustomOutput8; // 0x0890
+	CEntityOutputTemplate< CUtlString > m_CustomOutput9; // 0x08B0
 };
 class CBreakable : public CBaseModelEntity // server
 {
-	CPropDataComponent m_CPropDataComponent; // 0x0770
-	Materials m_Material; // 0x07B0
-	CHandle< CBaseEntity > m_hBreaker; // 0x07B4
-	Explosions m_Explosion; // 0x07B8
-	CUtlSymbolLarge m_iszSpawnObject; // 0x07C0
-	float32 m_flPressureDelay; // 0x07C8
-	int32 m_iMinHealthDmg; // 0x07CC
-	CUtlSymbolLarge m_iszPropData; // 0x07D0
-	float32 m_impactEnergyScale; // 0x07D8
-	EOverrideBlockLOS_t m_nOverrideBlockLOS; // 0x07DC
-	CEntityIOOutput m_OnStartDeath; // 0x07E0
-	CEntityIOOutput m_OnBreak; // 0x07F8
-	CEntityOutputTemplate< float32 > m_OnHealthChanged; // 0x0810
-	PerformanceMode_t m_PerformanceMode; // 0x0830
-	CHandle< CBasePlayerPawn > m_hPhysicsAttacker; // 0x0834
-	GameTime_t m_flLastPhysicsInfluenceTime; // 0x0838
+	CPropDataComponent m_CPropDataComponent; // 0x0778
+	Materials m_Material; // 0x07B8
+	CHandle< CBaseEntity > m_hBreaker; // 0x07BC
+	Explosions m_Explosion; // 0x07C0
+	CUtlSymbolLarge m_iszSpawnObject; // 0x07C8
+	float32 m_flPressureDelay; // 0x07D0
+	int32 m_iMinHealthDmg; // 0x07D4
+	CUtlSymbolLarge m_iszPropData; // 0x07D8
+	float32 m_impactEnergyScale; // 0x07E0
+	EOverrideBlockLOS_t m_nOverrideBlockLOS; // 0x07E4
+	CEntityIOOutput m_OnStartDeath; // 0x07E8
+	CEntityIOOutput m_OnBreak; // 0x0800
+	CEntityOutputTemplate< float32 > m_OnHealthChanged; // 0x0818
+	PerformanceMode_t m_PerformanceMode; // 0x0838
+	CHandle< CBasePlayerPawn > m_hPhysicsAttacker; // 0x083C
+	GameTime_t m_flLastPhysicsInfluenceTime; // 0x0840
 };
 class CInfoLandmark : public CPointEntity // server
 {
@@ -21106,12 +21552,6 @@ class CPulseCell_Outflow_PlaySceneBase::CursorState_t // server
 	CHandle< CBaseEntity > m_sceneInstance; // 0x0000
 	CHandle< CBaseEntity > m_mainActor; // 0x0004
 	CUtlHashtable< PulseCursorID_t, int32 > m_cursorIDToEventID; // 0x0008
-};
-class PulseObservableBoolExpression_t // pulse_runtime_lib
-{
-	CPulse_OutflowConnection m_EvaluateConnection; // 0x0000
-	CUtlVector< PulseRuntimeVarIndex_t > m_DependentObservableVars; // 0x0048
-	CUtlVector< PulseRuntimeBlackboardReferenceIndex_t > m_DependentObservableBlackboardReferences; // 0x0060
 };
 class CMapInfo : public CPointEntity // server
 {
@@ -21150,25 +21590,19 @@ class CGradientFog : public CBaseEntity // server
 	bool m_bIsEnabled; // 0x04E1
 	bool m_bGradientFogNeedsTextures; // 0x04E2
 };
-class CSoundOpvarSetAABBEntity : public CSoundOpvarSetPointEntity // server
+class CSoundOpvarSetAABBEntity : public CSoundOpvarSetBoxEntity // server
 {
-	Vector m_vDistanceInnerMins; // 0x0640
-	Vector m_vDistanceInnerMaxs; // 0x064C
-	Vector m_vDistanceOuterMins; // 0x0658
-	Vector m_vDistanceOuterMaxs; // 0x0664
-	int32 m_nAABBDirection; // 0x0670
-	Vector m_vInnerMins; // 0x0674
-	Vector m_vInnerMaxs; // 0x0680
-	Vector m_vOuterMins; // 0x068C
-	Vector m_vOuterMaxs; // 0x0698
 };
 class CPulseCell_Outflow_PlaySequence : public CPulseCell_Outflow_PlaySceneBase // server
 {
-	CUtlString m_ParamSequenceName; // 0x00F0
+	CUtlString m_ParamSequenceName; // 0x0138
+};
+class CPulseCell_Outflow_PlayDynamicVCD : public CPulseCell_Outflow_PlayVCDBase // server
+{
 };
 class CPointClientUIWorldTextPanel : public CPointClientUIWorldPanel // server
 {
-	char[512] m_messageText; // 0x0920
+	char[512] m_messageText; // 0x0930
 };
 class CEntityIdentity // entity2
 {
@@ -21191,47 +21625,44 @@ class CPulseCell_LimitCount::Criteria_t // pulse_runtime_lib
 };
 class CFuncRotator : public CBaseModelEntity // server
 {
-	CHandle< CBaseEntity > m_hRotatorTarget; // 0x0768
-	bool m_bIsRotating; // 0x076C
-	bool m_bIsReversing; // 0x076D
-	float32 m_flTimeToReachMaxSpeed; // 0x0770
-	float32 m_flTimeToReachZeroSpeed; // 0x0774
-	float32 m_flDistanceAlongArcTraveled; // 0x0778
-	float32 m_flTimeToWaitOscillate; // 0x077C
-	GameTime_t m_flTimeRotationStart; // 0x0780
-	Quaternion m_qLSPrevChange; // 0x0790
-	Quaternion m_qWSPrev; // 0x07A0
-	Quaternion m_qWSInit; // 0x07B0
-	Quaternion m_qLSInit; // 0x07C0
-	Quaternion m_qLSOrientation; // 0x07D0
-	CEntityIOOutput m_OnRotationStarted; // 0x07E0
-	CEntityIOOutput m_OnRotationCompleted; // 0x07F8
-	CEntityIOOutput m_OnOscillate; // 0x0810
-	CEntityIOOutput m_OnOscillateStartArrive; // 0x0828
-	CEntityIOOutput m_OnOscillateStartDepart; // 0x0840
-	CEntityIOOutput m_OnOscillateEndArrive; // 0x0858
-	CEntityIOOutput m_OnOscillateEndDepart; // 0x0870
-	bool m_bOscillateDepart; // 0x0888
-	int32 m_nOscillateCount; // 0x088C
-	CFuncRotator::Rotate_t m_eRotateType; // 0x0890
-	CFuncRotator::Rotate_t m_ePrevRotateType; // 0x0894
-	bool m_bHasTargetOverride; // 0x0898
-	Quaternion m_qOrientationOverride; // 0x08A0
-	RotatorTargetSpace_t m_eSpaceOverride; // 0x08B0
-	QAngle m_qAngularVelocity; // 0x08B4
-	Vector m_vLookAtForcedUp; // 0x08C0
-	CUtlSymbolLarge m_strRotatorTarget; // 0x08D0
-	bool m_bRecordHistory; // 0x08D8
-	CUtlVector< RotatorHistoryEntry_t > m_vecRotatorHistory; // 0x08E0
-	bool m_bReturningToPreviousOrientation; // 0x08F8
-	CUtlVector< RotatorQueueEntry_t > m_vecRotatorQueue; // 0x0900
-	CUtlVector< RotatorHistoryEntry_t > m_vecRotatorQueueHistory; // 0x0918
-	SolidType_t m_eSolidType; // 0x0930
-	CHandle< CFuncMover > m_hSpeedFromMover; // 0x0934
-	CUtlSymbolLarge m_iszSpeedFromMover; // 0x0938
-	float32 m_flSpeedScale; // 0x0940
-	float32 m_flMinYawRotation; // 0x0944
-	float32 m_flMaxYawRotation; // 0x0948
+	CFuncRotator::Rotate_t m_eRotateType; // 0x0770
+	bool m_bIsRotating; // 0x0774
+	SolidType_t m_eSolidType; // 0x0775
+	float32 m_flSpeed; // 0x0778
+	float32 m_flTimeToCompleteRotation; // 0x077C
+	CHandle< CBaseEntity > m_hRotatorTarget; // 0x0780
+	CUtlSymbolLarge m_strRotatorTarget; // 0x0788
+	CUtlVector< Quaternion > m_vecLocalRotationHistory; // 0x0790
+	CEntityIOOutput m_OnRotationStarted; // 0x07A8
+	CEntityIOOutput m_OnRotationCompleted; // 0x07C0
+	CEntityIOOutput m_OnOscillate; // 0x07D8
+	CEntityIOOutput m_OnOscillateStartArrive; // 0x07F0
+	CEntityIOOutput m_OnOscillateStartDepart; // 0x0808
+	CEntityIOOutput m_OnOscillateEndArrive; // 0x0820
+	CEntityIOOutput m_OnOscillateEndDepart; // 0x0838
+	GameTick_t m_nTickRotateRan; // 0x0850
+	bool m_bStartedRotating; // 0x0854
+	FuncRotatorRotationSummary_t m_rotationSummary; // 0x0858
+	float32 m_flTimeToReachMaxSpeed; // 0x0860
+	float32 m_flTimeToReachZeroSpeed; // 0x0864
+	GameTime_t m_flTimeRotationStart; // 0x0868
+	GameTime_t m_flTimeRotationStop; // 0x086C
+	float32 m_flStartSpeed; // 0x0870
+	Quaternion m_qSpawnOrientation; // 0x0880
+	bool m_bRecordHistory; // 0x0890
+	bool m_bReturningToPreviousRotation; // 0x0891
+	bool m_bReturningToInitialRotation; // 0x0892
+	float32 m_flMinYawRotation; // 0x0894
+	float32 m_flMaxYawRotation; // 0x0898
+	int32 m_nOscillationCount; // 0x089C
+	bool m_bOscillationFromStart; // 0x08A0
+	CGameSoundEventName m_iszStartSound; // 0x08A8
+	CGameSoundEventName m_iszLoopSound; // 0x08B0
+	CGameSoundEventName m_iszStopSound; // 0x08D0
+	float32 m_flTargetAngle; // 0x08D8
+	float32 m_flCurrentAngle; // 0x08DC
+	CFuncRotator::RotationAxis_t m_eRotationAxis; // 0x08E0
+	float32 m_flSpeedDriftFromOverRotate; // 0x08E4
 };
 class CSoundEventEntity : public CBaseEntity // server
 {
@@ -21280,10 +21711,10 @@ class CBasePlayerVData : public CEntitySubclassVDataBase // server
 };
 class CTriggerImpact : public CTriggerMultiple // server
 {
-	float32 m_flMagnitude; // 0x08E0
-	float32 m_flNoise; // 0x08E4
-	float32 m_flViewkick; // 0x08E8
-	CEntityOutputTemplate< Vector > m_pOutputForce; // 0x08F0
+	float32 m_flMagnitude; // 0x0900
+	float32 m_flNoise; // 0x0904
+	float32 m_flViewkick; // 0x0908
+	CEntityOutputTemplate< Vector > m_pOutputForce; // 0x0910
 };
 class CCSGameModeRules_Deathmatch : public CCSGameModeRules // server
 {
@@ -21298,7 +21729,7 @@ class CTestPulseIO::EntityHandleIntArgs_t // server
 };
 class CPulseCell_CursorQueue : public CPulseCell_WaitForCursorsWithTagBase // pulse_runtime_lib
 {
-	int32 m_nCursorsAllowedToRunParallel; // 0x0098
+	int32 m_nCursorsAllowedToRunParallel; // 0x0128
 };
 class CPulseCell_Value_RandomFloat : public CPulseCell_BaseValue // pulse_runtime_lib
 {
@@ -21308,44 +21739,45 @@ class CPulseExecCursor // pulse_runtime_lib
 };
 class CBasePropDoor : public CDynamicProp // server
 {
-	float32 m_flAutoReturnDelay; // 0x0B90
-	CUtlVector< CHandle< CBasePropDoor > > m_hDoorList; // 0x0B98
-	int32 m_nHardwareType; // 0x0BB0
-	bool m_bNeedsHardware; // 0x0BB4
-	DoorState_t m_eDoorState; // 0x0BB8
-	bool m_bLocked; // 0x0BBC
-	bool m_bNoNPCs; // 0x0BBD
-	Vector m_closedPosition; // 0x0BC0
-	QAngle m_closedAngles; // 0x0BCC
-	CHandle< CBaseEntity > m_hBlocker; // 0x0BD8
-	bool m_bFirstBlocked; // 0x0BDC
-	locksound_t m_ls; // 0x0BE0
-	bool m_bForceClosed; // 0x0C00
-	VectorWS m_vecLatchWorldPosition; // 0x0C04
-	CHandle< CBaseEntity > m_hActivator; // 0x0C10
-	CUtlSymbolLarge m_SoundMoving; // 0x0C28
-	CUtlSymbolLarge m_SoundOpen; // 0x0C30
-	CUtlSymbolLarge m_SoundClose; // 0x0C38
-	CUtlSymbolLarge m_SoundLock; // 0x0C40
-	CUtlSymbolLarge m_SoundUnlock; // 0x0C48
-	CUtlSymbolLarge m_SoundLatch; // 0x0C50
-	CUtlSymbolLarge m_SoundPound; // 0x0C58
-	CUtlSymbolLarge m_SoundJiggle; // 0x0C60
-	CUtlSymbolLarge m_SoundLockedAnim; // 0x0C68
-	int32 m_numCloseAttempts; // 0x0C70
-	CUtlStringToken m_nPhysicsMaterial; // 0x0C74
-	CUtlSymbolLarge m_SlaveName; // 0x0C78
-	CHandle< CBasePropDoor > m_hMaster; // 0x0C80
-	CEntityIOOutput m_OnBlockedClosing; // 0x0C88
-	CEntityIOOutput m_OnBlockedOpening; // 0x0CA0
-	CEntityIOOutput m_OnUnblockedClosing; // 0x0CB8
-	CEntityIOOutput m_OnUnblockedOpening; // 0x0CD0
-	CEntityIOOutput m_OnFullyClosed; // 0x0CE8
-	CEntityIOOutput m_OnFullyOpen; // 0x0D00
-	CEntityIOOutput m_OnClose; // 0x0D18
-	CEntityIOOutput m_OnOpen; // 0x0D30
-	CEntityIOOutput m_OnLockedUse; // 0x0D48
-	CEntityIOOutput m_OnAjarOpen; // 0x0D60
+	float32 m_flAutoReturnDelay; // 0x0BB0
+	CUtlVector< CHandle< CBasePropDoor > > m_hDoorList; // 0x0BB8
+	int32 m_nHardwareType; // 0x0BD0
+	bool m_bNeedsHardware; // 0x0BD4
+	DoorState_t m_eDoorState; // 0x0BD8
+	bool m_bLocked; // 0x0BDC
+	bool m_bNoNPCs; // 0x0BDD
+	VectorWS m_closedPosition; // 0x0BE0
+	QAngle m_closedAngles; // 0x0BEC
+	CHandle< CBaseEntity > m_hBlocker; // 0x0BF8
+	bool m_bFirstBlocked; // 0x0BFC
+	locksound_t m_ls; // 0x0C00
+	bool m_bForceClosed; // 0x0C20
+	VectorWS m_vecLatchWorldPosition; // 0x0C24
+	CHandle< CBaseEntity > m_hActivator; // 0x0C30
+	float32 m_flSpeed; // 0x0C34
+	CGameSoundEventName m_SoundMoving; // 0x0C50
+	CGameSoundEventName m_SoundOpen; // 0x0C58
+	CGameSoundEventName m_SoundClose; // 0x0C60
+	CGameSoundEventName m_SoundLock; // 0x0C68
+	CGameSoundEventName m_SoundUnlock; // 0x0C70
+	CGameSoundEventName m_SoundLatch; // 0x0C78
+	CGameSoundEventName m_SoundPound; // 0x0C80
+	CGameSoundEventName m_SoundJiggle; // 0x0C88
+	CGameSoundEventName m_SoundLockedAnim; // 0x0C90
+	int32 m_numCloseAttempts; // 0x0C98
+	CUtlStringToken m_nPhysicsMaterial; // 0x0C9C
+	CUtlSymbolLarge m_SlaveName; // 0x0CA0
+	CHandle< CBasePropDoor > m_hMaster; // 0x0CA8
+	CEntityIOOutput m_OnBlockedClosing; // 0x0CB0
+	CEntityIOOutput m_OnBlockedOpening; // 0x0CC8
+	CEntityIOOutput m_OnUnblockedClosing; // 0x0CE0
+	CEntityIOOutput m_OnUnblockedOpening; // 0x0CF8
+	CEntityIOOutput m_OnFullyClosed; // 0x0D10
+	CEntityIOOutput m_OnFullyOpen; // 0x0D28
+	CEntityIOOutput m_OnClose; // 0x0D40
+	CEntityIOOutput m_OnOpen; // 0x0D58
+	CEntityIOOutput m_OnLockedUse; // 0x0D70
+	CEntityIOOutput m_OnAjarOpen; // 0x0D88
 };
 class CLogicBranchList : public CLogicalEntity // server
 {
@@ -21365,28 +21797,29 @@ class CAK47 : public CCSWeaponBaseGun // server
 };
 class CDynamicProp : public CBreakableProp // server
 {
-	bool m_bCreateNavObstacle; // 0x0AD8
-	bool m_bNavObstacleUpdatesOverridden; // 0x0AD9
-	bool m_bUseHitboxesForRenderBox; // 0x0ADA
-	bool m_bUseAnimGraph; // 0x0ADB
-	CEntityIOOutput m_pOutputAnimBegun; // 0x0AE0
-	CEntityIOOutput m_pOutputAnimOver; // 0x0AF8
-	CEntityIOOutput m_pOutputAnimLoopCycleOver; // 0x0B10
-	CEntityIOOutput m_OnAnimReachedStart; // 0x0B28
-	CEntityIOOutput m_OnAnimReachedEnd; // 0x0B40
-	CUtlSymbolLarge m_iszIdleAnim; // 0x0B58
-	AnimLoopMode_t m_nIdleAnimLoopMode; // 0x0B60
-	bool m_bRandomizeCycle; // 0x0B64
-	bool m_bStartDisabled; // 0x0B65
-	bool m_bFiredStartEndOutput; // 0x0B66
-	bool m_bForceNpcExclude; // 0x0B67
-	bool m_bCreateNonSolid; // 0x0B68
-	bool m_bIsOverrideProp; // 0x0B69
-	int32 m_iInitialGlowState; // 0x0B6C
-	int32 m_nGlowRange; // 0x0B70
-	int32 m_nGlowRangeMin; // 0x0B74
-	Color m_glowColor; // 0x0B78
-	int32 m_nGlowTeam; // 0x0B7C
+	bool m_bCreateNavObstacle; // 0x0AF8
+	bool m_bNavObstacleUpdatesOverridden; // 0x0AF9
+	bool m_bUseHitboxesForRenderBox; // 0x0AFA
+	bool m_bUseAnimGraph; // 0x0AFB
+	CEntityIOOutput m_pOutputAnimBegun; // 0x0B00
+	CEntityIOOutput m_pOutputAnimOver; // 0x0B18
+	CEntityIOOutput m_pOutputAnimLoopCycleOver; // 0x0B30
+	CEntityIOOutput m_OnAnimReachedStart; // 0x0B48
+	CEntityIOOutput m_OnAnimReachedEnd; // 0x0B60
+	CUtlSymbolLarge m_iszIdleAnim; // 0x0B78
+	AnimLoopMode_t m_nIdleAnimLoopMode; // 0x0B80
+	bool m_bRandomizeCycle; // 0x0B84
+	bool m_bStartDisabled; // 0x0B85
+	bool m_bFiredStartEndOutput; // 0x0B86
+	bool m_bForceNpcExclude; // 0x0B87
+	bool m_bCreateMovableSurfaceGraph; // 0x0B88
+	bool m_bCreateNonSolid; // 0x0B89
+	bool m_bIsOverrideProp; // 0x0B8A
+	int32 m_iInitialGlowState; // 0x0B8C
+	int32 m_nGlowRange; // 0x0B90
+	int32 m_nGlowRangeMin; // 0x0B94
+	Color m_glowColor; // 0x0B98
+	int32 m_nGlowTeam; // 0x0B9C
 };
 class CHostageAlias_info_hostage_spawn : public CHostage // server
 {
@@ -21397,32 +21830,33 @@ class CFilterTeam : public CBaseFilter // server
 };
 class CFuncConveyor : public CBaseModelEntity // server
 {
-	CUtlSymbolLarge m_szConveyorModels; // 0x0768
-	float32 m_flTransitionDurationSeconds; // 0x0770
-	QAngle m_angMoveEntitySpace; // 0x0774
-	Vector m_vecMoveDirEntitySpace; // 0x0780
-	float32 m_flTargetSpeed; // 0x078C
-	GameTick_t m_nTransitionStartTick; // 0x0790
-	int32 m_nTransitionDurationTicks; // 0x0794
-	float32 m_flTransitionStartSpeed; // 0x0798
-	CNetworkUtlVectorBase< CHandle< CBaseEntity > > m_hConveyorModels; // 0x07A0
+	CUtlSymbolLarge m_szConveyorModels; // 0x0770
+	float32 m_flTransitionDurationSeconds; // 0x0778
+	float32 m_flSpeed; // 0x077C
+	QAngle m_angMoveEntitySpace; // 0x0780
+	Vector m_vecMoveDirEntitySpace; // 0x078C
+	float32 m_flTargetSpeed; // 0x0798
+	GameTick_t m_nTransitionStartTick; // 0x079C
+	int32 m_nTransitionDurationTicks; // 0x07A0
+	float32 m_flTransitionStartSpeed; // 0x07A4
+	CNetworkUtlVectorBase< CHandle< CBaseEntity > > m_hConveyorModels; // 0x07A8
 };
 class CTriggerPhysics : public CBaseTrigger // server
 {
-	IPhysicsMotionController* m_pController; // 0x08D0
-	float32 m_gravityScale; // 0x08D8
-	float32 m_linearLimit; // 0x08DC
-	float32 m_linearDamping; // 0x08E0
-	float32 m_angularLimit; // 0x08E4
-	float32 m_angularDamping; // 0x08E8
-	float32 m_linearForce; // 0x08EC
-	float32 m_flFrequency; // 0x08F0
-	float32 m_flDampingRatio; // 0x08F4
-	Vector m_vecLinearForcePointAt; // 0x08F8
-	bool m_bCollapseToForcePoint; // 0x0904
-	Vector m_vecLinearForcePointAtWorld; // 0x0908
-	Vector m_vecLinearForceDirection; // 0x0914
-	bool m_bConvertToDebrisWhenPossible; // 0x0920
+	IPhysicsMotionController* m_pController; // 0x08F0
+	float32 m_gravityScale; // 0x08F8
+	float32 m_linearLimit; // 0x08FC
+	float32 m_linearDamping; // 0x0900
+	float32 m_angularLimit; // 0x0904
+	float32 m_angularDamping; // 0x0908
+	float32 m_linearForce; // 0x090C
+	float32 m_flFrequency; // 0x0910
+	float32 m_flDampingRatio; // 0x0914
+	Vector m_vecLinearForcePointAt; // 0x0918
+	bool m_bCollapseToForcePoint; // 0x0924
+	VectorWS m_vecLinearForcePointAtWorld; // 0x0928
+	Vector m_vecLinearForceDirection; // 0x0934
+	bool m_bConvertToDebrisWhenPossible; // 0x0940
 };
 class CInfoInstructorHintBombTargetB : public CPointEntity // server
 {
@@ -21470,24 +21904,6 @@ class CBasePlayerWeaponVData : public CEntitySubclassVDataBase // server
 	int32 m_iPosition; // 0x04F0
 	CUtlOrderedMap< WeaponSound_t, CSoundEventName > m_aShootSounds; // 0x04F8
 };
-class CInfoInteraction : public CPointEntity // server
-{
-	SceneRequestHandle_t m_hSceneRequest; // 0x04A8
-	SceneOpportunityHandle_t m_hSceneOpportunity; // 0x04AC
-	bool m_bEnabled; // 0x04B0
-	bool m_bStartDisabled; // 0x04B1
-	CUtlSymbolLarge m_strSceneVDataName; // 0x04B8
-	CUtlSymbolLarge m_strPulseVDataName; // 0x04C0
-	float32 m_flRadius; // 0x04E8
-	float32 m_flOwnerFOV; // 0x04EC
-	CUtlSymbolLarge m_strLocalInterestReqTags; // 0x04F0
-	CUtlSymbolLarge m_strLocalInterestOptTags; // 0x04F8
-	CUtlSymbolLarge m_strLookTarget; // 0x0500
-	float32 m_flDuration; // 0x0508
-	float32 m_flCooldown; // 0x050C
-	int32 m_nRepeatCount; // 0x0510
-	bool m_bDisableOnExit; // 0x0514
-};
 class CSoundOpvarSetPointEntity : public CSoundOpvarSetPointBase // server
 {
 	CEntityIOOutput m_OnEnter; // 0x0550
@@ -21510,10 +21926,13 @@ class CSoundOpvarSetPointEntity : public CSoundOpvarSetPointBase // server
 	CEntityHandle m_hDynamicEntity; // 0x0600
 	CUtlSymbolLarge m_iszDynamicEntityName; // 0x0608
 	float32 m_flPathingDistanceNormFactor; // 0x0610
-	Vector m_vPathingSourcePos; // 0x0614
-	Vector m_vPathingListenerPos; // 0x0620
+	VectorWS m_vPathingSourcePos; // 0x0614
+	VectorWS m_vPathingListenerPos; // 0x0620
 	Vector m_vPathingDirection; // 0x062C
 	int32 m_nPathingSourceIndex; // 0x0638
+};
+class CEnvCombinedLightProbeVolumeAPI // server
+{
 };
 class CInfoTargetServerOnly : public CServerOnlyPointEntity // server
 {
@@ -21526,13 +21945,13 @@ class CDynamicPropAlias_dynamic_prop : public CDynamicProp // server
 };
 class CMarkupVolumeTagged : public CMarkupVolume // server
 {
-	CUtlVector< CGlobalSymbol > m_GroupNames; // 0x0770
-	CUtlVector< CGlobalSymbol > m_Tags; // 0x0788
-	bool m_bIsGroup; // 0x07A0
-	bool m_bGroupByPrefab; // 0x07A1
-	bool m_bGroupByVolume; // 0x07A2
-	bool m_bGroupOtherGroups; // 0x07A3
-	bool m_bIsInGroup; // 0x07A4
+	CUtlVector< CGlobalSymbol > m_GroupNames; // 0x0778
+	CUtlVector< CGlobalSymbol > m_Tags; // 0x0790
+	bool m_bIsGroup; // 0x07A8
+	bool m_bGroupByPrefab; // 0x07A9
+	bool m_bGroupByVolume; // 0x07AA
+	bool m_bGroupOtherGroups; // 0x07AB
+	bool m_bIsInGroup; // 0x07AC
 };
 class CInfoParticleTarget : public CPointEntity // server
 {
@@ -21566,31 +21985,32 @@ class CWeaponXM1014 : public CCSWeaponBaseShotgun // server
 };
 class CTriggerLerpObject : public CBaseTrigger // server
 {
-	CUtlSymbolLarge m_iszLerpTarget; // 0x08C8
-	CHandle< CBaseEntity > m_hLerpTarget; // 0x08D0
-	CUtlSymbolLarge m_iszLerpTargetAttachment; // 0x08D8
-	AttachmentHandle_t m_hLerpTargetAttachment; // 0x08E0
-	float32 m_flLerpDuration; // 0x08E4
-	bool m_bAttachedEntityWasParented; // 0x08E8
-	bool m_bLerpRestoreMoveType; // 0x08E9
-	bool m_bSingleLerpObject; // 0x08EA
-	CUtlVector< lerpdata_t > m_vecLerpingObjects; // 0x08F0
-	CUtlSymbolLarge m_iszLerpEffect; // 0x0908
-	CUtlSymbolLarge m_iszLerpSound; // 0x0910
-	bool m_bAttachTouchingObject; // 0x0918
-	CHandle< CBaseEntity > m_hEntityToWaitForDisconnect; // 0x091C
-	CEntityIOOutput m_OnLerpStarted; // 0x0920
-	CEntityIOOutput m_OnLerpFinished; // 0x0938
-	CEntityIOOutput m_OnDetached; // 0x0950
+	CUtlSymbolLarge m_iszLerpTarget; // 0x08E8
+	CHandle< CBaseEntity > m_hLerpTarget; // 0x08F0
+	CUtlSymbolLarge m_iszLerpTargetAttachment; // 0x08F8
+	AttachmentHandle_t m_hLerpTargetAttachment; // 0x0900
+	float32 m_flLerpDuration; // 0x0904
+	bool m_bAttachedEntityWasParented; // 0x0908
+	bool m_bLerpRestoreMoveType; // 0x0909
+	bool m_bSingleLerpObject; // 0x090A
+	CUtlVector< lerpdata_t > m_vecLerpingObjects; // 0x0910
+	CUtlSymbolLarge m_iszLerpEffect; // 0x0928
+	CUtlSymbolLarge m_iszLerpSound; // 0x0930
+	bool m_bAttachTouchingObject; // 0x0938
+	CHandle< CBaseEntity > m_hEntityToWaitForDisconnect; // 0x093C
+	CEntityIOOutput m_OnLerpStarted; // 0x0940
+	CEntityIOOutput m_OnLerpFinished; // 0x0958
+	CEntityIOOutput m_OnDetached; // 0x0970
 };
 class CPhysicsPropOverride : public CPhysicsProp // server
 {
 };
 class CTriggerSave : public CBaseTrigger // server
 {
-	bool m_bForceNewLevelUnit; // 0x08C8
-	float32 m_fDangerousTimer; // 0x08CC
-	int32 m_minHitPoints; // 0x08D0
+	bool m_bForceNewLevelUnit; // 0x08E8
+	float32 m_fDangerousTimer; // 0x08EC
+	int32 m_minHitPoints; // 0x08F0
+	float32 m_flRetriggerDelay; // 0x08F4
 };
 class CPointHurt : public CPointEntity // server
 {
@@ -21600,6 +22020,9 @@ class CPointHurt : public CPointEntity // server
 	float32 m_flDelay; // 0x04B4
 	CUtlSymbolLarge m_strTarget; // 0x04B8
 	CHandle< CBaseEntity > m_pActivator; // 0x04C0
+};
+class CBaseAnimGraphAlias_baseanimating : public CBaseAnimGraph // server
+{
 };
 class CBasePlayerController : public CBaseEntity // server
 {
@@ -21640,8 +22063,8 @@ class CCSGO_WingmanIntroCounterTerroristPosition : public CCSGO_WingmanIntroChar
 };
 class CPulseCell_WaitForCursorsWithTag : public CPulseCell_WaitForCursorsWithTagBase // pulse_runtime_lib
 {
-	bool m_bTagSelfWhenComplete; // 0x0098
-	PulseCursorCancelPriority_t m_nDesiredKillPriority; // 0x009C
+	bool m_bTagSelfWhenComplete; // 0x0128
+	PulseCursorCancelPriority_t m_nDesiredKillPriority; // 0x012C
 };
 class C_SceneEntity::QueuedEvents_t // client
 {
@@ -21697,6 +22120,9 @@ class CPulseCell_Base // pulse_runtime_lib
 class C_FuncRotating : public C_BaseModelEntity // client
 {
 };
+class C_CSGO_PreviewPlayer_API // client
+{
+};
 class C_SoundOpvarSetPointBase : public C_BaseEntity // client
 {
 	CUtlSymbolLarge m_iszStackName; // 0x0600
@@ -21738,11 +22164,11 @@ class C_CSGO_TeamSelectTerroristPosition : public C_CSGO_TeamSelectCharacterPosi
 };
 class C_EnvParticleGlow : public C_ParticleSystem // client
 {
-	float32 m_flAlphaScale; // 0x1558
-	float32 m_flRadiusScale; // 0x155C
-	float32 m_flSelfIllumScale; // 0x1560
-	Color m_ColorTint; // 0x1564
-	CStrongHandle< InfoForResourceTypeCTextureBase > m_hTextureOverride; // 0x1568
+	float32 m_flAlphaScale; // 0x1580
+	float32 m_flRadiusScale; // 0x1584
+	float32 m_flSelfIllumScale; // 0x1588
+	Color m_ColorTint; // 0x158C
+	CStrongHandle< InfoForResourceTypeCTextureBase > m_hTextureOverride; // 0x1590
 };
 class CCS_PortraitWorldCallbackHandler : public C_BaseEntity // client
 {
@@ -21771,6 +22197,9 @@ class CCSPlayerModernJump // client
 	float32 m_flLastLandedVelocityY; // 0x002C
 	float32 m_flLastLandedVelocityZ; // 0x0030
 };
+class CCSGO_TeamPreviewCharacterPosition_API // client
+{
+};
 class C_EconEntity::AttachedModelData_t // client
 {
 	int32 m_iModelDisplayFlags; // 0x0000
@@ -21780,33 +22209,33 @@ class CPulse_ResumePoint : public CPulse_OutflowConnection // pulse_runtime_lib
 };
 class CTriggerFan : public C_BaseTrigger // client
 {
-	Vector m_vFanOriginOffset; // 0x1078
-	Vector m_vDirection; // 0x1084
-	bool m_bPushTowardsInfoTarget; // 0x1090
-	bool m_bPushAwayFromInfoTarget; // 0x1091
-	Quaternion m_qNoiseDelta; // 0x10A0
-	CHandle< CInfoFan > m_hInfoFan; // 0x10B0
-	float32 m_flForce; // 0x10B4
-	bool m_bFalloff; // 0x10B8
-	CountdownTimer m_RampTimer; // 0x10C0
+	Vector m_vFanOriginOffset; // 0x1098
+	Vector m_vDirection; // 0x10A4
+	bool m_bPushTowardsInfoTarget; // 0x10B0
+	bool m_bPushAwayFromInfoTarget; // 0x10B1
+	Quaternion m_qNoiseDelta; // 0x10C0
+	CHandle< CInfoFan > m_hInfoFan; // 0x10D0
+	float32 m_flForce; // 0x10D4
+	bool m_bFalloff; // 0x10D8
+	CountdownTimer m_RampTimer; // 0x10E0
 };
 class C_HostageCarriableProp : public CBaseAnimGraph // client
 {
 };
 class C_BulletHitModel : public CBaseAnimGraph // client
 {
-	matrix3x4_t m_matLocal; // 0x1158
-	int32 m_iBoneIndex; // 0x1188
-	CHandle< C_BaseEntity > m_hPlayerParent; // 0x118C
-	bool m_bIsHit; // 0x1190
-	float32 m_flTimeCreated; // 0x1194
-	Vector m_vecStartPos; // 0x1198
+	matrix3x4_t m_matLocal; // 0x1180
+	int32 m_iBoneIndex; // 0x11B0
+	CHandle< C_BaseEntity > m_hPlayerParent; // 0x11B4
+	bool m_bIsHit; // 0x11B8
+	float32 m_flTimeCreated; // 0x11BC
+	VectorWS m_vecStartPos; // 0x11C0
 };
 class C_FuncElectrifiedVolume : public C_FuncBrush // client
 {
-	ParticleIndex_t m_nAmbientEffect; // 0x0FA8
-	CUtlSymbolLarge m_EffectName; // 0x0FB0
-	bool m_bState; // 0x0FB8
+	ParticleIndex_t m_nAmbientEffect; // 0x0FB0
+	CUtlSymbolLarge m_EffectName; // 0x0FB8
+	bool m_bState; // 0x0FC0
 };
 class C_MapVetoPickController : public C_BaseEntity // client
 {
@@ -21854,123 +22283,122 @@ class C_CSGO_EndOfMatchCharacterPosition : public C_CSGO_TeamPreviewCharacterPos
 };
 class CPulseCell_PlaySequence : public CPulseCell_BaseYieldingInflow // client
 {
-	CUtlString m_SequenceName; // 0x0048
-	PulseNodeDynamicOutflows_t m_PulseAnimEvents; // 0x0050
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlString m_SequenceName; // 0x00D8
+	PulseNodeDynamicOutflows_t m_PulseAnimEvents; // 0x00E0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class C_BaseEntityAPI // client
 {
 };
 class C_BarnLight : public C_BaseModelEntity // client
 {
-	bool m_bEnabled; // 0x0FA8
-	int32 m_nColorMode; // 0x0FAC
-	Color m_Color; // 0x0FB0
-	float32 m_flColorTemperature; // 0x0FB4
-	float32 m_flBrightness; // 0x0FB8
-	float32 m_flBrightnessScale; // 0x0FBC
-	int32 m_nDirectLight; // 0x0FC0
-	int32 m_nBakedShadowIndex; // 0x0FC4
-	int32 m_nLightPathUniqueId; // 0x0FC8
-	int32 m_nLightMapUniqueId; // 0x0FCC
-	int32 m_nLuminaireShape; // 0x0FD0
-	float32 m_flLuminaireSize; // 0x0FD4
-	float32 m_flLuminaireAnisotropy; // 0x0FD8
-	CUtlString m_LightStyleString; // 0x0FE0
-	GameTime_t m_flLightStyleStartTime; // 0x0FE8
-	C_NetworkUtlVectorBase< CUtlString > m_QueuedLightStyleStrings; // 0x0FF0
-	C_NetworkUtlVectorBase< CUtlString > m_LightStyleEvents; // 0x1008
-	C_NetworkUtlVectorBase< CHandle< C_BaseModelEntity > > m_LightStyleTargets; // 0x1020
-	CEntityIOOutput[4] m_StyleEvent; // 0x1038
-	CStrongHandle< InfoForResourceTypeCTextureBase > m_hLightCookie; // 0x1098
-	float32 m_flShape; // 0x10A0
-	float32 m_flSoftX; // 0x10A4
-	float32 m_flSoftY; // 0x10A8
-	float32 m_flSkirt; // 0x10AC
-	float32 m_flSkirtNear; // 0x10B0
-	Vector m_vSizeParams; // 0x10B4
-	float32 m_flRange; // 0x10C0
-	Vector m_vShear; // 0x10C4
-	int32 m_nBakeSpecularToCubemaps; // 0x10D0
-	Vector m_vBakeSpecularToCubemapsSize; // 0x10D4
-	float32 m_flBakeSpecularToCubemapsScale; // 0x10E0
-	int32 m_nCastShadows; // 0x10E4
-	int32 m_nShadowMapSize; // 0x10E8
-	int32 m_nShadowPriority; // 0x10EC
-	bool m_bContactShadow; // 0x10F0
-	bool m_bForceShadowsEnabled; // 0x10F1
-	int32 m_nBounceLight; // 0x10F4
-	float32 m_flBounceScale; // 0x10F8
-	float32 m_flMinRoughness; // 0x10FC
-	Vector m_vAlternateColor; // 0x1100
-	float32 m_fAlternateColorBrightness; // 0x110C
-	int32 m_nFog; // 0x1110
-	float32 m_flFogStrength; // 0x1114
-	int32 m_nFogShadows; // 0x1118
-	float32 m_flFogScale; // 0x111C
-	float32 m_flFadeSizeStart; // 0x1120
-	float32 m_flFadeSizeEnd; // 0x1124
-	float32 m_flShadowFadeSizeStart; // 0x1128
-	float32 m_flShadowFadeSizeEnd; // 0x112C
-	bool m_bPrecomputedFieldsValid; // 0x1130
-	Vector m_vPrecomputedBoundsMins; // 0x1134
-	Vector m_vPrecomputedBoundsMaxs; // 0x1140
-	Vector m_vPrecomputedOBBOrigin; // 0x114C
-	QAngle m_vPrecomputedOBBAngles; // 0x1158
-	Vector m_vPrecomputedOBBExtent; // 0x1164
-	int32 m_nPrecomputedSubFrusta; // 0x1170
-	Vector m_vPrecomputedOBBOrigin0; // 0x1174
-	QAngle m_vPrecomputedOBBAngles0; // 0x1180
-	Vector m_vPrecomputedOBBExtent0; // 0x118C
-	Vector m_vPrecomputedOBBOrigin1; // 0x1198
-	QAngle m_vPrecomputedOBBAngles1; // 0x11A4
-	Vector m_vPrecomputedOBBExtent1; // 0x11B0
-	Vector m_vPrecomputedOBBOrigin2; // 0x11BC
-	QAngle m_vPrecomputedOBBAngles2; // 0x11C8
-	Vector m_vPrecomputedOBBExtent2; // 0x11D4
-	Vector m_vPrecomputedOBBOrigin3; // 0x11E0
-	QAngle m_vPrecomputedOBBAngles3; // 0x11EC
-	Vector m_vPrecomputedOBBExtent3; // 0x11F8
-	Vector m_vPrecomputedOBBOrigin4; // 0x1204
-	QAngle m_vPrecomputedOBBAngles4; // 0x1210
-	Vector m_vPrecomputedOBBExtent4; // 0x121C
-	Vector m_vPrecomputedOBBOrigin5; // 0x1228
-	QAngle m_vPrecomputedOBBAngles5; // 0x1234
-	Vector m_vPrecomputedOBBExtent5; // 0x1240
-	bool m_bInitialBoneSetup; // 0x1290
-	C_NetworkUtlVectorBase< uint16 > m_VisClusters; // 0x1298
+	bool m_bEnabled; // 0x0FB0
+	int32 m_nColorMode; // 0x0FB4
+	Color m_Color; // 0x0FB8
+	float32 m_flColorTemperature; // 0x0FBC
+	float32 m_flBrightness; // 0x0FC0
+	float32 m_flBrightnessScale; // 0x0FC4
+	int32 m_nDirectLight; // 0x0FC8
+	int32 m_nBakedShadowIndex; // 0x0FCC
+	int32 m_nLightPathUniqueId; // 0x0FD0
+	int32 m_nLightMapUniqueId; // 0x0FD4
+	int32 m_nLuminaireShape; // 0x0FD8
+	float32 m_flLuminaireSize; // 0x0FDC
+	float32 m_flLuminaireAnisotropy; // 0x0FE0
+	CUtlString m_LightStyleString; // 0x0FE8
+	GameTime_t m_flLightStyleStartTime; // 0x0FF0
+	C_NetworkUtlVectorBase< CUtlString > m_QueuedLightStyleStrings; // 0x0FF8
+	C_NetworkUtlVectorBase< CUtlString > m_LightStyleEvents; // 0x1010
+	C_NetworkUtlVectorBase< CHandle< C_BaseModelEntity > > m_LightStyleTargets; // 0x1028
+	CEntityIOOutput[4] m_StyleEvent; // 0x1040
+	CStrongHandle< InfoForResourceTypeCTextureBase > m_hLightCookie; // 0x10A0
+	float32 m_flShape; // 0x10A8
+	float32 m_flSoftX; // 0x10AC
+	float32 m_flSoftY; // 0x10B0
+	float32 m_flSkirt; // 0x10B4
+	float32 m_flSkirtNear; // 0x10B8
+	Vector m_vSizeParams; // 0x10BC
+	float32 m_flRange; // 0x10C8
+	Vector m_vShear; // 0x10CC
+	int32 m_nBakeSpecularToCubemaps; // 0x10D8
+	Vector m_vBakeSpecularToCubemapsSize; // 0x10DC
+	float32 m_flBakeSpecularToCubemapsScale; // 0x10E8
+	int32 m_nCastShadows; // 0x10EC
+	int32 m_nShadowMapSize; // 0x10F0
+	int32 m_nShadowPriority; // 0x10F4
+	bool m_bContactShadow; // 0x10F8
+	bool m_bForceShadowsEnabled; // 0x10F9
+	int32 m_nBounceLight; // 0x10FC
+	float32 m_flBounceScale; // 0x1100
+	float32 m_flMinRoughness; // 0x1104
+	Vector m_vAlternateColor; // 0x1108
+	float32 m_fAlternateColorBrightness; // 0x1114
+	int32 m_nFog; // 0x1118
+	float32 m_flFogStrength; // 0x111C
+	int32 m_nFogShadows; // 0x1120
+	float32 m_flFogScale; // 0x1124
+	float32 m_flFadeSizeStart; // 0x1128
+	float32 m_flFadeSizeEnd; // 0x112C
+	float32 m_flShadowFadeSizeStart; // 0x1130
+	float32 m_flShadowFadeSizeEnd; // 0x1134
+	bool m_bPrecomputedFieldsValid; // 0x1138
+	Vector m_vPrecomputedBoundsMins; // 0x113C
+	Vector m_vPrecomputedBoundsMaxs; // 0x1148
+	Vector m_vPrecomputedOBBOrigin; // 0x1154
+	QAngle m_vPrecomputedOBBAngles; // 0x1160
+	Vector m_vPrecomputedOBBExtent; // 0x116C
+	int32 m_nPrecomputedSubFrusta; // 0x1178
+	Vector m_vPrecomputedOBBOrigin0; // 0x117C
+	QAngle m_vPrecomputedOBBAngles0; // 0x1188
+	Vector m_vPrecomputedOBBExtent0; // 0x1194
+	Vector m_vPrecomputedOBBOrigin1; // 0x11A0
+	QAngle m_vPrecomputedOBBAngles1; // 0x11AC
+	Vector m_vPrecomputedOBBExtent1; // 0x11B8
+	Vector m_vPrecomputedOBBOrigin2; // 0x11C4
+	QAngle m_vPrecomputedOBBAngles2; // 0x11D0
+	Vector m_vPrecomputedOBBExtent2; // 0x11DC
+	Vector m_vPrecomputedOBBOrigin3; // 0x11E8
+	QAngle m_vPrecomputedOBBAngles3; // 0x11F4
+	Vector m_vPrecomputedOBBExtent3; // 0x1200
+	Vector m_vPrecomputedOBBOrigin4; // 0x120C
+	QAngle m_vPrecomputedOBBAngles4; // 0x1218
+	Vector m_vPrecomputedOBBExtent4; // 0x1224
+	Vector m_vPrecomputedOBBOrigin5; // 0x1230
+	QAngle m_vPrecomputedOBBAngles5; // 0x123C
+	Vector m_vPrecomputedOBBExtent5; // 0x1248
+	bool m_bInitialBoneSetup; // 0x1298
+	C_NetworkUtlVectorBase< uint16 > m_VisClusters; // 0x12A0
 };
 class CPulseCell_LerpCameraSettings : public CPulseCell_BaseLerp // client
 {
-	float32 m_flSeconds; // 0x0090
-	PointCameraSettings_t m_Start; // 0x0094
-	PointCameraSettings_t m_End; // 0x00A4
+	float32 m_flSeconds; // 0x0120
+	PointCameraSettings_t m_Start; // 0x0124
+	PointCameraSettings_t m_End; // 0x0134
 };
 class CPointOffScreenIndicatorUi : public C_PointClientUIWorldPanel // client
 {
-	bool m_bBeenEnabled; // 0x1200
-	bool m_bHide; // 0x1201
-	float32 m_flSeenTargetTime; // 0x1204
-	C_PointClientUIWorldPanel* m_pTargetPanel; // 0x1208
+	bool m_bBeenEnabled; // 0x1210
+	bool m_bHide; // 0x1211
+	float32 m_flSeenTargetTime; // 0x1214
+	C_PointClientUIWorldPanel* m_pTargetPanel; // 0x1218
 };
 class CCSObserver_UseServices : public CPlayer_UseServices // client
 {
 };
 class C_PostProcessingVolume : public C_BaseTrigger // client
 {
-	CStrongHandle< InfoForResourceTypeCPostProcessingResource > m_hPostSettings; // 0x1088
-	float32 m_flFadeDuration; // 0x1090
-	float32 m_flMinLogExposure; // 0x1094
-	float32 m_flMaxLogExposure; // 0x1098
-	float32 m_flMinExposure; // 0x109C
-	float32 m_flMaxExposure; // 0x10A0
-	float32 m_flExposureCompensation; // 0x10A4
-	float32 m_flExposureFadeSpeedUp; // 0x10A8
-	float32 m_flExposureFadeSpeedDown; // 0x10AC
-	float32 m_flTonemapEVSmoothingRange; // 0x10B0
-	bool m_bMaster; // 0x10B4
-	bool m_bExposureControl; // 0x10B5
+	CStrongHandle< InfoForResourceTypeCPostProcessingResource > m_hPostSettings; // 0x10A8
+	float32 m_flFadeDuration; // 0x10B0
+	float32 m_flMinLogExposure; // 0x10B4
+	float32 m_flMaxLogExposure; // 0x10B8
+	float32 m_flMinExposure; // 0x10BC
+	float32 m_flMaxExposure; // 0x10C0
+	float32 m_flExposureCompensation; // 0x10C4
+	float32 m_flExposureFadeSpeedUp; // 0x10C8
+	float32 m_flExposureFadeSpeedDown; // 0x10CC
+	float32 m_flTonemapEVSmoothingRange; // 0x10D0
+	bool m_bMaster; // 0x10D4
+	bool m_bExposureControl; // 0x10D5
 };
 class CCSPlayer_UseServices : public CPlayer_UseServices // client
 {
@@ -21998,6 +22426,9 @@ class CInfoFan : public C_PointEntity // client
 	float32 m_flCurveDistRange; // 0x0648
 	CUtlSymbolLarge m_FanForceCurveString; // 0x0650
 };
+class CCSWeaponBase_API // client
+{
+};
 class C_VoteController : public C_BaseEntity // client
 {
 	int32 m_iActiveIssueIndex; // 0x0610
@@ -22010,77 +22441,77 @@ class C_VoteController : public C_BaseEntity // client
 };
 class C_C4 : public C_CSWeaponBase // client
 {
-	ParticleIndex_t m_activeLightParticleIndex; // 0x1CB0
-	C4LightEffect_t m_eActiveLightEffect; // 0x1CB4
-	bool m_bStartedArming; // 0x1CB8
-	GameTime_t m_fArmedTime; // 0x1CBC
-	bool m_bBombPlacedAnimation; // 0x1CC0
-	bool m_bIsPlantingViaUse; // 0x1CC1
-	EntitySpottedState_t m_entitySpottedState; // 0x1CC8
-	int32 m_nSpotRules; // 0x1CE0
-	bool[7] m_bPlayedArmingBeeps; // 0x1CE4
-	bool m_bBombPlanted; // 0x1CEB
+	ParticleIndex_t m_activeLightParticleIndex; // 0x1CE0
+	C4LightEffect_t m_eActiveLightEffect; // 0x1CE4
+	bool m_bStartedArming; // 0x1CE8
+	GameTime_t m_fArmedTime; // 0x1CEC
+	bool m_bBombPlacedAnimation; // 0x1CF0
+	bool m_bIsPlantingViaUse; // 0x1CF1
+	EntitySpottedState_t m_entitySpottedState; // 0x1CF8
+	int32 m_nSpotRules; // 0x1D10
+	bool[7] m_bPlayedArmingBeeps; // 0x1D14
+	bool m_bBombPlanted; // 0x1D1B
 };
 class C_CSPlayerPawnBase : public C_BasePlayerPawn // client
 {
-	CCSPlayer_PingServices* m_pPingServices; // 0x13C8
-	CSPlayerState m_previousPlayerState; // 0x13D0
-	CSPlayerState m_iPlayerState; // 0x13D4
-	bool m_bHasMovedSinceSpawn; // 0x13D8
-	GameTime_t m_flLastSpawnTimeIndex; // 0x13DC
-	int32 m_iProgressBarDuration; // 0x13E0
-	float32 m_flProgressBarStartTime; // 0x13E4
-	GameTime_t m_flClientDeathTime; // 0x13E8
-	float32 m_flFlashBangTime; // 0x13EC
-	float32 m_flFlashScreenshotAlpha; // 0x13F0
-	float32 m_flFlashOverlayAlpha; // 0x13F4
-	bool m_bFlashBuildUp; // 0x13F8
-	bool m_bFlashDspHasBeenCleared; // 0x13F9
-	bool m_bFlashScreenshotHasBeenGrabbed; // 0x13FA
-	float32 m_flFlashMaxAlpha; // 0x13FC
-	float32 m_flFlashDuration; // 0x1400
-	GameTime_t m_flClientHealthFadeChangeTimestamp; // 0x1404
-	int32 m_nClientHealthFadeParityValue; // 0x1408
-	float32 m_fNextThinkPushAway; // 0x140C
-	float32 m_flCurrentMusicStartTime; // 0x1414
-	float32 m_flMusicRoundStartTime; // 0x1418
-	bool m_bDeferStartMusicOnWarmup; // 0x141C
-	float32 m_flLastSmokeOverlayAlpha; // 0x1420
-	float32 m_flLastSmokeAge; // 0x1424
-	Vector m_vLastSmokeOverlayColor; // 0x1428
-	CHandle< CCSPlayerController > m_hOriginalController; // 0x1450
+	CCSPlayer_PingServices* m_pPingServices; // 0x13F0
+	CSPlayerState m_previousPlayerState; // 0x13F8
+	CSPlayerState m_iPlayerState; // 0x13FC
+	bool m_bHasMovedSinceSpawn; // 0x1400
+	GameTime_t m_flLastSpawnTimeIndex; // 0x1404
+	int32 m_iProgressBarDuration; // 0x1408
+	float32 m_flProgressBarStartTime; // 0x140C
+	GameTime_t m_flClientDeathTime; // 0x1410
+	float32 m_flFlashBangTime; // 0x1414
+	float32 m_flFlashScreenshotAlpha; // 0x1418
+	float32 m_flFlashOverlayAlpha; // 0x141C
+	bool m_bFlashBuildUp; // 0x1420
+	bool m_bFlashDspHasBeenCleared; // 0x1421
+	bool m_bFlashScreenshotHasBeenGrabbed; // 0x1422
+	float32 m_flFlashMaxAlpha; // 0x1424
+	float32 m_flFlashDuration; // 0x1428
+	GameTime_t m_flClientHealthFadeChangeTimestamp; // 0x142C
+	int32 m_nClientHealthFadeParityValue; // 0x1430
+	float32 m_fNextThinkPushAway; // 0x1434
+	float32 m_flCurrentMusicStartTime; // 0x143C
+	float32 m_flMusicRoundStartTime; // 0x1440
+	bool m_bDeferStartMusicOnWarmup; // 0x1444
+	float32 m_flLastSmokeOverlayAlpha; // 0x1448
+	float32 m_flLastSmokeAge; // 0x144C
+	Vector m_vLastSmokeOverlayColor; // 0x1450
+	CHandle< CCSPlayerController > m_hOriginalController; // 0x1478
 };
 class C_BreakableProp : public CBaseProp // client
 {
-	CPropDataComponent m_CPropDataComponent; // 0x1190
-	CEntityIOOutput m_OnStartDeath; // 0x11D0
-	CEntityIOOutput m_OnBreak; // 0x11E8
-	CEntityOutputTemplate< float32 > m_OnHealthChanged; // 0x1200
-	CEntityIOOutput m_OnTakeDamage; // 0x1220
-	float32 m_impactEnergyScale; // 0x1238
-	int32 m_iMinHealthDmg; // 0x123C
-	float32 m_flPressureDelay; // 0x1240
-	float32 m_flDefBurstScale; // 0x1244
-	Vector m_vDefBurstOffset; // 0x1248
-	CHandle< C_BaseEntity > m_hBreaker; // 0x1254
-	PerformanceMode_t m_PerformanceMode; // 0x1258
-	GameTime_t m_flPreventDamageBeforeTime; // 0x125C
-	BreakableContentsType_t m_BreakableContentsType; // 0x1260
-	CUtlString m_strBreakableContentsPropGroupOverride; // 0x1268
-	CUtlString m_strBreakableContentsParticleOverride; // 0x1270
-	bool m_bHasBreakPiecesOrCommands; // 0x1278
-	float32 m_explodeDamage; // 0x127C
-	float32 m_explodeRadius; // 0x1280
-	CGlobalSymbol m_sExplosionType; // 0x1288
-	float32 m_explosionDelay; // 0x1290
-	CUtlSymbolLarge m_explosionBuildupSound; // 0x1298
-	CUtlSymbolLarge m_explosionCustomEffect; // 0x12A0
-	CUtlSymbolLarge m_explosionCustomSound; // 0x12A8
-	CUtlSymbolLarge m_explosionModifier; // 0x12B0
-	CHandle< C_BasePlayerPawn > m_hPhysicsAttacker; // 0x12B8
-	GameTime_t m_flLastPhysicsInfluenceTime; // 0x12BC
-	float32 m_flDefaultFadeScale; // 0x12C0
-	CHandle< C_BaseEntity > m_hLastAttacker; // 0x12C4
+	CPropDataComponent m_CPropDataComponent; // 0x11B0
+	CEntityIOOutput m_OnStartDeath; // 0x11F0
+	CEntityIOOutput m_OnBreak; // 0x1208
+	CEntityOutputTemplate< float32 > m_OnHealthChanged; // 0x1220
+	CEntityIOOutput m_OnTakeDamage; // 0x1240
+	float32 m_impactEnergyScale; // 0x1258
+	int32 m_iMinHealthDmg; // 0x125C
+	float32 m_flPressureDelay; // 0x1260
+	float32 m_flDefBurstScale; // 0x1264
+	Vector m_vDefBurstOffset; // 0x1268
+	CHandle< C_BaseEntity > m_hBreaker; // 0x1274
+	PerformanceMode_t m_PerformanceMode; // 0x1278
+	GameTime_t m_flPreventDamageBeforeTime; // 0x127C
+	BreakableContentsType_t m_BreakableContentsType; // 0x1280
+	CUtlString m_strBreakableContentsPropGroupOverride; // 0x1288
+	CUtlString m_strBreakableContentsParticleOverride; // 0x1290
+	bool m_bHasBreakPiecesOrCommands; // 0x1298
+	float32 m_explodeDamage; // 0x129C
+	float32 m_explodeRadius; // 0x12A0
+	CGlobalSymbol m_sExplosionType; // 0x12A8
+	float32 m_explosionDelay; // 0x12B0
+	CUtlSymbolLarge m_explosionBuildupSound; // 0x12B8
+	CUtlSymbolLarge m_explosionCustomEffect; // 0x12C0
+	CUtlSymbolLarge m_explosionCustomSound; // 0x12C8
+	CUtlSymbolLarge m_explosionModifier; // 0x12D0
+	CHandle< C_BasePlayerPawn > m_hPhysicsAttacker; // 0x12D8
+	GameTime_t m_flLastPhysicsInfluenceTime; // 0x12DC
+	float32 m_flDefaultFadeScale; // 0x12E0
+	CHandle< C_BaseEntity > m_hLastAttacker; // 0x12E4
 };
 class CCSGO_WingmanIntroTerroristPosition : public CCSGO_WingmanIntroCharacterPosition // client
 {
@@ -22088,14 +22519,16 @@ class CCSGO_WingmanIntroTerroristPosition : public CCSGO_WingmanIntroCharacterPo
 class CPrecipitationVData : public CEntitySubclassVDataBase // client
 {
 	CResourceNameTyped< CWeakHandle< InfoForResourceTypeIParticleSystemDefinition > > m_szParticlePrecipitationEffect; // 0x0028
-	float32 m_flInnerDistance; // 0x0108
-	ParticleAttachment_t m_nAttachType; // 0x010C
-	bool m_bBatchSameVolumeType; // 0x0110
-	int32 m_nRTEnvCP; // 0x0114
-	int32 m_nRTEnvCPComponent; // 0x0118
-	CUtlString m_szModifier; // 0x0120
-	int32 m_nUseSnapshotFromSurfaceGraph; // 0x0128
-	PrecipitationFilter_t m_snapshotFilter; // 0x012C
+	CResourceNameTyped< CWeakHandle< InfoForResourceTypeIParticleSystemDefinition > > m_szParticlePrecipitationPuddleEffect; // 0x0108
+	CResourceNameTyped< CWeakHandle< InfoForResourceTypeIParticleSystemDefinition > > m_szParticlePrecipitationPostEffect; // 0x01E8
+	float32 m_flInnerDistance; // 0x02C8
+	ParticleAttachment_t m_nAttachType; // 0x02CC
+	bool m_bBatchSameVolumeType; // 0x02D0
+	int32 m_nRTEnvCP; // 0x02D4
+	int32 m_nRTEnvCPComponent; // 0x02D8
+	CUtlString m_szModifier; // 0x02E0
+	int32 m_nUseSnapshotFromSurfaceGraph; // 0x02E8
+	PrecipitationFilter_t m_snapshotFilter; // 0x02EC
 };
 class C_RetakeGameRules // client
 {
@@ -22108,8 +22541,8 @@ class C_RetakeGameRules // client
 };
 class CPulseCell_WaitForObservable : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	PulseObservableBoolExpression_t m_Condition; // 0x0048
-	CPulse_ResumePoint m_OnTrue; // 0x00C0
+	CPulseObservableExpression< bool > m_Condition; // 0x00D8
+	CPulse_ResumePoint m_OnTrue; // 0x0150
 };
 class C_SoundAreaEntitySphere : public C_SoundAreaEntityBase // client
 {
@@ -22124,9 +22557,9 @@ class C_WeaponAWP : public C_CSWeaponBaseGun // client
 };
 class C_BaseButton : public C_BaseToggle // client
 {
-	CHandle< C_BaseModelEntity > m_glowEntity; // 0x0FA8
-	bool m_usable; // 0x0FAC
-	CUtlSymbolLarge m_szDisplayText; // 0x0FB0
+	CHandle< C_BaseModelEntity > m_glowEntity; // 0x0FB0
+	bool m_usable; // 0x0FB4
+	CUtlSymbolLarge m_szDisplayText; // 0x0FB8
 };
 class CCSObserver_ObserverServices : public CPlayer_ObserverServices // client
 {
@@ -22150,14 +22583,14 @@ class CPathQueryComponent : public CEntityComponent // client
 };
 class C_Precipitation : public C_BaseTrigger // client
 {
-	float32 m_flDensity; // 0x1078
-	float32 m_flParticleInnerDist; // 0x1088
-	char* m_pParticleDef; // 0x1090
-	TimedEvent[1] m_tParticlePrecipTraceTimer; // 0x109C
-	bool[1] m_bActiveParticlePrecipEmitter; // 0x10A4
-	bool m_bParticlePrecipInitialized; // 0x10A5
-	bool m_bHasSimulatedSinceLastSceneObjectUpdate; // 0x10A6
-	int32 m_nAvailableSheetSequencesMaxIndex; // 0x10A8
+	float32 m_flDensity; // 0x1098
+	float32 m_flParticleInnerDist; // 0x10A8
+	char* m_pParticleDef; // 0x10B0
+	TimedEvent[1] m_tParticlePrecipTraceTimer; // 0x10C4
+	bool[1] m_bActiveParticlePrecipEmitter; // 0x10CC
+	bool m_bParticlePrecipInitialized; // 0x10CD
+	bool m_bHasSimulatedSinceLastSceneObjectUpdate; // 0x10CE
+	int32 m_nAvailableSheetSequencesMaxIndex; // 0x10D0
 };
 class CLogicRelay : public CLogicalEntity // client
 {
@@ -22196,34 +22629,34 @@ class C_WeaponG3SG1 : public C_CSWeaponBaseGun // client
 };
 class C_SpotlightEnd : public C_BaseModelEntity // client
 {
-	float32 m_flLightScale; // 0x0FA8
-	float32 m_Radius; // 0x0FAC
+	float32 m_flLightScale; // 0x0FB0
+	float32 m_Radius; // 0x0FB4
 };
 class C_Fish : public CBaseAnimGraph // client
 {
-	Vector m_pos; // 0x1158
-	Vector m_vel; // 0x1164
-	QAngle m_angles; // 0x1170
-	int32 m_localLifeState; // 0x117C
-	float32 m_deathDepth; // 0x1180
-	float32 m_deathAngle; // 0x1184
-	float32 m_buoyancy; // 0x1188
-	CountdownTimer m_wiggleTimer; // 0x1190
-	float32 m_wigglePhase; // 0x11A8
-	float32 m_wiggleRate; // 0x11AC
-	Vector m_actualPos; // 0x11B0
-	QAngle m_actualAngles; // 0x11BC
-	Vector m_poolOrigin; // 0x11C8
-	float32 m_waterLevel; // 0x11D4
-	bool m_gotUpdate; // 0x11D8
-	float32 m_x; // 0x11DC
-	float32 m_y; // 0x11E0
-	float32 m_z; // 0x11E4
-	float32 m_angle; // 0x11E8
-	float32[20] m_errorHistory; // 0x11EC
-	int32 m_errorHistoryIndex; // 0x123C
-	int32 m_errorHistoryCount; // 0x1240
-	float32 m_averageError; // 0x1244
+	VectorWS m_pos; // 0x1180
+	Vector m_vel; // 0x118C
+	QAngle m_angles; // 0x1198
+	int32 m_localLifeState; // 0x11A4
+	float32 m_deathDepth; // 0x11A8
+	float32 m_deathAngle; // 0x11AC
+	float32 m_buoyancy; // 0x11B0
+	CountdownTimer m_wiggleTimer; // 0x11B8
+	float32 m_wigglePhase; // 0x11D0
+	float32 m_wiggleRate; // 0x11D4
+	VectorWS m_actualPos; // 0x11D8
+	QAngle m_actualAngles; // 0x11E4
+	VectorWS m_poolOrigin; // 0x11F0
+	float32 m_waterLevel; // 0x11FC
+	bool m_gotUpdate; // 0x1200
+	float32 m_x; // 0x1204
+	float32 m_y; // 0x1208
+	float32 m_z; // 0x120C
+	float32 m_angle; // 0x1210
+	float32[20] m_errorHistory; // 0x1214
+	int32 m_errorHistoryIndex; // 0x1264
+	int32 m_errorHistoryCount; // 0x1268
+	float32 m_averageError; // 0x126C
 };
 class C_WeaponFamas : public C_CSWeaponBaseGun // client
 {
@@ -22318,6 +22751,9 @@ class CCSPlayer_HostageServices : public CPlayerPawnComponent // client
 class C_GameRulesProxy : public C_BaseEntity // client
 {
 };
+class CEnvLightProbeVolumeAPI // client
+{
+};
 class CRenderComponent : public CEntityComponent // client
 {
 	CNetworkVarChainer __m_pChainEntity; // 0x0010
@@ -22332,6 +22768,9 @@ class C_Team : public C_BaseEntity // client
 	C_NetworkUtlVectorBase< CHandle< C_BasePlayerPawn > > m_aPlayers; // 0x0618
 	int32 m_iScore; // 0x0630
 	char[129] m_szTeamname; // 0x0634
+};
+class CBaseGrenade_API // client
+{
 };
 class C_PathParticleRopeAlias_path_particle_rope_clientside : public C_PathParticleRope // client
 {
@@ -22363,15 +22802,15 @@ class C_CSGO_TeamPreviewCamera : public C_CSGO_MapPreviewCameraPath // client
 };
 class C_ColorCorrectionVolume : public C_BaseTrigger // client
 {
-	float32 m_LastEnterWeight; // 0x1078
-	GameTime_t m_LastEnterTime; // 0x107C
-	float32 m_LastExitWeight; // 0x1080
-	GameTime_t m_LastExitTime; // 0x1084
-	bool m_bEnabled; // 0x1088
-	float32 m_MaxWeight; // 0x108C
-	float32 m_FadeDuration; // 0x1090
-	float32 m_Weight; // 0x1094
-	char[512] m_lookupFilename; // 0x1098
+	float32 m_LastEnterWeight; // 0x1098
+	GameTime_t m_LastEnterTime; // 0x109C
+	float32 m_LastExitWeight; // 0x10A0
+	GameTime_t m_LastExitTime; // 0x10A4
+	bool m_bEnabled; // 0x10A8
+	float32 m_MaxWeight; // 0x10AC
+	float32 m_FadeDuration; // 0x10B0
+	float32 m_Weight; // 0x10B4
+	char[512] m_lookupFilename; // 0x10B8
 };
 class CPlayer_MovementServices : public CPlayerPawnComponent // client
 {
@@ -22430,13 +22869,13 @@ class CBaseAnimGraphController : public CSkeletonAnimationController // client
 	C_NetworkUtlVectorBase< ResourceId_t > m_vecExternalGraphIds; // 0x0410
 	C_NetworkUtlVectorBase< ResourceId_t > m_vecExternalClipIds; // 0x0428
 	CGlobalSymbol m_sAnimGraph2Identifier; // 0x0440
-	CNmGraphInstance* m_pGraphInstanceAG2; // 0x0448
-	CUtlVector< ExternalAnimGraph_t > m_vecExternalGraphs; // 0x0660
-	AnimationAlgorithm_t m_nPrevAnimationAlgorithm; // 0x0689
+	CAnimGraph2InstancePtr m_pGraphInstanceAG2; // 0x0448
+	CExternalAnimGraphList m_vecExternalGraphs; // 0x0668
+	AnimationAlgorithm_t m_nPrevAnimationAlgorithm; // 0x0699
 };
 class C_ColorCorrection : public C_BaseEntity // client
 {
-	Vector m_vecOrigin; // 0x0600
+	VectorWS m_vecOrigin; // 0x0600
 	float32 m_MinFalloff; // 0x060C
 	float32 m_MaxFalloff; // 0x0610
 	float32 m_flFadeInDuration; // 0x0614
@@ -22489,16 +22928,15 @@ class CFilterMultiple : public CBaseFilter // client
 };
 class CPulseCell_FireCursors : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CUtlVector< CPulse_OutflowConnection > m_Outflows; // 0x0048
-	bool m_bWaitForChildOutflows; // 0x0060
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlVector< CPulse_OutflowConnection > m_Outflows; // 0x00D8
+	bool m_bWaitForChildOutflows; // 0x00F0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class CEnvSoundscape : public C_BaseEntity // client
 {
 	CEntityIOOutput m_OnPlay; // 0x0600
 	float32 m_flRadius; // 0x0618
-	CUtlSymbolLarge m_soundEventName; // 0x0620
+	CGameSoundEventName m_soundEventName; // 0x0620
 	bool m_bOverrideWithEvent; // 0x0628
 	int32 m_soundscapeIndex; // 0x062C
 	int32 m_soundscapeEntityListId; // 0x0630
@@ -22524,6 +22962,9 @@ class C_MolotovGrenade : public C_BaseCSGrenade // client
 {
 };
 class C_NetTestBaseCombatCharacter : public C_BaseCombatCharacter // client
+{
+};
+class CParticleSystemAPI // client
 {
 };
 class CBodyComponentPoint : public CBodyComponent // client
@@ -22613,6 +23054,9 @@ class CPulseCell_Value_Gradient : public CPulseCell_BaseValue // pulse_runtime_l
 {
 	CColorGradient m_Gradient; // 0x0048
 };
+class CGrenadeTracer_API // client
+{
+};
 class IntervalTimer // client
 {
 	GameTime_t m_timestamp; // 0x0008
@@ -22620,7 +23064,7 @@ class IntervalTimer // client
 };
 class audioparams_t // client
 {
-	Vector[8] localSound; // 0x0008
+	VectorWS[8] localSound; // 0x0008
 	int32 soundscapeIndex; // 0x0068
 	uint8 localBits; // 0x006C
 	int32 soundscapeEntityListIndex; // 0x0070
@@ -22647,9 +23091,9 @@ class C_PathParticleRope : public C_BaseEntity // client
 };
 class C_DecoyProjectile : public C_BaseCSGrenadeProjectile // client
 {
-	int32 m_nDecoyShotTick; // 0x1238
-	int32 m_nClientLastKnownDecoyShotTick; // 0x123C
-	GameTime_t m_flTimeParticleEffectSpawn; // 0x1260
+	int32 m_nDecoyShotTick; // 0x1260
+	int32 m_nClientLastKnownDecoyShotTick; // 0x1264
+	GameTime_t m_flTimeParticleEffectSpawn; // 0x1288
 };
 class C_AttributeContainer : public CAttributeManager // client
 {
@@ -22659,60 +23103,60 @@ class C_AttributeContainer : public CAttributeManager // client
 };
 class C_CSWeaponBase : public C_BasePlayerWeapon // client
 {
-	WeaponGameplayAnimState m_iWeaponGameplayAnimState; // 0x1758
-	GameTime_t m_flWeaponGameplayAnimStateTimestamp; // 0x175C
-	GameTime_t m_flInspectCancelCompleteTime; // 0x1760
-	bool m_bInspectPending; // 0x1764
-	bool m_bInspectShouldLoop; // 0x1765
-	float32 m_flCrosshairDistance; // 0x1790
-	int32 m_iAmmoLastCheck; // 0x1794
-	int32 m_nLastEmptySoundCmdNum; // 0x1798
-	bool m_bFireOnEmpty; // 0x179C
-	CEntityIOOutput m_OnPlayerPickup; // 0x17A0
-	CSWeaponMode m_weaponMode; // 0x17B8
-	float32 m_flTurningInaccuracyDelta; // 0x17BC
-	Vector m_vecTurningInaccuracyEyeDirLast; // 0x17C0
-	float32 m_flTurningInaccuracy; // 0x17CC
-	float32 m_fAccuracyPenalty; // 0x17D0
-	GameTime_t m_flLastAccuracyUpdateTime; // 0x17D4
-	float32 m_fAccuracySmoothedForZoom; // 0x17D8
-	int32 m_iRecoilIndex; // 0x17DC
-	float32 m_flRecoilIndex; // 0x17E0
-	bool m_bBurstMode; // 0x17E4
-	GameTime_t m_flLastBurstModeChangeTime; // 0x17E8
-	GameTick_t m_nPostponeFireReadyTicks; // 0x17EC
-	float32 m_flPostponeFireReadyFrac; // 0x17F0
-	bool m_bInReload; // 0x17F4
-	GameTick_t m_nDeployTick; // 0x17F8
-	GameTime_t m_flDroppedAtTime; // 0x17FC
-	bool m_bIsHauledBack; // 0x1804
-	bool m_bSilencerOn; // 0x1805
-	GameTime_t m_flTimeSilencerSwitchComplete; // 0x1808
-	float32 m_flWeaponActionPlaybackRate; // 0x180C
-	int32 m_iOriginalTeamNumber; // 0x1810
-	int32 m_iMostRecentTeamNumber; // 0x1814
-	bool m_bDroppedNearBuyZone; // 0x1818
-	float32 m_flNextAttackRenderTimeOffset; // 0x181C
-	bool m_bClearWeaponIdentifyingUGC; // 0x18B8
-	bool m_bVisualsDataSet; // 0x18B9
-	bool m_bUIWeapon; // 0x18BA
-	int32 m_nCustomEconReloadEventId; // 0x18BC
-	bool m_bCanBePickedUp; // 0x18C8
-	GameTime_t m_nextPrevOwnerUseTime; // 0x18CC
-	CHandle< C_CSPlayerPawn > m_hPrevOwner; // 0x18D0
-	GameTick_t m_nDropTick; // 0x18D4
-	bool m_bWasActiveWeaponWhenDropped; // 0x18D8
-	bool m_donated; // 0x18FC
-	GameTime_t m_fLastShotTime; // 0x1900
-	bool m_bWasOwnedByCT; // 0x1904
-	bool m_bWasOwnedByTerrorist; // 0x1905
-	float32 m_flNextClientFireBulletTime; // 0x1908
-	float32 m_flNextClientFireBulletTime_Repredict; // 0x190C
-	C_IronSightController m_IronSightController; // 0x1960
-	int32 m_iIronSightMode; // 0x1A10
-	GameTime_t m_flLastLOSTraceFailureTime; // 0x1A88
-	float32 m_flWatTickOffset; // 0x1AE8
-	GameTime_t m_flLastShakeTime; // 0x1AFC
+	WeaponGameplayAnimState m_iWeaponGameplayAnimState; // 0x1778
+	GameTime_t m_flWeaponGameplayAnimStateTimestamp; // 0x177C
+	GameTime_t m_flInspectCancelCompleteTime; // 0x1780
+	bool m_bInspectPending; // 0x1784
+	bool m_bInspectShouldLoop; // 0x1785
+	float32 m_flCrosshairDistance; // 0x17B0
+	int32 m_iAmmoLastCheck; // 0x17B4
+	int32 m_nLastEmptySoundCmdNum; // 0x17B8
+	bool m_bFireOnEmpty; // 0x17BC
+	CEntityIOOutput m_OnPlayerPickup; // 0x17C0
+	CSWeaponMode m_weaponMode; // 0x17D8
+	float32 m_flTurningInaccuracyDelta; // 0x17DC
+	Vector m_vecTurningInaccuracyEyeDirLast; // 0x17E0
+	float32 m_flTurningInaccuracy; // 0x17EC
+	float32 m_fAccuracyPenalty; // 0x17F0
+	GameTime_t m_flLastAccuracyUpdateTime; // 0x17F4
+	float32 m_fAccuracySmoothedForZoom; // 0x17F8
+	int32 m_iRecoilIndex; // 0x17FC
+	float32 m_flRecoilIndex; // 0x1800
+	bool m_bBurstMode; // 0x1804
+	GameTime_t m_flLastBurstModeChangeTime; // 0x1808
+	GameTick_t m_nPostponeFireReadyTicks; // 0x180C
+	float32 m_flPostponeFireReadyFrac; // 0x1810
+	bool m_bInReload; // 0x1814
+	GameTick_t m_nDeployTick; // 0x1818
+	GameTime_t m_flDroppedAtTime; // 0x181C
+	bool m_bIsHauledBack; // 0x1824
+	bool m_bSilencerOn; // 0x1825
+	GameTime_t m_flTimeSilencerSwitchComplete; // 0x1828
+	float32 m_flWeaponActionPlaybackRate; // 0x182C
+	int32 m_iOriginalTeamNumber; // 0x1830
+	int32 m_iMostRecentTeamNumber; // 0x1834
+	bool m_bDroppedNearBuyZone; // 0x1838
+	float32 m_flNextAttackRenderTimeOffset; // 0x183C
+	bool m_bClearWeaponIdentifyingUGC; // 0x18E0
+	bool m_bVisualsDataSet; // 0x18E1
+	bool m_bUIWeapon; // 0x18E2
+	int32 m_nCustomEconReloadEventId; // 0x18E4
+	bool m_bCanBePickedUp; // 0x18F0
+	GameTime_t m_nextPrevOwnerUseTime; // 0x18F4
+	CHandle< C_CSPlayerPawn > m_hPrevOwner; // 0x18F8
+	GameTick_t m_nDropTick; // 0x18FC
+	bool m_bWasActiveWeaponWhenDropped; // 0x1900
+	bool m_donated; // 0x1924
+	GameTime_t m_fLastShotTime; // 0x1928
+	bool m_bWasOwnedByCT; // 0x192C
+	bool m_bWasOwnedByTerrorist; // 0x192D
+	float32 m_flNextClientFireBulletTime; // 0x1930
+	float32 m_flNextClientFireBulletTime_Repredict; // 0x1934
+	C_IronSightController m_IronSightController; // 0x1990
+	int32 m_iIronSightMode; // 0x1A40
+	GameTime_t m_flLastLOSTraceFailureTime; // 0x1AB8
+	float32 m_flWatTickOffset; // 0x1B18
+	GameTime_t m_flLastShakeTime; // 0x1B2C
 };
 class CTimeline : public IntervalTimer // client
 {
@@ -22723,6 +23167,9 @@ class CTimeline : public IntervalTimer // client
 	float32 m_flFinalValue; // 0x0218
 	TimelineCompression_t m_nCompressionType; // 0x021C
 	bool m_bStopped; // 0x0220
+};
+class CEnvCubemapAPI // client
+{
 };
 class CPulseCursorFuncs // pulse_runtime_lib
 {
@@ -22747,6 +23194,9 @@ class PulseNodeDynamicOutflows_t::DynamicOutflow_t // pulse_runtime_lib
 	CGlobalSymbol m_OutflowID; // 0x0000
 	CPulse_OutflowConnection m_Connection; // 0x0008
 };
+class C_CSGO_PreviewModel_API // client
+{
+};
 class C_WeaponMag7 : public C_CSWeaponBaseGun // client
 {
 };
@@ -22766,19 +23216,19 @@ class FilterHealth : public CBaseFilter // client
 };
 class C_PointClientUIHUD : public C_BaseClientUIEntity // client
 {
-	bool m_bCheckCSSClasses; // 0x0FE0
-	bool m_bIgnoreInput; // 0x1158
-	float32 m_flWidth; // 0x115C
-	float32 m_flHeight; // 0x1160
-	float32 m_flDPI; // 0x1164
-	float32 m_flInteractDistance; // 0x1168
-	float32 m_flDepthOffset; // 0x116C
-	uint32 m_unOwnerContext; // 0x1170
-	uint32 m_unHorizontalAlign; // 0x1174
-	uint32 m_unVerticalAlign; // 0x1178
-	uint32 m_unOrientation; // 0x117C
-	bool m_bAllowInteractionFromAllSceneWorlds; // 0x1180
-	C_NetworkUtlVectorBase< CUtlSymbolLarge > m_vecCSSClasses; // 0x1188
+	bool m_bCheckCSSClasses; // 0x0FE8
+	bool m_bIgnoreInput; // 0x1160
+	float32 m_flWidth; // 0x1164
+	float32 m_flHeight; // 0x1168
+	float32 m_flDPI; // 0x116C
+	float32 m_flInteractDistance; // 0x1170
+	float32 m_flDepthOffset; // 0x1174
+	uint32 m_unOwnerContext; // 0x1178
+	uint32 m_unHorizontalAlign; // 0x117C
+	uint32 m_unVerticalAlign; // 0x1180
+	uint32 m_unOrientation; // 0x1184
+	bool m_bAllowInteractionFromAllSceneWorlds; // 0x1188
+	C_NetworkUtlVectorBase< CUtlSymbolLarge > m_vecCSSClasses; // 0x1190
 };
 class CPulseCell_Inflow_GraphHook : public CPulseCell_Inflow_BaseEntrypoint // pulse_runtime_lib
 {
@@ -22795,20 +23245,20 @@ class C_InfoLadderDismount : public C_BaseEntity // client
 };
 class C_PointCommentaryNode : public CBaseAnimGraph // client
 {
-	bool m_bActive; // 0x1170
-	bool m_bWasActive; // 0x1171
-	GameTime_t m_flEndTime; // 0x1174
-	GameTime_t m_flStartTime; // 0x1178
-	float32 m_flStartTimeInCommentary; // 0x117C
-	CUtlSymbolLarge m_iszCommentaryFile; // 0x1180
-	CUtlSymbolLarge m_iszTitle; // 0x1188
-	CUtlSymbolLarge m_iszSpeakers; // 0x1190
-	int32 m_iNodeNumber; // 0x1198
-	int32 m_iNodeNumberMax; // 0x119C
-	bool m_bListenedTo; // 0x11A0
-	CSoundPatch* m_sndCommentary; // 0x11A8
-	CHandle< C_BaseEntity > m_hViewPosition; // 0x11B0
-	bool m_bRestartAfterRestore; // 0x11B4
+	bool m_bActive; // 0x1198
+	bool m_bWasActive; // 0x1199
+	GameTime_t m_flEndTime; // 0x119C
+	GameTime_t m_flStartTime; // 0x11A0
+	float32 m_flStartTimeInCommentary; // 0x11A4
+	CUtlSymbolLarge m_iszCommentaryFile; // 0x11A8
+	CUtlSymbolLarge m_iszTitle; // 0x11B0
+	CUtlSymbolLarge m_iszSpeakers; // 0x11B8
+	int32 m_iNodeNumber; // 0x11C0
+	int32 m_iNodeNumberMax; // 0x11C4
+	bool m_bListenedTo; // 0x11C8
+	CSoundPatch* m_sndCommentary; // 0x11D0
+	CHandle< C_BaseEntity > m_hViewPosition; // 0x11D8
+	bool m_bRestartAfterRestore; // 0x11DC
 };
 class CSpriteOriented : public C_Sprite // client
 {
@@ -22831,12 +23281,12 @@ class shard_model_desc_t // client
 };
 class C_KeychainModule : public C_CS2WeaponModuleBase // client
 {
-	uint32 m_nKeychainDefID; // 0x1160
-	uint32 m_nKeychainSeed; // 0x1164
+	uint32 m_nKeychainDefID; // 0x1188
+	uint32 m_nKeychainSeed; // 0x118C
 };
 class CFuncWater : public C_BaseModelEntity // client
 {
-	CBuoyancyHelper m_BuoyancyHelper; // 0x0FA8
+	CBuoyancyHelper m_BuoyancyHelper; // 0x0FB0
 };
 class CCSPlayer_GlowServices : public CPlayerPawnComponent // client
 {
@@ -22850,7 +23300,10 @@ class C_Flashbang : public C_BaseCSGrenade // client
 };
 class C_PointClientUIWorldTextPanel : public C_PointClientUIWorldPanel // client
 {
-	char[512] m_messageText; // 0x1200
+	char[512] m_messageText; // 0x1210
+};
+class C_CSObserverPawn_API // client
+{
 };
 class CCSPlayer_WaterServices : public CPlayer_WaterServices // client
 {
@@ -22860,7 +23313,7 @@ class CCSPlayer_WaterServices : public CPlayer_WaterServices // client
 };
 class C_CSObserverPawn : public C_CSPlayerPawnBase // client
 {
-	CEntityHandle m_hDetectParentChange; // 0x1458
+	CEntityHandle m_hDetectParentChange; // 0x1480
 };
 class ViewAngleServerChange_t // client
 {
@@ -22870,15 +23323,15 @@ class ViewAngleServerChange_t // client
 };
 class C_FuncLadder : public C_BaseModelEntity // client
 {
-	Vector m_vecLadderDir; // 0x0FA8
-	CUtlVector< CHandle< C_InfoLadderDismount > > m_Dismounts; // 0x0FB8
-	Vector m_vecLocalTop; // 0x0FD0
-	VectorWS m_vecPlayerMountPositionTop; // 0x0FDC
-	VectorWS m_vecPlayerMountPositionBottom; // 0x0FE8
-	float32 m_flAutoRideSpeed; // 0x0FF4
-	bool m_bDisabled; // 0x0FF8
-	bool m_bFakeLadder; // 0x0FF9
-	bool m_bHasSlack; // 0x0FFA
+	Vector m_vecLadderDir; // 0x0FB0
+	CUtlVector< CHandle< C_InfoLadderDismount > > m_Dismounts; // 0x0FC0
+	Vector m_vecLocalTop; // 0x0FD8
+	VectorWS m_vecPlayerMountPositionTop; // 0x0FE4
+	VectorWS m_vecPlayerMountPositionBottom; // 0x0FF0
+	float32 m_flAutoRideSpeed; // 0x0FFC
+	bool m_bDisabled; // 0x1000
+	bool m_bFakeLadder; // 0x1001
+	bool m_bHasSlack; // 0x1002
 };
 class C_WeaponMP5SD : public C_CSWeaponBaseGun // client
 {
@@ -22914,142 +23367,141 @@ class C_WeaponSG556 : public C_CSWeaponBaseGun // client
 };
 class C_CSPlayerPawn : public C_CSPlayerPawnBase // client
 {
-	CCSPlayer_BulletServices* m_pBulletServices; // 0x1468
-	CCSPlayer_HostageServices* m_pHostageServices; // 0x1470
-	CCSPlayer_BuyServices* m_pBuyServices; // 0x1478
-	CCSPlayer_GlowServices* m_pGlowServices; // 0x1480
-	CCSPlayer_ActionTrackingServices* m_pActionTrackingServices; // 0x1488
-	CCSPlayer_AimPunchServices* m_pAimPunchServices; // 0x1490
-	CCSPlayer_DamageReactServices* m_pDamageReactServices; // 0x1498
-	GameTime_t m_flHealthShotBoostExpirationTime; // 0x14A0
-	GameTime_t m_flLastFiredWeaponTime; // 0x14A4
-	bool m_bHasFemaleVoice; // 0x14A8
-	float32 m_flLandingTimeSeconds; // 0x14AC
-	float32 m_flOldFallVelocity; // 0x14B0
-	char[18] m_szLastPlaceName; // 0x14B4
-	bool m_bPrevDefuser; // 0x14C6
-	bool m_bPrevHelmet; // 0x14C7
-	int32 m_nPrevArmorVal; // 0x14C8
-	int32 m_nPrevGrenadeAmmoCount; // 0x14CC
-	uint32 m_unPreviousWeaponHash; // 0x14D0
-	uint32 m_unWeaponHash; // 0x14D4
-	bool m_bInBuyZone; // 0x14D8
-	bool m_bPreviouslyInBuyZone; // 0x14D9
-	bool m_bInLanding; // 0x14DA
-	float32 m_flLandingStartTime; // 0x14DC
-	bool m_bInHostageRescueZone; // 0x14E0
-	bool m_bInBombZone; // 0x14E1
-	bool m_bIsBuyMenuOpen; // 0x14E2
-	GameTime_t m_flTimeOfLastInjury; // 0x14E4
-	GameTime_t m_flNextSprayDecalTime; // 0x14E8
-	int32 m_iRetakesOffering; // 0x1640
-	int32 m_iRetakesOfferingCard; // 0x1644
-	bool m_bRetakesHasDefuseKit; // 0x1648
-	bool m_bRetakesMVPLastRound; // 0x1649
-	int32 m_iRetakesMVPBoostItem; // 0x164C
-	loadout_slot_t m_RetakesMVPBoostExtraUtility; // 0x1650
-	bool m_bNeedToReApplyGloves; // 0x1655
-	C_EconItemView m_EconGloves; // 0x1658
-	uint8 m_nEconGlovesChanged; // 0x1AC8
-	bool m_bMustSyncRagdollState; // 0x1AC9
-	int32 m_nRagdollDamageBone; // 0x1ACC
-	Vector m_vRagdollDamageForce; // 0x1AD0
-	Vector m_vRagdollDamagePosition; // 0x1ADC
-	char[64] m_szRagdollDamageWeaponName; // 0x1AE8
-	bool m_bRagdollDamageHeadshot; // 0x1B28
-	Vector m_vRagdollServerOrigin; // 0x1B2C
-	GameTime_t m_lastLandTime; // 0x1B38
-	bool m_bOnGroundLastTick; // 0x1B3C
-	CHandle< C_CS2HudModelArms > m_hHudModelArms; // 0x1B58
-	QAngle m_qDeathEyeAngles; // 0x1B5C
-	bool m_bLeftHanded; // 0x1B68
-	GameTime_t m_fSwitchedHandednessTime; // 0x1B6C
-	float32 m_flViewmodelOffsetX; // 0x1B70
-	float32 m_flViewmodelOffsetY; // 0x1B74
-	float32 m_flViewmodelOffsetZ; // 0x1B78
-	float32 m_flViewmodelFOV; // 0x1B7C
-	uint32[5] m_vecPlayerPatchEconIndices; // 0x1B80
-	Color m_GunGameImmunityColor; // 0x1BC8
-	CUtlVector< C_BulletHitModel* > m_vecBulletHitModels; // 0x1C18
-	bool m_bIsWalking; // 0x1C30
-	EntitySpottedState_t m_entitySpottedState; // 0x1C38
-	bool m_bIsScoped; // 0x1C50
-	bool m_bResumeZoom; // 0x1C51
-	bool m_bIsDefusing; // 0x1C52
-	bool m_bIsGrabbingHostage; // 0x1C53
-	CSPlayerBlockingUseAction_t m_iBlockingUseActionInProgress; // 0x1C54
-	GameTime_t m_flEmitSoundTime; // 0x1C58
-	bool m_bInNoDefuseArea; // 0x1C5C
-	int32 m_nWhichBombZone; // 0x1C60
-	int32 m_iShotsFired; // 0x1C64
-	float32 m_flFlinchStack; // 0x1C68
-	float32 m_flVelocityModifier; // 0x1C6C
-	bool m_bWaitForNoAttack; // 0x1C70
-	float32 m_ignoreLadderJumpTime; // 0x1C74
-	bool m_bKilledByHeadshot; // 0x1C79
-	int32 m_ArmorValue; // 0x1C7C
-	uint16 m_unCurrentEquipmentValue; // 0x1C80
-	uint16 m_unRoundStartEquipmentValue; // 0x1C82
-	uint16 m_unFreezetimeEndEquipmentValue; // 0x1C84
-	CEntityIndex m_nLastKillerIndex; // 0x1C88
-	bool m_bOldIsScoped; // 0x1C8C
-	bool m_bHasDeathInfo; // 0x1C8D
-	float32 m_flDeathInfoTime; // 0x1C90
-	Vector m_vecDeathInfoOrigin; // 0x1C94
-	GameTime_t m_grenadeParameterStashTime; // 0x1CD0
-	bool m_bGrenadeParametersStashed; // 0x1CD4
-	QAngle m_angStashedShootAngles; // 0x1CD8
-	Vector m_vecStashedGrenadeThrowPosition; // 0x1CE4
-	Vector m_vecStashedVelocity; // 0x1CF0
-	bool m_bShouldAutobuyDMWeapons; // 0x3230
-	GameTime_t m_fImmuneToGunGameDamageTime; // 0x3234
-	bool m_bGunGameImmunity; // 0x3238
-	GameTime_t m_fImmuneToGunGameDamageTimeLast; // 0x323C
-	float32 m_fMolotovDamageTime; // 0x3240
-	ParticleIndex_t m_nPlayerInfernoBodyFx; // 0x32AC
-	QAngle m_angEyeAngles; // 0x3320
-	GameTime_t[4] m_arrOldEyeAnglesTimes; // 0x33B0
-	QAngle[4] m_arrOldEyeAngles; // 0x33C0
-	QAngle m_angEyeAnglesVelocity; // 0x33F0
-	CEntityIndex m_iIDEntIndex; // 0x33FC
-	CountdownTimer m_delayTargetIDTimer; // 0x3400
-	CEntityIndex m_iTargetItemEntIdx; // 0x3418
-	CEntityIndex m_iOldIDEntIndex; // 0x341C
-	CountdownTimer m_holdTargetIDTimer; // 0x3420
+	CCSPlayer_BulletServices* m_pBulletServices; // 0x1490
+	CCSPlayer_HostageServices* m_pHostageServices; // 0x1498
+	CCSPlayer_BuyServices* m_pBuyServices; // 0x14A0
+	CCSPlayer_GlowServices* m_pGlowServices; // 0x14A8
+	CCSPlayer_ActionTrackingServices* m_pActionTrackingServices; // 0x14B0
+	CCSPlayer_AimPunchServices* m_pAimPunchServices; // 0x14B8
+	CCSPlayer_DamageReactServices* m_pDamageReactServices; // 0x14C0
+	GameTime_t m_flHealthShotBoostExpirationTime; // 0x14C8
+	GameTime_t m_flLastFiredWeaponTime; // 0x14CC
+	bool m_bHasFemaleVoice; // 0x14D0
+	float32 m_flLandingTimeSeconds; // 0x14D4
+	float32 m_flOldFallVelocity; // 0x14D8
+	char[18] m_szLastPlaceName; // 0x14DC
+	bool m_bPrevDefuser; // 0x14EE
+	bool m_bPrevHelmet; // 0x14EF
+	int32 m_nPrevArmorVal; // 0x14F0
+	int32 m_nPrevGrenadeAmmoCount; // 0x14F4
+	uint32 m_unPreviousWeaponHash; // 0x14F8
+	uint32 m_unWeaponHash; // 0x14FC
+	bool m_bInBuyZone; // 0x1500
+	bool m_bPreviouslyInBuyZone; // 0x1501
+	bool m_bInLanding; // 0x1502
+	float32 m_flLandingStartTime; // 0x1504
+	bool m_bInHostageRescueZone; // 0x1508
+	bool m_bInBombZone; // 0x1509
+	bool m_bIsBuyMenuOpen; // 0x150A
+	GameTime_t m_flTimeOfLastInjury; // 0x150C
+	GameTime_t m_flNextSprayDecalTime; // 0x1510
+	int32 m_iRetakesOffering; // 0x1670
+	int32 m_iRetakesOfferingCard; // 0x1674
+	bool m_bRetakesHasDefuseKit; // 0x1678
+	bool m_bRetakesMVPLastRound; // 0x1679
+	int32 m_iRetakesMVPBoostItem; // 0x167C
+	loadout_slot_t m_RetakesMVPBoostExtraUtility; // 0x1680
+	bool m_bNeedToReApplyGloves; // 0x1685
+	C_EconItemView m_EconGloves; // 0x1688
+	uint8 m_nEconGlovesChanged; // 0x1AF8
+	bool m_bMustSyncRagdollState; // 0x1AF9
+	int32 m_nRagdollDamageBone; // 0x1AFC
+	Vector m_vRagdollDamageForce; // 0x1B00
+	char[64] m_szRagdollDamageWeaponName; // 0x1B0C
+	bool m_bRagdollDamageHeadshot; // 0x1B4C
+	VectorWS m_vRagdollServerOrigin; // 0x1B50
+	GameTime_t m_lastLandTime; // 0x1B5C
+	bool m_bOnGroundLastTick; // 0x1B60
+	CHandle< C_CS2HudModelArms > m_hHudModelArms; // 0x1B7C
+	QAngle m_qDeathEyeAngles; // 0x1B80
+	bool m_bLeftHanded; // 0x1B8C
+	GameTime_t m_fSwitchedHandednessTime; // 0x1B90
+	float32 m_flViewmodelOffsetX; // 0x1B94
+	float32 m_flViewmodelOffsetY; // 0x1B98
+	float32 m_flViewmodelOffsetZ; // 0x1B9C
+	float32 m_flViewmodelFOV; // 0x1BA0
+	uint32[5] m_vecPlayerPatchEconIndices; // 0x1BA4
+	Color m_GunGameImmunityColor; // 0x1BE8
+	CUtlVector< C_BulletHitModel* > m_vecBulletHitModels; // 0x1C38
+	bool m_bIsWalking; // 0x1C50
+	EntitySpottedState_t m_entitySpottedState; // 0x1C58
+	bool m_bIsScoped; // 0x1C70
+	bool m_bResumeZoom; // 0x1C71
+	bool m_bIsDefusing; // 0x1C72
+	bool m_bIsGrabbingHostage; // 0x1C73
+	CSPlayerBlockingUseAction_t m_iBlockingUseActionInProgress; // 0x1C74
+	GameTime_t m_flEmitSoundTime; // 0x1C78
+	bool m_bInNoDefuseArea; // 0x1C7C
+	int32 m_nWhichBombZone; // 0x1C80
+	int32 m_iShotsFired; // 0x1C84
+	float32 m_flFlinchStack; // 0x1C88
+	float32 m_flVelocityModifier; // 0x1C8C
+	bool m_bWaitForNoAttack; // 0x1C90
+	float32 m_ignoreLadderJumpTime; // 0x1C94
+	bool m_bKilledByHeadshot; // 0x1C99
+	int32 m_ArmorValue; // 0x1C9C
+	uint16 m_unCurrentEquipmentValue; // 0x1CA0
+	uint16 m_unRoundStartEquipmentValue; // 0x1CA2
+	uint16 m_unFreezetimeEndEquipmentValue; // 0x1CA4
+	CEntityIndex m_nLastKillerIndex; // 0x1CA8
+	bool m_bOldIsScoped; // 0x1CAC
+	bool m_bHasDeathInfo; // 0x1CAD
+	float32 m_flDeathInfoTime; // 0x1CB0
+	VectorWS m_vecDeathInfoOrigin; // 0x1CB4
+	GameTime_t m_grenadeParameterStashTime; // 0x1CF0
+	bool m_bGrenadeParametersStashed; // 0x1CF4
+	QAngle m_angStashedShootAngles; // 0x1CF8
+	VectorWS m_vecStashedGrenadeThrowPosition; // 0x1D04
+	Vector m_vecStashedVelocity; // 0x1D10
+	bool m_bShouldAutobuyDMWeapons; // 0x3250
+	GameTime_t m_fImmuneToGunGameDamageTime; // 0x3254
+	bool m_bGunGameImmunity; // 0x3258
+	GameTime_t m_fImmuneToGunGameDamageTimeLast; // 0x325C
+	float32 m_fMolotovDamageTime; // 0x3260
+	ParticleIndex_t m_nPlayerInfernoBodyFx; // 0x32CC
+	QAngle m_angEyeAngles; // 0x3340
+	GameTime_t[4] m_arrOldEyeAnglesTimes; // 0x33D0
+	QAngle[4] m_arrOldEyeAngles; // 0x33E0
+	QAngle m_angEyeAnglesVelocity; // 0x3410
+	CEntityIndex m_iIDEntIndex; // 0x341C
+	CountdownTimer m_delayTargetIDTimer; // 0x3420
+	CEntityIndex m_iTargetItemEntIdx; // 0x3438
+	CEntityIndex m_iOldIDEntIndex; // 0x343C
+	CountdownTimer m_holdTargetIDTimer; // 0x3440
 };
 class C_CSGO_TeamIntroTerroristPosition : public C_CSGO_TeamIntroCharacterPosition // client
 {
 };
 class CPulseCell_WaitForCursorsWithTagBase : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	int32 m_nCursorsAllowedToWait; // 0x0048
-	CPulse_ResumePoint m_WaitComplete; // 0x0050
+	int32 m_nCursorsAllowedToWait; // 0x00D8
+	CPulse_ResumePoint m_WaitComplete; // 0x00E0
 };
 class C_Hostage : public C_BaseCombatCharacter // client
 {
-	EntitySpottedState_t m_entitySpottedState; // 0x11E0
-	CHandle< C_BaseEntity > m_leader; // 0x11F8
-	CountdownTimer m_reuseTimer; // 0x1200
-	Vector m_vel; // 0x1218
-	bool m_isRescued; // 0x1224
-	bool m_jumpedThisFrame; // 0x1225
-	int32 m_nHostageState; // 0x1228
-	bool m_bHandsHaveBeenCut; // 0x122C
-	CHandle< C_CSPlayerPawn > m_hHostageGrabber; // 0x1230
-	GameTime_t m_fLastGrabTime; // 0x1234
-	Vector m_vecGrabbedPos; // 0x1238
-	GameTime_t m_flRescueStartTime; // 0x1244
-	GameTime_t m_flGrabSuccessTime; // 0x1248
-	GameTime_t m_flDropStartTime; // 0x124C
-	GameTime_t m_flDeadOrRescuedTime; // 0x1250
-	CountdownTimer m_blinkTimer; // 0x1258
-	Vector m_lookAt; // 0x1270
-	CountdownTimer m_lookAroundTimer; // 0x1280
-	bool m_isInit; // 0x1298
-	AttachmentHandle_t m_eyeAttachment; // 0x1299
-	AttachmentHandle_t m_chestAttachment; // 0x129A
-	CBasePlayerController* m_pPredictionOwner; // 0x12A0
-	GameTime_t m_fNewestAlphaThinkTime; // 0x12A8
+	EntitySpottedState_t m_entitySpottedState; // 0x1208
+	CHandle< C_BaseEntity > m_leader; // 0x1220
+	CountdownTimer m_reuseTimer; // 0x1228
+	Vector m_vel; // 0x1240
+	bool m_isRescued; // 0x124C
+	bool m_jumpedThisFrame; // 0x124D
+	int32 m_nHostageState; // 0x1250
+	bool m_bHandsHaveBeenCut; // 0x1254
+	CHandle< C_CSPlayerPawn > m_hHostageGrabber; // 0x1258
+	GameTime_t m_fLastGrabTime; // 0x125C
+	VectorWS m_vecGrabbedPos; // 0x1260
+	GameTime_t m_flRescueStartTime; // 0x126C
+	GameTime_t m_flGrabSuccessTime; // 0x1270
+	GameTime_t m_flDropStartTime; // 0x1274
+	GameTime_t m_flDeadOrRescuedTime; // 0x1278
+	CountdownTimer m_blinkTimer; // 0x1280
+	VectorWS m_lookAt; // 0x1298
+	CountdownTimer m_lookAroundTimer; // 0x12A8
+	bool m_isInit; // 0x12C0
+	AttachmentHandle_t m_eyeAttachment; // 0x12C1
+	AttachmentHandle_t m_chestAttachment; // 0x12C2
+	CBasePlayerController* m_pPredictionOwner; // 0x12C8
+	GameTime_t m_fNewestAlphaThinkTime; // 0x12D0
 };
 class C_fogplayerparams_t // client
 {
@@ -23104,7 +23556,6 @@ class CGameSceneNode // client
 	CUtlStringToken m_name; // 0x010C
 	CUtlStringToken m_hierarchyAttachName; // 0x0120
 	float32 m_flClientLocalScale; // 0x0124
-	Vector m_vRenderOrigin; // 0x0128
 };
 class CPlayer_ObserverServices : public CPlayerPawnComponent // client
 {
@@ -23117,7 +23568,7 @@ class CPlayer_ObserverServices : public CPlayerPawnComponent // client
 };
 class CCashStack : public C_BaseModelEntity // client
 {
-	int32 m_nCashStackValue; // 0x0FA8
+	int32 m_nCashStackValue; // 0x0FB0
 };
 class C_SoundAreaEntityBase : public C_BaseEntity // client
 {
@@ -23143,35 +23594,38 @@ class CAttributeManager::cached_attribute_float_t // client
 };
 class C_BasePlayerWeapon : public C_EconEntity // client
 {
-	GameTick_t m_nNextPrimaryAttackTick; // 0x16C8
-	float32 m_flNextPrimaryAttackTickRatio; // 0x16CC
-	GameTick_t m_nNextSecondaryAttackTick; // 0x16D0
-	float32 m_flNextSecondaryAttackTickRatio; // 0x16D4
-	int32 m_iClip1; // 0x16D8
-	int32 m_iClip2; // 0x16DC
-	int32[2] m_pReserveAmmo; // 0x16E0
+	GameTick_t m_nNextPrimaryAttackTick; // 0x16F0
+	float32 m_flNextPrimaryAttackTickRatio; // 0x16F4
+	GameTick_t m_nNextSecondaryAttackTick; // 0x16F8
+	float32 m_flNextSecondaryAttackTickRatio; // 0x16FC
+	int32 m_iClip1; // 0x1700
+	int32 m_iClip2; // 0x1704
+	int32[2] m_pReserveAmmo; // 0x1708
 };
 class CRagdollManager : public C_BaseEntity // client
 {
 	int8 m_iCurrentMaxRagdollCount; // 0x0600
+};
+class CSoundOpvarSetBoxEntity : public C_SoundOpvarSetPointEntity // client
+{
 };
 class C_HEGrenade : public C_BaseCSGrenade // client
 {
 };
 class C_EnvSky : public C_BaseModelEntity // client
 {
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSkyMaterial; // 0x0FA8
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSkyMaterialLightingOnly; // 0x0FB0
-	bool m_bStartDisabled; // 0x0FB8
-	Color m_vTintColor; // 0x0FB9
-	Color m_vTintColorLightingOnly; // 0x0FBD
-	float32 m_flBrightnessScale; // 0x0FC4
-	int32 m_nFogType; // 0x0FC8
-	float32 m_flFogMinStart; // 0x0FCC
-	float32 m_flFogMinEnd; // 0x0FD0
-	float32 m_flFogMaxStart; // 0x0FD4
-	float32 m_flFogMaxEnd; // 0x0FD8
-	bool m_bEnabled; // 0x0FDC
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSkyMaterial; // 0x0FB0
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSkyMaterialLightingOnly; // 0x0FB8
+	bool m_bStartDisabled; // 0x0FC0
+	Color m_vTintColor; // 0x0FC1
+	Color m_vTintColorLightingOnly; // 0x0FC5
+	float32 m_flBrightnessScale; // 0x0FCC
+	int32 m_nFogType; // 0x0FD0
+	float32 m_flFogMinStart; // 0x0FD4
+	float32 m_flFogMinEnd; // 0x0FD8
+	float32 m_flFogMaxStart; // 0x0FDC
+	float32 m_flFogMaxEnd; // 0x0FE0
+	bool m_bEnabled; // 0x0FE4
 };
 class CPulse_InvokeBinding // pulse_runtime_lib
 {
@@ -23224,64 +23678,64 @@ class C_CSGO_MapPreviewCameraPath : public C_BaseEntity // client
 };
 class C_PointWorldText : public C_ModelPointEntity // client
 {
-	bool m_bForceRecreateNextUpdate; // 0x0FB0
-	int32 m_nTextWidthPx; // 0x0FC8
-	int32 m_nTextHeightPx; // 0x0FCC
-	char[512] m_messageText; // 0x0FD0
-	char[64] m_FontName; // 0x11D0
-	char[64] m_BackgroundMaterialName; // 0x1210
-	bool m_bEnabled; // 0x1250
-	bool m_bFullbright; // 0x1251
-	float32 m_flWorldUnitsPerPx; // 0x1254
-	float32 m_flFontSize; // 0x1258
-	float32 m_flDepthOffset; // 0x125C
-	bool m_bDrawBackground; // 0x1260
-	float32 m_flBackgroundBorderWidth; // 0x1264
-	float32 m_flBackgroundBorderHeight; // 0x1268
-	float32 m_flBackgroundWorldToUV; // 0x126C
-	Color m_Color; // 0x1270
-	PointWorldTextJustifyHorizontal_t m_nJustifyHorizontal; // 0x1274
-	PointWorldTextJustifyVertical_t m_nJustifyVertical; // 0x1278
-	PointWorldTextReorientMode_t m_nReorientMode; // 0x127C
+	bool m_bForceRecreateNextUpdate; // 0x0FB8
+	int32 m_nTextWidthPx; // 0x0FD0
+	int32 m_nTextHeightPx; // 0x0FD4
+	char[512] m_messageText; // 0x0FD8
+	char[64] m_FontName; // 0x11D8
+	char[64] m_BackgroundMaterialName; // 0x1218
+	bool m_bEnabled; // 0x1258
+	bool m_bFullbright; // 0x1259
+	float32 m_flWorldUnitsPerPx; // 0x125C
+	float32 m_flFontSize; // 0x1260
+	float32 m_flDepthOffset; // 0x1264
+	bool m_bDrawBackground; // 0x1268
+	float32 m_flBackgroundBorderWidth; // 0x126C
+	float32 m_flBackgroundBorderHeight; // 0x1270
+	float32 m_flBackgroundWorldToUV; // 0x1274
+	Color m_Color; // 0x1278
+	PointWorldTextJustifyHorizontal_t m_nJustifyHorizontal; // 0x127C
+	PointWorldTextJustifyVertical_t m_nJustifyVertical; // 0x1280
+	PointWorldTextReorientMode_t m_nReorientMode; // 0x1284
 };
 class C_RopeKeyframe : public C_BaseModelEntity // client
 {
-	CBitVec< 10 > m_LinksTouchingSomething; // 0x0FB0
-	int32 m_nLinksTouchingSomething; // 0x0FB4
-	bool m_bApplyWind; // 0x0FB8
-	int32 m_fPrevLockedPoints; // 0x0FBC
-	int32 m_iForcePointMoveCounter; // 0x0FC0
-	bool[2] m_bPrevEndPointPos; // 0x0FC4
-	VectorWS[2] m_vPrevEndPointPos; // 0x0FC8
-	float32 m_flCurScroll; // 0x0FE0
-	float32 m_flScrollSpeed; // 0x0FE4
-	uint16 m_RopeFlags; // 0x0FE8
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_iRopeMaterialModelIndex; // 0x0FF0
-	uint8 m_nSegments; // 0x1268
-	CHandle< C_BaseEntity > m_hStartPoint; // 0x126C
-	CHandle< C_BaseEntity > m_hEndPoint; // 0x1270
-	AttachmentHandle_t m_iStartAttachment; // 0x1274
-	AttachmentHandle_t m_iEndAttachment; // 0x1275
-	uint8 m_Subdiv; // 0x1276
-	int16 m_RopeLength; // 0x1278
-	int16 m_Slack; // 0x127A
-	float32 m_TextureScale; // 0x127C
-	uint8 m_fLockedPoints; // 0x1280
-	uint8 m_nChangeCount; // 0x1281
-	float32 m_Width; // 0x1284
-	C_RopeKeyframe::CPhysicsDelegate m_PhysicsDelegate; // 0x1288
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hMaterial; // 0x1298
-	int32 m_TextureHeight; // 0x12A0
-	Vector m_vecImpulse; // 0x12A4
-	Vector m_vecPreviousImpulse; // 0x12B0
-	float32 m_flCurrentGustTimer; // 0x12BC
-	float32 m_flCurrentGustLifetime; // 0x12C0
-	float32 m_flTimeToNextGust; // 0x12C4
-	Vector m_vWindDir; // 0x12C8
-	Vector m_vColorMod; // 0x12D4
-	VectorWS[2] m_vCachedEndPointAttachmentPos; // 0x12E0
-	QAngle[2] m_vCachedEndPointAttachmentAngle; // 0x12F8
-	bool m_bConstrainBetweenEndpoints; // 0x1310
+	CBitVec< 10 > m_LinksTouchingSomething; // 0x0FB8
+	int32 m_nLinksTouchingSomething; // 0x0FBC
+	bool m_bApplyWind; // 0x0FC0
+	int32 m_fPrevLockedPoints; // 0x0FC4
+	int32 m_iForcePointMoveCounter; // 0x0FC8
+	bool[2] m_bPrevEndPointPos; // 0x0FCC
+	VectorWS[2] m_vPrevEndPointPos; // 0x0FD0
+	float32 m_flCurScroll; // 0x0FE8
+	float32 m_flScrollSpeed; // 0x0FEC
+	uint16 m_RopeFlags; // 0x0FF0
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_iRopeMaterialModelIndex; // 0x0FF8
+	uint8 m_nSegments; // 0x1270
+	CHandle< C_BaseEntity > m_hStartPoint; // 0x1274
+	CHandle< C_BaseEntity > m_hEndPoint; // 0x1278
+	AttachmentHandle_t m_iStartAttachment; // 0x127C
+	AttachmentHandle_t m_iEndAttachment; // 0x127D
+	uint8 m_Subdiv; // 0x127E
+	int16 m_RopeLength; // 0x1280
+	int16 m_Slack; // 0x1282
+	float32 m_TextureScale; // 0x1284
+	uint8 m_fLockedPoints; // 0x1288
+	uint8 m_nChangeCount; // 0x1289
+	float32 m_Width; // 0x128C
+	C_RopeKeyframe::CPhysicsDelegate m_PhysicsDelegate; // 0x1290
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hMaterial; // 0x12A0
+	int32 m_TextureHeight; // 0x12A8
+	Vector m_vecImpulse; // 0x12AC
+	Vector m_vecPreviousImpulse; // 0x12B8
+	float32 m_flCurrentGustTimer; // 0x12C4
+	float32 m_flCurrentGustLifetime; // 0x12C8
+	float32 m_flTimeToNextGust; // 0x12CC
+	Vector m_vWindDir; // 0x12D0
+	Vector m_vColorMod; // 0x12DC
+	VectorWS[2] m_vCachedEndPointAttachmentPos; // 0x12E8
+	QAngle[2] m_vCachedEndPointAttachmentAngle; // 0x1300
+	bool m_bConstrainBetweenEndpoints; // 0x1318
 	bitfield:1 m_bEndPointAttachmentPositionsDirty; // 0x0000
 	bitfield:1 m_bEndPointAttachmentAnglesDirty; // 0x0000
 	bitfield:1 m_bNewDataThisFrame; // 0x0000
@@ -23314,7 +23768,7 @@ class CPathNode : public C_PointEntity // client
 	Vector m_vOutTangentLocal; // 0x060C
 	CUtlString m_strParentPathUniqueID; // 0x0618
 	CUtlString m_strPathNodeParameter; // 0x0620
-	CTransform m_xWSPrevParent; // 0x0630
+	CTransformWS m_xWSPrevParent; // 0x0630
 	CHandle< CPathWithDynamicNodes > m_hPath; // 0x0650
 };
 class C_FuncMoveLinear : public C_BaseToggle // client
@@ -23328,8 +23782,8 @@ class C_CSGO_TeamSelectCamera : public C_CSGO_TeamPreviewCamera // client
 };
 class CPulseCell_IntervalTimer : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_Completed; // 0x0048
-	SignatureOutflow_Continue m_OnInterval; // 0x0090
+	CPulse_ResumePoint m_Completed; // 0x00D8
+	SignatureOutflow_Continue m_OnInterval; // 0x0120
 };
 class C_WeaponXM1014 : public C_CSWeaponBaseShotgun // client
 {
@@ -23350,23 +23804,29 @@ class CPulseTestScriptLib // pulse_runtime_lib
 };
 class CPulseCell_BaseLerp : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_WakeResume; // 0x0048
+	CPulse_ResumePoint m_WakeResume; // 0x00D8
 };
 class C_WeaponAug : public C_CSWeaponBaseGun // client
 {
 };
 class C_BasePropDoor : public C_DynamicProp // client
 {
-	DoorState_t m_eDoorState; // 0x13B0
-	bool m_modelChanged; // 0x13B4
-	bool m_bLocked; // 0x13B5
-	bool m_bNoNPCs; // 0x13B6
-	Vector m_closedPosition; // 0x13B8
-	QAngle m_closedAngles; // 0x13C4
-	CHandle< C_BasePropDoor > m_hMaster; // 0x13D0
-	Vector m_vWhereToSetLightingOrigin; // 0x13D4
+	DoorState_t m_eDoorState; // 0x13D0
+	bool m_modelChanged; // 0x13D4
+	bool m_bLocked; // 0x13D5
+	bool m_bNoNPCs; // 0x13D6
+	VectorWS m_closedPosition; // 0x13D8
+	QAngle m_closedAngles; // 0x13E4
+	CHandle< C_BasePropDoor > m_hMaster; // 0x13F0
+	VectorWS m_vWhereToSetLightingOrigin; // 0x13F4
+};
+class CPointValueRemapperAPI // client
+{
 };
 class CChoreoInfoTarget : public C_PointEntity // client
+{
+};
+class C_CsmFovOverride_API // client
 {
 };
 class CTakeDamageResultAPI // client
@@ -23424,20 +23884,20 @@ class C_BaseModelEntity : public C_BaseEntity // client
 	bool m_bRenderToCubemaps; // 0x0D20
 	bool m_bNoInterpolate; // 0x0D21
 	CCollisionProperty m_Collision; // 0x0D28
-	CGlowProperty m_Glow; // 0x0DD8
-	float32 m_flGlowBackfaceMult; // 0x0E30
-	float32 m_fadeMinDist; // 0x0E34
-	float32 m_fadeMaxDist; // 0x0E38
-	float32 m_flFadeScale; // 0x0E3C
-	float32 m_flShadowStrength; // 0x0E40
-	uint8 m_nObjectCulling; // 0x0E44
-	DecalRtEncoding_t m_nRequiredDecalRtEncoding; // 0x0E45
-	CUtlOrderedMap< CGlobalSymbol, int32 > m_bodyGroupChoices; // 0x0E48
-	CNetworkViewOffsetVector m_vecViewOffset; // 0x0E70
-	CClientAlphaProperty* m_pClientAlphaProperty; // 0x0F50
-	Color m_ClientOverrideTint; // 0x0F58
-	bool m_bUseClientOverrideTint; // 0x0F5C
-	uint32[1] m_bvDisabledHitGroups; // 0x0F98
+	CGlowProperty m_Glow; // 0x0DE0
+	float32 m_flGlowBackfaceMult; // 0x0E38
+	float32 m_fadeMinDist; // 0x0E3C
+	float32 m_fadeMaxDist; // 0x0E40
+	float32 m_flFadeScale; // 0x0E44
+	float32 m_flShadowStrength; // 0x0E48
+	uint8 m_nObjectCulling; // 0x0E4C
+	DecalRtEncoding_t m_nRequiredDecalRtEncoding; // 0x0E4D
+	CUtlOrderedMap< CGlobalSymbol, int32 > m_bodyGroupChoices; // 0x0E50
+	CNetworkViewOffsetVector m_vecViewOffset; // 0x0E78
+	CClientAlphaProperty* m_pClientAlphaProperty; // 0x0F58
+	Color m_ClientOverrideTint; // 0x0F60
+	bool m_bUseClientOverrideTint; // 0x0F64
+	uint32[1] m_bvDisabledHitGroups; // 0x0FA0
 };
 class CCSPlayer_BulletServices : public CPlayerPawnComponent // client
 {
@@ -23487,7 +23947,13 @@ class C_MultiplayRules : public C_GameRules // client
 class CPlayer_AutoaimServices : public CPlayerPawnComponent // client
 {
 };
+class CEnvWindSharedAPI // client
+{
+};
 class C_LightDirectionalEntity : public C_LightEntity // client
+{
+};
+class CMapInfo_API // client
 {
 };
 class C_BaseEntity : public CEntityInstance // client
@@ -23530,15 +23996,14 @@ class C_BaseEntity : public CEntityInstance // client
 	int32[2] m_nInterpolationLatchDirtyFlags; // 0x03C0
 	uint16[11] m_ListEntry; // 0x03C8
 	GameTime_t m_flCreateTime; // 0x03E0
-	float32 m_flSpeed; // 0x03E4
-	uint16 m_EntClientFlags; // 0x03E8
-	bool m_bClientSideRagdoll; // 0x03EA
-	uint8 m_iTeamNum; // 0x03EB
-	uint32 m_spawnflags; // 0x03EC
-	GameTick_t m_nNextThinkTick; // 0x03F0
-	uint32 m_fFlags; // 0x03F8
-	Vector m_vecAbsVelocity; // 0x03FC
-	CNetworkVelocityVector m_vecServerVelocity; // 0x0408
+	uint16 m_EntClientFlags; // 0x03E4
+	bool m_bClientSideRagdoll; // 0x03E6
+	uint8 m_iTeamNum; // 0x03E7
+	uint32 m_spawnflags; // 0x03E8
+	GameTick_t m_nNextThinkTick; // 0x03EC
+	uint32 m_fFlags; // 0x03F4
+	Vector m_vecAbsVelocity; // 0x03F8
+	CNetworkVelocityVector m_vecServerVelocity; // 0x0404
 	CNetworkVelocityVector m_vecVelocity; // 0x0430
 	Vector m_vecBaseVelocity; // 0x0510
 	CHandle< C_BaseEntity > m_hEffectEntity; // 0x051C
@@ -23592,46 +24057,44 @@ class CPulseCell_Value_Curve : public CPulseCell_BaseValue // pulse_runtime_lib
 };
 class C_Chicken : public C_DynamicProp // client
 {
-	CHandle< CBaseAnimGraph > m_hHolidayHatAddon; // 0x13A8
-	bool m_jumpedThisFrame; // 0x13AC
-	CHandle< C_CSPlayerPawn > m_leader; // 0x13B0
-	C_AttributeContainer m_AttributeManager; // 0x13B8
-	bool m_bAttributesInitialized; // 0x1888
-	ParticleIndex_t m_hWaterWakeParticles; // 0x188C
-	bool m_bIsPreviewModel; // 0x1890
+	CHandle< C_CSPlayerPawn > m_leader; // 0x13C8
+	C_AttributeContainer m_AttributeManager; // 0x13D0
+	bool m_bAttributesInitialized; // 0x18A0
+	ParticleIndex_t m_hWaterWakeParticles; // 0x18A4
+	bool m_bIsPreviewModel; // 0x18A8
 };
 class C_BasePlayerPawn : public C_BaseCombatCharacter // client
 {
-	CPlayer_WeaponServices* m_pWeaponServices; // 0x11E0
-	CPlayer_ItemServices* m_pItemServices; // 0x11E8
-	CPlayer_AutoaimServices* m_pAutoaimServices; // 0x11F0
-	CPlayer_ObserverServices* m_pObserverServices; // 0x11F8
-	CPlayer_WaterServices* m_pWaterServices; // 0x1200
-	CPlayer_UseServices* m_pUseServices; // 0x1208
-	CPlayer_FlashlightServices* m_pFlashlightServices; // 0x1210
-	CPlayer_CameraServices* m_pCameraServices; // 0x1218
-	CPlayer_MovementServices* m_pMovementServices; // 0x1220
-	C_UtlVectorEmbeddedNetworkVar< ViewAngleServerChange_t > m_ServerViewAngleChanges; // 0x1230
-	QAngle v_angle; // 0x1298
-	QAngle v_anglePrevious; // 0x12A4
-	uint32 m_iHideHUD; // 0x12B0
-	sky3dparams_t m_skybox3d; // 0x12B8
-	GameTime_t m_flDeathTime; // 0x1348
-	Vector m_vecPredictionError; // 0x134C
-	GameTime_t m_flPredictionErrorTime; // 0x1358
-	Vector m_vecLastCameraSetupLocalOrigin; // 0x1378
-	GameTime_t m_flLastCameraSetupTime; // 0x1384
-	float32 m_flFOVSensitivityAdjust; // 0x1388
-	float32 m_flMouseSensitivity; // 0x138C
-	Vector m_vOldOrigin; // 0x1390
-	float32 m_flOldSimulationTime; // 0x139C
-	int32 m_nLastExecutedCommandNumber; // 0x13A0
-	int32 m_nLastExecutedCommandTick; // 0x13A4
-	CHandle< CBasePlayerController > m_hController; // 0x13A8
-	CHandle< CBasePlayerController > m_hDefaultController; // 0x13AC
-	bool m_bIsSwappingToPredictableController; // 0x13B0
+	CPlayer_WeaponServices* m_pWeaponServices; // 0x1208
+	CPlayer_ItemServices* m_pItemServices; // 0x1210
+	CPlayer_AutoaimServices* m_pAutoaimServices; // 0x1218
+	CPlayer_ObserverServices* m_pObserverServices; // 0x1220
+	CPlayer_WaterServices* m_pWaterServices; // 0x1228
+	CPlayer_UseServices* m_pUseServices; // 0x1230
+	CPlayer_FlashlightServices* m_pFlashlightServices; // 0x1238
+	CPlayer_CameraServices* m_pCameraServices; // 0x1240
+	CPlayer_MovementServices* m_pMovementServices; // 0x1248
+	C_UtlVectorEmbeddedNetworkVar< ViewAngleServerChange_t > m_ServerViewAngleChanges; // 0x1258
+	QAngle v_angle; // 0x12C0
+	QAngle v_anglePrevious; // 0x12CC
+	uint32 m_iHideHUD; // 0x12D8
+	sky3dparams_t m_skybox3d; // 0x12E0
+	GameTime_t m_flDeathTime; // 0x1370
+	Vector m_vecPredictionError; // 0x1374
+	GameTime_t m_flPredictionErrorTime; // 0x1380
+	Vector m_vecLastCameraSetupLocalOrigin; // 0x13A0
+	GameTime_t m_flLastCameraSetupTime; // 0x13AC
+	float32 m_flFOVSensitivityAdjust; // 0x13B0
+	float32 m_flMouseSensitivity; // 0x13B4
+	Vector m_vOldOrigin; // 0x13B8
+	float32 m_flOldSimulationTime; // 0x13C4
+	int32 m_nLastExecutedCommandNumber; // 0x13C8
+	int32 m_nLastExecutedCommandTick; // 0x13CC
+	CHandle< CBasePlayerController > m_hController; // 0x13D0
+	CHandle< CBasePlayerController > m_hDefaultController; // 0x13D4
+	bool m_bIsSwappingToPredictableController; // 0x13D8
 };
-class C_SoundOpvarSetAABBEntity : public C_SoundOpvarSetPointEntity // client
+class C_SoundOpvarSetAABBEntity : public CSoundOpvarSetBoxEntity // client
 {
 };
 class C_WeaponBizon : public C_CSWeaponBaseGun // client
@@ -23639,7 +24102,7 @@ class C_WeaponBizon : public C_CSWeaponBaseGun // client
 };
 class C_StattrakModule : public C_CS2WeaponModuleBase // client
 {
-	bool m_bKnife; // 0x1160
+	bool m_bKnife; // 0x1188
 };
 class CCSObserver_CameraServices : public CCSPlayerBase_CameraServices // client
 {
@@ -23679,32 +24142,32 @@ class CPulseCell_BaseFlow : public CPulseCell_Base // pulse_runtime_lib
 };
 class CBombTarget : public C_BaseTrigger // client
 {
-	bool m_bBombPlantedHere; // 0x1078
+	bool m_bBombPlantedHere; // 0x1098
 };
 class C_Knife : public C_CSWeaponBase // client
 {
-	bool m_bFirstAttack; // 0x1CB0
+	bool m_bFirstAttack; // 0x1CE0
 };
 class C_CSGO_TerroristWingmanIntroCamera : public C_CSGO_TeamPreviewCamera // client
 {
 };
 class CSkeletonInstance : public CGameSceneNode // client
 {
-	CModelState m_modelState; // 0x0150
-	bool m_bUseParentRenderBounds; // 0x03C0
-	bool m_bDisableSolidCollisionsForHierarchy; // 0x03C1
-	bitfield:1 m_bDirtyMotionType; // 0x0000
-	bitfield:1 m_bIsGeneratingLatchedParentSpaceState; // 0x0000
-	CUtlStringToken m_materialGroup; // 0x03C4
-	uint8 m_nHitboxSet; // 0x03C8
+	CModelState m_modelState; // 0x0140
+	bool m_bUseParentRenderBounds; // 0x03F0
+	bool m_bDisableSolidCollisionsForHierarchy; // 0x03F1
+	bool m_bDirtyMotionType; // 0x03F2
+	bool m_bIsGeneratingLatchedParentSpaceState; // 0x03F3
+	CUtlStringToken m_materialGroup; // 0x03F8
+	uint8 m_nHitboxSet; // 0x03FC
 };
 class CEntityComponent // entity2
 {
 };
 class C_ItemDogtags : public C_Item // client
 {
-	CHandle< C_CSPlayerPawn > m_OwningPlayer; // 0x17C8
-	CHandle< C_CSPlayerPawn > m_KillingPlayer; // 0x17CC
+	CHandle< C_CSPlayerPawn > m_OwningPlayer; // 0x17F0
+	CHandle< C_CSPlayerPawn > m_KillingPlayer; // 0x17F4
 };
 class C_LateUpdatedAnimating : public CBaseAnimGraph // client
 {
@@ -23719,19 +24182,12 @@ class CPulseCell_BaseLerp::CursorState_t // pulse_runtime_lib
 	GameTime_t m_StartTime; // 0x0000
 	GameTime_t m_EndTime; // 0x0004
 };
-class CPulseAnimFuncs // client
-{
-};
 class C_BaseClientUIEntity : public C_BaseModelEntity // client
 {
-	bool m_bEnabled; // 0x0FB0
-	CUtlSymbolLarge m_DialogXMLName; // 0x0FB8
-	CUtlSymbolLarge m_PanelClassName; // 0x0FC0
-	CUtlSymbolLarge m_PanelID; // 0x0FC8
-};
-class CPulseCell_WaitForCursorsWithTagBase::CursorState_t // pulse_runtime_lib
-{
-	PulseSymbol_t m_TagName; // 0x0000
+	bool m_bEnabled; // 0x0FB8
+	CUtlSymbolLarge m_DialogXMLName; // 0x0FC0
+	CUtlSymbolLarge m_PanelClassName; // 0x0FC8
+	CUtlSymbolLarge m_PanelID; // 0x0FD0
 };
 class CPulseArraylib // pulse_runtime_lib
 {
@@ -23741,7 +24197,7 @@ class C_WeaponUSPSilencer : public C_CSWeaponBaseGun // client
 };
 class C_MolotovProjectile : public C_BaseCSGrenadeProjectile // client
 {
-	bool m_bIsIncGrenade; // 0x1238
+	bool m_bIsIncGrenade; // 0x1260
 };
 class C_TriggerLerpObject : public C_BaseTrigger // client
 {
@@ -23760,10 +24216,10 @@ class C_DynamicPropAlias_cable_dynamic : public C_DynamicProp // client
 };
 class CBaseProp : public CBaseAnimGraph // client
 {
-	bool m_bModelOverrodeBlockLOS; // 0x1158
-	int32 m_iShapeType; // 0x115C
-	bool m_bConformToCollisionBounds; // 0x1160
-	CTransform m_mPreferredCatchTransform; // 0x1170
+	bool m_bModelOverrodeBlockLOS; // 0x1180
+	int32 m_iShapeType; // 0x1184
+	bool m_bConformToCollisionBounds; // 0x1188
+	CTransform m_mPreferredCatchTransform; // 0x1190
 };
 class CInfoOffscreenPanoramaTexture : public C_PointEntity // client
 {
@@ -23907,10 +24363,9 @@ class CPlayer_CameraServices : public CPlayerPawnComponent // client
 };
 class CPulseCell_Timeline : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CUtlVector< CPulseCell_Timeline::TimelineEvent_t > m_TimelineEvents; // 0x0048
-	bool m_bWaitForChildOutflows; // 0x0060
-	CPulse_ResumePoint m_OnFinished; // 0x0068
-	CPulse_ResumePoint m_OnCanceled; // 0x00B0
+	CUtlVector< CPulseCell_Timeline::TimelineEvent_t > m_TimelineEvents; // 0x00D8
+	bool m_bWaitForChildOutflows; // 0x00F0
+	CPulse_ResumePoint m_OnFinished; // 0x00F8
 };
 class CPulseCell_Inflow_EntOutputHandler : public CPulseCell_Inflow_BaseEntrypoint // pulse_runtime_lib
 {
@@ -23920,27 +24375,20 @@ class CPulseCell_Inflow_EntOutputHandler : public CPulseCell_Inflow_BaseEntrypoi
 };
 class C_BaseCSGrenade : public C_CSWeaponBase // client
 {
-	bool m_bClientPredictDelete; // 0x1CB0
-	bool m_bRedraw; // 0x1CB1
-	bool m_bIsHeldByPlayer; // 0x1CB2
-	bool m_bPinPulled; // 0x1CB3
-	bool m_bJumpThrow; // 0x1CB4
-	bool m_bThrowAnimating; // 0x1CB5
-	GameTime_t m_fThrowTime; // 0x1CB8
-	float32 m_flThrowStrength; // 0x1CC0
-	GameTime_t m_fDropTime; // 0x1D38
-	GameTime_t m_fPinPullTime; // 0x1D3C
-	bool m_bJustPulledPin; // 0x1D40
-	GameTick_t m_nNextHoldTick; // 0x1D44
-	float32 m_flNextHoldFrac; // 0x1D48
-	CHandle< C_CSWeaponBase > m_hSwitchToWeaponAfterThrow; // 0x1D4C
-};
-class CScenePayloadVData // client
-{
-	ENPCBehaviorOverride_t m_eNPCBehavior; // 0x0000
-	CResourceNameTyped< CWeakHandle< InfoForResourceTypeIPulseGraphDef > > m_sPulseFile; // 0x0008
-	CResourceNameTyped< CWeakHandle< InfoForResourceTypeCChoreoSceneResource > > m_sSceneFile; // 0x00E8
-	InteractionPriority_t m_ePriority; // 0x01C8
+	bool m_bClientPredictDelete; // 0x1CE0
+	bool m_bRedraw; // 0x1CE1
+	bool m_bIsHeldByPlayer; // 0x1CE2
+	bool m_bPinPulled; // 0x1CE3
+	bool m_bJumpThrow; // 0x1CE4
+	bool m_bThrowAnimating; // 0x1CE5
+	GameTime_t m_fThrowTime; // 0x1CE8
+	float32 m_flThrowStrength; // 0x1CF0
+	GameTime_t m_fDropTime; // 0x1D68
+	GameTime_t m_fPinPullTime; // 0x1D6C
+	bool m_bJustPulledPin; // 0x1D70
+	GameTick_t m_nNextHoldTick; // 0x1D74
+	float32 m_flNextHoldFrac; // 0x1D78
+	CHandle< C_CSWeaponBase > m_hSwitchToWeaponAfterThrow; // 0x1D7C
 };
 class CFilterAttributeInt : public CBaseFilter // client
 {
@@ -23966,84 +24414,84 @@ class CPlayer_FlashlightServices : public CPlayerPawnComponent // client
 };
 class CCSPlayerController : public CBasePlayerController // client
 {
-	CCSPlayerController_InGameMoneyServices* m_pInGameMoneyServices; // 0x0808
-	CCSPlayerController_InventoryServices* m_pInventoryServices; // 0x0810
-	CCSPlayerController_ActionTrackingServices* m_pActionTrackingServices; // 0x0818
-	CCSPlayerController_DamageServices* m_pDamageServices; // 0x0820
-	uint32 m_iPing; // 0x0828
-	bool m_bHasCommunicationAbuseMute; // 0x082C
-	uint32 m_uiCommunicationMuteFlags; // 0x0830
-	CUtlSymbolLarge m_szCrosshairCodes; // 0x0838
-	uint8 m_iPendingTeamNum; // 0x0840
-	GameTime_t m_flForceTeamTime; // 0x0844
-	int32 m_iCompTeammateColor; // 0x0848
-	bool m_bEverPlayedOnTeam; // 0x084C
-	GameTime_t m_flPreviousForceJoinTeamTime; // 0x0850
-	CUtlSymbolLarge m_szClan; // 0x0858
-	CUtlString m_sSanitizedPlayerName; // 0x0860
-	int32 m_iCoachingTeam; // 0x0868
-	uint64 m_nPlayerDominated; // 0x0870
-	uint64 m_nPlayerDominatingMe; // 0x0878
-	int32 m_iCompetitiveRanking; // 0x0880
-	int32 m_iCompetitiveWins; // 0x0884
-	int8 m_iCompetitiveRankType; // 0x0888
-	int32 m_iCompetitiveRankingPredicted_Win; // 0x088C
-	int32 m_iCompetitiveRankingPredicted_Loss; // 0x0890
-	int32 m_iCompetitiveRankingPredicted_Tie; // 0x0894
-	int32 m_nEndMatchNextMapVote; // 0x0898
-	uint16 m_unActiveQuestId; // 0x089C
-	uint32 m_rtActiveMissionPeriod; // 0x08A0
-	QuestProgress::Reason m_nQuestProgressReason; // 0x08A4
-	uint32 m_unPlayerTvControlFlags; // 0x08A8
-	int32 m_iDraftIndex; // 0x08D8
-	uint32 m_msQueuedModeDisconnectionTimestamp; // 0x08DC
-	uint32 m_uiAbandonRecordedReason; // 0x08E0
-	uint32 m_eNetworkDisconnectionReason; // 0x08E4
-	bool m_bCannotBeKicked; // 0x08E8
-	bool m_bEverFullyConnected; // 0x08E9
-	bool m_bAbandonAllowsSurrender; // 0x08EA
-	bool m_bAbandonOffersInstantSurrender; // 0x08EB
-	bool m_bDisconnection1MinWarningPrinted; // 0x08EC
-	bool m_bScoreReported; // 0x08ED
-	int32 m_nDisconnectionTick; // 0x08F0
-	bool m_bControllingBot; // 0x0900
-	bool m_bHasControlledBotThisRound; // 0x0901
-	bool m_bHasBeenControlledByPlayerThisRound; // 0x0902
-	int32 m_nBotsControlledThisRound; // 0x0904
-	bool m_bCanControlObservedBot; // 0x0908
-	CHandle< C_CSPlayerPawn > m_hPlayerPawn; // 0x090C
-	CHandle< C_CSObserverPawn > m_hObserverPawn; // 0x0910
-	bool m_bPawnIsAlive; // 0x0914
-	uint32 m_iPawnHealth; // 0x0918
-	int32 m_iPawnArmor; // 0x091C
-	bool m_bPawnHasDefuser; // 0x0920
-	bool m_bPawnHasHelmet; // 0x0921
-	uint16 m_nPawnCharacterDefIndex; // 0x0922
-	int32 m_iPawnLifetimeStart; // 0x0924
-	int32 m_iPawnLifetimeEnd; // 0x0928
-	int32 m_iPawnBotDifficulty; // 0x092C
-	CHandle< CCSPlayerController > m_hOriginalControllerOfCurrentPawn; // 0x0930
-	int32 m_iScore; // 0x0934
-	uint8[8] m_recentKillQueue; // 0x0938
-	uint8 m_nFirstKill; // 0x0940
-	uint8 m_nKillCount; // 0x0941
-	bool m_bMvpNoMusic; // 0x0942
-	int32 m_eMvpReason; // 0x0944
-	int32 m_iMusicKitID; // 0x0948
-	int32 m_iMusicKitMVPs; // 0x094C
-	int32 m_iMVPs; // 0x0950
-	bool m_bIsPlayerNameDirty; // 0x0954
-	bool m_bFireBulletsSeedSynchronized; // 0x0955
+	CCSPlayerController_InGameMoneyServices* m_pInGameMoneyServices; // 0x0810
+	CCSPlayerController_InventoryServices* m_pInventoryServices; // 0x0818
+	CCSPlayerController_ActionTrackingServices* m_pActionTrackingServices; // 0x0820
+	CCSPlayerController_DamageServices* m_pDamageServices; // 0x0828
+	uint32 m_iPing; // 0x0830
+	bool m_bHasCommunicationAbuseMute; // 0x0834
+	uint32 m_uiCommunicationMuteFlags; // 0x0838
+	CUtlSymbolLarge m_szCrosshairCodes; // 0x0840
+	uint8 m_iPendingTeamNum; // 0x0848
+	GameTime_t m_flForceTeamTime; // 0x084C
+	int32 m_iCompTeammateColor; // 0x0850
+	bool m_bEverPlayedOnTeam; // 0x0854
+	GameTime_t m_flPreviousForceJoinTeamTime; // 0x0858
+	CUtlSymbolLarge m_szClan; // 0x0860
+	CUtlString m_sSanitizedPlayerName; // 0x0868
+	int32 m_iCoachingTeam; // 0x0870
+	uint64 m_nPlayerDominated; // 0x0878
+	uint64 m_nPlayerDominatingMe; // 0x0880
+	int32 m_iCompetitiveRanking; // 0x0888
+	int32 m_iCompetitiveWins; // 0x088C
+	int8 m_iCompetitiveRankType; // 0x0890
+	int32 m_iCompetitiveRankingPredicted_Win; // 0x0894
+	int32 m_iCompetitiveRankingPredicted_Loss; // 0x0898
+	int32 m_iCompetitiveRankingPredicted_Tie; // 0x089C
+	int32 m_nEndMatchNextMapVote; // 0x08A0
+	uint16 m_unActiveQuestId; // 0x08A4
+	uint32 m_rtActiveMissionPeriod; // 0x08A8
+	QuestProgress::Reason m_nQuestProgressReason; // 0x08AC
+	uint32 m_unPlayerTvControlFlags; // 0x08B0
+	int32 m_iDraftIndex; // 0x08E0
+	uint32 m_msQueuedModeDisconnectionTimestamp; // 0x08E4
+	uint32 m_uiAbandonRecordedReason; // 0x08E8
+	uint32 m_eNetworkDisconnectionReason; // 0x08EC
+	bool m_bCannotBeKicked; // 0x08F0
+	bool m_bEverFullyConnected; // 0x08F1
+	bool m_bAbandonAllowsSurrender; // 0x08F2
+	bool m_bAbandonOffersInstantSurrender; // 0x08F3
+	bool m_bDisconnection1MinWarningPrinted; // 0x08F4
+	bool m_bScoreReported; // 0x08F5
+	int32 m_nDisconnectionTick; // 0x08F8
+	bool m_bControllingBot; // 0x0908
+	bool m_bHasControlledBotThisRound; // 0x0909
+	bool m_bHasBeenControlledByPlayerThisRound; // 0x090A
+	int32 m_nBotsControlledThisRound; // 0x090C
+	bool m_bCanControlObservedBot; // 0x0910
+	CHandle< C_CSPlayerPawn > m_hPlayerPawn; // 0x0914
+	CHandle< C_CSObserverPawn > m_hObserverPawn; // 0x0918
+	bool m_bPawnIsAlive; // 0x091C
+	uint32 m_iPawnHealth; // 0x0920
+	int32 m_iPawnArmor; // 0x0924
+	bool m_bPawnHasDefuser; // 0x0928
+	bool m_bPawnHasHelmet; // 0x0929
+	uint16 m_nPawnCharacterDefIndex; // 0x092A
+	int32 m_iPawnLifetimeStart; // 0x092C
+	int32 m_iPawnLifetimeEnd; // 0x0930
+	int32 m_iPawnBotDifficulty; // 0x0934
+	CHandle< CCSPlayerController > m_hOriginalControllerOfCurrentPawn; // 0x0938
+	int32 m_iScore; // 0x093C
+	uint8[8] m_recentKillQueue; // 0x0940
+	uint8 m_nFirstKill; // 0x0948
+	uint8 m_nKillCount; // 0x0949
+	bool m_bMvpNoMusic; // 0x094A
+	int32 m_eMvpReason; // 0x094C
+	int32 m_iMusicKitID; // 0x0950
+	int32 m_iMusicKitMVPs; // 0x0954
+	int32 m_iMVPs; // 0x0958
+	bool m_bIsPlayerNameDirty; // 0x095C
+	bool m_bFireBulletsSeedSynchronized; // 0x095D
 };
 class C_CSGO_TeamIntroCounterTerroristPosition : public C_CSGO_TeamIntroCharacterPosition // client
 {
 };
 class C_CSGO_PreviewModel : public CBaseAnimGraph // client
 {
-	CUtlString m_defaultAnim; // 0x1158
-	AnimLoopMode_t m_nDefaultAnimLoopMode; // 0x1160
-	float32 m_flInitialModelScale; // 0x1164
-	CUtlString m_sInitialWeaponState; // 0x1168
+	CUtlString m_defaultAnim; // 0x1180
+	AnimLoopMode_t m_nDefaultAnimLoopMode; // 0x1188
+	float32 m_flInitialModelScale; // 0x118C
+	CUtlString m_sInitialWeaponState; // 0x1190
 };
 class C_CSGO_TeamSelectCharacterPosition : public C_CSGO_TeamPreviewCharacterPosition // client
 {
@@ -24088,27 +24536,26 @@ class CCSPlayer_MovementServices : public CPlayer_MovementServices_Humanoid // c
 	Vector m_vecUp; // 0x0674
 	int32 m_nGameCodeHasMovedPlayerAfterCommand; // 0x0680
 	GameTime_t m_fStashGrenadeParameterWhen; // 0x0684
-	uint64 m_nButtonDownMaskPrev; // 0x0688
-	bool m_bUseFrictionStashedSpeed; // 0x0690
-	float32 m_flUseFrictionStashedSpeedUntilFrac; // 0x0694
-	float32 m_flFrictionStashedSpeed; // 0x0698
-	float32 m_flStamina; // 0x069C
-	float32 m_flHeightAtJumpStart; // 0x06A0
-	float32 m_flMaxJumpHeightThisJump; // 0x06A4
-	float32 m_flMaxJumpHeightLastJump; // 0x06A8
-	float32 m_flStaminaAtJumpStart; // 0x06AC
-	float32 m_flVelMulAtJumpStart; // 0x06B0
-	float32 m_flAccumulatedJumpError; // 0x06B4
-	CCSPlayerLegacyJump m_LegacyJump; // 0x06B8
-	CCSPlayerModernJump m_ModernJump; // 0x06D0
-	GameTick_t m_nLastJumpTick; // 0x0708
-	float32 m_flLastJumpFrac; // 0x070C
-	float32 m_flLastJumpVelocityZ; // 0x0710
-	bool m_bJumpApexPending; // 0x0714
-	float32 m_flTicksSinceLastSurfingDetected; // 0x0718
-	bool m_bWasSurfing; // 0x071C
-	Vector2D m_vecWalkWishVel; // 0x07AC
-	bool m_bHasEverProcessedCommand; // 0x0FD8
+	bool m_bUseFrictionStashedSpeed; // 0x0688
+	float32 m_flUseFrictionStashedSpeedUntilFrac; // 0x068C
+	float32 m_flFrictionStashedSpeed; // 0x0690
+	float32 m_flStamina; // 0x0694
+	float32 m_flHeightAtJumpStart; // 0x0698
+	float32 m_flMaxJumpHeightThisJump; // 0x069C
+	float32 m_flMaxJumpHeightLastJump; // 0x06A0
+	float32 m_flStaminaAtJumpStart; // 0x06A4
+	float32 m_flVelMulAtJumpStart; // 0x06A8
+	float32 m_flAccumulatedJumpError; // 0x06AC
+	CCSPlayerLegacyJump m_LegacyJump; // 0x06B0
+	CCSPlayerModernJump m_ModernJump; // 0x06C8
+	GameTick_t m_nLastJumpTick; // 0x0700
+	float32 m_flLastJumpFrac; // 0x0704
+	float32 m_flLastJumpVelocityZ; // 0x0708
+	bool m_bJumpApexPending; // 0x070C
+	float32 m_flTicksSinceLastSurfingDetected; // 0x0710
+	bool m_bWasSurfing; // 0x0714
+	Vector2D m_vecWalkWishVel; // 0x07A4
+	bool m_bHasEverProcessedCommand; // 0x0FD0
 };
 class SellbackPurchaseEntry_t // client
 {
@@ -24123,8 +24570,8 @@ class C_TintController : public C_BaseEntity // client
 };
 class C_WeaponBaseItem : public C_CSWeaponBase // client
 {
-	bool m_bSequenceInProgress; // 0x1CB0
-	bool m_bRedraw; // 0x1CB1
+	bool m_bSequenceInProgress; // 0x1CE0
+	bool m_bRedraw; // 0x1CE1
 };
 class CWaterSplasher : public C_BaseModelEntity // client
 {
@@ -24157,17 +24604,20 @@ class CPulseCell_LimitCount::InstanceState_t // pulse_runtime_lib
 };
 class C_WeaponCZ75a : public C_CSWeaponBaseGun // client
 {
-	bool m_bMagazineRemoved; // 0x1CE0
+	bool m_bMagazineRemoved; // 0x1D10
+};
+class CLightEntityAPI // client
+{
 };
 class C_DynamicLight : public C_BaseModelEntity // client
 {
-	uint8 m_Flags; // 0x0FA8
-	uint8 m_LightStyle; // 0x0FA9
-	float32 m_Radius; // 0x0FAC
-	int32 m_Exponent; // 0x0FB0
-	float32 m_InnerAngle; // 0x0FB4
-	float32 m_OuterAngle; // 0x0FB8
-	float32 m_SpotRadius; // 0x0FBC
+	uint8 m_Flags; // 0x0FB0
+	uint8 m_LightStyle; // 0x0FB1
+	float32 m_Radius; // 0x0FB4
+	int32 m_Exponent; // 0x0FB8
+	float32 m_InnerAngle; // 0x0FBC
+	float32 m_OuterAngle; // 0x0FC0
+	float32 m_SpotRadius; // 0x0FC4
 };
 class CCS2PawnGraphController : public CCS2WeaponGraphController // client
 {
@@ -24206,6 +24656,9 @@ class EngineCountdownTimer // client
 	float32 m_timestamp; // 0x000C
 	float32 m_timescale; // 0x0010
 };
+class CBaseModelEntityAPI // client
+{
+};
 class C_SoundEventSphereEntity : public C_SoundEventEntity // client
 {
 	float32 m_flRadius; // 0x06C0
@@ -24223,30 +24676,30 @@ class C_TonemapController2Alias_env_tonemap_controller2 : public C_TonemapContro
 };
 class C_Inferno : public C_BaseModelEntity // client
 {
-	ParticleIndex_t m_nfxFireDamageEffect; // 0x0FE8
-	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hInfernoPointsSnapshot; // 0x0FF0
-	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hInfernoFillerPointsSnapshot; // 0x0FF8
-	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hInfernoOutlinePointsSnapshot; // 0x1000
-	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hInfernoClimbingOutlinePointsSnapshot; // 0x1008
-	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hInfernoDecalsSnapshot; // 0x1010
-	Vector[64] m_firePositions; // 0x1018
-	Vector[64] m_fireParentPositions; // 0x1318
-	bool[64] m_bFireIsBurning; // 0x1618
-	Vector[64] m_BurnNormal; // 0x1658
-	int32 m_fireCount; // 0x1958
-	int32 m_nInfernoType; // 0x195C
-	float32 m_nFireLifetime; // 0x1960
-	bool m_bInPostEffectTime; // 0x1964
-	int32 m_lastFireCount; // 0x1968
-	int32 m_nFireEffectTickBegin; // 0x196C
-	int32 m_drawableCount; // 0x8570
-	bool m_blosCheck; // 0x8574
-	int32 m_nlosperiod; // 0x8578
-	float32 m_maxFireHalfWidth; // 0x857C
-	float32 m_maxFireHeight; // 0x8580
-	Vector m_minBounds; // 0x8584
-	Vector m_maxBounds; // 0x8590
-	float32 m_flLastGrassBurnThink; // 0x859C
+	ParticleIndex_t m_nfxFireDamageEffect; // 0x0FF0
+	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hInfernoPointsSnapshot; // 0x0FF8
+	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hInfernoFillerPointsSnapshot; // 0x1000
+	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hInfernoOutlinePointsSnapshot; // 0x1008
+	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hInfernoClimbingOutlinePointsSnapshot; // 0x1010
+	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hInfernoDecalsSnapshot; // 0x1018
+	VectorWS[64] m_firePositions; // 0x1020
+	VectorWS[64] m_fireParentPositions; // 0x1320
+	bool[64] m_bFireIsBurning; // 0x1620
+	Vector[64] m_BurnNormal; // 0x1660
+	int32 m_fireCount; // 0x1960
+	int32 m_nInfernoType; // 0x1964
+	float32 m_nFireLifetime; // 0x1968
+	bool m_bInPostEffectTime; // 0x196C
+	int32 m_lastFireCount; // 0x1970
+	int32 m_nFireEffectTickBegin; // 0x1974
+	int32 m_drawableCount; // 0x8580
+	bool m_blosCheck; // 0x8584
+	int32 m_nlosperiod; // 0x8588
+	float32 m_maxFireHalfWidth; // 0x858C
+	float32 m_maxFireHeight; // 0x8590
+	VectorWS m_minBounds; // 0x8594
+	VectorWS m_maxBounds; // 0x85A0
+	float32 m_flLastGrassBurnThink; // 0x85AC
 };
 class CFilterLOS : public CBaseFilter // client
 {
@@ -24272,7 +24725,7 @@ class C_EnvWindClientside : public C_BaseEntity // client
 class sky3dparams_t // client
 {
 	int16 scale; // 0x0008
-	Vector origin; // 0x000C
+	VectorWS origin; // 0x000C
 	bool bClip3DSkyBoxNearToWorldFar; // 0x0018
 	float32 flClip3DSkyBoxNearToWorldFarOffset; // 0x001C
 	fogparams_t fog; // 0x0020
@@ -24294,7 +24747,7 @@ class CDestructiblePartsComponent // client
 	CNetworkVarChainer __m_pChainEntity; // 0x0000
 	CUtlVector< uint16 > m_vecDamageTakenByHitGroup; // 0x0048
 	CHandle< C_BaseModelEntity > m_hOwner; // 0x0060
-	CBaseAnimGraphDestructibleParts_GraphController* m_pAnimGraphDestructibleGraphController; // 0x0068
+	CAnimGraphControllerPtr m_pAnimGraphDestructibleGraphController; // 0x0068
 };
 class C_WeaponP90 : public C_CSWeaponBaseGun // client
 {
@@ -24304,6 +24757,9 @@ class C_EnvWind : public C_BaseEntity // client
 	C_EnvWindShared m_EnvWindShared; // 0x0600
 };
 class C_CSGO_TerroristTeamIntroCamera : public C_CSGO_TeamPreviewCamera // client
+{
+};
+class C_CSPlayerPawnBase_API // client
 {
 };
 class CPulseCell_Step_DebugLog : public CPulseCell_BaseFlow // pulse_runtime_lib
@@ -24319,7 +24775,7 @@ class CCSPlayerController_ActionTrackingServices : public CPlayerControllerCompo
 };
 class CBodyComponentBaseAnimGraph : public CBodyComponentSkeletonInstance // client
 {
-	CBaseAnimGraphController m_animationController; // 0x04E0
+	CBaseAnimGraphController m_animationController; // 0x0510
 };
 class C_CSGO_PreviewModelAlias_csgo_item_previewmodel : public C_CSGO_PreviewModel // client
 {
@@ -24329,6 +24785,8 @@ class C_InfoInstructorHintHostageRescueZone : public C_PointEntity // client
 };
 class CPulseCell_BaseYieldingInflow : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
+	CPulse_ResumePoint m_BaseFlow_OnAfterCancel; // 0x0048
+	CPulse_ResumePoint m_BaseFlow_WhileActive; // 0x0090
 };
 class PulseNodeDynamicOutflows_t // pulse_runtime_lib
 {
@@ -24336,8 +24794,8 @@ class PulseNodeDynamicOutflows_t // pulse_runtime_lib
 };
 class C_TriggerBuoyancy : public C_BaseTrigger // client
 {
-	CBuoyancyHelper m_BuoyancyHelper; // 0x1078
-	float32 m_flFluidDensity; // 0x1190
+	CBuoyancyHelper m_BuoyancyHelper; // 0x1098
+	float32 m_flFluidDensity; // 0x11B0
 };
 class CPlayer_MovementServices_Humanoid : public CPlayer_MovementServices // client
 {
@@ -24357,15 +24815,15 @@ class C_WeaponTec9 : public C_CSWeaponBaseGun // client
 };
 class C_PhysPropClientside : public C_BreakableProp // client
 {
-	GameTime_t m_flTouchDelta; // 0x12D0
-	GameTime_t m_fDeathTime; // 0x12D4
-	VectorWS m_vecDamagePosition; // 0x12D8
-	Vector m_vecDamageDirection; // 0x12E4
-	DamageTypes_t m_nDamageType; // 0x12F0
+	GameTime_t m_flTouchDelta; // 0x12F0
+	GameTime_t m_fDeathTime; // 0x12F4
+	VectorWS m_vecDamagePosition; // 0x12F8
+	Vector m_vecDamageDirection; // 0x1304
+	DamageTypes_t m_nDamageType; // 0x1310
 };
 class C_BaseDoor : public C_BaseToggle // client
 {
-	bool m_bIsUsable; // 0x0FA8
+	bool m_bIsUsable; // 0x0FB0
 };
 class CSMatchStats_t : public CSPerRoundStats_t // client
 {
@@ -24401,12 +24859,12 @@ class CModelState // client
 	float32 m_flRootBoneOffset_z; // 0x00F0
 	uint8 m_nRootBoneOffsetResetSerialNumber; // 0x00F4
 	bool m_bClientClothCreationSuppressed; // 0x0110
-	uint8 m_nAnimStateNoInterpSerialNumber; // 0x01C0
-	uint64 m_MeshGroupMask; // 0x01C8
-	C_NetworkUtlVectorBase< int32 > m_nBodyGroupChoices; // 0x0218
-	int8 m_nIdealMotionType; // 0x0262
-	int8 m_nForceLOD; // 0x0263
-	int8 m_nClothUpdateFlags; // 0x0264
+	uint8 m_nAnimStateNoInterpSerialNumber; // 0x0200
+	uint64 m_MeshGroupMask; // 0x0208
+	C_NetworkUtlVectorBase< int32 > m_nBodyGroupChoices; // 0x0258
+	int8 m_nIdealMotionType; // 0x02A2
+	int8 m_nForceLOD; // 0x02A3
+	int8 m_nClothUpdateFlags; // 0x02A4
 };
 class CPulseCell_LerpCameraSettings::CursorState_t : public CPulseCell_BaseLerp::CursorState_t // client
 {
@@ -24420,13 +24878,13 @@ class CPulseCell_Outflow_CycleOrdered : public CPulseCell_BaseFlow // pulse_runt
 };
 class C_CSWeaponBaseGun : public C_CSWeaponBase // client
 {
-	int32 m_zoomLevel; // 0x1CB0
-	int32 m_iBurstShotsRemaining; // 0x1CB4
-	int32 m_iSilencerBodygroup; // 0x1CB8
-	int32 m_silencedModelIndex; // 0x1CC8
-	bool m_inPrecache; // 0x1CCC
-	bool m_bNeedsBoltAction; // 0x1CCD
-	int32 m_nRevolverCylinderIdx; // 0x1CD0
+	int32 m_zoomLevel; // 0x1CE0
+	int32 m_iBurstShotsRemaining; // 0x1CE4
+	int32 m_iSilencerBodygroup; // 0x1CE8
+	int32 m_silencedModelIndex; // 0x1CF8
+	bool m_inPrecache; // 0x1CFC
+	bool m_bNeedsBoltAction; // 0x1CFD
+	int32 m_nRevolverCylinderIdx; // 0x1D00
 };
 class C_CSGameRulesProxy : public C_GameRulesProxy // client
 {
@@ -24455,29 +24913,29 @@ class CCollisionProperty // client
 class C_WeaponP250 : public C_CSWeaponBaseGun // client
 {
 };
-class C_ShatterGlassShardPhysics : public C_PhysicsProp // client
-{
-	shard_model_desc_t m_ShardDesc; // 0x12E8
-};
 class CFilterMassGreater : public CBaseFilter // client
 {
 	float32 m_fFilterMass; // 0x0638
 };
+class C_ShatterGlassShardPhysics : public C_BaseModelEntity // client
+{
+	shard_model_desc_t m_ShardDesc; // 0x0FB8
+};
 class C_EntityDissolve : public C_BaseModelEntity // client
 {
-	GameTime_t m_flStartTime; // 0x0FB0
-	float32 m_flFadeInStart; // 0x0FB4
-	float32 m_flFadeInLength; // 0x0FB8
-	float32 m_flFadeOutModelStart; // 0x0FBC
-	float32 m_flFadeOutModelLength; // 0x0FC0
-	float32 m_flFadeOutStart; // 0x0FC4
-	float32 m_flFadeOutLength; // 0x0FC8
-	GameTime_t m_flNextSparkTime; // 0x0FCC
-	EntityDisolveType_t m_nDissolveType; // 0x0FD0
-	Vector m_vDissolverOrigin; // 0x0FD4
-	uint32 m_nMagnitude; // 0x0FE0
-	bool m_bCoreExplode; // 0x0FE4
-	bool m_bLinkedToServerEnt; // 0x0FE5
+	GameTime_t m_flStartTime; // 0x0FB8
+	float32 m_flFadeInStart; // 0x0FBC
+	float32 m_flFadeInLength; // 0x0FC0
+	float32 m_flFadeOutModelStart; // 0x0FC4
+	float32 m_flFadeOutModelLength; // 0x0FC8
+	float32 m_flFadeOutStart; // 0x0FCC
+	float32 m_flFadeOutLength; // 0x0FD0
+	GameTime_t m_flNextSparkTime; // 0x0FD4
+	EntityDissolveType_t m_nDissolveType; // 0x0FD8
+	VectorWS m_vDissolverOrigin; // 0x0FDC
+	uint32 m_nMagnitude; // 0x0FE8
+	bool m_bCoreExplode; // 0x0FEC
+	bool m_bLinkedToServerEnt; // 0x0FED
 };
 class C_SoundOpvarSetOBBEntity : public C_SoundOpvarSetAABBEntity // client
 {
@@ -24488,31 +24946,31 @@ class CCSGameModeRules_ArmsRace : public CCSGameModeRules // client
 };
 class C_FuncMonitor : public C_FuncBrush // client
 {
-	CUtlString m_targetCamera; // 0x0FA8
-	int32 m_nResolutionEnum; // 0x0FB0
-	bool m_bRenderShadows; // 0x0FB4
-	bool m_bUseUniqueColorTarget; // 0x0FB5
-	CUtlString m_brushModelName; // 0x0FB8
-	CHandle< C_BaseEntity > m_hTargetCamera; // 0x0FC0
-	bool m_bEnabled; // 0x0FC4
-	bool m_bDraw3DSkybox; // 0x0FC5
+	CUtlString m_targetCamera; // 0x0FB0
+	int32 m_nResolutionEnum; // 0x0FB8
+	bool m_bRenderShadows; // 0x0FBC
+	bool m_bUseUniqueColorTarget; // 0x0FBD
+	CUtlString m_brushModelName; // 0x0FC0
+	CHandle< C_BaseEntity > m_hTargetCamera; // 0x0FC8
+	bool m_bEnabled; // 0x0FCC
+	bool m_bDraw3DSkybox; // 0x0FCD
 };
 class C_ClientRagdoll : public CBaseAnimGraph // client
 {
-	bool m_bFadeOut; // 0x1158
-	bool m_bImportant; // 0x1159
-	GameTime_t m_flEffectTime; // 0x115C
-	GameTime_t m_gibDespawnTime; // 0x1160
-	int32 m_iCurrentFriction; // 0x1164
-	int32 m_iMinFriction; // 0x1168
-	int32 m_iMaxFriction; // 0x116C
-	int32 m_iFrictionAnimState; // 0x1170
-	bool m_bReleaseRagdoll; // 0x1174
-	AttachmentHandle_t m_iEyeAttachment; // 0x1175
-	bool m_bFadingOut; // 0x1176
-	float32[10] m_flScaleEnd; // 0x1178
-	GameTime_t[10] m_flScaleTimeStart; // 0x11A0
-	GameTime_t[10] m_flScaleTimeEnd; // 0x11C8
+	bool m_bFadeOut; // 0x1180
+	bool m_bImportant; // 0x1181
+	GameTime_t m_flEffectTime; // 0x1184
+	GameTime_t m_gibDespawnTime; // 0x1188
+	int32 m_iCurrentFriction; // 0x118C
+	int32 m_iMinFriction; // 0x1190
+	int32 m_iMaxFriction; // 0x1194
+	int32 m_iFrictionAnimState; // 0x1198
+	bool m_bReleaseRagdoll; // 0x119C
+	AttachmentHandle_t m_iEyeAttachment; // 0x119D
+	bool m_bFadingOut; // 0x119E
+	float32[10] m_flScaleEnd; // 0x11A0
+	GameTime_t[10] m_flScaleTimeStart; // 0x11C8
+	GameTime_t[10] m_flScaleTimeEnd; // 0x11F0
 };
 class PulseSelectorOutflowList_t // pulse_runtime_lib
 {
@@ -24542,16 +25000,16 @@ class C_CSGO_TeamPreviewCharacterPosition : public C_BaseEntity // client
 };
 class C_SmokeGrenadeProjectile : public C_BaseCSGrenadeProjectile // client
 {
-	int32 m_nSmokeEffectTickBegin; // 0x1250
-	bool m_bDidSmokeEffect; // 0x1254
-	int32 m_nRandomSeed; // 0x1258
-	Vector m_vSmokeColor; // 0x125C
-	Vector m_vSmokeDetonationPos; // 0x1268
-	C_NetworkUtlVectorBase< uint8 > m_VoxelFrameData; // 0x1278
-	int32 m_nVoxelFrameDataSize; // 0x1290
-	int32 m_nVoxelUpdate; // 0x1294
-	bool m_bSmokeVolumeDataReceived; // 0x1298
-	bool m_bSmokeEffectSpawned; // 0x1299
+	int32 m_nSmokeEffectTickBegin; // 0x1278
+	bool m_bDidSmokeEffect; // 0x127C
+	int32 m_nRandomSeed; // 0x1280
+	Vector m_vSmokeColor; // 0x1284
+	VectorWS m_vSmokeDetonationPos; // 0x1290
+	C_NetworkUtlVectorBase< uint8 > m_VoxelFrameData; // 0x12A0
+	int32 m_nVoxelFrameDataSize; // 0x12B8
+	int32 m_nVoxelUpdate; // 0x12BC
+	bool m_bSmokeVolumeDataReceived; // 0x12C0
+	bool m_bSmokeEffectSpawned; // 0x12C1
 };
 class CScriptComponent : public CEntityComponent // entity2
 {
@@ -24566,29 +25024,30 @@ class C_PortraitWorldCallbackHandler : public C_BaseEntity // client
 };
 class C_DynamicProp : public C_BreakableProp // client
 {
-	bool m_bUseHitboxesForRenderBox; // 0x12D0
-	bool m_bUseAnimGraph; // 0x12D1
-	CEntityIOOutput m_pOutputAnimBegun; // 0x12D8
-	CEntityIOOutput m_pOutputAnimOver; // 0x12F0
-	CEntityIOOutput m_pOutputAnimLoopCycleOver; // 0x1308
-	CEntityIOOutput m_OnAnimReachedStart; // 0x1320
-	CEntityIOOutput m_OnAnimReachedEnd; // 0x1338
-	CUtlSymbolLarge m_iszIdleAnim; // 0x1350
-	AnimLoopMode_t m_nIdleAnimLoopMode; // 0x1358
-	bool m_bRandomizeCycle; // 0x135C
-	bool m_bStartDisabled; // 0x135D
-	bool m_bFiredStartEndOutput; // 0x135E
-	bool m_bForceNpcExclude; // 0x135F
-	bool m_bCreateNonSolid; // 0x1360
-	bool m_bIsOverrideProp; // 0x1361
-	int32 m_iInitialGlowState; // 0x1364
-	int32 m_nGlowRange; // 0x1368
-	int32 m_nGlowRangeMin; // 0x136C
-	Color m_glowColor; // 0x1370
-	int32 m_nGlowTeam; // 0x1374
-	int32 m_iCachedFrameCount; // 0x1378
-	Vector m_vecCachedRenderMins; // 0x137C
-	Vector m_vecCachedRenderMaxs; // 0x1388
+	bool m_bUseHitboxesForRenderBox; // 0x12F0
+	bool m_bUseAnimGraph; // 0x12F1
+	CEntityIOOutput m_pOutputAnimBegun; // 0x12F8
+	CEntityIOOutput m_pOutputAnimOver; // 0x1310
+	CEntityIOOutput m_pOutputAnimLoopCycleOver; // 0x1328
+	CEntityIOOutput m_OnAnimReachedStart; // 0x1340
+	CEntityIOOutput m_OnAnimReachedEnd; // 0x1358
+	CUtlSymbolLarge m_iszIdleAnim; // 0x1370
+	AnimLoopMode_t m_nIdleAnimLoopMode; // 0x1378
+	bool m_bRandomizeCycle; // 0x137C
+	bool m_bStartDisabled; // 0x137D
+	bool m_bFiredStartEndOutput; // 0x137E
+	bool m_bForceNpcExclude; // 0x137F
+	bool m_bCreateMovableSurfaceGraph; // 0x1380
+	bool m_bCreateNonSolid; // 0x1381
+	bool m_bIsOverrideProp; // 0x1382
+	int32 m_iInitialGlowState; // 0x1384
+	int32 m_nGlowRange; // 0x1388
+	int32 m_nGlowRangeMin; // 0x138C
+	Color m_glowColor; // 0x1390
+	int32 m_nGlowTeam; // 0x1394
+	int32 m_iCachedFrameCount; // 0x1398
+	Vector m_vecCachedRenderMins; // 0x139C
+	Vector m_vecCachedRenderMaxs; // 0x13A8
 };
 class C_CSTeam : public C_Team // client
 {
@@ -24608,14 +25067,14 @@ class C_CS2HudModelWeapon : public C_CS2HudModelBase // client
 };
 class C_TextureBasedAnimatable : public C_BaseModelEntity // client
 {
-	bool m_bLoop; // 0x0FA8
-	float32 m_flFPS; // 0x0FAC
-	CStrongHandle< InfoForResourceTypeCTextureBase > m_hPositionKeys; // 0x0FB0
-	CStrongHandle< InfoForResourceTypeCTextureBase > m_hRotationKeys; // 0x0FB8
-	Vector m_vAnimationBoundsMin; // 0x0FC0
-	Vector m_vAnimationBoundsMax; // 0x0FCC
-	float32 m_flStartTime; // 0x0FD8
-	float32 m_flStartFrame; // 0x0FDC
+	bool m_bLoop; // 0x0FB0
+	float32 m_flFPS; // 0x0FB4
+	CStrongHandle< InfoForResourceTypeCTextureBase > m_hPositionKeys; // 0x0FB8
+	CStrongHandle< InfoForResourceTypeCTextureBase > m_hRotationKeys; // 0x0FC0
+	Vector m_vAnimationBoundsMin; // 0x0FC8
+	Vector m_vAnimationBoundsMax; // 0x0FD4
+	float32 m_flStartTime; // 0x0FE0
+	float32 m_flStartFrame; // 0x0FE4
 };
 class C_LightEnvironmentEntity : public C_LightDirectionalEntity // client
 {
@@ -24628,19 +25087,19 @@ class CLogicRelayAPI // client
 };
 class C_TriggerPhysics : public C_BaseTrigger // client
 {
-	float32 m_gravityScale; // 0x1078
-	float32 m_linearLimit; // 0x107C
-	float32 m_linearDamping; // 0x1080
-	float32 m_angularLimit; // 0x1084
-	float32 m_angularDamping; // 0x1088
-	float32 m_linearForce; // 0x108C
-	float32 m_flFrequency; // 0x1090
-	float32 m_flDampingRatio; // 0x1094
-	Vector m_vecLinearForcePointAt; // 0x1098
-	bool m_bCollapseToForcePoint; // 0x10A4
-	Vector m_vecLinearForcePointAtWorld; // 0x10A8
-	Vector m_vecLinearForceDirection; // 0x10B4
-	bool m_bConvertToDebrisWhenPossible; // 0x10C0
+	float32 m_gravityScale; // 0x1098
+	float32 m_linearLimit; // 0x109C
+	float32 m_linearDamping; // 0x10A0
+	float32 m_angularLimit; // 0x10A4
+	float32 m_angularDamping; // 0x10A8
+	float32 m_linearForce; // 0x10AC
+	float32 m_flFrequency; // 0x10B0
+	float32 m_flDampingRatio; // 0x10B4
+	Vector m_vecLinearForcePointAt; // 0x10B8
+	bool m_bCollapseToForcePoint; // 0x10C4
+	VectorWS m_vecLinearForcePointAtWorld; // 0x10C8
+	Vector m_vecLinearForceDirection; // 0x10D4
+	bool m_bConvertToDebrisWhenPossible; // 0x10E0
 };
 class C_PropDoorRotating : public C_BasePropDoor // client
 {
@@ -24666,21 +25125,22 @@ class CBodyComponentBaseModelEntity : public CBodyComponentSkeletonInstance // c
 };
 class C_Multimeter : public CBaseAnimGraph // client
 {
-	CHandle< C_PlantedC4 > m_hTargetC4; // 0x1158
+	CHandle< C_PlantedC4 > m_hTargetC4; // 0x1180
 };
 class C_BaseTrigger : public C_BaseToggle // client
 {
-	CEntityIOOutput m_OnStartTouch; // 0x0FA8
-	CEntityIOOutput m_OnStartTouchAll; // 0x0FC0
-	CEntityIOOutput m_OnEndTouch; // 0x0FD8
-	CEntityIOOutput m_OnEndTouchAll; // 0x0FF0
-	CEntityIOOutput m_OnTouching; // 0x1008
-	CEntityIOOutput m_OnTouchingEachEntity; // 0x1020
-	CEntityIOOutput m_OnNotTouching; // 0x1038
-	CUtlVector< CHandle< C_BaseEntity > > m_hTouchingEntities; // 0x1050
-	CUtlSymbolLarge m_iFilterName; // 0x1068
-	CHandle< CBaseFilter > m_hFilter; // 0x1070
-	bool m_bDisabled; // 0x1074
+	CEntityIOOutput m_OnStartTouch; // 0x0FB0
+	CEntityIOOutput m_OnStartTouchAll; // 0x0FC8
+	CEntityIOOutput m_OnEndTouch; // 0x0FE0
+	CEntityIOOutput m_OnEndTouchAll; // 0x0FF8
+	CEntityIOOutput m_OnTouching; // 0x1010
+	CEntityIOOutput m_OnTouchingEachEntity; // 0x1028
+	CEntityIOOutput m_OnNotTouching; // 0x1040
+	CEntityIOOutput m_OnTouchingChanged; // 0x1058
+	CUtlVector< CHandle< C_BaseEntity > > m_hTouchingEntities; // 0x1070
+	CUtlSymbolLarge m_iFilterName; // 0x1088
+	CHandle< CBaseFilter > m_hFilter; // 0x1090
+	bool m_bDisabled; // 0x1094
 };
 class FilterDamageType : public CBaseFilter // client
 {
@@ -24693,7 +25153,7 @@ class CAttributeList // client
 };
 class CPulseCell_Inflow_Wait : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_WakeResume; // 0x0048
+	CPulse_ResumePoint m_WakeResume; // 0x00D8
 };
 class CFilterProximity : public CBaseFilter // client
 {
@@ -24747,30 +25207,35 @@ class CEffectData // client
 };
 class C_ParticleSystem : public C_BaseModelEntity // client
 {
-	char[512] m_szSnapshotFileName; // 0x0FA8
-	bool m_bActive; // 0x11A8
-	bool m_bFrozen; // 0x11A9
-	float32 m_flFreezeTransitionDuration; // 0x11AC
-	int32 m_nStopType; // 0x11B0
-	bool m_bAnimateDuringGameplayPause; // 0x11B4
-	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_iEffectIndex; // 0x11B8
-	GameTime_t m_flStartTime; // 0x11C0
-	float32 m_flPreSimTime; // 0x11C4
-	Vector[4] m_vServerControlPoints; // 0x11C8
-	uint8[4] m_iServerControlPointAssignments; // 0x11F8
-	CHandle< C_BaseEntity >[64] m_hControlPointEnts; // 0x11FC
-	bool m_bNoSave; // 0x12FC
-	bool m_bNoFreeze; // 0x12FD
-	bool m_bNoRamp; // 0x12FE
-	bool m_bStartActive; // 0x12FF
-	CUtlSymbolLarge m_iszEffectName; // 0x1300
-	CUtlSymbolLarge[64] m_iszControlPointNames; // 0x1308
-	int32 m_nDataCP; // 0x1508
-	Vector m_vecDataCPValue; // 0x150C
-	int32 m_nTintCP; // 0x1518
-	Color m_clrTint; // 0x151C
-	bool m_bOldActive; // 0x1540
-	bool m_bOldFrozen; // 0x1541
+	char[512] m_szSnapshotFileName; // 0x0FB0
+	bool m_bActive; // 0x11B0
+	bool m_bFrozen; // 0x11B1
+	float32 m_flFreezeTransitionDuration; // 0x11B4
+	int32 m_nStopType; // 0x11B8
+	bool m_bAnimateDuringGameplayPause; // 0x11BC
+	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_iEffectIndex; // 0x11C0
+	GameTime_t m_flStartTime; // 0x11C8
+	float32 m_flPreSimTime; // 0x11CC
+	Vector[4] m_vServerControlPoints; // 0x11D0
+	uint8[4] m_iServerControlPointAssignments; // 0x1200
+	CHandle< C_BaseEntity >[64] m_hControlPointEnts; // 0x1204
+	bool m_bDataStringLocalized; // 0x1304
+	CUtlString m_strDataString; // 0x1308
+	bool m_bNoSave; // 0x1310
+	bool m_bNoFreeze; // 0x1311
+	bool m_bNoRamp; // 0x1312
+	bool m_bStartActive; // 0x1313
+	CUtlSymbolLarge m_iszEffectName; // 0x1318
+	CUtlSymbolLarge[64] m_iszControlPointNames; // 0x1320
+	int32 m_nDataCP; // 0x1520
+	Vector m_vecDataCPValue; // 0x1524
+	int32 m_nTintCP; // 0x1530
+	Color m_clrTint; // 0x1534
+	bool m_bOldActive; // 0x1558
+	bool m_bOldFrozen; // 0x1559
+};
+class CEnvSkyAPI // client
+{
 };
 class CPulseCell_Outflow_CycleShuffled : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
@@ -24913,12 +25378,12 @@ class CPulseCell_Inflow_Method : public CPulseCell_Inflow_BaseEntrypoint // puls
 };
 class C_BaseCombatCharacter : public CBaseAnimGraph // client
 {
-	C_NetworkUtlVectorBase< CHandle< C_EconWearable > > m_hMyWearables; // 0x1158
-	AttachmentHandle_t m_leftFootAttachment; // 0x1170
-	AttachmentHandle_t m_rightFootAttachment; // 0x1171
-	C_BaseCombatCharacter::WaterWakeMode_t m_nWaterWakeMode; // 0x1174
-	float32 m_flWaterWorldZ; // 0x1178
-	float32 m_flWaterNextTraceTime; // 0x117C
+	C_NetworkUtlVectorBase< CHandle< C_EconWearable > > m_hMyWearables; // 0x1180
+	AttachmentHandle_t m_leftFootAttachment; // 0x1198
+	AttachmentHandle_t m_rightFootAttachment; // 0x1199
+	C_BaseCombatCharacter::WaterWakeMode_t m_nWaterWakeMode; // 0x119C
+	float32 m_flWaterWorldZ; // 0x11A0
+	float32 m_flWaterNextTraceTime; // 0x11A4
 };
 class CGlowProperty // client
 {
@@ -24936,8 +25401,8 @@ class CGlowProperty // client
 };
 class C_PointClientUIDialog : public C_BaseClientUIEntity // client
 {
-	CHandle< C_BaseEntity > m_hActivator; // 0x0FD8
-	bool m_bStartEnabled; // 0x0FDC
+	CHandle< C_BaseEntity > m_hActivator; // 0x0FE0
+	bool m_bStartEnabled; // 0x0FE4
 };
 class CPulseCell_BaseValue : public CPulseCell_Base // pulse_runtime_lib
 {
@@ -24947,8 +25412,8 @@ class C_WeaponHKP2000 : public C_CSWeaponBaseGun // client
 };
 class C_FootstepControl : public C_BaseTrigger // client
 {
-	CUtlSymbolLarge m_source; // 0x1078
-	CUtlSymbolLarge m_destination; // 0x1080
+	CUtlSymbolLarge m_source; // 0x1098
+	CUtlSymbolLarge m_destination; // 0x10A0
 };
 class CCitadelSoundOpvarSetOBB : public C_BaseEntity // client
 {
@@ -24969,10 +25434,9 @@ class CPlayer_WaterServices : public CPlayerPawnComponent // client
 };
 class CPulseCell_BooleanSwitchState : public CPulseCell_BaseState // pulse_runtime_lib
 {
-	PulseObservableBoolExpression_t m_Condition; // 0x0048
-	CPulse_OutflowConnection m_Always; // 0x00C0
-	CPulse_OutflowConnection m_WhenTrue; // 0x0108
-	CPulse_OutflowConnection m_WhenFalse; // 0x0150
+	CPulseObservableExpression< bool > m_Condition; // 0x00D8
+	CPulse_OutflowConnection m_WhenTrue; // 0x0150
+	CPulse_OutflowConnection m_WhenFalse; // 0x0198
 };
 class CDamageRecord // client
 {
@@ -25014,9 +25478,9 @@ class CEnvSoundscapeProxyAlias_snd_soundscape_proxy : public CEnvSoundscapeProxy
 };
 class C_OmniLight : public C_BarnLight // client
 {
-	float32 m_flInnerAngle; // 0x12B8
-	float32 m_flOuterAngle; // 0x12BC
-	bool m_bShowLight; // 0x12C0
+	float32 m_flInnerAngle; // 0x12C0
+	float32 m_flOuterAngle; // 0x12C4
+	bool m_bShowLight; // 0x12C8
 };
 class C_SceneEntity : public C_PointEntity // client
 {
@@ -25034,39 +25498,45 @@ class C_SceneEntity : public C_PointEntity // client
 	CUtlVector< C_SceneEntity::QueuedEvents_t > m_QueuedEvents; // 0x0648
 	float32 m_flCurrentTime; // 0x0660
 };
+class CFootstepControl_API // client
+{
+};
 class CPulseCell_Inflow_Yield : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	CPulse_ResumePoint m_UnyieldResume; // 0x0048
+	CPulse_ResumePoint m_UnyieldResume; // 0x00D8
 };
 class CPulseMathlib // pulse_runtime_lib
 {
 };
 class C_NametagModule : public C_CS2WeaponModuleBase // client
 {
-	CUtlString m_strNametagString; // 0x1160
+	CUtlString m_strNametagString; // 0x1188
+};
+class C_CSGO_TeamPreviewCamera_API // client
+{
 };
 class C_EconEntity : public CBaseAnimGraph // client
 {
-	float32 m_flFlexDelayTime; // 0x1168
-	float32* m_flFlexDelayedWeight; // 0x1170
-	bool m_bAttributesInitialized; // 0x1178
-	C_AttributeContainer m_AttributeManager; // 0x1180
-	uint32 m_OriginalOwnerXuidLow; // 0x1650
-	uint32 m_OriginalOwnerXuidHigh; // 0x1654
-	int32 m_nFallbackPaintKit; // 0x1658
-	int32 m_nFallbackSeed; // 0x165C
-	float32 m_flFallbackWear; // 0x1660
-	int32 m_nFallbackStatTrak; // 0x1664
-	bool m_bClientside; // 0x1668
-	bool m_bParticleSystemsCreated; // 0x1669
-	CUtlVector< int32 > m_vecAttachedParticles; // 0x1670
-	CHandle< CBaseAnimGraph > m_hViewmodelAttachment; // 0x1688
-	int32 m_iOldTeam; // 0x168C
-	bool m_bAttachmentDirty; // 0x1690
-	int32 m_nUnloadedModelIndex; // 0x1694
-	int32 m_iNumOwnerValidationRetries; // 0x1698
-	CHandle< C_BaseEntity > m_hOldProvidee; // 0x16A8
-	CUtlVector< C_EconEntity::AttachedModelData_t > m_vecAttachedModels; // 0x16B0
+	float32 m_flFlexDelayTime; // 0x1190
+	float32* m_flFlexDelayedWeight; // 0x1198
+	bool m_bAttributesInitialized; // 0x11A0
+	C_AttributeContainer m_AttributeManager; // 0x11A8
+	uint32 m_OriginalOwnerXuidLow; // 0x1678
+	uint32 m_OriginalOwnerXuidHigh; // 0x167C
+	int32 m_nFallbackPaintKit; // 0x1680
+	int32 m_nFallbackSeed; // 0x1684
+	float32 m_flFallbackWear; // 0x1688
+	int32 m_nFallbackStatTrak; // 0x168C
+	bool m_bClientside; // 0x1690
+	bool m_bParticleSystemsCreated; // 0x1691
+	CUtlVector< int32 > m_vecAttachedParticles; // 0x1698
+	CHandle< CBaseAnimGraph > m_hViewmodelAttachment; // 0x16B0
+	int32 m_iOldTeam; // 0x16B4
+	bool m_bAttachmentDirty; // 0x16B8
+	int32 m_nUnloadedModelIndex; // 0x16BC
+	int32 m_iNumOwnerValidationRetries; // 0x16C0
+	CHandle< C_BaseEntity > m_hOldProvidee; // 0x16D0
+	CUtlVector< C_EconEntity::AttachedModelData_t > m_vecAttachedModels; // 0x16D8
 };
 class CPlayer_UseServices : public CPlayerPawnComponent // client
 {
@@ -25097,7 +25567,7 @@ class C_PointValueRemapper : public C_BaseEntity // client
 	bool m_bFirstUpdate; // 0x0661
 	float32 m_flPreviousValue; // 0x0664
 	GameTime_t m_flPreviousUpdateTickTime; // 0x0668
-	Vector m_vecPreviousTestPoint; // 0x066C
+	VectorWS m_vecPreviousTestPoint; // 0x066C
 };
 class CGameSceneNodeHandle // client
 {
@@ -25109,6 +25579,9 @@ class CPulseCell_Unknown : public CPulseCell_Base // pulse_runtime_lib
 	KeyValues3 m_UnknownKeys; // 0x0048
 };
 class C_WeaponMP7 : public C_CSWeaponBaseGun // client
+{
+};
+class CPulseStringlib // pulse_runtime_lib
 {
 };
 class CSPerRoundStats_t // client
@@ -25203,8 +25676,8 @@ class C_CSGameRules : public C_TeamplayRules // client
 	int32[30] m_iMatchStats_PlayersAlive_T; // 0x0AA8
 	float32[32] m_TeamRespawnWaveTimes; // 0x0B20
 	GameTime_t[32] m_flNextRespawnWave; // 0x0BA0
-	Vector m_vMinimapMins; // 0x0C20
-	Vector m_vMinimapMaxs; // 0x0C2C
+	VectorWS m_vMinimapMins; // 0x0C20
+	VectorWS m_vMinimapMaxs; // 0x0C2C
 	float32[8] m_MinimapVerticalSectionHeights; // 0x0C38
 	uint64 m_ullLocalMatchID; // 0x0C58
 	int32[10] m_nEndMatchMapGroupVoteTypes; // 0x0C60
@@ -25239,10 +25712,13 @@ class C_CSGameRules : public C_TeamplayRules // client
 	uint8 m_nRoundStartCount; // 0x0F4C
 	float64 m_flLastPerfSampleTime; // 0x4F58
 };
+class CBaseAnimGraphAPI // client
+{
+};
 class CGrenadeTracer : public C_BaseModelEntity // client
 {
-	float32 m_flTracerDuration; // 0x0FC0
-	GrenadeType_t m_nType; // 0x0FC4
+	float32 m_flTracerDuration; // 0x0FC8
+	GrenadeType_t m_nType; // 0x0FCC
 };
 class CCSGameModeRules_Noop : public CCSGameModeRules // client
 {
@@ -25256,22 +25732,22 @@ class CPulse_BlackboardReference // pulse_runtime_lib
 };
 class C_BaseCSGrenadeProjectile : public C_BaseGrenade // client
 {
-	Vector m_vInitialPosition; // 0x11A0
-	Vector m_vInitialVelocity; // 0x11AC
-	int32 m_nBounces; // 0x11B8
-	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_nExplodeEffectIndex; // 0x11C0
-	int32 m_nExplodeEffectTickBegin; // 0x11C8
-	Vector m_vecExplodeEffectOrigin; // 0x11CC
-	GameTime_t m_flSpawnTime; // 0x11D8
-	Vector vecLastTrailLinePos; // 0x11DC
-	GameTime_t flNextTrailLineTime; // 0x11E8
-	bool m_bExplodeEffectBegan; // 0x11EC
-	bool m_bCanCreateGrenadeTrail; // 0x11ED
-	ParticleIndex_t m_nSnapshotTrajectoryEffectIndex; // 0x11F0
-	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hSnapshotTrajectoryParticleSnapshot; // 0x11F8
-	CUtlVector< Vector > m_arrTrajectoryTrailPoints; // 0x1200
-	CUtlVector< float32 > m_arrTrajectoryTrailPointCreationTimes; // 0x1218
-	float32 m_flTrajectoryTrailEffectCreationTime; // 0x1230
+	VectorWS m_vInitialPosition; // 0x11C8
+	Vector m_vInitialVelocity; // 0x11D4
+	int32 m_nBounces; // 0x11E0
+	CStrongHandle< InfoForResourceTypeIParticleSystemDefinition > m_nExplodeEffectIndex; // 0x11E8
+	int32 m_nExplodeEffectTickBegin; // 0x11F0
+	VectorWS m_vecExplodeEffectOrigin; // 0x11F4
+	GameTime_t m_flSpawnTime; // 0x1200
+	Vector vecLastTrailLinePos; // 0x1204
+	GameTime_t flNextTrailLineTime; // 0x1210
+	bool m_bExplodeEffectBegan; // 0x1214
+	bool m_bCanCreateGrenadeTrail; // 0x1215
+	ParticleIndex_t m_nSnapshotTrajectoryEffectIndex; // 0x1218
+	CStrongHandle< InfoForResourceTypeIParticleSnapshot > m_hSnapshotTrajectoryParticleSnapshot; // 0x1220
+	CUtlVector< Vector > m_arrTrajectoryTrailPoints; // 0x1228
+	CUtlVector< float32 > m_arrTrajectoryTrailPointCreationTimes; // 0x1240
+	float32 m_flTrajectoryTrailEffectCreationTime; // 0x1258
 };
 class C_GradientFog : public C_BaseEntity // client
 {
@@ -25332,8 +25808,10 @@ class CChoreoComponent // client
 {
 	CNetworkVarChainer __m_pChainEntity; // 0x0008
 	CHandle< C_BaseModelEntity > m_hOwner; // 0x0030
-	SceneEventId_t m_nNextSceneEventId; // 0x0068
-	GameTime_t m_flAllowResponsesEndTime; // 0x006C
+	int32 m_nExernalChoreoGraphCount; // 0x0034
+	CGlobalSymbol m_sActiveExternalChoreoGraphSlotID; // 0x0038
+	SceneEventId_t m_nNextSceneEventId; // 0x0070
+	GameTime_t m_flAllowResponsesEndTime; // 0x0074
 };
 class CPulseCell_Value_RandomInt : public CPulseCell_BaseValue // pulse_runtime_lib
 {
@@ -25343,25 +25821,28 @@ class C_CSWeaponBaseShotgun : public C_CSWeaponBase // client
 };
 class C_RagdollPropAttached : public C_RagdollProp // client
 {
-	uint32 m_boneIndexAttached; // 0x11E0
-	uint32 m_ragdollAttachedObjectIndex; // 0x11E4
-	Vector m_attachmentPointBoneSpace; // 0x11E8
-	Vector m_attachmentPointRagdollSpace; // 0x11F4
-	Vector m_vecOffset; // 0x1200
-	float32 m_parentTime; // 0x120C
-	bool m_bHasParent; // 0x1210
+	uint32 m_boneIndexAttached; // 0x1208
+	uint32 m_ragdollAttachedObjectIndex; // 0x120C
+	Vector m_attachmentPointBoneSpace; // 0x1210
+	Vector m_attachmentPointRagdollSpace; // 0x121C
+	Vector m_vecOffset; // 0x1228
+	float32 m_parentTime; // 0x1234
+	bool m_bHasParent; // 0x1238
 };
 class C_ModelPointEntity : public C_BaseModelEntity // client
 {
 };
 class C_CSGO_PreviewPlayer : public C_CSPlayerPawn // client
 {
-	CGlobalSymbol m_animgraphCharacterModeString; // 0x3440
-	float32 m_flInitialModelScale; // 0x3448
+	CGlobalSymbol m_animgraphCharacterModeString; // 0x3460
+	float32 m_flInitialModelScale; // 0x3468
 };
 class C_RectLight : public C_BarnLight // client
 {
-	bool m_bShowLight; // 0x12B8
+	bool m_bShowLight; // 0x12C0
+};
+class C_CSPlayerPawn_API // client
+{
 };
 class CPathSimple : public C_BaseEntity // client
 {
@@ -25371,26 +25852,26 @@ class CPathSimple : public C_BaseEntity // client
 };
 class C_FuncTrackTrain : public C_BaseModelEntity // client
 {
-	int32 m_nLongAxis; // 0x0FA8
-	float32 m_flRadius; // 0x0FAC
-	float32 m_flLineLength; // 0x0FB0
+	int32 m_nLongAxis; // 0x0FB0
+	float32 m_flRadius; // 0x0FB4
+	float32 m_flLineLength; // 0x0FB8
 };
 class C_EconWearable : public C_EconEntity // client
 {
-	int32 m_nForceSkin; // 0x16C8
-	bool m_bAlwaysAllow; // 0x16CC
+	int32 m_nForceSkin; // 0x16F0
+	bool m_bAlwaysAllow; // 0x16F4
 };
 class C_EnvDecal : public C_BaseModelEntity // client
 {
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hDecalMaterial; // 0x0FA8
-	float32 m_flWidth; // 0x0FB0
-	float32 m_flHeight; // 0x0FB4
-	float32 m_flDepth; // 0x0FB8
-	uint32 m_nRenderOrder; // 0x0FBC
-	bool m_bProjectOnWorld; // 0x0FC0
-	bool m_bProjectOnCharacters; // 0x0FC1
-	bool m_bProjectOnWater; // 0x0FC2
-	float32 m_flDepthSortBias; // 0x0FC4
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hDecalMaterial; // 0x0FB0
+	float32 m_flWidth; // 0x0FB8
+	float32 m_flHeight; // 0x0FBC
+	float32 m_flDepth; // 0x0FC0
+	uint32 m_nRenderOrder; // 0x0FC4
+	bool m_bProjectOnWorld; // 0x0FC8
+	bool m_bProjectOnCharacters; // 0x0FC9
+	bool m_bProjectOnWater; // 0x0FCA
+	float32 m_flDepthSortBias; // 0x0FCC
 };
 class EntitySpottedState_t // client
 {
@@ -25430,37 +25911,39 @@ class C_WeaponM4A1 : public C_CSWeaponBaseGun // client
 };
 class C_Item : public C_EconEntity // client
 {
-	char[256] m_pReticleHintTextName; // 0x16C8
+	char[256] m_pReticleHintTextName; // 0x16F0
 };
 class C_CSPetPlacement : public C_BaseEntity // client
 {
 };
+class CBaseEntity_SharedAPI // client
+{
+};
 class C_Beam : public C_BaseModelEntity // client
 {
-	float32 m_flFrameRate; // 0x0FA8
-	float32 m_flHDRColorScale; // 0x0FAC
-	GameTime_t m_flFireTime; // 0x0FB0
-	float32 m_flDamage; // 0x0FB4
-	uint8 m_nNumBeamEnts; // 0x0FB8
-	int32 m_queryHandleHalo; // 0x0FBC
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hBaseMaterial; // 0x0FE0
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_nHaloIndex; // 0x0FE8
-	BeamType_t m_nBeamType; // 0x0FF0
-	uint32 m_nBeamFlags; // 0x0FF4
-	CHandle< C_BaseEntity >[10] m_hAttachEntity; // 0x0FF8
-	AttachmentHandle_t[10] m_nAttachIndex; // 0x1020
-	float32 m_fWidth; // 0x102C
-	float32 m_fEndWidth; // 0x1030
-	float32 m_fFadeLength; // 0x1034
-	float32 m_fHaloScale; // 0x1038
-	float32 m_fAmplitude; // 0x103C
-	float32 m_fStartFrame; // 0x1040
-	float32 m_fSpeed; // 0x1044
-	float32 m_flFrame; // 0x1048
-	BeamClipStyle_t m_nClipStyle; // 0x104C
-	bool m_bTurnedOff; // 0x1050
-	VectorWS m_vecEndPos; // 0x1054
-	CHandle< C_BaseEntity > m_hEndEntity; // 0x1060
+	float32 m_flFrameRate; // 0x0FB0
+	float32 m_flHDRColorScale; // 0x0FB4
+	GameTime_t m_flFireTime; // 0x0FB8
+	float32 m_flDamage; // 0x0FBC
+	uint8 m_nNumBeamEnts; // 0x0FC0
+	int32 m_queryHandleHalo; // 0x0FC4
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hBaseMaterial; // 0x0FE8
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_nHaloIndex; // 0x0FF0
+	BeamType_t m_nBeamType; // 0x0FF8
+	uint32 m_nBeamFlags; // 0x0FFC
+	CHandle< C_BaseEntity >[10] m_hAttachEntity; // 0x1000
+	AttachmentHandle_t[10] m_nAttachIndex; // 0x1028
+	float32 m_fWidth; // 0x1034
+	float32 m_fEndWidth; // 0x1038
+	float32 m_fFadeLength; // 0x103C
+	float32 m_fHaloScale; // 0x1040
+	float32 m_fAmplitude; // 0x1044
+	float32 m_fStartFrame; // 0x1048
+	float32 m_fSpeed; // 0x104C
+	float32 m_flFrame; // 0x1050
+	bool m_bTurnedOff; // 0x1054
+	VectorWS m_vecEndPos; // 0x1058
+	CHandle< C_BaseEntity > m_hEndEntity; // 0x1064
 };
 class C_EnvLightProbeVolume : public C_BaseEntity // client
 {
@@ -25495,16 +25978,22 @@ class CExplosionTypeData // client
 	bool m_bHasForces; // 0x00F1
 	CGlobalSymbol m_DecalType; // 0x00F8
 };
+class CCSPlayerController_API // client
+{
+};
 class C_FuncConveyor : public C_BaseModelEntity // client
 {
-	Vector m_vecMoveDirEntitySpace; // 0x0FB0
-	float32 m_flTargetSpeed; // 0x0FBC
-	GameTick_t m_nTransitionStartTick; // 0x0FC0
-	int32 m_nTransitionDurationTicks; // 0x0FC4
-	float32 m_flTransitionStartSpeed; // 0x0FC8
-	C_NetworkUtlVectorBase< CHandle< C_BaseEntity > > m_hConveyorModels; // 0x0FD0
-	float32 m_flCurrentConveyorOffset; // 0x0FE8
-	float32 m_flCurrentConveyorSpeed; // 0x0FEC
+	Vector m_vecMoveDirEntitySpace; // 0x0FB8
+	float32 m_flTargetSpeed; // 0x0FC4
+	GameTick_t m_nTransitionStartTick; // 0x0FC8
+	int32 m_nTransitionDurationTicks; // 0x0FCC
+	float32 m_flTransitionStartSpeed; // 0x0FD0
+	C_NetworkUtlVectorBase< CHandle< C_BaseEntity > > m_hConveyorModels; // 0x0FD8
+	float32 m_flCurrentConveyorOffset; // 0x0FF0
+	float32 m_flCurrentConveyorSpeed; // 0x0FF4
+};
+class CPulseEnumlib // pulse_runtime_lib
+{
 };
 class CCSPlayer_WeaponServices : public CPlayer_WeaponServices // client
 {
@@ -25516,8 +26005,8 @@ class CCSPlayer_WeaponServices : public CPlayer_WeaponServices // client
 };
 class C_PhysMagnet : public CBaseAnimGraph // client
 {
-	CUtlVector< int32 > m_aAttachedObjectsFromServer; // 0x1158
-	CUtlVector< CHandle< C_BaseEntity > > m_aAttachedObjects; // 0x1170
+	CUtlVector< int32 > m_aAttachedObjectsFromServer; // 0x1180
+	CUtlVector< CHandle< C_BaseEntity > > m_aAttachedObjects; // 0x1198
 };
 class CEnvSoundscapeTriggerableAlias_snd_soundscape_triggerable : public CEnvSoundscapeTriggerable // client
 {
@@ -25527,35 +26016,38 @@ class C_Breakable : public C_BaseModelEntity // client
 };
 class C_PlantedC4 : public CBaseAnimGraph // client
 {
-	bool m_bBombTicking; // 0x1160
-	int32 m_nBombSite; // 0x1164
-	int32 m_nSourceSoundscapeHash; // 0x1168
-	EntitySpottedState_t m_entitySpottedState; // 0x1170
-	GameTime_t m_flNextGlow; // 0x1188
-	GameTime_t m_flNextBeep; // 0x118C
-	GameTime_t m_flC4Blow; // 0x1190
-	bool m_bCannotBeDefused; // 0x1194
-	bool m_bHasExploded; // 0x1195
-	float32 m_flTimerLength; // 0x1198
-	bool m_bBeingDefused; // 0x119C
-	float32 m_bTriggerWarning; // 0x11A0
-	float32 m_bExplodeWarning; // 0x11A4
-	bool m_bC4Activated; // 0x11A8
-	bool m_bTenSecWarning; // 0x11A9
-	float32 m_flDefuseLength; // 0x11AC
-	GameTime_t m_flDefuseCountDown; // 0x11B0
-	bool m_bBombDefused; // 0x11B4
-	CHandle< C_CSPlayerPawn > m_hBombDefuser; // 0x11B8
-	C_AttributeContainer m_AttributeManager; // 0x11C0
-	CHandle< C_Multimeter > m_hDefuserMultimeter; // 0x1690
-	GameTime_t m_flNextRadarFlashTime; // 0x1694
-	bool m_bRadarFlash; // 0x1698
-	CHandle< C_CSPlayerPawn > m_pBombDefuser; // 0x169C
-	GameTime_t m_fLastDefuseTime; // 0x16A0
-	CBasePlayerController* m_pPredictionOwner; // 0x16A8
-	Vector m_vecC4ExplodeSpectatePos; // 0x16B0
-	QAngle m_vecC4ExplodeSpectateAng; // 0x16BC
-	float32 m_flC4ExplodeSpectateDuration; // 0x16C8
+	bool m_bBombTicking; // 0x11A0
+	int32 m_nBombSite; // 0x11A4
+	int32 m_nSourceSoundscapeHash; // 0x11A8
+	EntitySpottedState_t m_entitySpottedState; // 0x11B0
+	GameTime_t m_flNextGlow; // 0x11C8
+	GameTime_t m_flNextBeep; // 0x11CC
+	GameTime_t m_flC4Blow; // 0x11D0
+	bool m_bCannotBeDefused; // 0x11D4
+	bool m_bHasExploded; // 0x11D5
+	float32 m_flTimerLength; // 0x11D8
+	bool m_bBeingDefused; // 0x11DC
+	float32 m_bTriggerWarning; // 0x11E0
+	float32 m_bExplodeWarning; // 0x11E4
+	bool m_bC4Activated; // 0x11E8
+	bool m_bTenSecWarning; // 0x11E9
+	float32 m_flDefuseLength; // 0x11EC
+	GameTime_t m_flDefuseCountDown; // 0x11F0
+	bool m_bBombDefused; // 0x11F4
+	CHandle< C_CSPlayerPawn > m_hBombDefuser; // 0x11F8
+	C_AttributeContainer m_AttributeManager; // 0x1200
+	CHandle< C_Multimeter > m_hDefuserMultimeter; // 0x16D0
+	GameTime_t m_flNextRadarFlashTime; // 0x16D4
+	bool m_bRadarFlash; // 0x16D8
+	CHandle< C_CSPlayerPawn > m_pBombDefuser; // 0x16DC
+	GameTime_t m_fLastDefuseTime; // 0x16E0
+	CBasePlayerController* m_pPredictionOwner; // 0x16E8
+	VectorWS m_vecC4ExplodeSpectatePos; // 0x16F0
+	QAngle m_vecC4ExplodeSpectateAng; // 0x16FC
+	float32 m_flC4ExplodeSpectateDuration; // 0x1708
+};
+class C_CSGO_MapPreviewCameraPath_API // client
+{
 };
 class CCSGO_WingmanIntroCharacterPosition : public C_CSGO_TeamIntroCharacterPosition // client
 {
@@ -25566,15 +26058,15 @@ class CFilterName : public CBaseFilter // client
 };
 class C_RagdollProp : public CBaseAnimGraph // client
 {
-	C_NetworkUtlVectorBase< bool > m_ragEnabled; // 0x1158
-	C_NetworkUtlVectorBase< Vector > m_ragPos; // 0x1170
-	C_NetworkUtlVectorBase< QAngle > m_ragAngles; // 0x1188
-	float32 m_flBlendWeight; // 0x11A0
-	CHandle< C_BaseEntity > m_hRagdollSource; // 0x11A4
-	AttachmentHandle_t m_iEyeAttachment; // 0x11A8
-	float32 m_flBlendWeightCurrent; // 0x11AC
-	CUtlVector< int32 > m_parentPhysicsBoneIndices; // 0x11B0
-	CUtlVector< int32 > m_worldSpaceBoneComputationOrder; // 0x11C8
+	C_NetworkUtlVectorBase< bool > m_ragEnabled; // 0x1180
+	C_NetworkUtlVectorBase< Vector > m_ragPos; // 0x1198
+	C_NetworkUtlVectorBase< QAngle > m_ragAngles; // 0x11B0
+	float32 m_flBlendWeight; // 0x11C8
+	CHandle< C_BaseEntity > m_hRagdollSource; // 0x11CC
+	AttachmentHandle_t m_iEyeAttachment; // 0x11D0
+	float32 m_flBlendWeightCurrent; // 0x11D4
+	CUtlVector< int32 > m_parentPhysicsBoneIndices; // 0x11D8
+	CUtlVector< int32 > m_worldSpaceBoneComputationOrder; // 0x11F0
 };
 class CPulse_CallInfo // pulse_runtime_lib
 {
@@ -25590,21 +26082,23 @@ class C_MapPreviewParticleSystem : public C_ParticleSystem // client
 };
 class CBaseAnimGraph : public C_BaseModelEntity // client
 {
-	CAnimGraphControllerManager m_graphControllerManager; // 0x0FA8
-	CAnimGraphControllerBase* m_pMainGraphController; // 0x1058
-	bool m_bInitiallyPopulateInterpHistory; // 0x1060
-	bool m_bSuppressAnimEventSounds; // 0x1062
-	bool m_bAnimGraphUpdateEnabled; // 0x1070
-	bool m_bAnimationUpdateScheduled; // 0x1071
-	Vector m_vecForce; // 0x1074
-	int32 m_nForceBone; // 0x1080
-	CBaseAnimGraph* m_pClientsideRagdoll; // 0x1088
-	bool m_bBuiltRagdoll; // 0x1090
-	IPhysicsRagdollControl* m_pRagdollControl; // 0x10A0
-	PhysicsRagdollPose_t m_RagdollPose; // 0x10A8
-	bool m_bRagdollEnabled; // 0x10F0
-	bool m_bRagdollClientSide; // 0x10F1
-	bool m_bHasAnimatedMaterialAttributes; // 0x1100
+	CAnimGraphControllerManager m_graphControllerManager; // 0x0FB0
+	CAnimGraphControllerPtr m_pMainGraphController; // 0x1048
+	bool m_bInitiallyPopulateInterpHistory; // 0x1050
+	bool m_bSuppressAnimEventSounds; // 0x1052
+	CEntityOutputTemplate< float32 > m_OnLayerCycleUpdated; // 0x1058
+	CEntityIOOutput m_OnExternalChoreoGraphChanged; // 0x1078
+	bool m_bAnimGraphUpdateEnabled; // 0x1098
+	bool m_bAnimationUpdateScheduled; // 0x1099
+	Vector m_vecForce; // 0x109C
+	int32 m_nForceBone; // 0x10A8
+	CBaseAnimGraph* m_pClientsideRagdoll; // 0x10B0
+	bool m_bBuiltRagdoll; // 0x10B8
+	IPhysicsRagdollControl* m_pRagdollControl; // 0x10C8
+	PhysicsRagdollPose_t m_RagdollPose; // 0x10D0
+	bool m_bRagdollEnabled; // 0x1118
+	bool m_bRagdollClientSide; // 0x1119
+	bool m_bHasAnimatedMaterialAttributes; // 0x1128
 };
 class CPulseCell_InlineNodeSkipSelector : public CPulseCell_BaseFlow // pulse_runtime_lib
 {
@@ -25615,43 +26109,49 @@ class CPulseCell_InlineNodeSkipSelector : public CPulseCell_BaseFlow // pulse_ru
 };
 class C_LightEntity : public C_BaseModelEntity // client
 {
-	CLightComponent* m_CLightComponent; // 0x0FA8
+	CLightComponent* m_CLightComponent; // 0x0FB0
+};
+class CBarnLightAPI // client
+{
 };
 class C_WeaponM249 : public C_CSWeaponBaseGun // client
 {
 };
 class C_LocalTempEntity : public CBaseAnimGraph // client
 {
-	int32 flags; // 0x1158
-	GameTime_t die; // 0x115C
-	float32 m_flFrameMax; // 0x1160
-	float32 x; // 0x1164
-	float32 y; // 0x1168
-	float32 fadeSpeed; // 0x116C
-	float32 bounceFactor; // 0x1170
-	int32 hitSound; // 0x1174
-	int32 priority; // 0x1178
-	Vector tentOffset; // 0x117C
-	QAngle m_vecTempEntAngVelocity; // 0x1188
-	int32 tempent_renderamt; // 0x1194
-	Vector m_vecNormal; // 0x1198
-	float32 m_flSpriteScale; // 0x11A4
-	int32 m_nFlickerFrame; // 0x11A8
-	float32 m_flFrameRate; // 0x11AC
-	float32 m_flFrame; // 0x11B0
-	char* m_pszImpactEffect; // 0x11B8
-	char* m_pszParticleEffect; // 0x11C0
-	bool m_bParticleCollision; // 0x11C8
-	int32 m_iLastCollisionFrame; // 0x11CC
-	Vector m_vLastCollisionOrigin; // 0x11D0
-	Vector m_vecTempEntVelocity; // 0x11DC
-	Vector m_vecPrevAbsOrigin; // 0x11E8
-	Vector m_vecTempEntAcceleration; // 0x11F4
+	int32 flags; // 0x1180
+	GameTime_t die; // 0x1184
+	float32 m_flFrameMax; // 0x1188
+	float32 x; // 0x118C
+	float32 y; // 0x1190
+	float32 fadeSpeed; // 0x1194
+	float32 bounceFactor; // 0x1198
+	int32 hitSound; // 0x119C
+	int32 priority; // 0x11A0
+	Vector tentOffset; // 0x11A4
+	QAngle m_vecTempEntAngVelocity; // 0x11B0
+	int32 tempent_renderamt; // 0x11BC
+	Vector m_vecNormal; // 0x11C0
+	float32 m_flSpriteScale; // 0x11CC
+	int32 m_nFlickerFrame; // 0x11D0
+	float32 m_flFrameRate; // 0x11D4
+	float32 m_flFrame; // 0x11D8
+	char* m_pszImpactEffect; // 0x11E0
+	char* m_pszParticleEffect; // 0x11E8
+	bool m_bParticleCollision; // 0x11F0
+	int32 m_iLastCollisionFrame; // 0x11F4
+	VectorWS m_vLastCollisionOrigin; // 0x11F8
+	Vector m_vecTempEntVelocity; // 0x1204
+	VectorWS m_vecPrevAbsOrigin; // 0x1210
+	Vector m_vecTempEntAcceleration; // 0x121C
+};
+class CFlashbangProjectile_API // client
+{
 };
 class C_WeaponTaser : public C_CSWeaponBaseGun // client
 {
-	GameTime_t m_fFireTime; // 0x1CE0
-	int32 m_nLastAttackTick; // 0x1CE4
+	GameTime_t m_fFireTime; // 0x1D10
+	int32 m_nLastAttackTick; // 0x1D14
 };
 class C_PointEntity : public C_BaseEntity // client
 {
@@ -25696,11 +26196,11 @@ class CPulseCell_LimitCount : public CPulseCell_BaseRequirement // pulse_runtime
 };
 class CPulseCell_Step_CallExternalMethod : public CPulseCell_BaseYieldingInflow // pulse_runtime_lib
 {
-	PulseSymbol_t m_MethodName; // 0x0048
-	PulseRuntimeBlackboardReferenceIndex_t m_nBlackboardIndex; // 0x0058
-	CUtlLeanVector< CPulseRuntimeMethodArg > m_ExpectedArgs; // 0x0060
-	PulseMethodCallMode_t m_nAsyncCallMode; // 0x0070
-	CPulse_ResumePoint m_OnFinished; // 0x0078
+	PulseSymbol_t m_MethodName; // 0x00D8
+	PulseRuntimeBlackboardReferenceIndex_t m_nBlackboardIndex; // 0x00E8
+	CUtlLeanVector< CPulseRuntimeMethodArg > m_ExpectedArgs; // 0x00F0
+	PulseMethodCallMode_t m_nAsyncCallMode; // 0x0100
+	CPulse_ResumePoint m_OnFinished; // 0x0108
 };
 class C_WeaponMP9 : public C_CSWeaponBaseGun // client
 {
@@ -25740,8 +26240,8 @@ class C_CSPlayerResource : public C_BaseEntity // client
 	bool[12] m_bHostageAlive; // 0x0600
 	bool[12] m_isHostageFollowingSomeone; // 0x060C
 	CEntityIndex[12] m_iHostageEntityIDs; // 0x0618
-	Vector m_bombsiteCenterA; // 0x0648
-	Vector m_bombsiteCenterB; // 0x0654
+	VectorWS m_bombsiteCenterA; // 0x0648
+	VectorWS m_bombsiteCenterB; // 0x0654
 	int32[4] m_hostageRescueX; // 0x0660
 	int32[4] m_hostageRescueY; // 0x0670
 	int32[4] m_hostageRescueZ; // 0x0680
@@ -25808,12 +26308,6 @@ class WeaponPurchaseTracker_t // client
 {
 	C_UtlVectorEmbeddedNetworkVar< WeaponPurchaseCount_t > m_weaponPurchases; // 0x0008
 };
-class PulseObservableBoolExpression_t // pulse_runtime_lib
-{
-	CPulse_OutflowConnection m_EvaluateConnection; // 0x0000
-	CUtlVector< PulseRuntimeVarIndex_t > m_DependentObservableVars; // 0x0048
-	CUtlVector< PulseRuntimeBlackboardReferenceIndex_t > m_DependentObservableBlackboardReferences; // 0x0060
-};
 class CMapInfo : public C_PointEntity // client
 {
 	int32 m_iBuyingStatus; // 0x0600
@@ -25837,37 +26331,37 @@ class C_CSGO_EndOfMatchCamera : public C_CSGO_TeamPreviewCamera // client
 };
 class C_BaseGrenade : public CBaseAnimGraph // client
 {
-	bool m_bHasWarnedAI; // 0x1158
-	bool m_bIsSmokeGrenade; // 0x1159
-	bool m_bIsLive; // 0x115A
-	float32 m_DmgRadius; // 0x115C
-	GameTime_t m_flDetonateTime; // 0x1160
-	float32 m_flWarnAITime; // 0x1164
-	float32 m_flDamage; // 0x1168
-	CUtlSymbolLarge m_iszBounceSound; // 0x1170
-	CUtlString m_ExplosionSound; // 0x1178
-	CHandle< C_CSPlayerPawn > m_hThrower; // 0x1180
-	GameTime_t m_flNextAttack; // 0x1198
-	CHandle< C_CSPlayerPawn > m_hOriginalThrower; // 0x119C
+	bool m_bHasWarnedAI; // 0x1180
+	bool m_bIsSmokeGrenade; // 0x1181
+	bool m_bIsLive; // 0x1182
+	float32 m_DmgRadius; // 0x1184
+	GameTime_t m_flDetonateTime; // 0x1188
+	float32 m_flWarnAITime; // 0x118C
+	float32 m_flDamage; // 0x1190
+	CUtlSymbolLarge m_iszBounceSound; // 0x1198
+	CUtlString m_ExplosionSound; // 0x11A0
+	CHandle< C_CSPlayerPawn > m_hThrower; // 0x11A8
+	GameTime_t m_flNextAttack; // 0x11C0
+	CHandle< C_CSPlayerPawn > m_hOriginalThrower; // 0x11C4
 };
 class C_PlayerSprayDecal : public C_ModelPointEntity // client
 {
-	int32 m_nUniqueID; // 0x0FA8
-	uint32 m_unAccountID; // 0x0FAC
-	uint32 m_unTraceID; // 0x0FB0
-	uint32 m_rtGcTime; // 0x0FB4
-	Vector m_vecEndPos; // 0x0FB8
-	Vector m_vecStart; // 0x0FC4
-	Vector m_vecLeft; // 0x0FD0
-	Vector m_vecNormal; // 0x0FDC
-	int32 m_nPlayer; // 0x0FE8
-	int32 m_nEntity; // 0x0FEC
-	int32 m_nHitbox; // 0x0FF0
-	float32 m_flCreationTime; // 0x0FF4
-	int32 m_nTintID; // 0x0FF8
-	uint8 m_nVersion; // 0x0FFC
-	uint8[128] m_ubSignature; // 0x0FFD
-	CPlayerSprayDecalRenderHelper m_SprayRenderHelper; // 0x1088
+	int32 m_nUniqueID; // 0x0FB0
+	uint32 m_unAccountID; // 0x0FB4
+	uint32 m_unTraceID; // 0x0FB8
+	uint32 m_rtGcTime; // 0x0FBC
+	VectorWS m_vecEndPos; // 0x0FC0
+	VectorWS m_vecStart; // 0x0FCC
+	Vector m_vecLeft; // 0x0FD8
+	Vector m_vecNormal; // 0x0FE4
+	int32 m_nPlayer; // 0x0FF0
+	int32 m_nEntity; // 0x0FF4
+	int32 m_nHitbox; // 0x0FF8
+	float32 m_flCreationTime; // 0x0FFC
+	int32 m_nTintID; // 0x1000
+	uint8 m_nVersion; // 0x1004
+	uint8[128] m_ubSignature; // 0x1005
+	CPlayerSprayDecalRenderHelper m_SprayRenderHelper; // 0x1090
 };
 class CEntityIdentity // entity2
 {
@@ -25920,7 +26414,7 @@ class CCSGameModeRules_Deathmatch : public CCSGameModeRules // client
 };
 class CPulseCell_CursorQueue : public CPulseCell_WaitForCursorsWithTagBase // pulse_runtime_lib
 {
-	int32 m_nCursorsAllowedToRunParallel; // 0x0098
+	int32 m_nCursorsAllowedToRunParallel; // 0x0128
 };
 class CPulseCell_Value_RandomFloat : public CPulseCell_BaseValue // pulse_runtime_lib
 {
@@ -25930,29 +26424,30 @@ class CPulseExecCursor // pulse_runtime_lib
 };
 class C_Sprite : public C_BaseModelEntity // client
 {
-	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSpriteMaterial; // 0x0FA8
-	CHandle< C_BaseEntity > m_hAttachedToEntity; // 0x0FB0
-	AttachmentHandle_t m_nAttachment; // 0x0FB4
-	float32 m_flSpriteFramerate; // 0x0FB8
-	float32 m_flFrame; // 0x0FBC
-	GameTime_t m_flDieTime; // 0x0FC0
-	uint32 m_nBrightness; // 0x0FD0
-	float32 m_flBrightnessDuration; // 0x0FD4
-	float32 m_flSpriteScale; // 0x0FD8
-	float32 m_flScaleDuration; // 0x0FDC
-	bool m_bWorldSpaceScale; // 0x0FE0
-	float32 m_flGlowProxySize; // 0x0FE4
-	float32 m_flHDRColorScale; // 0x0FE8
-	GameTime_t m_flLastTime; // 0x0FEC
-	float32 m_flMaxFrame; // 0x0FF0
-	float32 m_flStartScale; // 0x0FF4
-	float32 m_flDestScale; // 0x0FF8
-	GameTime_t m_flScaleTimeStart; // 0x0FFC
-	int32 m_nStartBrightness; // 0x1000
-	int32 m_nDestBrightness; // 0x1004
-	GameTime_t m_flBrightnessTimeStart; // 0x1008
-	int32 m_nSpriteWidth; // 0x1018
-	int32 m_nSpriteHeight; // 0x101C
+	CStrongHandle< InfoForResourceTypeIMaterial2 > m_hSpriteMaterial; // 0x0FB0
+	CHandle< C_BaseEntity > m_hAttachedToEntity; // 0x0FB8
+	AttachmentHandle_t m_nAttachment; // 0x0FBC
+	float32 m_flSpriteFramerate; // 0x0FC0
+	float32 m_flFrame; // 0x0FC4
+	GameTime_t m_flDieTime; // 0x0FC8
+	uint32 m_nBrightness; // 0x0FD8
+	float32 m_flBrightnessDuration; // 0x0FDC
+	float32 m_flSpriteScale; // 0x0FE0
+	float32 m_flScaleDuration; // 0x0FE4
+	bool m_bWorldSpaceScale; // 0x0FE8
+	float32 m_flGlowProxySize; // 0x0FEC
+	float32 m_flHDRColorScale; // 0x0FF0
+	GameTime_t m_flLastTime; // 0x0FF4
+	float32 m_flMaxFrame; // 0x0FF8
+	float32 m_flStartScale; // 0x0FFC
+	float32 m_flDestScale; // 0x1000
+	GameTime_t m_flScaleTimeStart; // 0x1004
+	int32 m_nStartBrightness; // 0x1008
+	int32 m_nDestBrightness; // 0x100C
+	GameTime_t m_flBrightnessTimeStart; // 0x1010
+	int32 m_nSpriteWidth; // 0x1020
+	int32 m_nSpriteHeight; // 0x1024
+	float32 m_flSpeed; // 0x1028
 };
 class C_CsmFovOverride : public C_BaseEntity // client
 {
@@ -25964,7 +26459,7 @@ class C_WeaponGlock : public C_CSWeaponBaseGun // client
 };
 class C_PhysicsProp : public C_BreakableProp // client
 {
-	bool m_bAwake; // 0x12D0
+	bool m_bAwake; // 0x12F0
 };
 class CFilterTeam : public CBaseFilter // client
 {
@@ -26005,23 +26500,8 @@ class CBasePlayerWeaponVData : public CEntitySubclassVDataBase // client
 	int32 m_iPosition; // 0x04F0
 	CUtlOrderedMap< WeaponSound_t, CSoundEventName > m_aShootSounds; // 0x04F8
 };
-class CInfoInteraction : public C_PointEntity // client
+class CEnvCombinedLightProbeVolumeAPI // client
 {
-	SceneRequestHandle_t m_hSceneRequest; // 0x0600
-	SceneOpportunityHandle_t m_hSceneOpportunity; // 0x0604
-	bool m_bEnabled; // 0x0608
-	bool m_bStartDisabled; // 0x0609
-	CUtlSymbolLarge m_strSceneVDataName; // 0x0610
-	CUtlSymbolLarge m_strPulseVDataName; // 0x0618
-	float32 m_flRadius; // 0x0640
-	float32 m_flOwnerFOV; // 0x0644
-	CUtlSymbolLarge m_strLocalInterestReqTags; // 0x0648
-	CUtlSymbolLarge m_strLocalInterestOptTags; // 0x0650
-	CUtlSymbolLarge m_strLookTarget; // 0x0658
-	float32 m_flDuration; // 0x0660
-	float32 m_flCooldown; // 0x0664
-	int32 m_nRepeatCount; // 0x0668
-	bool m_bDisableOnExit; // 0x066C
 };
 class C_SmokeGrenade : public C_BaseCSGrenade // client
 {
@@ -26037,9 +26517,9 @@ class CCSPlayer_DamageReactServices : public CPlayerPawnComponent // client
 };
 class C_PointClientUIWorldPanel : public C_BaseClientUIEntity // client
 {
-	bool m_bForceRecreateNextUpdate; // 0x0FE0
-	bool m_bMoveViewToPlayerNextThink; // 0x0FE1
-	bool m_bCheckCSSClasses; // 0x0FE2
+	bool m_bForceRecreateNextUpdate; // 0x0FE8
+	bool m_bMoveViewToPlayerNextThink; // 0x0FE9
+	bool m_bCheckCSSClasses; // 0x0FEA
 	CTransform m_anchorDeltaTransform; // 0x0FF0
 	CPointOffScreenIndicatorUi* m_pOffScreenIndicator; // 0x1180
 	bool m_bIgnoreInput; // 0x11A8
@@ -26066,12 +26546,19 @@ class C_PointClientUIWorldPanel : public C_BaseClientUIEntity // client
 	bool m_bOnlyRenderToTexture; // 0x11F7
 	bool m_bDisableMipGen; // 0x11F8
 	int32 m_nExplicitImageLayout; // 0x11FC
+	bool m_bIgnoreParentOrientation; // 0x1200
 };
 class C_EntityFlame : public C_BaseEntity // client
 {
 	CHandle< C_BaseEntity > m_hEntAttached; // 0x0600
 	CHandle< C_BaseEntity > m_hOldAttached; // 0x0628
 	bool m_bCheapEffect; // 0x062C
+};
+class CBaseAnimGraphAlias_baseanimating : public CBaseAnimGraph // client
+{
+};
+class C_CSGO_MapPreviewCameraPathNode_API // client
+{
 };
 class CBasePlayerController : public C_BaseEntity // client
 {

@@ -55,16 +55,7 @@ static constexpr auto g_CCSGOInput_m_pInputMoves = 0xB58;
 // F2 0F 11 84 1F
 static constexpr auto g_CCSInputMoves_m_vecViewAngles = 0x430;
 
-/*
-* CViewSetup:
-lea rdx, [rsi+4B8h] g_CViewSetup_angView
-lea rcx, [rsi+4A0h] g_CViewSetup_vecOrigin
-*/
-// 48 8D 96 ? ? ? ? 48 8D 8E ? ? ? ? E8 ? ? ? ? EB 38 F2 0F 10 86 ? ? ? ? F2 0F 11 ? ? ? ? ? 8B 86
-static constexpr auto g_CViewSetup_vecOrigin = 0x04A0;
-static constexpr auto g_CViewSetup_angView = 0x04B8;
-
 // client.dll -> FF 81 ? ? ? ? 48 85 D2
-static constexpr auto g_OFFSET_CGameEntitySystem_GetHighestEntityIndex = 0x20A0;
+static constexpr auto g_OFFSET_CGameEntitySystem_GetHighestEntityIndex = 0x2090;
 
 static constexpr auto g_CCPaintKit_IsUseLegacyModel = 0xAE;

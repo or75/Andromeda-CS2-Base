@@ -367,7 +367,8 @@ PROTOBUF_CONSTEXPR CUserMessage_UserSentBugBug::CUserMessage_UserSentBugBug(
   , /*decltype(_impl_.command_logs_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.system_specs_)*/nullptr
   , /*decltype(_impl_.build_id_)*/0u
-  , /*decltype(_impl_.osversion_)*/0} {}
+  , /*decltype(_impl_.osversion_)*/0
+  , /*decltype(_impl_.bugbug_no_)*/0} {}
 struct CUserMessage_UserSentBugBugDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CUserMessage_UserSentBugBugDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -754,12 +755,14 @@ const uint32_t TableStruct_source2_5fsteam_5fstats_2eproto::offsets[] PROTOBUF_S
   PROTOBUF_FIELD_OFFSET(::CUserMessage_UserSentBugBug, _impl_.build_id_),
   PROTOBUF_FIELD_OFFSET(::CUserMessage_UserSentBugBug, _impl_.osversion_),
   PROTOBUF_FIELD_OFFSET(::CUserMessage_UserSentBugBug, _impl_.command_logs_),
+  PROTOBUF_FIELD_OFFSET(::CUserMessage_UserSentBugBug, _impl_.bugbug_no_),
   0,
   1,
   3,
   4,
   5,
   2,
+  6,
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 20, -1, sizeof(::CMsgSource2SystemSpecs)},
@@ -777,7 +780,7 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 323, 335, -1, sizeof(::CSource2Metrics_FetchMapData_Request)},
   { 341, 350, -1, sizeof(::CSource2Metrics_FetchMapData_Response_MapData)},
   { 353, -1, -1, sizeof(::CSource2Metrics_FetchMapData_Response)},
-  { 360, 372, -1, sizeof(::CUserMessage_UserSentBugBug)},
+  { 360, 373, -1, sizeof(::CUserMessage_UserSentBugBug)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -910,30 +913,31 @@ const char descriptor_table_protodef_source2_5fsteam_5fstats_2eproto[] PROTOBUF_
   "etchMapData_Response\022\?\n\007results\030\001 \003(\0132.."
   "CSource2Metrics_FetchMapData_Response.Ma"
   "pData\0323\n\007MapData\022\014\n\004name\030\001 \001(\t\022\014\n\004type\030\002"
-  " \001(\t\022\014\n\004data\030\003 \001(\t\"\263\001\n\033CUserMessage_User"
+  " \001(\t\022\014\n\004data\030\003 \001(\t\"\306\001\n\033CUserMessage_User"
   "SentBugBug\022\024\n\014command_line\030\001 \001(\t\022\024\n\014auto"
   "exec_cfg\030\002 \001(\t\022-\n\014system_specs\030\003 \001(\0132\027.C"
   "MsgSource2SystemSpecs\022\020\n\010build_id\030\004 \001(\r\022"
   "\021\n\tosversion\030\005 \001(\005\022\024\n\014command_logs\030\006 \001(\t"
-  "*\320\004\n\032ESource2PlayStatsFieldType\022\034\n\030Sourc"
-  "e2PlayStats_Invalid\020\000\022\033\n\027Source2PlayStat"
-  "s_UInt64\020\001\022\033\n\027Source2PlayStats_UInt32\020\002\022"
-  "\033\n\027Source2PlayStats_UInt16\020\003\022\032\n\026Source2P"
-  "layStats_UInt8\020\004\022\032\n\026Source2PlayStats_Int"
-  "64\020\005\022\032\n\026Source2PlayStats_Int32\020\006\022\032\n\026Sour"
-  "ce2PlayStats_Int16\020\007\022\031\n\025Source2PlayStats"
-  "_Int8\020\010\022\034\n\030Source2PlayStats_Float64\020\t\022\034\n"
-  "\030Source2PlayStats_Float32\020\n\022\031\n\025Source2Pl"
-  "ayStats_Bool\020\013\022\033\n\027Source2PlayStats_Strin"
-  "g\020\014\022)\n%Source2PlayStats_LowCardinalitySt"
-  "ring\020\r\022 \n\034Source2PlayStats_UTCDateTime\020\016"
-  "\022\'\n#Source2PlayStats_SteamIDTrustBucket\020"
-  "\017\022*\n&Source2PlayStats_SteamIDTrustBucket"
-  "Min\020\020\022\034\n\030Source2PlayStats_SteamID\020\021"
+  "\022\021\n\tbugbug_no\030\007 \001(\005*\320\004\n\032ESource2PlayStat"
+  "sFieldType\022\034\n\030Source2PlayStats_Invalid\020\000"
+  "\022\033\n\027Source2PlayStats_UInt64\020\001\022\033\n\027Source2"
+  "PlayStats_UInt32\020\002\022\033\n\027Source2PlayStats_U"
+  "Int16\020\003\022\032\n\026Source2PlayStats_UInt8\020\004\022\032\n\026S"
+  "ource2PlayStats_Int64\020\005\022\032\n\026Source2PlaySt"
+  "ats_Int32\020\006\022\032\n\026Source2PlayStats_Int16\020\007\022"
+  "\031\n\025Source2PlayStats_Int8\020\010\022\034\n\030Source2Pla"
+  "yStats_Float64\020\t\022\034\n\030Source2PlayStats_Flo"
+  "at32\020\n\022\031\n\025Source2PlayStats_Bool\020\013\022\033\n\027Sou"
+  "rce2PlayStats_String\020\014\022)\n%Source2PlaySta"
+  "ts_LowCardinalityString\020\r\022 \n\034Source2Play"
+  "Stats_UTCDateTime\020\016\022\'\n#Source2PlayStats_"
+  "SteamIDTrustBucket\020\017\022*\n&Source2PlayStats"
+  "_SteamIDTrustBucketMin\020\020\022\034\n\030Source2PlayS"
+  "tats_SteamID\020\021"
   ;
 static ::_pbi::once_flag descriptor_table_source2_5fsteam_5fstats_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_source2_5fsteam_5fstats_2eproto = {
-    false, false, 5195, descriptor_table_protodef_source2_5fsteam_5fstats_2eproto,
+    false, false, 5214, descriptor_table_protodef_source2_5fsteam_5fstats_2eproto,
     "source2_steam_stats.proto",
     &descriptor_table_source2_5fsteam_5fstats_2eproto_once, nullptr, 0, 16,
     schemas, file_default_instances, TableStruct_source2_5fsteam_5fstats_2eproto::offsets,
@@ -8382,6 +8386,9 @@ class CUserMessage_UserSentBugBug::_Internal {
   static void set_has_command_logs(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
+  static void set_has_bugbug_no(HasBits* has_bits) {
+    (*has_bits)[0] |= 64u;
+  }
 };
 
 const ::CMsgSource2SystemSpecs&
@@ -8405,7 +8412,8 @@ CUserMessage_UserSentBugBug::CUserMessage_UserSentBugBug(const CUserMessage_User
     , decltype(_impl_.command_logs_){}
     , decltype(_impl_.system_specs_){nullptr}
     , decltype(_impl_.build_id_){}
-    , decltype(_impl_.osversion_){}};
+    , decltype(_impl_.osversion_){}
+    , decltype(_impl_.bugbug_no_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _impl_.command_line_.InitDefault();
@@ -8436,8 +8444,8 @@ CUserMessage_UserSentBugBug::CUserMessage_UserSentBugBug(const CUserMessage_User
     _this->_impl_.system_specs_ = new ::CMsgSource2SystemSpecs(*from._impl_.system_specs_);
   }
   ::memcpy(&_impl_.build_id_, &from._impl_.build_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.osversion_) -
-    reinterpret_cast<char*>(&_impl_.build_id_)) + sizeof(_impl_.osversion_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.bugbug_no_) -
+    reinterpret_cast<char*>(&_impl_.build_id_)) + sizeof(_impl_.bugbug_no_));
   // @@protoc_insertion_point(copy_constructor:CUserMessage_UserSentBugBug)
 }
 
@@ -8454,6 +8462,7 @@ inline void CUserMessage_UserSentBugBug::SharedCtor(
     , decltype(_impl_.system_specs_){nullptr}
     , decltype(_impl_.build_id_){0u}
     , decltype(_impl_.osversion_){0}
+    , decltype(_impl_.bugbug_no_){0}
   };
   _impl_.command_line_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
@@ -8512,10 +8521,10 @@ void CUserMessage_UserSentBugBug::Clear() {
       _impl_.system_specs_->Clear();
     }
   }
-  if (cached_has_bits & 0x00000030u) {
+  if (cached_has_bits & 0x00000070u) {
     ::memset(&_impl_.build_id_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.osversion_) -
-        reinterpret_cast<char*>(&_impl_.build_id_)) + sizeof(_impl_.osversion_));
+        reinterpret_cast<char*>(&_impl_.bugbug_no_) -
+        reinterpret_cast<char*>(&_impl_.build_id_)) + sizeof(_impl_.bugbug_no_));
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -8587,6 +8596,15 @@ const char* CUserMessage_UserSentBugBug::_InternalParse(const char* ptr, ::_pbi:
           #ifndef NDEBUG
           ::_pbi::VerifyUTF8(str, "CUserMessage_UserSentBugBug.command_logs");
           #endif  // !NDEBUG
+        } else
+          goto handle_unusual;
+        continue;
+      // optional int32 bugbug_no = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          _Internal::set_has_bugbug_no(&has_bits);
+          _impl_.bugbug_no_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -8670,6 +8688,12 @@ uint8_t* CUserMessage_UserSentBugBug::_InternalSerialize(
         6, this->_internal_command_logs(), target);
   }
 
+  // optional int32 bugbug_no = 7;
+  if (cached_has_bits & 0x00000040u) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_bugbug_no(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -8687,7 +8711,7 @@ size_t CUserMessage_UserSentBugBug::ByteSizeLong() const {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000003fu) {
+  if (cached_has_bits & 0x0000007fu) {
     // optional string command_line = 1;
     if (cached_has_bits & 0x00000001u) {
       total_size += 1 +
@@ -8726,6 +8750,11 @@ size_t CUserMessage_UserSentBugBug::ByteSizeLong() const {
       total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_osversion());
     }
 
+    // optional int32 bugbug_no = 7;
+    if (cached_has_bits & 0x00000040u) {
+      total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_bugbug_no());
+    }
+
   }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
@@ -8746,7 +8775,7 @@ void CUserMessage_UserSentBugBug::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x0000003fu) {
+  if (cached_has_bits & 0x0000007fu) {
     if (cached_has_bits & 0x00000001u) {
       _this->_internal_set_command_line(from._internal_command_line());
     }
@@ -8765,6 +8794,9 @@ void CUserMessage_UserSentBugBug::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to
     }
     if (cached_has_bits & 0x00000020u) {
       _this->_impl_.osversion_ = from._impl_.osversion_;
+    }
+    if (cached_has_bits & 0x00000040u) {
+      _this->_impl_.bugbug_no_ = from._impl_.bugbug_no_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
@@ -8801,8 +8833,8 @@ void CUserMessage_UserSentBugBug::InternalSwap(CUserMessage_UserSentBugBug* othe
       &other->_impl_.command_logs_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(CUserMessage_UserSentBugBug, _impl_.osversion_)
-      + sizeof(CUserMessage_UserSentBugBug::_impl_.osversion_)
+      PROTOBUF_FIELD_OFFSET(CUserMessage_UserSentBugBug, _impl_.bugbug_no_)
+      + sizeof(CUserMessage_UserSentBugBug::_impl_.bugbug_no_)
       - PROTOBUF_FIELD_OFFSET(CUserMessage_UserSentBugBug, _impl_.system_specs_)>(
           reinterpret_cast<char*>(&_impl_.system_specs_),
           reinterpret_cast<char*>(&other->_impl_.system_specs_));

@@ -444,9 +444,6 @@
     <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_ResizeBuffers.cpp">
       <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
     </ClCompile>
-    <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_UpdateInPVS.cpp">
-      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
-    </ClCompile>
     <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Bypass.cpp">
       <Filter>Andromeda-CS2-Base\GameClient</Filter>
     </ClCompile>
@@ -1077,9 +1074,6 @@
       <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
     </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_ResizeBuffers.hpp">
-      <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
-    </ClInclude>
-    <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_UpdateInPVS.hpp">
       <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
     </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Bypass.hpp">

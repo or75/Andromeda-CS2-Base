@@ -50,16 +50,21 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 class CCSPredictionEvent_DamageTag;
 struct CCSPredictionEvent_DamageTagDefaultTypeInternal;
 extern CCSPredictionEvent_DamageTagDefaultTypeInternal _CCSPredictionEvent_DamageTag_default_instance_;
+class CCSPredictionEvent_PlayerTeleport;
+struct CCSPredictionEvent_PlayerTeleportDefaultTypeInternal;
+extern CCSPredictionEvent_PlayerTeleportDefaultTypeInternal _CCSPredictionEvent_PlayerTeleport_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::CCSPredictionEvent_DamageTag* Arena::CreateMaybeMessage<::CCSPredictionEvent_DamageTag>(Arena*);
+template<> ::CCSPredictionEvent_PlayerTeleport* Arena::CreateMaybeMessage<::CCSPredictionEvent_PlayerTeleport>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 enum ECSPredictionEvents : int {
-  CSPE_DamageTag = 1
+  CSPE_DamageTag = 1,
+  CSPE_PlayerTeleport = 3
 };
 bool ECSPredictionEvents_IsValid(int value);
 constexpr ECSPredictionEvents ECSPredictionEvents_MIN = CSPE_DamageTag;
-constexpr ECSPredictionEvents ECSPredictionEvents_MAX = CSPE_DamageTag;
+constexpr ECSPredictionEvents ECSPredictionEvents_MAX = CSPE_PlayerTeleport;
 constexpr int ECSPredictionEvents_ARRAYSIZE = ECSPredictionEvents_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ECSPredictionEvents_descriptor();
@@ -266,6 +271,226 @@ class CCSPredictionEvent_DamageTag final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_cs_5fprediction_5fevents_2eproto;
 };
+// -------------------------------------------------------------------
+
+class CCSPredictionEvent_PlayerTeleport final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CCSPredictionEvent_PlayerTeleport) */ {
+ public:
+  inline CCSPredictionEvent_PlayerTeleport() : CCSPredictionEvent_PlayerTeleport(nullptr) {}
+  ~CCSPredictionEvent_PlayerTeleport() override;
+  explicit PROTOBUF_CONSTEXPR CCSPredictionEvent_PlayerTeleport(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CCSPredictionEvent_PlayerTeleport(const CCSPredictionEvent_PlayerTeleport& from);
+  CCSPredictionEvent_PlayerTeleport(CCSPredictionEvent_PlayerTeleport&& from) noexcept
+    : CCSPredictionEvent_PlayerTeleport() {
+    *this = ::std::move(from);
+  }
+
+  inline CCSPredictionEvent_PlayerTeleport& operator=(const CCSPredictionEvent_PlayerTeleport& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CCSPredictionEvent_PlayerTeleport& operator=(CCSPredictionEvent_PlayerTeleport&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
+  }
+  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CCSPredictionEvent_PlayerTeleport& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CCSPredictionEvent_PlayerTeleport* internal_default_instance() {
+    return reinterpret_cast<const CCSPredictionEvent_PlayerTeleport*>(
+               &_CCSPredictionEvent_PlayerTeleport_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(CCSPredictionEvent_PlayerTeleport& a, CCSPredictionEvent_PlayerTeleport& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CCSPredictionEvent_PlayerTeleport* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CCSPredictionEvent_PlayerTeleport* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CCSPredictionEvent_PlayerTeleport* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<CCSPredictionEvent_PlayerTeleport>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const CCSPredictionEvent_PlayerTeleport& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const CCSPredictionEvent_PlayerTeleport& from) {
+    CCSPredictionEvent_PlayerTeleport::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CCSPredictionEvent_PlayerTeleport* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CCSPredictionEvent_PlayerTeleport";
+  }
+  protected:
+  explicit CCSPredictionEvent_PlayerTeleport(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kOriginFieldNumber = 2,
+    kAnglesFieldNumber = 3,
+    kVelocityFieldNumber = 4,
+    kRelativeFieldNumber = 1,
+  };
+  // optional .CMsgVector origin = 2;
+  bool has_origin() const;
+  private:
+  bool _internal_has_origin() const;
+  public:
+  void clear_origin();
+  const ::CMsgVector& origin() const;
+  PROTOBUF_NODISCARD ::CMsgVector* release_origin();
+  ::CMsgVector* mutable_origin();
+  void set_allocated_origin(::CMsgVector* origin);
+  private:
+  const ::CMsgVector& _internal_origin() const;
+  ::CMsgVector* _internal_mutable_origin();
+  public:
+  void unsafe_arena_set_allocated_origin(
+      ::CMsgVector* origin);
+  ::CMsgVector* unsafe_arena_release_origin();
+
+  // optional .CMsgQAngle angles = 3;
+  bool has_angles() const;
+  private:
+  bool _internal_has_angles() const;
+  public:
+  void clear_angles();
+  const ::CMsgQAngle& angles() const;
+  PROTOBUF_NODISCARD ::CMsgQAngle* release_angles();
+  ::CMsgQAngle* mutable_angles();
+  void set_allocated_angles(::CMsgQAngle* angles);
+  private:
+  const ::CMsgQAngle& _internal_angles() const;
+  ::CMsgQAngle* _internal_mutable_angles();
+  public:
+  void unsafe_arena_set_allocated_angles(
+      ::CMsgQAngle* angles);
+  ::CMsgQAngle* unsafe_arena_release_angles();
+
+  // optional .CMsgVector velocity = 4;
+  bool has_velocity() const;
+  private:
+  bool _internal_has_velocity() const;
+  public:
+  void clear_velocity();
+  const ::CMsgVector& velocity() const;
+  PROTOBUF_NODISCARD ::CMsgVector* release_velocity();
+  ::CMsgVector* mutable_velocity();
+  void set_allocated_velocity(::CMsgVector* velocity);
+  private:
+  const ::CMsgVector& _internal_velocity() const;
+  ::CMsgVector* _internal_mutable_velocity();
+  public:
+  void unsafe_arena_set_allocated_velocity(
+      ::CMsgVector* velocity);
+  ::CMsgVector* unsafe_arena_release_velocity();
+
+  // optional bool relative = 1;
+  bool has_relative() const;
+  private:
+  bool _internal_has_relative() const;
+  public:
+  void clear_relative();
+  bool relative() const;
+  void set_relative(bool value);
+  private:
+  bool _internal_relative() const;
+  void _internal_set_relative(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:CCSPredictionEvent_PlayerTeleport)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::CMsgVector* origin_;
+    ::CMsgQAngle* angles_;
+    ::CMsgVector* velocity_;
+    bool relative_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_cs_5fprediction_5fevents_2eproto;
+};
 // ===================================================================
 
 
@@ -361,9 +586,304 @@ inline void CCSPredictionEvent_DamageTag::set_friendly_fire_damage_reduction_rat
   // @@protoc_insertion_point(field_set:CCSPredictionEvent_DamageTag.friendly_fire_damage_reduction_ratio)
 }
 
+// -------------------------------------------------------------------
+
+// CCSPredictionEvent_PlayerTeleport
+
+// optional bool relative = 1;
+inline bool CCSPredictionEvent_PlayerTeleport::_internal_has_relative() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline bool CCSPredictionEvent_PlayerTeleport::has_relative() const {
+  return _internal_has_relative();
+}
+inline void CCSPredictionEvent_PlayerTeleport::clear_relative() {
+  _impl_.relative_ = false;
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline bool CCSPredictionEvent_PlayerTeleport::_internal_relative() const {
+  return _impl_.relative_;
+}
+inline bool CCSPredictionEvent_PlayerTeleport::relative() const {
+  // @@protoc_insertion_point(field_get:CCSPredictionEvent_PlayerTeleport.relative)
+  return _internal_relative();
+}
+inline void CCSPredictionEvent_PlayerTeleport::_internal_set_relative(bool value) {
+  _impl_._has_bits_[0] |= 0x00000008u;
+  _impl_.relative_ = value;
+}
+inline void CCSPredictionEvent_PlayerTeleport::set_relative(bool value) {
+  _internal_set_relative(value);
+  // @@protoc_insertion_point(field_set:CCSPredictionEvent_PlayerTeleport.relative)
+}
+
+// optional .CMsgVector origin = 2;
+inline bool CCSPredictionEvent_PlayerTeleport::_internal_has_origin() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.origin_ != nullptr);
+  return value;
+}
+inline bool CCSPredictionEvent_PlayerTeleport::has_origin() const {
+  return _internal_has_origin();
+}
+inline const ::CMsgVector& CCSPredictionEvent_PlayerTeleport::_internal_origin() const {
+  const ::CMsgVector* p = _impl_.origin_;
+  return p != nullptr ? *p : reinterpret_cast<const ::CMsgVector&>(
+      ::_CMsgVector_default_instance_);
+}
+inline const ::CMsgVector& CCSPredictionEvent_PlayerTeleport::origin() const {
+  // @@protoc_insertion_point(field_get:CCSPredictionEvent_PlayerTeleport.origin)
+  return _internal_origin();
+}
+inline void CCSPredictionEvent_PlayerTeleport::unsafe_arena_set_allocated_origin(
+    ::CMsgVector* origin) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.origin_);
+  }
+  _impl_.origin_ = origin;
+  if (origin) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:CCSPredictionEvent_PlayerTeleport.origin)
+}
+inline ::CMsgVector* CCSPredictionEvent_PlayerTeleport::release_origin() {
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::CMsgVector* temp = _impl_.origin_;
+  _impl_.origin_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::CMsgVector* CCSPredictionEvent_PlayerTeleport::unsafe_arena_release_origin() {
+  // @@protoc_insertion_point(field_release:CCSPredictionEvent_PlayerTeleport.origin)
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  ::CMsgVector* temp = _impl_.origin_;
+  _impl_.origin_ = nullptr;
+  return temp;
+}
+inline ::CMsgVector* CCSPredictionEvent_PlayerTeleport::_internal_mutable_origin() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  if (_impl_.origin_ == nullptr) {
+    auto* p = CreateMaybeMessage<::CMsgVector>(GetArenaForAllocation());
+    _impl_.origin_ = p;
+  }
+  return _impl_.origin_;
+}
+inline ::CMsgVector* CCSPredictionEvent_PlayerTeleport::mutable_origin() {
+  ::CMsgVector* _msg = _internal_mutable_origin();
+  // @@protoc_insertion_point(field_mutable:CCSPredictionEvent_PlayerTeleport.origin)
+  return _msg;
+}
+inline void CCSPredictionEvent_PlayerTeleport::set_allocated_origin(::CMsgVector* origin) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.origin_);
+  }
+  if (origin) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(origin));
+    if (message_arena != submessage_arena) {
+      origin = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, origin, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.origin_ = origin;
+  // @@protoc_insertion_point(field_set_allocated:CCSPredictionEvent_PlayerTeleport.origin)
+}
+
+// optional .CMsgQAngle angles = 3;
+inline bool CCSPredictionEvent_PlayerTeleport::_internal_has_angles() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.angles_ != nullptr);
+  return value;
+}
+inline bool CCSPredictionEvent_PlayerTeleport::has_angles() const {
+  return _internal_has_angles();
+}
+inline const ::CMsgQAngle& CCSPredictionEvent_PlayerTeleport::_internal_angles() const {
+  const ::CMsgQAngle* p = _impl_.angles_;
+  return p != nullptr ? *p : reinterpret_cast<const ::CMsgQAngle&>(
+      ::_CMsgQAngle_default_instance_);
+}
+inline const ::CMsgQAngle& CCSPredictionEvent_PlayerTeleport::angles() const {
+  // @@protoc_insertion_point(field_get:CCSPredictionEvent_PlayerTeleport.angles)
+  return _internal_angles();
+}
+inline void CCSPredictionEvent_PlayerTeleport::unsafe_arena_set_allocated_angles(
+    ::CMsgQAngle* angles) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.angles_);
+  }
+  _impl_.angles_ = angles;
+  if (angles) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:CCSPredictionEvent_PlayerTeleport.angles)
+}
+inline ::CMsgQAngle* CCSPredictionEvent_PlayerTeleport::release_angles() {
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::CMsgQAngle* temp = _impl_.angles_;
+  _impl_.angles_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::CMsgQAngle* CCSPredictionEvent_PlayerTeleport::unsafe_arena_release_angles() {
+  // @@protoc_insertion_point(field_release:CCSPredictionEvent_PlayerTeleport.angles)
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::CMsgQAngle* temp = _impl_.angles_;
+  _impl_.angles_ = nullptr;
+  return temp;
+}
+inline ::CMsgQAngle* CCSPredictionEvent_PlayerTeleport::_internal_mutable_angles() {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  if (_impl_.angles_ == nullptr) {
+    auto* p = CreateMaybeMessage<::CMsgQAngle>(GetArenaForAllocation());
+    _impl_.angles_ = p;
+  }
+  return _impl_.angles_;
+}
+inline ::CMsgQAngle* CCSPredictionEvent_PlayerTeleport::mutable_angles() {
+  ::CMsgQAngle* _msg = _internal_mutable_angles();
+  // @@protoc_insertion_point(field_mutable:CCSPredictionEvent_PlayerTeleport.angles)
+  return _msg;
+}
+inline void CCSPredictionEvent_PlayerTeleport::set_allocated_angles(::CMsgQAngle* angles) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.angles_);
+  }
+  if (angles) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(angles));
+    if (message_arena != submessage_arena) {
+      angles = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, angles, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.angles_ = angles;
+  // @@protoc_insertion_point(field_set_allocated:CCSPredictionEvent_PlayerTeleport.angles)
+}
+
+// optional .CMsgVector velocity = 4;
+inline bool CCSPredictionEvent_PlayerTeleport::_internal_has_velocity() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.velocity_ != nullptr);
+  return value;
+}
+inline bool CCSPredictionEvent_PlayerTeleport::has_velocity() const {
+  return _internal_has_velocity();
+}
+inline const ::CMsgVector& CCSPredictionEvent_PlayerTeleport::_internal_velocity() const {
+  const ::CMsgVector* p = _impl_.velocity_;
+  return p != nullptr ? *p : reinterpret_cast<const ::CMsgVector&>(
+      ::_CMsgVector_default_instance_);
+}
+inline const ::CMsgVector& CCSPredictionEvent_PlayerTeleport::velocity() const {
+  // @@protoc_insertion_point(field_get:CCSPredictionEvent_PlayerTeleport.velocity)
+  return _internal_velocity();
+}
+inline void CCSPredictionEvent_PlayerTeleport::unsafe_arena_set_allocated_velocity(
+    ::CMsgVector* velocity) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.velocity_);
+  }
+  _impl_.velocity_ = velocity;
+  if (velocity) {
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:CCSPredictionEvent_PlayerTeleport.velocity)
+}
+inline ::CMsgVector* CCSPredictionEvent_PlayerTeleport::release_velocity() {
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::CMsgVector* temp = _impl_.velocity_;
+  _impl_.velocity_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::CMsgVector* CCSPredictionEvent_PlayerTeleport::unsafe_arena_release_velocity() {
+  // @@protoc_insertion_point(field_release:CCSPredictionEvent_PlayerTeleport.velocity)
+  _impl_._has_bits_[0] &= ~0x00000004u;
+  ::CMsgVector* temp = _impl_.velocity_;
+  _impl_.velocity_ = nullptr;
+  return temp;
+}
+inline ::CMsgVector* CCSPredictionEvent_PlayerTeleport::_internal_mutable_velocity() {
+  _impl_._has_bits_[0] |= 0x00000004u;
+  if (_impl_.velocity_ == nullptr) {
+    auto* p = CreateMaybeMessage<::CMsgVector>(GetArenaForAllocation());
+    _impl_.velocity_ = p;
+  }
+  return _impl_.velocity_;
+}
+inline ::CMsgVector* CCSPredictionEvent_PlayerTeleport::mutable_velocity() {
+  ::CMsgVector* _msg = _internal_mutable_velocity();
+  // @@protoc_insertion_point(field_mutable:CCSPredictionEvent_PlayerTeleport.velocity)
+  return _msg;
+}
+inline void CCSPredictionEvent_PlayerTeleport::set_allocated_velocity(::CMsgVector* velocity) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.velocity_);
+  }
+  if (velocity) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(velocity));
+    if (message_arena != submessage_arena) {
+      velocity = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, velocity, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000004u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000004u;
+  }
+  _impl_.velocity_ = velocity;
+  // @@protoc_insertion_point(field_set_allocated:CCSPredictionEvent_PlayerTeleport.velocity)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

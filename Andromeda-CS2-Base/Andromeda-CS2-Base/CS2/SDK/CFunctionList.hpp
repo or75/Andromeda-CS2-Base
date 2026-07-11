@@ -91,23 +91,23 @@ public:
 	CBasePattern IGameEvent_GetPlayerController = { VmpStr( "IGameEvent::GetPlayerController" ) , VmpStr( "48 83 EC 38 8B 02 4C 8D 44 24 20" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern IGameEvent_GetString = { VmpStr( "IGameEvent::GetString" ) , VmpStr( "48 83 EC 38 8B 02 48 83 C1 58 89 44 24 20 8B 42 04 89 44 24 24 48 8B 42 08 48 8D 54 24 20 48 89 44 24 28 E8 ? ? ? ? 48 83 C4 38 C3 CC CC CC 33 C9" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern IGameEvent_SetString = { VmpStr( "IGameEvent::SetString" ) , VmpStr( "48 83 EC 38 8B 02 48 83 C1 58 89 44 24 20 41 B1 1A" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
-	CBasePattern C_BaseEntity_ComputeHitboxSurroundingBox = { VmpStr( "C_BaseEntity::ComputeHitboxSurroundingBox" ) , VmpStr( "48 89 5C 24 ? 48 89 6C 24 ? 56 57 41 56 B8 ? ? ? ? E8 ? ? ? ? 48 2B E0 48 8B FA" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
+	CBasePattern C_BaseEntity_ComputeHitboxSurroundingBox = { VmpStr( "C_BaseEntity::ComputeHitboxSurroundingBox" ) , VmpStr( "48 89 5C 24 ? 48 89 74 24 ? 48 89 7C 24 ? 55 41 56 41 57 48 8D AC 24 ? ? ? ? B8 ? ? ? ? E8 ? ? ? ? 48 2B E0 48 8B FA" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern C_EconItemView_GetStaticData = { VmpStr( "C_EconItemView::GetStaticData" ) , VmpStr( "40 56 48 83 EC ? 48 89 5C 24 ? 48 8B F1 48 8B 1D ? ? ? ? 48 85 DB 75 ? B9 ? ? ? ? 48 89 7C 24 ? E8 ? ? ? ? 33 FF 48 8B D8 48 85 C0 74 ? 48 8D 05 ? ? ? ? 48 89 7B ? B9 ? ? ? ? 48 89 03 E8 ? ? ? ? 48 85 C0 74 ? 48 8B C8 E8 ? ? ? ? 48 8B F8 48 8D 05 ? ? ? ? 48 89 7B ? 48 89 03 EB ? 48 8B DF 48 8B 7C 24 ? 48 89 1D ? ? ? ? 48 8B 4B ? 48 8B 5C 24 ? 48 85 C9 75" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern CSkeletonInstance_CalcWorldSpaceBones = { VmpStr( "CSkeletonInstance::CalcWorldSpaceBones" ) , VmpStr( "48 89 4C 24 ? 55 53 56 57 41 54 41 55 41 56 41 57 B8 ? ? ? ? E8 ? ? ? ? 48 2B E0 48 8D 6C 24 ? 48 8B 81" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern C_BaseEntity_GetBoneIdByName = { VmpStr( "C_BaseEntity::GetBoneIdByName" ) , VmpStr( "E8 ? ? ? ? 48 8B CF 85 C0 78 ? 44 8B C0" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
 	CBasePattern C_EconItemView_GetBasePlayerWeaponVData = { VmpStr( "C_EconItemView::GetBasePlayerWeaponVData" ) , VmpStr( "48 81 EC ? ? ? ? 48 85 C9 75 ? 33 C0 48 81 C4 ? ? ? ? C3 48 89 9C 24" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern KeyValues3_LoadKV3 = { VmpStr( "KeyValues3::LoadKV3" ) , VmpStr( "?LoadKV3@@YA_NPEAVKeyValues3@@PEAVCUtlString@@PEBDAEBUKV3ID_t@@2I@Z" ) , TIER0_DLL , 0 , SEARCH_TYPE_PROC };
-	CBasePattern IGamePhysicsQuery_TraceShape = { VmpStr( "IGamePhysicsQuery::TraceShape" ) , VmpStr( "48 89 5C 24 ? 48 89 4C 24 ? 55 57" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
-	CBasePattern CCSGOInput_GetViewAngles = { VmpStr( "CCSGOInput::GetViewAngles" ) , VmpStr( "E8 ? ? ? ? EB ? 48 85 C9 75 ? 48 8B CF" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
+	CBasePattern IGamePhysicsQuery_TraceShape = { VmpStr( "IGamePhysicsQuery::TraceShape" ) , VmpStr( "48 89 54 24 10 48 89 4C 24 08 55 53 56 57 41 56 41 57 48 8D AC 24 ? ? ? ? B8 E8 24 00 00 E8" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
+	CBasePattern CCSGOInput_GetViewAngles = { VmpStr( "CCSGOInput::GetViewAngles" ) , VmpStr( "4C 8B C1 85 D2 74 ? 48 8D 05" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern CCSGOInput_SetViewAngles = { VmpStr( "CCSGOInput::SetViewAngles" ) , VmpStr( "85 D2 75 ? 48 63 81" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	// ___7___Func_impl_no_alloc_V_lambda_1___1__GetSmokeDensityLOS_SmokeVolume__AEAAMAEBV__Vec3D_M__0PEAV4__Z__NAEBV4_I_std__6B_
 	CBasePattern LineGoesThroughSmoke = { VmpStr( "LineGoesThroughSmoke" ) , VmpStr( "48 8B C4 55 53 56 41 54" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	// [%d] Could not find Hud Element: %s\n
-	CBasePattern FindHudElement = { VmpStr( "FindHudElement" ) , VmpStr( "4C 8B DC 53 48 83 EC 50 48 8B 05" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
+	CBasePattern FindHudElement = { VmpStr( "FindHudElement" ) , VmpStr( "40 53 48 83 EC 20 48 8B 05 ? ? ? ? 48 8B D9 48 85 C0 74 ? 48 89 5C 24 ? 48 8D 88 58 02 00 00" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern C_CSWeaponBaseGun_GetInaccuracy = { VmpStr( "C_CSWeaponBaseGun::GetInaccuracy" ) , VmpStr( "48 89 5C 24 10 55 56 57 48 81 EC ? ? ? ? 44 0F 29 84 24 80 00 00 00" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern C_CSWeaponBaseGun_GetSpread = { VmpStr( "C_CSWeaponBaseGun::GetSpread" ) , VmpStr( "48 83 EC ? 48 63 91 ? ? ? ? 48 8B 81 ? ? ? ? 0F 29 74 24 ? 85 D2" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern SetLocalPlayerReady = { VmpStr( "SetLocalPlayerReady" ) , VmpStr( "40 53 48 83 EC 20 48 8B DA 48 8D 15 ? ? ? ? 48 8B CB FF" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
-	CBasePattern ScreenTransform = { VmpStr( "ScreenTransform" ) , VmpStr( "48 89 5C 24 ? 57 48 83 EC ? 48 83 3D ? ? ? ? ? 48 8B DA" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
+	CBasePattern ScreenTransform = { VmpStr( "ScreenTransform" ) , VmpStr( "48 89 74 24 ? 57 48 83 EC ? 48 83 3D ? ? ? ? ? 48 8B FA" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern CreateSubtickMoveStep = { VmpStr( "CreateSubtickMoveStep" ) , VmpStr( "E8 ? ? ? ? 48 8B D0 49 8D 4E 18 E8 ? ? ? ? 4C 8B C8 4C 8D 43 02 49 8B D1 48 8B CE E8 ? ? ? ? 48 8B D8 48 85 C0 0F 84 ? ? ? ? 48 3B 06 0F 83 ? ? ? ? 0F B7 00 66 C7 45 67 ? ? 66 3B 45 67 74 ? E9 ? ? ? ? 40 80 FF ? 0F 85 ? ? ? ? 41 83 4E 10 ?" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
 	CBasePattern ProtobufAddToRepeatedPtrElement = { VmpStr( "ProtobufAddToRepeatedPtrElement" ) , VmpStr( "48 89 5C 24 ? 57 48 83 EC ? 48 8B D9 48 8B FA 48 8B 49 ? 48 85 C9 74 ? 8B 01" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern KeyValues_GetName = { VmpStr( "KeyValues::GetName" ) , VmpStr( "?GetName@KeyValues@@QEBAPEBDXZ" ) , TIER0_DLL , 0 , SEARCH_TYPE_PROC };
@@ -130,18 +130,18 @@ public:
 	CBasePattern C_BaseModelEntity_SetModel = { VmpStr( "C_BaseModelEntity::SetModel" ) , VmpStr( "40 53 48 83 EC ? 48 8B D9 4C 8B C2 48 8B 0D ? ? ? ? 48 8D 54 24 40" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern CGameSceneNode_SetMeshGroupMask = { VmpStr( "CGameSceneNode::SetMeshGroupMask" ) , VmpStr( "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8D 99 ? ? ? ? 48 8B 71" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern C_CSWeaponBase_UpdateSubclass = { VmpStr( "C_CSWeaponBase::UpdateSubclass" ) , VmpStr( "4C 8B DC 53 48 81 EC ? ? ? ? 48 8B 41" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
-	CBasePattern C_CSWeaponBase_UpdateSkin = { VmpStr( "C_CSWeaponBase::UpdateSkin" ) , VmpStr( "48 89 5C 24 08 57 48 83 EC 20 8B DA 48 8B F9 E8 ? ? ? ? F6 C3 01 74 0A 33 D2 48 8B CF E8 ? ? ? ? 48 8D 8F 60 19 00 00" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
+	CBasePattern C_CSWeaponBase_UpdateSkin = { VmpStr( "C_CSWeaponBase::UpdateSkin" ) , VmpStr( "48 89 5C 24 08 57 48 83 EC 20 8B DA 48 8B F9 E8 ? ? ? ? F6 C3 01 74 0A 33 D2 48 8B CF E8 ? ? ? ? 48 8D 8F 90 19 00 00" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern C_CSWeaponBase_UpdateCompositeMaterial = { VmpStr( "C_CSWeaponBase::UpdateCompositeMaterial" ) , VmpStr( "E8 ? ? ? ? 48 8D 8B ? ? ? ? 48 89 BC 24" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
 	CBasePattern C_CSPlayerPawn_SetBodyGroup = { VmpStr( "C_CSPlayerPawn::SetBodyGroup" ) , VmpStr( "E8 ? ? ? ? EB 0C 48 8B CF" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
 	CBasePattern GetCUserCmdTick = { VmpStr( "GetCUserCmdTick" ) , VmpStr( "48 83 EC ? 4C 8B 0D ? ? ? ? 4C 8B DA" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern GetCUserCmdArray = { VmpStr( "GetCUserCmdArray" ) , VmpStr( "48 89 4C 24 ? 41 56 41 57" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern GetCUserCmdBySequenceNumber = { VmpStr( "GetCUserCmdBySequenceNumber" ) , VmpStr( "40 53 48 83 EC ? 8B DA E8 ? ? ? ? 4C 8B C0" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern CEconItem_SerializeToProtoBufItem = { VmpStr( "CEconItem::SerializeToProtoBufItem" ) , VmpStr( "40 55 56 48 83 EC ? 48 8B 41 ? 48 8B F2" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
-	CBasePattern CUIEngineSource2_RunScript = { VmpStr( "CUIEngineSource2::RunScript" ) , VmpStr( "48 89 5C 24 ? 4C 89 4C 24 ? 48 89 54 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24" ) , PANORAMA_DLL , 0 , SEARCH_TYPE_NONE };
+	CBasePattern CUIEngineSource2_RunScript = { VmpStr( "CUIEngineSource2::RunScript" ) , VmpStr( "48 89 5C 24 ? 4C 89 4C 24 ? 4C 89 44 24 ? 55 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24" ) , PANORAMA_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern CTraceFilter_Constructor = { VmpStr( "CTraceFilter::Constructor" ) , VmpStr( "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 0F B6 41 ? 33 FF 24" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern CCSGO_HudWeaponSelection_ClearHudWeaponIcon = { VmpStr( "CCSGO_HudWeaponSelection::ClearHudWeaponIcon" ) , VmpStr( "E8 ? ? ? ? 8B F8 C6 84 24" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
 	CBasePattern C_BaseEntity_GetHitBoxSet = { VmpStr( "C_BaseEntity::GetHitBoxSet" ) , VmpStr( "48 89 5C 24 ? 48 89 74 24 ? 57 48 81 EC ? ? ? ? 8B DA 48 8B F9 E8 ? ? ? ? 48 8B F0" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
-	CBasePattern C_BaseEntity_UpdateBodyGroupChoice = { VmpStr( "C_BaseEntity::UpdateBodyGroupChoice" ) , VmpStr( "E8 ? ? ? ? 4C 8B AC 24 ? ? ? ? 48 8B BC 24" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
+	CBasePattern C_BaseEntity_UpdateBodyGroupChoice = { VmpStr( "C_BaseEntity::UpdateBodyGroupChoice" ) , VmpStr( "E8 ? ? ? ? 48 8B 9C 24 ? ? ? ? 4C 8B B4 24 ? ? ? ? 48 83 C4" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
 	CBasePattern C_EconItemView_SetAttributeValueByName = { VmpStr( "C_EconItemView::SetAttributeValueByName" ) , VmpStr( "E8 ? ? ? ? 66 41 0F 6E D4" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
 	CBasePattern C_CSWeaponBase_UpdateCompositeMaterialSet = { VmpStr( "C_CSWeaponBase::UpdateCompositeMaterialSet" ) , VmpStr( "40 55 53 41 57 48 8D AC 24 00 FE ? ?" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 

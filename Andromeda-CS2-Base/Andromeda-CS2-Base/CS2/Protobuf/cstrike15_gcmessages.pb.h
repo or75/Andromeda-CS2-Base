@@ -400,6 +400,9 @@ extern CMsgGCCStrike15_v2_ServerNotificationForUserPenaltyDefaultTypeInternal _C
 class CMsgGCCStrike15_v2_ServerVarValueNotificationInfo;
 struct CMsgGCCStrike15_v2_ServerVarValueNotificationInfoDefaultTypeInternal;
 extern CMsgGCCStrike15_v2_ServerVarValueNotificationInfoDefaultTypeInternal _CMsgGCCStrike15_v2_ServerVarValueNotificationInfo_default_instance_;
+class CMsgGCCStrike15_v2_SetClanId;
+struct CMsgGCCStrike15_v2_SetClanIdDefaultTypeInternal;
+extern CMsgGCCStrike15_v2_SetClanIdDefaultTypeInternal _CMsgGCCStrike15_v2_SetClanId_default_instance_;
 class CMsgGCCStrike15_v2_SetEventFavorite;
 struct CMsgGCCStrike15_v2_SetEventFavoriteDefaultTypeInternal;
 extern CMsgGCCStrike15_v2_SetEventFavoriteDefaultTypeInternal _CMsgGCCStrike15_v2_SetEventFavorite_default_instance_;
@@ -707,6 +710,7 @@ template<> ::CMsgGCCStrike15_v2_PremierSeasonSummary_DataPerWeek* Arena::CreateM
 template<> ::CMsgGCCStrike15_v2_Server2GCClientValidate* Arena::CreateMaybeMessage<::CMsgGCCStrike15_v2_Server2GCClientValidate>(Arena*);
 template<> ::CMsgGCCStrike15_v2_ServerNotificationForUserPenalty* Arena::CreateMaybeMessage<::CMsgGCCStrike15_v2_ServerNotificationForUserPenalty>(Arena*);
 template<> ::CMsgGCCStrike15_v2_ServerVarValueNotificationInfo* Arena::CreateMaybeMessage<::CMsgGCCStrike15_v2_ServerVarValueNotificationInfo>(Arena*);
+template<> ::CMsgGCCStrike15_v2_SetClanId* Arena::CreateMaybeMessage<::CMsgGCCStrike15_v2_SetClanId>(Arena*);
 template<> ::CMsgGCCStrike15_v2_SetEventFavorite* Arena::CreateMaybeMessage<::CMsgGCCStrike15_v2_SetEventFavorite>(Arena*);
 template<> ::CMsgGCCStrike15_v2_SetPlayerLeaderboardSafeName* Arena::CreateMaybeMessage<::CMsgGCCStrike15_v2_SetPlayerLeaderboardSafeName>(Arena*);
 template<> ::CMsgGCCStrike15_v2_VolatileShopSubscribe* Arena::CreateMaybeMessage<::CMsgGCCStrike15_v2_VolatileShopSubscribe>(Arena*);
@@ -880,11 +884,12 @@ enum ECsgoGCMsg : int {
   k_EMsgGCCStrike15_v2_RequestRecurringMissionSchedule = 9225,
   k_EMsgGCCStrike15_v2_RecurringMissionSchema = 9226,
   k_EMsgGCCStrike15_v2_VolatileItemClaimReward = 9227,
-  k_EMsgGCCStrike15_v2_VolatileShopSubscribe = 9228
+  k_EMsgGCCStrike15_v2_VolatileShopSubscribe = 9228,
+  k_EMsgGCCStrike15_v2_SetClanId = 9229
 };
 bool ECsgoGCMsg_IsValid(int value);
 constexpr ECsgoGCMsg ECsgoGCMsg_MIN = k_EMsgGCCStrike15_v2_Base;
-constexpr ECsgoGCMsg ECsgoGCMsg_MAX = k_EMsgGCCStrike15_v2_VolatileShopSubscribe;
+constexpr ECsgoGCMsg ECsgoGCMsg_MAX = k_EMsgGCCStrike15_v2_SetClanId;
 constexpr int ECsgoGCMsg_ARRAYSIZE = ECsgoGCMsg_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ECsgoGCMsg_descriptor();
@@ -15278,6 +15283,7 @@ class CMsgGCCStrike15_v2_ServerNotificationForUserPenalty final :
     kReasonFieldNumber = 2,
     kSecondsFieldNumber = 3,
     kCommunicationCooldownFieldNumber = 4,
+    kCheatingPenaltyLevelFieldNumber = 5,
   };
   // optional uint32 account_id = 1;
   bool has_account_id() const;
@@ -15331,6 +15337,19 @@ class CMsgGCCStrike15_v2_ServerNotificationForUserPenalty final :
   void _internal_set_communication_cooldown(bool value);
   public:
 
+  // optional uint32 cheating_penalty_level = 5;
+  bool has_cheating_penalty_level() const;
+  private:
+  bool _internal_has_cheating_penalty_level() const;
+  public:
+  void clear_cheating_penalty_level();
+  uint32_t cheating_penalty_level() const;
+  void set_cheating_penalty_level(uint32_t value);
+  private:
+  uint32_t _internal_cheating_penalty_level() const;
+  void _internal_set_cheating_penalty_level(uint32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:CMsgGCCStrike15_v2_ServerNotificationForUserPenalty)
  private:
   class _Internal;
@@ -15345,6 +15364,7 @@ class CMsgGCCStrike15_v2_ServerNotificationForUserPenalty final :
     uint32_t reason_;
     uint32_t seconds_;
     bool communication_cooldown_;
+    uint32_t cheating_penalty_level_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_cstrike15_5fgcmessages_2eproto;
@@ -31893,6 +31913,7 @@ class CSOPersonaDataPublic final :
     kElevatedStateFieldNumber = 3,
     kXpTrailTimestampRefreshFieldNumber = 4,
     kXpTrailLevelFieldNumber = 5,
+    kClanIdFieldNumber = 6,
   };
   // optional .PlayerCommendationInfo commendation = 2;
   bool has_commendation() const;
@@ -31964,6 +31985,19 @@ class CSOPersonaDataPublic final :
   void _internal_set_xp_trail_level(uint32_t value);
   public:
 
+  // optional uint32 clan_id = 6;
+  bool has_clan_id() const;
+  private:
+  bool _internal_has_clan_id() const;
+  public:
+  void clear_clan_id();
+  uint32_t clan_id() const;
+  void set_clan_id(uint32_t value);
+  private:
+  uint32_t _internal_clan_id() const;
+  void _internal_set_clan_id(uint32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:CSOPersonaDataPublic)
  private:
   class _Internal;
@@ -31979,6 +32013,7 @@ class CSOPersonaDataPublic final :
     bool elevated_state_;
     uint32_t xp_trail_timestamp_refresh_;
     uint32_t xp_trail_level_;
+    uint32_t clan_id_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_cstrike15_5fgcmessages_2eproto;
@@ -38168,6 +38203,166 @@ class CMsgGCCStrike15_v2_ClientAccountBalance final :
 };
 // -------------------------------------------------------------------
 
+class CMsgGCCStrike15_v2_SetClanId final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CMsgGCCStrike15_v2_SetClanId) */ {
+ public:
+  inline CMsgGCCStrike15_v2_SetClanId() : CMsgGCCStrike15_v2_SetClanId(nullptr) {}
+  ~CMsgGCCStrike15_v2_SetClanId() override;
+  explicit PROTOBUF_CONSTEXPR CMsgGCCStrike15_v2_SetClanId(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CMsgGCCStrike15_v2_SetClanId(const CMsgGCCStrike15_v2_SetClanId& from);
+  CMsgGCCStrike15_v2_SetClanId(CMsgGCCStrike15_v2_SetClanId&& from) noexcept
+    : CMsgGCCStrike15_v2_SetClanId() {
+    *this = ::std::move(from);
+  }
+
+  inline CMsgGCCStrike15_v2_SetClanId& operator=(const CMsgGCCStrike15_v2_SetClanId& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CMsgGCCStrike15_v2_SetClanId& operator=(CMsgGCCStrike15_v2_SetClanId&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
+  }
+  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CMsgGCCStrike15_v2_SetClanId& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CMsgGCCStrike15_v2_SetClanId* internal_default_instance() {
+    return reinterpret_cast<const CMsgGCCStrike15_v2_SetClanId*>(
+               &_CMsgGCCStrike15_v2_SetClanId_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    163;
+
+  friend void swap(CMsgGCCStrike15_v2_SetClanId& a, CMsgGCCStrike15_v2_SetClanId& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CMsgGCCStrike15_v2_SetClanId* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CMsgGCCStrike15_v2_SetClanId* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CMsgGCCStrike15_v2_SetClanId* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<CMsgGCCStrike15_v2_SetClanId>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const CMsgGCCStrike15_v2_SetClanId& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const CMsgGCCStrike15_v2_SetClanId& from) {
+    CMsgGCCStrike15_v2_SetClanId::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CMsgGCCStrike15_v2_SetClanId* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CMsgGCCStrike15_v2_SetClanId";
+  }
+  protected:
+  explicit CMsgGCCStrike15_v2_SetClanId(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kClanIdFieldNumber = 1,
+  };
+  // optional uint32 clan_id = 1;
+  bool has_clan_id() const;
+  private:
+  bool _internal_has_clan_id() const;
+  public:
+  void clear_clan_id();
+  uint32_t clan_id() const;
+  void set_clan_id(uint32_t value);
+  private:
+  uint32_t _internal_clan_id() const;
+  void _internal_set_clan_id(uint32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:CMsgGCCStrike15_v2_SetClanId)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    uint32_t clan_id_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_cstrike15_5fgcmessages_2eproto;
+};
+// -------------------------------------------------------------------
+
 class CMsgGCCStrike15_v2_ClientPartyJoinRelay final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CMsgGCCStrike15_v2_ClientPartyJoinRelay) */ {
  public:
@@ -38223,7 +38418,7 @@ class CMsgGCCStrike15_v2_ClientPartyJoinRelay final :
                &_CMsgGCCStrike15_v2_ClientPartyJoinRelay_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    163;
+    164;
 
   friend void swap(CMsgGCCStrike15_v2_ClientPartyJoinRelay& a, CMsgGCCStrike15_v2_ClientPartyJoinRelay& b) {
     a.Swap(&b);
@@ -38398,7 +38593,7 @@ class CMsgGCCStrike15_v2_ClientPartyWarning_Entry final :
                &_CMsgGCCStrike15_v2_ClientPartyWarning_Entry_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    164;
+    165;
 
   friend void swap(CMsgGCCStrike15_v2_ClientPartyWarning_Entry& a, CMsgGCCStrike15_v2_ClientPartyWarning_Entry& b) {
     a.Swap(&b);
@@ -38573,7 +38768,7 @@ class CMsgGCCStrike15_v2_ClientPartyWarning final :
                &_CMsgGCCStrike15_v2_ClientPartyWarning_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    165;
+    166;
 
   friend void swap(CMsgGCCStrike15_v2_ClientPartyWarning& a, CMsgGCCStrike15_v2_ClientPartyWarning& b) {
     a.Swap(&b);
@@ -38739,7 +38934,7 @@ class CMsgGCCStrike15_v2_SetEventFavorite final :
                &_CMsgGCCStrike15_v2_SetEventFavorite_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    166;
+    167;
 
   friend void swap(CMsgGCCStrike15_v2_SetEventFavorite& a, CMsgGCCStrike15_v2_SetEventFavorite& b) {
     a.Swap(&b);
@@ -38914,7 +39109,7 @@ class CMsgGCCStrike15_v2_GetEventFavorites_Request final :
                &_CMsgGCCStrike15_v2_GetEventFavorites_Request_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    167;
+    168;
 
   friend void swap(CMsgGCCStrike15_v2_GetEventFavorites_Request& a, CMsgGCCStrike15_v2_GetEventFavorites_Request& b) {
     a.Swap(&b);
@@ -39074,7 +39269,7 @@ class CMsgGCCStrike15_v2_GetEventFavorites_Response final :
                &_CMsgGCCStrike15_v2_GetEventFavorites_Response_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    168;
+    169;
 
   friend void swap(CMsgGCCStrike15_v2_GetEventFavorites_Response& a, CMsgGCCStrike15_v2_GetEventFavorites_Response& b) {
     a.Swap(&b);
@@ -39274,7 +39469,7 @@ class CMsgGCCStrike15_v2_ClientPerfReport_Entry final :
                &_CMsgGCCStrike15_v2_ClientPerfReport_Entry_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    169;
+    170;
 
   friend void swap(CMsgGCCStrike15_v2_ClientPerfReport_Entry& a, CMsgGCCStrike15_v2_ClientPerfReport_Entry& b) {
     a.Swap(&b);
@@ -39519,7 +39714,7 @@ class CMsgGCCStrike15_v2_ClientPerfReport final :
                &_CMsgGCCStrike15_v2_ClientPerfReport_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    170;
+    171;
 
   friend void swap(CMsgGCCStrike15_v2_ClientPerfReport& a, CMsgGCCStrike15_v2_ClientPerfReport& b) {
     a.Swap(&b);
@@ -39685,7 +39880,7 @@ class CVDiagnostic final :
                &_CVDiagnostic_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    171;
+    172;
 
   friend void swap(CVDiagnostic& a, CVDiagnostic& b) {
     a.Swap(&b);
@@ -39895,7 +40090,7 @@ class CMsgGCCStrike15_v2_GC2ClientRefuseSecureMode final :
                &_CMsgGCCStrike15_v2_GC2ClientRefuseSecureMode_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    172;
+    173;
 
   friend void swap(CMsgGCCStrike15_v2_GC2ClientRefuseSecureMode& a, CMsgGCCStrike15_v2_GC2ClientRefuseSecureMode& b) {
     a.Swap(&b);
@@ -40185,7 +40380,7 @@ class CMsgGCCStrike15_v2_GC2ClientRequestValidation final :
                &_CMsgGCCStrike15_v2_GC2ClientRequestValidation_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    173;
+    174;
 
   friend void swap(CMsgGCCStrike15_v2_GC2ClientRequestValidation& a, CMsgGCCStrike15_v2_GC2ClientRequestValidation& b) {
     a.Swap(&b);
@@ -40365,7 +40560,7 @@ class CMsgGCCStrike15_v2_GC2ClientInitSystem final :
                &_CMsgGCCStrike15_v2_GC2ClientInitSystem_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    174;
+    175;
 
   friend void swap(CMsgGCCStrike15_v2_GC2ClientInitSystem& a, CMsgGCCStrike15_v2_GC2ClientInitSystem& b) {
     a.Swap(&b);
@@ -40675,7 +40870,7 @@ class CMsgGCCStrike15_v2_GC2ClientInitSystem_Response final :
                &_CMsgGCCStrike15_v2_GC2ClientInitSystem_Response_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    175;
+    176;
 
   friend void swap(CMsgGCCStrike15_v2_GC2ClientInitSystem_Response& a, CMsgGCCStrike15_v2_GC2ClientInitSystem_Response& b) {
     a.Swap(&b);
@@ -40980,7 +41175,7 @@ class CMsgGCCStrike15_v2_SetPlayerLeaderboardSafeName final :
                &_CMsgGCCStrike15_v2_SetPlayerLeaderboardSafeName_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    176;
+    177;
 
   friend void swap(CMsgGCCStrike15_v2_SetPlayerLeaderboardSafeName& a, CMsgGCCStrike15_v2_SetPlayerLeaderboardSafeName& b) {
     a.Swap(&b);
@@ -41144,7 +41339,7 @@ class CMsgRequestRecurringMissionSchedule final :
                &_CMsgRequestRecurringMissionSchedule_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    177;
+    178;
 
   friend void swap(CMsgRequestRecurringMissionSchedule& a, CMsgRequestRecurringMissionSchedule& b) {
     a.Swap(&b);
@@ -41270,7 +41465,7 @@ class CMsgRecurringMissionSchema_MissionTemplateList final :
                &_CMsgRecurringMissionSchema_MissionTemplateList_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    178;
+    179;
 
   friend void swap(CMsgRecurringMissionSchema_MissionTemplateList& a, CMsgRecurringMissionSchema_MissionTemplateList& b) {
     a.Swap(&b);
@@ -41456,7 +41651,7 @@ class CMsgRecurringMissionSchema final :
                &_CMsgRecurringMissionSchema_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    179;
+    180;
 
   friend void swap(CMsgRecurringMissionSchema& a, CMsgRecurringMissionSchema& b) {
     a.Swap(&b);
@@ -56331,6 +56526,34 @@ inline void CMsgGCCStrike15_v2_ServerNotificationForUserPenalty::set_communicati
   // @@protoc_insertion_point(field_set:CMsgGCCStrike15_v2_ServerNotificationForUserPenalty.communication_cooldown)
 }
 
+// optional uint32 cheating_penalty_level = 5;
+inline bool CMsgGCCStrike15_v2_ServerNotificationForUserPenalty::_internal_has_cheating_penalty_level() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000010u) != 0;
+  return value;
+}
+inline bool CMsgGCCStrike15_v2_ServerNotificationForUserPenalty::has_cheating_penalty_level() const {
+  return _internal_has_cheating_penalty_level();
+}
+inline void CMsgGCCStrike15_v2_ServerNotificationForUserPenalty::clear_cheating_penalty_level() {
+  _impl_.cheating_penalty_level_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000010u;
+}
+inline uint32_t CMsgGCCStrike15_v2_ServerNotificationForUserPenalty::_internal_cheating_penalty_level() const {
+  return _impl_.cheating_penalty_level_;
+}
+inline uint32_t CMsgGCCStrike15_v2_ServerNotificationForUserPenalty::cheating_penalty_level() const {
+  // @@protoc_insertion_point(field_get:CMsgGCCStrike15_v2_ServerNotificationForUserPenalty.cheating_penalty_level)
+  return _internal_cheating_penalty_level();
+}
+inline void CMsgGCCStrike15_v2_ServerNotificationForUserPenalty::_internal_set_cheating_penalty_level(uint32_t value) {
+  _impl_._has_bits_[0] |= 0x00000010u;
+  _impl_.cheating_penalty_level_ = value;
+}
+inline void CMsgGCCStrike15_v2_ServerNotificationForUserPenalty::set_cheating_penalty_level(uint32_t value) {
+  _internal_set_cheating_penalty_level(value);
+  // @@protoc_insertion_point(field_set:CMsgGCCStrike15_v2_ServerNotificationForUserPenalty.cheating_penalty_level)
+}
+
 // -------------------------------------------------------------------
 
 // CMsgGCCStrike15_v2_ClientReportPlayer
@@ -68527,6 +68750,34 @@ inline void CSOPersonaDataPublic::set_xp_trail_level(uint32_t value) {
   // @@protoc_insertion_point(field_set:CSOPersonaDataPublic.xp_trail_level)
 }
 
+// optional uint32 clan_id = 6;
+inline bool CSOPersonaDataPublic::_internal_has_clan_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000020u) != 0;
+  return value;
+}
+inline bool CSOPersonaDataPublic::has_clan_id() const {
+  return _internal_has_clan_id();
+}
+inline void CSOPersonaDataPublic::clear_clan_id() {
+  _impl_.clan_id_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000020u;
+}
+inline uint32_t CSOPersonaDataPublic::_internal_clan_id() const {
+  return _impl_.clan_id_;
+}
+inline uint32_t CSOPersonaDataPublic::clan_id() const {
+  // @@protoc_insertion_point(field_get:CSOPersonaDataPublic.clan_id)
+  return _internal_clan_id();
+}
+inline void CSOPersonaDataPublic::_internal_set_clan_id(uint32_t value) {
+  _impl_._has_bits_[0] |= 0x00000020u;
+  _impl_.clan_id_ = value;
+}
+inline void CSOPersonaDataPublic::set_clan_id(uint32_t value) {
+  _internal_set_clan_id(value);
+  // @@protoc_insertion_point(field_set:CSOPersonaDataPublic.clan_id)
+}
+
 // -------------------------------------------------------------------
 
 // CSOAccountRecurringMission
@@ -72135,6 +72386,38 @@ inline void CMsgGCCStrike15_v2_ClientAccountBalance::set_allocated_url(std::stri
 
 // -------------------------------------------------------------------
 
+// CMsgGCCStrike15_v2_SetClanId
+
+// optional uint32 clan_id = 1;
+inline bool CMsgGCCStrike15_v2_SetClanId::_internal_has_clan_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool CMsgGCCStrike15_v2_SetClanId::has_clan_id() const {
+  return _internal_has_clan_id();
+}
+inline void CMsgGCCStrike15_v2_SetClanId::clear_clan_id() {
+  _impl_.clan_id_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline uint32_t CMsgGCCStrike15_v2_SetClanId::_internal_clan_id() const {
+  return _impl_.clan_id_;
+}
+inline uint32_t CMsgGCCStrike15_v2_SetClanId::clan_id() const {
+  // @@protoc_insertion_point(field_get:CMsgGCCStrike15_v2_SetClanId.clan_id)
+  return _internal_clan_id();
+}
+inline void CMsgGCCStrike15_v2_SetClanId::_internal_set_clan_id(uint32_t value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.clan_id_ = value;
+}
+inline void CMsgGCCStrike15_v2_SetClanId::set_clan_id(uint32_t value) {
+  _internal_set_clan_id(value);
+  // @@protoc_insertion_point(field_set:CMsgGCCStrike15_v2_SetClanId.clan_id)
+}
+
+// -------------------------------------------------------------------
+
 // CMsgGCCStrike15_v2_ClientPartyJoinRelay
 
 // optional uint32 accountid = 1;
@@ -74536,6 +74819,8 @@ CMsgRecurringMissionSchema::missions() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

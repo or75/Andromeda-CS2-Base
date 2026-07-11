@@ -19,7 +19,6 @@
 #include <CS2/Hook/Hook_OnClientOutput.hpp>
 #include <CS2/Hook/Hook_ParseMessage.hpp>
 #include <CS2/Hook/Hook_IsRelativeMouseMode.hpp>
-#include <CS2/Hook/Hook_UpdateInPVS.hpp>
 #include <CS2/Hook/Hook_AntiTamper.hpp>
 #include <CS2/Hook/Hook_IsLoadoutAllowed.hpp>
 #include <CS2/Hook/Hook_EquipItemInLoadout.hpp>
@@ -70,13 +69,11 @@ auto CHook_Loader::InstallSecondHook() -> bool
 		{ { XorStr( "Hook::GetMatricesForView" ) , XorStr( "48 8B C4 48 89 68 ? 48 89 70 ? 57 48 81 EC ? ? ? ? 0F 29 70 ? 49 8B F1" ) , CLIENT_DLL } , &Hook_GetMatricesForView , reinterpret_cast<LPVOID*>( &GetMatricesForView_o ) },
 		{ { XorStr( "Hook::CreateMove" ) , XorStr( "85 D2 0F 85 ? ? ? ? 48 8B C4 44 88 40 18" ) , CLIENT_DLL } , &Hook_CreateMove , reinterpret_cast<LPVOID*>( &CreateMove_o ) },
 		{ { XorStr( "Hook::SerializePartialToArray" ) , XorStr( "48 89 5C 24 ? 55 56 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 49 63 F0" ) , CLIENT_DLL } , &Hook_MessageLite_SerializePartialToArray , reinterpret_cast<LPVOID*>( &MessageLite_SerializePartialToArray_o ) },
-		{ { XorStr( "Hook::OnClientOutput" ) , XorStr( "48 89 5C 24 ? 55 56 57 41 56 41 57 48 83 EC ? 48 8D 05" ) , ENGINE2_DLL } , &Hook_OnClientOutput , reinterpret_cast<LPVOID*>( &OnClientOutput_o ) },
+		{ { XorStr( "Hook::OnClientOutput" ) , XorStr( "4C 8B DC 49 89 5B ? 49 89 6B ? 49 89 73 ? 57 41 56 41 57 48 83 EC ? 49 C7" ) , ENGINE2_DLL } , &Hook_OnClientOutput , reinterpret_cast<LPVOID*>( &OnClientOutput_o ) },
 		{ { XorStr( "Hook::CDemoRecorder" ) , XorStr( "40 56 57 41 57 48 83 EC ? 4C 8B F9" ) , ENGINE2_DLL } , &Hook_CDemoRecorder , reinterpret_cast<LPVOID*>( &CDemoRecorder_o ) },
 		{ { XorStr( "Hook::IsRelativeMouseMode" ) , XorStr( "48 89 6C 24 ? 48 89 74 24 ? 48 89 7C 24 ? 41 56 48 83 EC ? 0F B6 F2" ) , INPUTSYSTEM_DLL } , &Hook_IsRelativeMouseMode , reinterpret_cast<LPVOID*>( &IsRelativeMouseMode_o ) },
-		// he is no longer needed
-		//{ { XorStr( "Hook::UpdateInPVS" ) , XorStr( "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B D9 8B F2 48 8B 89 ? ? ? ? 48 8B 01 FF 50 ? 33 FF 48 85 C0 74 ? 48 8B 80 ? ? ? ? EB ? 48 8B C7 39 B8 ? ? ? ? 0F 8F ? ? ? ? 0F B6 48 ? 80 F9" ) , CLIENT_DLL } , &Hook_UpdateInPVS , reinterpret_cast<LPVOID*>( &UpdateInPVS_o ) },
 		{ { XorStr( "Hook::AntiTamper" ) , XorStr( "40 53 41 57 48 83 EC ? 48 89 74 24 ? 48 8B F1" ) , CLIENT_DLL } , &Hook_AntiTamper , reinterpret_cast<LPVOID*>( &AntiTamper_o ) },
-		{ {XorStr("Hook::IsLoadoutAllowed") , XorStr("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B E9 48 8B 0D ? ? ? ? ? ? ? FF 50") , CLIENT_DLL } ,&Hook_IsLoadoutAllowed , reinterpret_cast<LPVOID*>(&IsLoadoutAllowed_o) , true , true } ,
+		{ { XorStr("Hook::IsLoadoutAllowed") , XorStr("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B E9 48 8B 0D ? ? ? ? ? ? ? FF 50") , CLIENT_DLL } ,&Hook_IsLoadoutAllowed , reinterpret_cast<LPVOID*>(&IsLoadoutAllowed_o) , true , true } ,
 		{ { XorStr( "Hook::EquipItemInLoadout" ) , XorStr( "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 89 54 24 ? 57 41 54 41 55 41 56 41 57 48 83 EC ? 0F B7 FA" ) , CLIENT_DLL } ,& Hook_EquipItemInLoadout , reinterpret_cast<LPVOID*>( &EquipItemInLoadout_o ) },
 		{ { XorStr( "Hook::DrawGlow" ) , XorStr( "40 53 48 83 EC 20 48 8B 54" ) , CLIENT_DLL } , &Hook_DrawGlow , reinterpret_cast<LPVOID*>( &DrawGlow_o ) },
 	};

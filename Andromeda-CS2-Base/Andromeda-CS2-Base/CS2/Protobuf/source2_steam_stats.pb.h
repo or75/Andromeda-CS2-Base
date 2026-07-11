@@ -4820,6 +4820,7 @@ class CUserMessage_UserSentBugBug final :
     kSystemSpecsFieldNumber = 3,
     kBuildIdFieldNumber = 4,
     kOsversionFieldNumber = 5,
+    kBugbugNoFieldNumber = 7,
   };
   // optional string command_line = 1;
   bool has_command_line() const;
@@ -4919,6 +4920,19 @@ class CUserMessage_UserSentBugBug final :
   void _internal_set_osversion(int32_t value);
   public:
 
+  // optional int32 bugbug_no = 7;
+  bool has_bugbug_no() const;
+  private:
+  bool _internal_has_bugbug_no() const;
+  public:
+  void clear_bugbug_no();
+  int32_t bugbug_no() const;
+  void set_bugbug_no(int32_t value);
+  private:
+  int32_t _internal_bugbug_no() const;
+  void _internal_set_bugbug_no(int32_t value);
+  public:
+
   // @@protoc_insertion_point(class_scope:CUserMessage_UserSentBugBug)
  private:
   class _Internal;
@@ -4935,6 +4949,7 @@ class CUserMessage_UserSentBugBug final :
     ::CMsgSource2SystemSpecs* system_specs_;
     uint32_t build_id_;
     int32_t osversion_;
+    int32_t bugbug_no_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_source2_5fsteam_5fstats_2eproto;
@@ -10614,6 +10629,34 @@ inline void CUserMessage_UserSentBugBug::set_allocated_command_logs(std::string*
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:CUserMessage_UserSentBugBug.command_logs)
+}
+
+// optional int32 bugbug_no = 7;
+inline bool CUserMessage_UserSentBugBug::_internal_has_bugbug_no() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000040u) != 0;
+  return value;
+}
+inline bool CUserMessage_UserSentBugBug::has_bugbug_no() const {
+  return _internal_has_bugbug_no();
+}
+inline void CUserMessage_UserSentBugBug::clear_bugbug_no() {
+  _impl_.bugbug_no_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000040u;
+}
+inline int32_t CUserMessage_UserSentBugBug::_internal_bugbug_no() const {
+  return _impl_.bugbug_no_;
+}
+inline int32_t CUserMessage_UserSentBugBug::bugbug_no() const {
+  // @@protoc_insertion_point(field_get:CUserMessage_UserSentBugBug.bugbug_no)
+  return _internal_bugbug_no();
+}
+inline void CUserMessage_UserSentBugBug::_internal_set_bugbug_no(int32_t value) {
+  _impl_._has_bits_[0] |= 0x00000040u;
+  _impl_.bugbug_no_ = value;
+}
+inline void CUserMessage_UserSentBugBug::set_bugbug_no(int32_t value) {
+  _internal_set_bugbug_no(value);
+  // @@protoc_insertion_point(field_set:CUserMessage_UserSentBugBug.bugbug_no)
 }
 
 #ifdef __GNUC__

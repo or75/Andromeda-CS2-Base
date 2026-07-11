@@ -21,17 +21,6 @@ public:
 	uint8_t Type;
 };
 
-class CTraceInfo
-{
-public:
-	float m_flUnk;
-	float m_flDistance;
-	float m_flDamage;
-	uint32_t m_nPenCount;
-	uint32_t m_nHandle;
-	uint32_t m_nPenetrationFlags;
-};
-
 struct TraceData_t
 {
 private:
@@ -39,11 +28,17 @@ private:
 public:
 	void* m_pArrayPtr;
 private:
-	PAD( 0x1810 );
+	PAD( 0x1C10 );
 public:
 	int m_nCurrentSurface;
+private:
+	PAD( 0x4 );
+public:
 	CTraceInfo* m_pTraceInfo;
 	int m_nTotalSurfaces;
+private:
+	PAD( 0x4 );
+public:
 	void* m_pUnkPtr;
 private:
 	PAD( 0xB8 );
@@ -79,30 +74,39 @@ class CGameTrace
 {
 public:
 	void* pSurfaceProperties; // 0x00
-	C_BaseEntity* pHitEntity; // 0x08
-	CHitBox* pHitBox; // 0x10
+	C_BaseEntity* pHitEntity;         // 0x08
+	CHitBox* pHitBox;                 // 0x10
+
 private:
-	PAD( 0x38 ); // 0x18
+	PAD( 0x38 );                        // 0x18
+
 public:
-	uint32_t nSurfaceFlags; // 0x50
+	uint32_t nSurfaceFlags;            // 0x50
+
 private:
-	PAD( 0x24 ); // 0x54
+	PAD( 0x24 );                         // 0x54
+
 public:
-	Vector3 vecStart; // 0x78 // initial position
-	Vector3 vecEnd; // 0x84 // final position
-	Vector3 vecNormal; // 0x90 // surface normal at impact
-	Vector3 vecPosition;
+	Vector3 vecStart;                  // 0x78
+	Vector3 vecEnd;                    // 0x84
+	Vector3 vecNormal;                 // 0x90
+
 private:
-	PAD( 0x4 );
+	PAD( 0x0C );                         // 0x9C
+
 public:
-	float flFraction; // 0xAC // time completed, 1.0 = didn't hit anything
+	char pad_00A8[0x4];                // 0xA8
+
+	float flFraction;                  // 0xAC
+
 private:
-	PAD( 0x6 ); // 0xB0
+	PAD( 0x0B );                         // 0xB0
+
 public:
-	uint8_t nShapeType; // 0xB6
-	bool bStartSolid; // 0xB7 // if true, the initial point was in a solid area
+	bool bStartSolid;                  // 0xBB
+
 private:
-	PAD( 0x9 );
+	PAD( 0x4 );                          // 0xBC
 public:
 
 	inline bool DidHit() const

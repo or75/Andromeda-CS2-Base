@@ -283,10 +283,14 @@ GetGameEntitySystemPointer:;
 	{
 		if ( !g_ppCUserCmd )
 		{
-			auto ppCUserCmd = reinterpret_cast<uintptr_t>( FindPattern( CLIENT_DLL , XorStr( "48 8B 0D ? ? ? ? E8 ? ? ? ? 48 8B CF 48 8B F0" ) ) );
+			auto ppCUserCmd = reinterpret_cast<uintptr_t>( FindPattern( CLIENT_DLL , XorStr( "48 8B 0D ? ? ? ? E8 ? ? ? ? 48 8B CF 4C 8B F8" ) ) );
 
 			if ( !ppCUserCmd )
+			{
+				DEV_LOG( "[error] ppCUserCmd\n" );
+
 				return nullptr;
+			}
 
 			g_ppCUserCmd = *GetPtrAddress<CUserCmd***>( ppCUserCmd );
 		}
