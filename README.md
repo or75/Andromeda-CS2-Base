@@ -12,7 +12,7 @@
 
 # Links:
 [UnknownCheats Thread](https://www.unknowncheats.me/forum/counter-strike-2-a/722929-andromeda-cs2-internal-base.html)<br>
-[Powered by Andromeda Hack](https://andromeda.buzz/)
+[Powered by Andromeda CS2](https://cs2.andromeda-cheats.com/)
 [Powered by Andromeda SDK](https://andromeda-sdk.com/)
 
 # ScreenShots:
