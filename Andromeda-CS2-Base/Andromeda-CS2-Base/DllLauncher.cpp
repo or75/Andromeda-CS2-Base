@@ -9,10 +9,33 @@
 #include <CS2/CSDK_Loader.hpp>
 #include <CS2/CHook_Loader.hpp>
 #include <CS2/SDK/CFunctionList.hpp>
+#include <CS2/SDK/FunctionListSDK.hpp>
 
 #include <AndromedaClient/CAndromedaClient.hpp>
 
 static CDllLauncher g_CDllLauncher{};
+
+auto Hook_AnalizePeModule( HANDLE ModuleHandle , ModuleInfo_t* pModuleInfo_t , bool CalculateHash ) -> bool
+{
+	auto Ret = AnalizePeModule_o( ModuleHandle , pModuleInfo_t , CalculateHash );
+
+	if ( !Ret || !CalculateHash )
+		return Ret;
+
+	for ( const auto& Module : GetDllLauncher()->GetCachedModules() )
+	{
+		if ( Module.m_ModuleHandle == ModuleHandle )
+		{
+			DEV_LOG( "[Spoof CRC32]: [%u] -> [%u] [%s]\n" , pModuleInfo_t->CRC32 , Module.m_nCRC32 , pModuleInfo_t->filename );
+
+			pModuleInfo_t->CRC32 = Module.m_nCRC32;
+
+			return Ret;
+		}
+	}
+
+	return Ret;
+}
 
 auto CDllLauncher::OnDllMain( LPVOID lpReserved , HINSTANCE hInstace ) -> void
 {
@@ -92,6 +115,47 @@ auto WINAPI CDllLauncher::StartCheatTheard( LPVOID lpThreadParameter ) -> DWORD
 	{
 		DEV_LOG( "[error] FunctionList::OnInit\n" );
 		return 0;
+	}
+
+	// Cached Modules CRC32
+	{
+		std::vector<HANDLE> Modules = {};
+
+		const auto peb = reinterpret_cast<PEB*>( __readgsqword( 0x60 ) );
+		const auto ldr = peb->Ldr;
+		const auto list = &ldr->InMemoryOrderModuleList;
+
+		for ( auto entry = list->Flink; entry != list; entry = entry->Flink )
+		{
+			const auto ldr_entry = CONTAINING_RECORD( entry , LDR_DATA_TABLE_ENTRY , InMemoryOrderLinks );
+			const auto base = reinterpret_cast<std::uintptr_t>( ldr_entry->DllBase );
+
+			if ( base && ldr_entry->FullDllName.Buffer )
+				Modules.push_back( (HANDLE)base );
+		}
+
+		if ( !Modules.empty() )
+		{
+			for ( const auto& ModuleHandle : Modules )
+			{
+				ModuleInfo_t ModuleInfo = {};
+
+				if ( AnalizePeModule( ModuleHandle , &ModuleInfo , true ) )
+				{
+					CachedModule ModuleData = { ModuleHandle , ModuleInfo.CRC32 };
+
+					GetDllLauncher()->GetCachedModules().push_back( ModuleData );
+				}
+				else
+				{
+					DEV_LOG( "[error] Get CRC32 Modules: #2\n" );
+				}
+			}
+		}
+		else
+		{
+			DEV_LOG( "[error] Get CRC32 Modules: #1\n" );
+		}
 	}
 
 	if ( !GetSDK_Loader()->LoadSDK() )

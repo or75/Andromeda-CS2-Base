@@ -144,7 +144,7 @@ public:
 	CBasePattern C_BaseEntity_UpdateBodyGroupChoice = { VmpStr( "C_BaseEntity::UpdateBodyGroupChoice" ) , VmpStr( "E8 ? ? ? ? 48 8B 9C 24 ? ? ? ? 4C 8B B4 24 ? ? ? ? 48 83 C4" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
 	CBasePattern C_EconItemView_SetAttributeValueByName = { VmpStr( "C_EconItemView::SetAttributeValueByName" ) , VmpStr( "E8 ? ? ? ? 66 41 0F 6E D4" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };
 	CBasePattern C_CSWeaponBase_UpdateCompositeMaterialSet = { VmpStr( "C_CSWeaponBase::UpdateCompositeMaterialSet" ) , VmpStr( "40 55 53 41 57 48 8D AC 24 00 FE ? ?" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
-
+	CBasePattern AnalizePeModule = { VmpStr( "AnalizePeModule" ) , VmpStr( "48 8B C4 55 41 56 48 8D 68 ? 48 81 EC ? ? ? ? 48 89 58 ? 0F 57 C0" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 };
 
 auto GetFunctionList() -> CFunctionList*;

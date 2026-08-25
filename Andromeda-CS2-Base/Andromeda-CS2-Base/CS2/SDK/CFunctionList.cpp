@@ -72,6 +72,7 @@ auto CFunctionList::OnInit() -> bool
 		&C_BaseEntity_UpdateBodyGroupChoice,
 		&C_EconItemView_SetAttributeValueByName,
 		&C_CSWeaponBase_UpdateCompositeMaterialSet,
+		&AnalizePeModule,
 	};
 
 	auto Searched = true;

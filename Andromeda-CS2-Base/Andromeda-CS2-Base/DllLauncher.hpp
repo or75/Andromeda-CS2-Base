@@ -1,7 +1,10 @@
 #pragma once
 
 #include <Common/Common.hpp>
+#include <Common/MemoryEngine.hpp>
+
 #include <string>
+#include <vector>
 
 struct ManualMapParam_t
 {
@@ -9,8 +12,38 @@ struct ManualMapParam_t
 	char DllPath[MAX_PATH] = { 0 };
 };
 
+struct ModuleInfo_t
+{
+private:
+	PAD( 0xC );
+public:
+	uint32_t CRC32;
+	uint32_t ImageSize;
+	uint32_t EntryPoint;
+	uint32_t TimeStamp;
+private:
+	PAD( 0x4 );
+public:
+	uint64_t ImageBase;
+	char filename[260];
+};
+
+class CachedModule
+{
+public:
+	HANDLE m_ModuleHandle = nullptr;
+	uint32_t m_nCRC32 = 0;
+};
+
+auto Hook_AnalizePeModule( HANDLE ModuleHandle , ModuleInfo_t* pModuleInfo_t , bool CalculateHash ) -> bool;
+
+using AnalizePeModule_t = decltype( &Hook_AnalizePeModule );
+inline AnalizePeModule_t AnalizePeModule_o = nullptr;
+
 class CDllLauncher final
 {
+	using vecCachedModules = std::vector<CachedModule>;
+
 public:
 	auto OnDllMain( LPVOID lpReserved , HINSTANCE hInstace ) -> void;
 	auto OnDestroy() -> void;
@@ -30,6 +63,11 @@ public:
 	inline auto GetBaseOfCode() -> DWORD
 	{
 		return m_BaseOfCode;
+	}
+
+	inline auto GetCachedModules() -> vecCachedModules&
+	{
+		return m_CachedModules;
 	}
 
 public:
@@ -82,6 +120,9 @@ private:
 
 private:
 	bool m_bDestroyed = false;
+
+private:
+	vecCachedModules m_CachedModules;
 };
 
 auto GetDllDir() -> std::string&;

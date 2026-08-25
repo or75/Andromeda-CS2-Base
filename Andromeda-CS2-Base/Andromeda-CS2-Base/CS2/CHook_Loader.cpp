@@ -1,5 +1,6 @@
 #include "CHook_Loader.hpp"
 
+#include <DllLauncher.hpp>
 #include <Common/MemoryEngine.hpp>
 #include <MinHook/MinHook.h>
 
@@ -47,6 +48,7 @@ auto CHook_Loader::InstallSecondHook() -> bool
 {
 	m_Hooks =
 	{
+		{ { XorStr( "Hook::AnalizePeModule" ) , XorStr( "48 8B C4 55 41 56 48 8D 68 ? 48 81 EC ? ? ? ? 48 89 58 ? 0F 57 C0" ) , CLIENT_DLL } , &Hook_AnalizePeModule , reinterpret_cast<LPVOID*>( &AnalizePeModule_o ) },
 		/*
 		sub_180095150 -> PresentOverlay
 		sub_18008ED80(*(_QWORD *)(v4 + 64), sub_180095150, &qword_180162258, 1, "DXGISwapChain_Present");

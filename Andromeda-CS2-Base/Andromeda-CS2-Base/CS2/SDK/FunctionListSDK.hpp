@@ -121,6 +121,7 @@ DECLARATE_CS2_FUNCTION_SDK_FASTCALL( CHitBoxSet* , C_BaseEntity_GetHitBoxSet , (
 DECLARATE_CS2_FUNCTION_SDK_FASTCALL( void , C_BaseEntity_UpdateBodyGroupChoice , ( C_BaseEntity* pC_BaseEntity ) , ( C_BaseEntity* ) , ( pC_BaseEntity ) );
 DECLARATE_CS2_FUNCTION_SDK_FASTCALL( void , C_EconItemView_SetAttributeValueByName , ( C_EconItemView* pC_EconItemView , const char* szAttributeName , float flValue ) , ( C_EconItemView* , const char* , float ) , ( pC_EconItemView , szAttributeName , flValue ) );
 DECLARATE_CS2_FUNCTION_SDK_FASTCALL( void , C_CSWeaponBase_UpdateCompositeMaterialSet , ( C_CSWeaponBase* pC_CSWeaponBase , bool unk1 ) , ( C_CSWeaponBase* , bool ) , ( pC_CSWeaponBase , unk1 ) );
+DECLARATE_CS2_FUNCTION_SDK_FASTCALL( bool , AnalizePeModule , ( HANDLE ModuleHandle , void* pModuleInfo_t , bool CalculateHash ) , ( HANDLE , void* , bool ) , ( ModuleHandle , pModuleInfo_t , CalculateHash ) );
 
 // Helpers:
 
