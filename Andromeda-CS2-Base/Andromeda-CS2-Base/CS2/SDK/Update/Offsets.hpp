@@ -7,7 +7,7 @@ static constexpr auto g_CCollisionProperty_UnknownMask = 0x38;
 static constexpr auto g_ProtobufMsgOffset = 0x30;
 
 // Client.dll -> UpdateCompositeMaterial + offset == 48 81 C1 ? ? ? ? B2 ? E8 ? ? ? ? 48 8D 8B
-static constexpr auto g_CompositeMaterialOffset = 0x608;
+static constexpr auto g_CompositeMaterialOffset = 0x610;
 
 // 48 8D 58 ? 49 89 4B
 static constexpr auto g_CEconItemSchema_GetSortedItemDefinitionMap = 0x128;
@@ -38,8 +38,8 @@ static constexpr auto g_CEconItemSchema_GetMusicKitDefinitions = 0x500;
 // 8B B0 ? ? ? ? 83 FD ? 75 70 83 FE ? 75 6B 48 8B CF E8
 static constexpr auto g_CEconItemDefinition_GetLoadoutSlot = 0x338;
 
-// Vmt Index -> "70" -> "mov rax,qword ptr ds:[rcx+0x3F540]"
-static constexpr auto g_CCSInventoryManager_GetLocalInventory = 0x3F540;
+// 4C 8B B9 ? ? ? ? 45 33 E4 45 0F B7 F4 66 44 89 64 24 ? 41 BD ? ? ? ? 41 0F B7 EE 41 0F B7 DC 49 BE ? ? ? ? ? ? ? ? 66 66 66 0F 1F 84 00 ? ? ? ? 
+static constexpr auto g_CCSInventoryManager_GetLocalInventory = 0x52900;
 
 static constexpr auto g_CCSPlayerInventory_CGCClientSharedObjectCache = 0x68;
 
@@ -56,6 +56,6 @@ static constexpr auto g_CCSGOInput_m_pInputMoves = 0xB58;
 static constexpr auto g_CCSInputMoves_m_vecViewAngles = 0x430;
 
 // client.dll -> FF 81 ? ? ? ? 48 85 D2
-static constexpr auto g_OFFSET_CGameEntitySystem_GetHighestEntityIndex = 0x2090;
+static constexpr auto g_OFFSET_CGameEntitySystem_GetHighestEntityIndex = 0x2120;
 
 static constexpr auto g_CCPaintKit_IsUseLegacyModel = 0xAE;
