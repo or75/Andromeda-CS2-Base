@@ -15,6 +15,8 @@
 [Powered by Andromeda CS2](https://cs2.andromeda-cheats.com/)
 [Powered by Andromeda SDK](https://andromeda-sdk.com/)
 
+[SHIT DISCORD GROUP FOR ANDROMEDA BASES](https://discord.gg/WWhSe7JbSR)
+
 # ScreenShots:
 
 <img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/106f81d5-e24f-44af-8449-74b1ca1d94ff" />
