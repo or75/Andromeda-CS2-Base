@@ -15,7 +15,7 @@
 [Powered by Andromeda CS2](https://cs2.andromeda-cheats.com/)
 [Powered by Andromeda SDK](https://andromeda-sdk.com/)
 
-[OFFICIAL Andromeda CS2 DISCORD](https://discord.gg/ccsZJVPNTM)
+[OFFICIAL Andromeda CS2 DISCORD](https://discord.gg/ccsZJVPNTM)<br>
 [OFFICIAL Andromeda SDK DISCORD](https://discord.gg/mu6pZ27FdC)
 
 [SHIT RU DISCORD GROUP FOR ANDROMEDA BASES](https://discord.gg/WWhSe7JbSR)
