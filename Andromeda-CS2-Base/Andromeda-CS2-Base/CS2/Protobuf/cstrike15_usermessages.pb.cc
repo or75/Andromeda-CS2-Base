@@ -413,7 +413,6 @@ PROTOBUF_CONSTEXPR CCSUsrMsg_WeaponSound::CCSUsrMsg_WeaponSound(
   , /*decltype(_impl_.origin_z_)*/0
   , /*decltype(_impl_.game_timestamp_)*/0
   , /*decltype(_impl_.source_soundscapeid_)*/0u
-  , /*decltype(_impl_.stealth_)*/false
   , /*decltype(_impl_.entidx_)*/-1} {}
 struct CCSUsrMsg_WeaponSoundDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CCSUsrMsg_WeaponSoundDefaultTypeInternal()
@@ -1457,6 +1456,21 @@ struct CCSUsrMsg_SendPlayerLoadoutDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CCSUsrMsg_SendPlayerLoadoutDefaultTypeInternal _CCSUsrMsg_SendPlayerLoadout_default_instance_;
+PROTOBUF_CONSTEXPR CCSUsrMsg_CustomHudClicked::CCSUsrMsg_CustomHudClicked(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.button_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.custom_hud_layout_)*/16777215u} {}
+struct CCSUsrMsg_CustomHudClickedDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CCSUsrMsg_CustomHudClickedDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CCSUsrMsg_CustomHudClickedDefaultTypeInternal() {}
+  union {
+    CCSUsrMsg_CustomHudClicked _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CCSUsrMsg_CustomHudClickedDefaultTypeInternal _CCSUsrMsg_CustomHudClicked_default_instance_;
 PROTOBUF_CONSTEXPR CVacNet_GetReviewerInfo_Request::CVacNet_GetReviewerInfo_Request(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_._has_bits_)*/{}
@@ -1498,7 +1512,7 @@ struct CVacNet_GetReviewerInfo_ResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CVacNet_GetReviewerInfo_ResponseDefaultTypeInternal _CVacNet_GetReviewerInfo_Response_default_instance_;
-static ::_pb::Metadata file_level_metadata_cstrike15_5fusermessages_2eproto[93];
+static ::_pb::Metadata file_level_metadata_cstrike15_5fusermessages_2eproto[94];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_cstrike15_5fusermessages_2eproto[2];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_cstrike15_5fusermessages_2eproto = nullptr;
 
@@ -1804,15 +1818,13 @@ const uint32_t TableStruct_cstrike15_5fusermessages_2eproto::offsets[] PROTOBUF_
   PROTOBUF_FIELD_OFFSET(::CCSUsrMsg_WeaponSound, _impl_.sound_),
   PROTOBUF_FIELD_OFFSET(::CCSUsrMsg_WeaponSound, _impl_.game_timestamp_),
   PROTOBUF_FIELD_OFFSET(::CCSUsrMsg_WeaponSound, _impl_.source_soundscapeid_),
-  PROTOBUF_FIELD_OFFSET(::CCSUsrMsg_WeaponSound, _impl_.stealth_),
-  7,
+  6,
   1,
   2,
   3,
   0,
   4,
   5,
-  6,
   PROTOBUF_FIELD_OFFSET(::CCSUsrMsg_WeaponMagDrop, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::CCSUsrMsg_WeaponMagDrop, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2581,6 +2593,16 @@ const uint32_t TableStruct_cstrike15_5fusermessages_2eproto::offsets[] PROTOBUF_
   PROTOBUF_FIELD_OFFSET(::CCSUsrMsg_SendPlayerLoadout, _impl_.playerslot_),
   ~0u,
   0,
+  PROTOBUF_FIELD_OFFSET(::CCSUsrMsg_CustomHudClicked, _impl_._has_bits_),
+  PROTOBUF_FIELD_OFFSET(::CCSUsrMsg_CustomHudClicked, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::CCSUsrMsg_CustomHudClicked, _impl_.custom_hud_layout_),
+  PROTOBUF_FIELD_OFFSET(::CCSUsrMsg_CustomHudClicked, _impl_.button_id_),
+  1,
+  0,
   PROTOBUF_FIELD_OFFSET(::CVacNet_GetReviewerInfo_Request, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::CVacNet_GetReviewerInfo_Request, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2630,75 +2652,76 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 255, -1, -1, sizeof(::CCSUsrMsg_SendPlayerItemDrops)},
   { 262, 270, -1, sizeof(::CCSUsrMsg_SendPlayerItemFound)},
   { 272, 283, -1, sizeof(::CCSUsrMsg_ReloadEffect)},
-  { 288, 302, -1, sizeof(::CCSUsrMsg_WeaponSound)},
-  { 310, 319, -1, sizeof(::CCSUsrMsg_WeaponMagDrop)},
-  { 322, 332, -1, sizeof(::CCSUsrMsg_UpdateScreenHealthBar)},
-  { 336, 344, -1, sizeof(::CCSUsrMsg_EntityOutlineHighlight)},
-  { 346, 353, -1, sizeof(::CCSUsrMsg_AdjustMoney)},
-  { 354, 364, -1, sizeof(::CCSUsrMsg_ReportHit)},
-  { 368, 377, -1, sizeof(::CCSUsrMsg_KillCam)},
-  { 380, 390, -1, sizeof(::CCSUsrMsg_DesiredTimescale)},
-  { 394, 401, -1, sizeof(::CCSUsrMsg_CurrentTimescale)},
-  { 402, 411, -1, sizeof(::CCSUsrMsg_AchievementEvent)},
-  { 414, 424, -1, sizeof(::CCSUsrMsg_MatchEndConditions)},
-  { 428, 436, -1, sizeof(::CCSUsrMsg_PlayerStatsUpdate_Stat)},
-  { 438, 448, -1, sizeof(::CCSUsrMsg_PlayerStatsUpdate)},
-  { 452, 462, -1, sizeof(::CCSUsrMsg_QuestProgress)},
-  { 466, 473, -1, sizeof(::CCSUsrMsg_ScoreLeaderboardData)},
-  { 474, 481, -1, sizeof(::CCSUsrMsg_PlayerDecalDigitalSignature)},
-  { 482, 490, -1, sizeof(::CCSUsrMsg_XRankGet)},
-  { 492, 501, -1, sizeof(::CCSUsrMsg_XRankUpd)},
-  { 504, 512, -1, sizeof(::CCSUsrMsg_CallVoteFailed)},
-  { 514, 528, -1, sizeof(::CCSUsrMsg_VoteStart)},
-  { 536, 546, -1, sizeof(::CCSUsrMsg_VotePass)},
-  { 550, 558, -1, sizeof(::CCSUsrMsg_VoteFailed)},
-  { 560, -1, -1, sizeof(::CCSUsrMsg_VoteSetup)},
-  { 567, 579, -1, sizeof(::CCSUsrMsg_SendLastKillerDamageToClient)},
-  { 585, 597, -1, sizeof(::CCSUsrMsg_ServerRankUpdate_RankUpdate)},
-  { 603, -1, -1, sizeof(::CCSUsrMsg_ServerRankUpdate)},
-  { 610, 617, -1, sizeof(::CCSUsrMsg_XpUpdate)},
-  { 618, 625, -1, sizeof(::CCSUsrMsg_ItemPickup)},
-  { 626, 635, -1, sizeof(::CCSUsrMsg_ShowMenu)},
-  { 638, 645, -1, sizeof(::CCSUsrMsg_BarTime)},
-  { 646, 653, -1, sizeof(::CCSUsrMsg_AmmoDenied)},
-  { 654, 661, -1, sizeof(::CCSUsrMsg_MarkAchievement)},
-  { 662, 669, -1, sizeof(::CCSUsrMsg_MatchStatsUpdate)},
-  { 670, 678, -1, sizeof(::CCSUsrMsg_ItemDrop)},
-  { 680, 690, -1, sizeof(::CCSUsrMsg_RoundBackupFilenames)},
-  { 694, 703, -1, sizeof(::CCSUsrMsg_SSUI)},
-  { 706, 716, -1, sizeof(::CCSUsrMsg_SurvivalStats_Fact)},
-  { 720, 729, -1, sizeof(::CCSUsrMsg_SurvivalStats_Placement)},
-  { 732, 743, -1, sizeof(::CCSUsrMsg_SurvivalStats_Damage)},
-  { 748, 759, -1, sizeof(::CCSUsrMsg_SurvivalStats)},
-  { 764, 773, -1, sizeof(::CCSUsrMsg_EndOfMatchAllPlayersData_Accolade)},
-  { 776, 790, -1, sizeof(::CCSUsrMsg_EndOfMatchAllPlayersData_PlayerData)},
-  { 798, 806, -1, sizeof(::CCSUsrMsg_EndOfMatchAllPlayersData)},
-  { 808, 820, -1, sizeof(::CCSUsrMsg_RoundEndReportData_RerEvent_Victim)},
-  { 826, 833, -1, sizeof(::CCSUsrMsg_RoundEndReportData_RerEvent_Objective)},
-  { 834, 846, -1, sizeof(::CCSUsrMsg_RoundEndReportData_RerEvent_Damage)},
-  { 852, 865, -1, sizeof(::CCSUsrMsg_RoundEndReportData_RerEvent)},
-  { 872, 881, -1, sizeof(::CCSUsrMsg_RoundEndReportData_InitialConditions)},
-  { 884, 892, -1, sizeof(::CCSUsrMsg_RoundEndReportData)},
-  { 894, 907, -1, sizeof(::CCSUsrMsg_PostRoundDamageReport)},
-  { 914, 921, -1, sizeof(::CCSUsrMsg_CurrentRoundOdds)},
-  { 922, 929, -1, sizeof(::CCSUsrMsg_DeepStats)},
-  { 930, 940, -1, sizeof(::CCSUsrMsg_ShootInfo)},
-  { 944, 951, -1, sizeof(::CCSUsrMsg_ResetHud)},
-  { 952, 959, -1, sizeof(::CCSUsrMsg_GameTitle)},
-  { 960, 967, -1, sizeof(::CCSUsrMsg_RequestState)},
-  { 968, 975, -1, sizeof(::CCSUsrMsg_StopSpectatorMode)},
-  { 976, 983, -1, sizeof(::CCSUsrMsg_DisconnectToLobby)},
-  { 984, 991, -1, sizeof(::CCSUsrMsg_ClientInfo)},
-  { 992, 1000, -1, sizeof(::CCSUsrMsg_ServerRankRevealAll)},
-  { 1002, 1011, -1, sizeof(::CCSUsrMsgPreMatchSayText)},
-  { 1014, 1022, -1, sizeof(::CCSUsrMsg_CounterStrafe)},
-  { 1024, 1038, -1, sizeof(::CCSUsrMsg_DamagePrediction)},
-  { 1046, 1054, -1, sizeof(::CCSUsrMsg_RecurringMissionSchema)},
-  { 1056, 1065, -1, sizeof(::CCSUsrMsg_SendPlayerLoadout_LoadoutItem)},
-  { 1068, 1076, -1, sizeof(::CCSUsrMsg_SendPlayerLoadout)},
-  { 1078, 1085, -1, sizeof(::CVacNet_GetReviewerInfo_Request)},
-  { 1086, -1, -1, sizeof(::CVacnetReviewerInfo)},
-  { 1093, 1100, -1, sizeof(::CVacNet_GetReviewerInfo_Response)},
+  { 288, 301, -1, sizeof(::CCSUsrMsg_WeaponSound)},
+  { 308, 317, -1, sizeof(::CCSUsrMsg_WeaponMagDrop)},
+  { 320, 330, -1, sizeof(::CCSUsrMsg_UpdateScreenHealthBar)},
+  { 334, 342, -1, sizeof(::CCSUsrMsg_EntityOutlineHighlight)},
+  { 344, 351, -1, sizeof(::CCSUsrMsg_AdjustMoney)},
+  { 352, 362, -1, sizeof(::CCSUsrMsg_ReportHit)},
+  { 366, 375, -1, sizeof(::CCSUsrMsg_KillCam)},
+  { 378, 388, -1, sizeof(::CCSUsrMsg_DesiredTimescale)},
+  { 392, 399, -1, sizeof(::CCSUsrMsg_CurrentTimescale)},
+  { 400, 409, -1, sizeof(::CCSUsrMsg_AchievementEvent)},
+  { 412, 422, -1, sizeof(::CCSUsrMsg_MatchEndConditions)},
+  { 426, 434, -1, sizeof(::CCSUsrMsg_PlayerStatsUpdate_Stat)},
+  { 436, 446, -1, sizeof(::CCSUsrMsg_PlayerStatsUpdate)},
+  { 450, 460, -1, sizeof(::CCSUsrMsg_QuestProgress)},
+  { 464, 471, -1, sizeof(::CCSUsrMsg_ScoreLeaderboardData)},
+  { 472, 479, -1, sizeof(::CCSUsrMsg_PlayerDecalDigitalSignature)},
+  { 480, 488, -1, sizeof(::CCSUsrMsg_XRankGet)},
+  { 490, 499, -1, sizeof(::CCSUsrMsg_XRankUpd)},
+  { 502, 510, -1, sizeof(::CCSUsrMsg_CallVoteFailed)},
+  { 512, 526, -1, sizeof(::CCSUsrMsg_VoteStart)},
+  { 534, 544, -1, sizeof(::CCSUsrMsg_VotePass)},
+  { 548, 556, -1, sizeof(::CCSUsrMsg_VoteFailed)},
+  { 558, -1, -1, sizeof(::CCSUsrMsg_VoteSetup)},
+  { 565, 577, -1, sizeof(::CCSUsrMsg_SendLastKillerDamageToClient)},
+  { 583, 595, -1, sizeof(::CCSUsrMsg_ServerRankUpdate_RankUpdate)},
+  { 601, -1, -1, sizeof(::CCSUsrMsg_ServerRankUpdate)},
+  { 608, 615, -1, sizeof(::CCSUsrMsg_XpUpdate)},
+  { 616, 623, -1, sizeof(::CCSUsrMsg_ItemPickup)},
+  { 624, 633, -1, sizeof(::CCSUsrMsg_ShowMenu)},
+  { 636, 643, -1, sizeof(::CCSUsrMsg_BarTime)},
+  { 644, 651, -1, sizeof(::CCSUsrMsg_AmmoDenied)},
+  { 652, 659, -1, sizeof(::CCSUsrMsg_MarkAchievement)},
+  { 660, 667, -1, sizeof(::CCSUsrMsg_MatchStatsUpdate)},
+  { 668, 676, -1, sizeof(::CCSUsrMsg_ItemDrop)},
+  { 678, 688, -1, sizeof(::CCSUsrMsg_RoundBackupFilenames)},
+  { 692, 701, -1, sizeof(::CCSUsrMsg_SSUI)},
+  { 704, 714, -1, sizeof(::CCSUsrMsg_SurvivalStats_Fact)},
+  { 718, 727, -1, sizeof(::CCSUsrMsg_SurvivalStats_Placement)},
+  { 730, 741, -1, sizeof(::CCSUsrMsg_SurvivalStats_Damage)},
+  { 746, 757, -1, sizeof(::CCSUsrMsg_SurvivalStats)},
+  { 762, 771, -1, sizeof(::CCSUsrMsg_EndOfMatchAllPlayersData_Accolade)},
+  { 774, 788, -1, sizeof(::CCSUsrMsg_EndOfMatchAllPlayersData_PlayerData)},
+  { 796, 804, -1, sizeof(::CCSUsrMsg_EndOfMatchAllPlayersData)},
+  { 806, 818, -1, sizeof(::CCSUsrMsg_RoundEndReportData_RerEvent_Victim)},
+  { 824, 831, -1, sizeof(::CCSUsrMsg_RoundEndReportData_RerEvent_Objective)},
+  { 832, 844, -1, sizeof(::CCSUsrMsg_RoundEndReportData_RerEvent_Damage)},
+  { 850, 863, -1, sizeof(::CCSUsrMsg_RoundEndReportData_RerEvent)},
+  { 870, 879, -1, sizeof(::CCSUsrMsg_RoundEndReportData_InitialConditions)},
+  { 882, 890, -1, sizeof(::CCSUsrMsg_RoundEndReportData)},
+  { 892, 905, -1, sizeof(::CCSUsrMsg_PostRoundDamageReport)},
+  { 912, 919, -1, sizeof(::CCSUsrMsg_CurrentRoundOdds)},
+  { 920, 927, -1, sizeof(::CCSUsrMsg_DeepStats)},
+  { 928, 938, -1, sizeof(::CCSUsrMsg_ShootInfo)},
+  { 942, 949, -1, sizeof(::CCSUsrMsg_ResetHud)},
+  { 950, 957, -1, sizeof(::CCSUsrMsg_GameTitle)},
+  { 958, 965, -1, sizeof(::CCSUsrMsg_RequestState)},
+  { 966, 973, -1, sizeof(::CCSUsrMsg_StopSpectatorMode)},
+  { 974, 981, -1, sizeof(::CCSUsrMsg_DisconnectToLobby)},
+  { 982, 989, -1, sizeof(::CCSUsrMsg_ClientInfo)},
+  { 990, 998, -1, sizeof(::CCSUsrMsg_ServerRankRevealAll)},
+  { 1000, 1009, -1, sizeof(::CCSUsrMsgPreMatchSayText)},
+  { 1012, 1020, -1, sizeof(::CCSUsrMsg_CounterStrafe)},
+  { 1022, 1036, -1, sizeof(::CCSUsrMsg_DamagePrediction)},
+  { 1044, 1052, -1, sizeof(::CCSUsrMsg_RecurringMissionSchema)},
+  { 1054, 1063, -1, sizeof(::CCSUsrMsg_SendPlayerLoadout_LoadoutItem)},
+  { 1066, 1074, -1, sizeof(::CCSUsrMsg_SendPlayerLoadout)},
+  { 1076, 1084, -1, sizeof(::CCSUsrMsg_CustomHudClicked)},
+  { 1086, 1093, -1, sizeof(::CVacNet_GetReviewerInfo_Request)},
+  { 1094, -1, -1, sizeof(::CVacnetReviewerInfo)},
+  { 1101, 1108, -1, sizeof(::CVacNet_GetReviewerInfo_Response)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -2792,6 +2815,7 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::_CCSUsrMsg_RecurringMissionSchema_default_instance_._instance,
   &::_CCSUsrMsg_SendPlayerLoadout_LoadoutItem_default_instance_._instance,
   &::_CCSUsrMsg_SendPlayerLoadout_default_instance_._instance,
+  &::_CCSUsrMsg_CustomHudClicked_default_instance_._instance,
   &::_CVacNet_GetReviewerInfo_Request_default_instance_._instance,
   &::_CVacnetReviewerInfo_default_instance_._instance,
   &::_CVacNet_GetReviewerInfo_Response_default_instance_._instance,
@@ -2853,227 +2877,230 @@ const char descriptor_table_protodef_cstrike15_5fusermessages_2eproto[] PROTOBUF
   "\022\026\n\nplayerslot\030\002 \001(\005:\002-1\"s\n\026CCSUsrMsg_Re"
   "loadEffect\022\022\n\006entidx\030\001 \001(\005:\002-1\022\017\n\007actani"
   "m\030\002 \001(\005\022\020\n\010origin_x\030\003 \001(\002\022\020\n\010origin_y\030\004 "
-  "\001(\002\022\020\n\010origin_z\030\005 \001(\002\"\266\001\n\025CCSUsrMsg_Weap"
+  "\001(\002\022\020\n\010origin_z\030\005 \001(\002\"\245\001\n\025CCSUsrMsg_Weap"
   "onSound\022\022\n\006entidx\030\001 \001(\005:\002-1\022\020\n\010origin_x\030"
   "\002 \001(\002\022\020\n\010origin_y\030\003 \001(\002\022\020\n\010origin_z\030\004 \001("
   "\002\022\r\n\005sound\030\005 \001(\t\022\026\n\016game_timestamp\030\006 \001(\002"
-  "\022\033\n\023source_soundscapeid\030\007 \001(\007\022\017\n\007stealth"
-  "\030\010 \001(\010\"[\n\027CCSUsrMsg_WeaponMagDrop\022\022\n\006ent"
-  "idx\030\001 \001(\005:\002-1\022\026\n\016secondary_data\030\002 \001(\005\022\024\n"
-  "\014server_event\030\003 \001(\010\"v\n\037CCSUsrMsg_UpdateS"
-  "creenHealthBar\022\022\n\006entidx\030\001 \001(\005:\002-1\022\027\n\017he"
-  "althratio_old\030\002 \001(\002\022\027\n\017healthratio_new\030\003"
-  " \001(\002\022\r\n\005style\030\004 \001(\005\"O\n CCSUsrMsg_EntityO"
-  "utlineHighlight\022\022\n\006entidx\030\001 \001(\005:\002-1\022\027\n\017r"
-  "emovehighlight\030\002 \001(\010\"\'\n\025CCSUsrMsg_Adjust"
-  "Money\022\016\n\006amount\030\001 \001(\005\"U\n\023CCSUsrMsg_Repor"
-  "tHit\022\r\n\005pos_x\030\001 \001(\002\022\r\n\005pos_y\030\002 \001(\002\022\021\n\tti"
-  "mestamp\030\004 \001(\002\022\r\n\005pos_z\030\003 \001(\002\"Z\n\021CCSUsrMs"
-  "g_KillCam\022\020\n\010obs_mode\030\001 \001(\005\022\030\n\014first_tar"
-  "get\030\002 \001(\005:\002-1\022\031\n\rsecond_target\030\003 \001(\005:\002-1"
-  "\"\213\001\n\032CCSUsrMsg_DesiredTimescale\022\031\n\021desir"
-  "ed_timescale\030\001 \001(\002\022\035\n\025duration_realtime_"
-  "sec\030\002 \001(\002\022\031\n\021interpolator_type\030\003 \001(\005\022\030\n\020"
-  "start_blend_time\030\004 \001(\002\"3\n\032CCSUsrMsg_Curr"
-  "entTimescale\022\025\n\rcur_timescale\030\001 \001(\002\"Q\n\032C"
-  "CSUsrMsg_AchievementEvent\022\023\n\013achievement"
-  "\030\001 \001(\005\022\r\n\005count\030\002 \001(\005\022\017\n\007user_id\030\003 \001(\005\"r"
-  "\n\034CCSUsrMsg_MatchEndConditions\022\021\n\tfragli"
-  "mit\030\001 \001(\005\022\024\n\014mp_maxrounds\030\002 \001(\005\022\023\n\013mp_wi"
-  "nlimit\030\003 \001(\005\022\024\n\014mp_timelimit\030\004 \001(\002\"\242\001\n\033C"
-  "CSUsrMsg_PlayerStatsUpdate\022\017\n\007version\030\001 "
-  "\001(\005\0220\n\005stats\030\004 \003(\0132!.CCSUsrMsg_PlayerSta"
-  "tsUpdate.Stat\022\017\n\007ehandle\030\005 \001(\r\022\013\n\003crc\030\006 "
-  "\001(\005\032\"\n\004Stat\022\013\n\003idx\030\001 \001(\005\022\r\n\005delta\030\002 \001(\005\""
-  "p\n\027CCSUsrMsg_QuestProgress\022\020\n\010quest_id\030\001"
-  " \001(\r\022\025\n\rnormal_points\030\002 \001(\r\022\024\n\014bonus_poi"
-  "nts\030\003 \001(\r\022\026\n\016is_event_quest\030\004 \001(\010\"E\n\036CCS"
-  "UsrMsg_ScoreLeaderboardData\022#\n\004data\030\001 \001("
-  "\0132\025.ScoreLeaderboardData\"S\n%CCSUsrMsg_Pl"
-  "ayerDecalDigitalSignature\022*\n\004data\030\001 \001(\0132"
-  "\034.PlayerDecalDigitalSignature\":\n\022CCSUsrM"
-  "sg_XRankGet\022\020\n\010mode_idx\030\001 \001(\005\022\022\n\ncontrol"
-  "ler\030\002 \001(\005\"K\n\022CCSUsrMsg_XRankUpd\022\020\n\010mode_"
-  "idx\030\001 \001(\005\022\022\n\ncontroller\030\002 \001(\005\022\017\n\007ranking"
-  "\030\003 \001(\005\"8\n\030CCSUsrMsg_CallVoteFailed\022\016\n\006re"
-  "ason\030\001 \001(\005\022\014\n\004time\030\002 \001(\005\"\306\001\n\023CCSUsrMsg_V"
-  "oteStart\022\014\n\004team\030\001 \001(\005\022\027\n\013player_slot\030\002 "
-  "\001(\005:\002-1\022\021\n\tvote_type\030\003 \001(\005\022\020\n\010disp_str\030\004"
-  " \001(\t\022\023\n\013details_str\030\005 \001(\t\022\026\n\016other_team_"
-  "str\030\006 \001(\t\022\026\n\016is_yes_no_vote\030\007 \001(\010\022\036\n\022pla"
-  "yer_slot_target\030\010 \001(\005:\002-1\"\\\n\022CCSUsrMsg_V"
-  "otePass\022\014\n\004team\030\001 \001(\005\022\021\n\tvote_type\030\002 \001(\005"
-  "\022\020\n\010disp_str\030\003 \001(\t\022\023\n\013details_str\030\004 \001(\t\""
-  "4\n\024CCSUsrMsg_VoteFailed\022\014\n\004team\030\001 \001(\005\022\016\n"
-  "\006reason\030\002 \001(\005\"/\n\023CCSUsrMsg_VoteSetup\022\030\n\020"
-  "potential_issues\030\001 \003(\t\"\276\001\n&CCSUsrMsg_Sen"
-  "dLastKillerDamageToClient\022\026\n\016num_hits_gi"
-  "ven\030\001 \001(\005\022\024\n\014damage_given\030\002 \001(\005\022\026\n\016num_h"
-  "its_taken\030\003 \001(\005\022\024\n\014damage_taken\030\004 \001(\005\022\033\n"
-  "\023actual_damage_given\030\005 \001(\005\022\033\n\023actual_dam"
-  "age_taken\030\006 \001(\005\"\335\001\n\032CCSUsrMsg_ServerRank"
-  "Update\022;\n\013rank_update\030\001 \003(\0132&.CCSUsrMsg_"
-  "ServerRankUpdate.RankUpdate\032\201\001\n\nRankUpda"
-  "te\022\022\n\naccount_id\030\001 \001(\005\022\020\n\010rank_old\030\002 \001(\005"
-  "\022\020\n\010rank_new\030\003 \001(\005\022\020\n\010num_wins\030\004 \001(\005\022\023\n\013"
-  "rank_change\030\005 \001(\002\022\024\n\014rank_type_id\030\006 \001(\005\""
-  "Q\n\022CCSUsrMsg_XpUpdate\022;\n\004data\030\001 \001(\0132-.CM"
-  "sgGCCstrike15_v2_GC2ServerNotifyXPReward"
-  "ed\"$\n\024CCSUsrMsg_ItemPickup\022\014\n\004item\030\001 \001(\t"
-  "\"Y\n\022CCSUsrMsg_ShowMenu\022\030\n\020bits_valid_slo"
-  "ts\030\001 \001(\005\022\024\n\014display_time\030\002 \001(\005\022\023\n\013menu_s"
-  "tring\030\003 \001(\t\"!\n\021CCSUsrMsg_BarTime\022\014\n\004time"
-  "\030\001 \001(\t\"\'\n\024CCSUsrMsg_AmmoDenied\022\017\n\007ammoid"
-  "x\030\001 \001(\005\"0\n\031CCSUsrMsg_MarkAchievement\022\023\n\013"
-  "achievement\030\001 \001(\t\",\n\032CCSUsrMsg_MatchStat"
-  "sUpdate\022\016\n\006update\030\001 \001(\t\"3\n\022CCSUsrMsg_Ite"
-  "mDrop\022\016\n\006itemid\030\001 \001(\003\022\r\n\005death\030\002 \001(\010\"b\n\036"
-  "CCSUsrMsg_RoundBackupFilenames\022\r\n\005count\030"
-  "\001 \001(\005\022\r\n\005index\030\002 \001(\005\022\020\n\010filename\030\003 \001(\t\022\020"
-  "\n\010nicename\030\004 \001(\t\"D\n\016CCSUsrMsg_SSUI\022\014\n\004sh"
-  "ow\030\001 \001(\010\022\022\n\nstart_time\030\002 \001(\002\022\020\n\010end_time"
-  "\030\003 \001(\002\"\265\003\n\027CCSUsrMsg_SurvivalStats\022\014\n\004xu"
-  "id\030\001 \001(\004\022,\n\005facts\030\002 \003(\0132\035.CCSUsrMsg_Surv"
-  "ivalStats.Fact\0221\n\005users\030\003 \003(\0132\".CCSUsrMs"
-  "g_SurvivalStats.Placement\0220\n\007damages\030\005 \003"
-  "(\0132\037.CCSUsrMsg_SurvivalStats.Damage\022\022\n\nt"
-  "icknumber\030\004 \001(\005\032M\n\004Fact\022\014\n\004type\030\001 \001(\005\022\017\n"
-  "\007display\030\002 \001(\005\022\r\n\005value\030\003 \001(\005\022\027\n\017interes"
-  "tingness\030\004 \001(\002\032@\n\tPlacement\022\014\n\004xuid\030\001 \001("
-  "\004\022\022\n\nteamnumber\030\002 \001(\005\022\021\n\tplacement\030\003 \001(\005"
-  "\032T\n\006Damage\022\014\n\004xuid\030\001 \001(\004\022\n\n\002to\030\002 \001(\005\022\017\n\007"
-  "to_hits\030\003 \001(\005\022\014\n\004from\030\004 \001(\005\022\021\n\tfrom_hits"
-  "\030\005 \001(\005\"\243\003\n\"CCSUsrMsg_EndOfMatchAllPlayer"
-  "sData\022E\n\rallplayerdata\030\001 \003(\0132..CCSUsrMsg"
-  "_EndOfMatchAllPlayersData.PlayerData\022\r\n\005"
-  "scene\030\002 \001(\005\032>\n\010Accolade\022\021\n\teaccolade\030\001 \001"
-  "(\005\022\r\n\005value\030\002 \001(\002\022\020\n\010position\030\003 \001(\005\032\337\001\n\n"
-  "PlayerData\022\020\n\004slot\030\001 \001(\005:\002-1\022\014\n\004xuid\030\002 \001"
-  "(\004\022\014\n\004name\030\003 \001(\t\022\022\n\nteamnumber\030\004 \001(\005\022@\n\n"
-  "nomination\030\005 \001(\0132,.CCSUsrMsg_EndOfMatchA"
-  "llPlayersData.Accolade\022)\n\005items\030\006 \003(\0132\032."
-  "CEconItemPreviewDataBlock\022\023\n\013playercolor"
-  "\030\007 \001(\005\022\r\n\005isbot\030\010 \001(\010:\005\200\265\030\200 \"\350\006\n\034CCSUsrM"
-  "sg_RoundEndReportData\022H\n\017init_conditions"
-  "\030\001 \001(\0132/.CCSUsrMsg_RoundEndReportData.In"
-  "itialConditions\022B\n\022all_rer_event_data\030\002 "
-  "\003(\0132&.CCSUsrMsg_RoundEndReportData.RerEv"
-  "ent\032\335\004\n\010RerEvent\022\021\n\ttimestamp\030\001 \001(\002\022\026\n\016t"
-  "errorist_odds\030\002 \001(\005\022\020\n\010ct_alive\030\003 \001(\005\022\017\n"
-  "\007t_alive\030\004 \001(\005\022B\n\013victim_data\030\005 \001(\0132-.CC"
-  "SUsrMsg_RoundEndReportData.RerEvent.Vict"
-  "im\022H\n\016objective_data\030\006 \001(\01320.CCSUsrMsg_R"
-  "oundEndReportData.RerEvent.Objective\022F\n\017"
-  "all_damage_data\030\007 \003(\0132-.CCSUsrMsg_RoundE"
-  "ndReportData.RerEvent.Damage\032s\n\006Victim\022\023"
-  "\n\013team_number\030\001 \001(\005\022\026\n\nplayerslot\030\002 \001(\005:"
-  "\002-1\022\014\n\004xuid\030\003 \001(\004\022\r\n\005color\030\004 \001(\005\022\016\n\006is_b"
-  "ot\030\005 \001(\010\022\017\n\007is_dead\030\006 \001(\010\032\031\n\tObjective\022\014"
-  "\n\004type\030\001 \001(\005\032\234\001\n\006Damage\022\034\n\020other_players"
-  "lot\030\001 \001(\005:\002-1\022\022\n\nother_xuid\030\002 \001(\004\022\026\n\016hea"
-  "lth_removed\030\003 \001(\005\022\020\n\010num_hits\030\004 \001(\005\022\035\n\025r"
-  "eturn_health_removed\030\005 \001(\005\022\027\n\017return_num"
-  "_hits\030\006 \001(\005\032Z\n\021InitialConditions\022\026\n\016ct_e"
-  "quip_value\030\001 \001(\005\022\025\n\rt_equip_value\030\002 \001(\005\022"
-  "\026\n\016terrorist_odds\030\003 \001(\005\"\323\001\n\037CCSUsrMsg_Po"
-  "stRoundDamageReport\022\022\n\nother_xuid\030\001 \001(\004\022"
-  "\027\n\017given_kill_type\030\002 \001(\005\022\034\n\024given_health"
-  "_removed\030\003 \001(\005\022\026\n\016given_num_hits\030\004 \001(\005\022\027"
-  "\n\017taken_kill_type\030\005 \001(\005\022\034\n\024taken_health_"
-  "removed\030\006 \001(\005\022\026\n\016taken_num_hits\030\007 \001(\005\"*\n"
-  "\032CCSUsrMsg_CurrentRoundOdds\022\014\n\004odds\030\001 \001("
-  "\005\"F\n\023CCSUsrMsg_DeepStats\022/\n\005stats\030\001 \001(\0132"
-  " .CMsgGCCStrike15_ClientDeepStats\"\226\001\n\023CC"
-  "SUsrMsg_ShootInfo\022\024\n\014frame_number\030\001 \001(\005\022"
-  ")\n\021hitbox_transforms\030\002 \003(\0132\016.CMsgTransfo"
-  "rm\022\036\n\tshoot_pos\030\003 \001(\0132\013.CMsgVector\022\036\n\tsh"
-  "oot_dir\030\004 \001(\0132\013.CMsgQAngle\"#\n\022CCSUsrMsg_"
-  "ResetHud\022\r\n\005reset\030\001 \001(\010\"$\n\023CCSUsrMsg_Gam"
-  "eTitle\022\r\n\005dummy\030\001 \001(\005\"\'\n\026CCSUsrMsg_Reque"
-  "stState\022\r\n\005dummy\030\001 \001(\005\",\n\033CCSUsrMsg_Stop"
-  "SpectatorMode\022\r\n\005dummy\030\001 \001(\005\",\n\033CCSUsrMs"
-  "g_DisconnectToLobby\022\r\n\005dummy\030\001 \001(\005\"%\n\024CC"
-  "SUsrMsg_ClientInfo\022\r\n\005dummy\030\001 \001(\005\"\204\001\n\035CC"
-  "SUsrMsg_ServerRankRevealAll\022\035\n\025seconds_t"
-  "ill_shutdown\030\001 \001(\005\022D\n\013reservation\030\002 \001(\0132"
-  "/.CMsgGCCStrike15_v2_MatchmakingGC2Serve"
-  "rReserve\"N\n\030CCSUsrMsgPreMatchSayText\022\022\n\n"
-  "account_id\030\001 \001(\r\022\014\n\004text\030\002 \001(\t\022\020\n\010all_ch"
-  "at\030\003 \001(\010\"O\n\027CCSUsrMsg_CounterStrafe\022\033\n\023p"
-  "ress_to_release_ns\030\001 \001(\005\022\027\n\017total_keys_d"
-  "own\030\002 \001(\005\"\361\001\n\032CCSUsrMsg_DamagePrediction"
-  "\022\023\n\013command_num\030\001 \001(\005\022\022\n\npellet_idx\030\002 \001("
-  "\005\022\023\n\013victim_slot\030\003 \001(\005\022\036\n\026victim_startin"
-  "g_health\030\004 \001(\005\022\025\n\rvictim_damage\030\005 \001(\005\022\036\n"
-  "\tshoot_pos\030\006 \001(\0132\013.CMsgVector\022\036\n\tshoot_d"
-  "ir\030\007 \001(\0132\013.CMsgQAngle\022\036\n\taim_punch\030\010 \001(\013"
-  "2\013.CMsgQAngle\"J\n CCSUsrMsg_RecurringMiss"
-  "ionSchema\022\016\n\006period\030\001 \001(\r\022\026\n\016mission_sch"
-  "ema\030\002 \001(\014\"\322\001\n\033CCSUsrMsg_SendPlayerLoadou"
-  "t\0229\n\007loadout\030\001 \003(\0132(.CCSUsrMsg_SendPlaye"
-  "rLoadout.LoadoutItem\022\026\n\nplayerslot\030\002 \001(\005"
-  ":\002-1\032X\n\013LoadoutItem\022-\n\tecon_item\030\001 \001(\0132\032"
-  ".CEconItemPreviewDataBlock\022\014\n\004team\030\002 \001(\005"
-  "\022\014\n\004slot\030\003 \001(\005:\006\200\265\030\200\200\001\"0\n\037CVacNet_GetRev"
-  "iewerInfo_Request\022\r\n\005appid\030\001 \001(\r\"*\n\023CVac"
-  "netReviewerInfo\022\023\n\013permissions\030\001 \003(\t\"O\n "
-  "CVacNet_GetReviewerInfo_Response\022+\n\rrevi"
-  "ewer_info\030\001 \001(\0132\024.CVacnetReviewerInfo*\355\017"
-  "\n\026ECstrike15UserMessages\022\023\n\016CS_UM_VGUIMe"
-  "nu\020\255\002\022\021\n\014CS_UM_Geiger\020\256\002\022\020\n\013CS_UM_Train\020"
-  "\257\002\022\022\n\rCS_UM_HudText\020\260\002\022\022\n\rCS_UM_SayText\020"
-  "\261\002\022\023\n\016CS_UM_SayText2\020\262\002\022\022\n\rCS_UM_TextMsg"
-  "\020\263\002\022\021\n\014CS_UM_HudMsg\020\264\002\022\023\n\016CS_UM_ResetHud"
-  "\020\265\002\022\024\n\017CS_UM_GameTitle\020\266\002\022\020\n\013CS_UM_Shake"
-  "\020\270\002\022\017\n\nCS_UM_Fade\020\271\002\022\021\n\014CS_UM_Rumble\020\272\002\022"
-  "\027\n\022CS_UM_CloseCaption\020\273\002\022\035\n\030CS_UM_CloseC"
-  "aptionDirect\020\274\002\022\024\n\017CS_UM_SendAudio\020\275\002\022\023\n"
-  "\016CS_UM_RawAudio\020\276\002\022\024\n\017CS_UM_VoiceMask\020\277\002"
-  "\022\027\n\022CS_UM_RequestState\020\300\002\022\021\n\014CS_UM_Damag"
-  "e\020\301\002\022\024\n\017CS_UM_RadioText\020\302\002\022\023\n\016CS_UM_Hint"
-  "Text\020\303\002\022\026\n\021CS_UM_KeyHintText\020\304\002\022%\n CS_UM"
-  "_ProcessSpottedEntityUpdate\020\305\002\022\027\n\022CS_UM_"
-  "ReloadEffect\020\306\002\022\026\n\021CS_UM_AdjustMoney\020\307\002\022"
-  "\032\n\025CS_UM_UpdateTeamMoney\020\310\002\022\034\n\027CS_UM_Sto"
-  "pSpectatorMode\020\311\002\022\022\n\rCS_UM_KillCam\020\312\002\022\033\n"
-  "\026CS_UM_DesiredTimescale\020\313\002\022\033\n\026CS_UM_Curr"
-  "entTimescale\020\314\002\022\033\n\026CS_UM_AchievementEven"
-  "t\020\315\002\022\035\n\030CS_UM_MatchEndConditions\020\316\002\022\034\n\027C"
-  "S_UM_DisconnectToLobby\020\317\002\022\034\n\027CS_UM_Playe"
-  "rStatsUpdate\020\320\002\022\025\n\020CS_UM_ClientInfo\020\323\002\022\023"
-  "\n\016CS_UM_XRankGet\020\324\002\022\023\n\016CS_UM_XRankUpd\020\325\002"
-  "\022\031\n\024CS_UM_CallVoteFailed\020\331\002\022\024\n\017CS_UM_Vot"
-  "eStart\020\332\002\022\023\n\016CS_UM_VotePass\020\333\002\022\025\n\020CS_UM_"
-  "VoteFailed\020\334\002\022\024\n\017CS_UM_VoteSetup\020\335\002\022\036\n\031C"
-  "S_UM_ServerRankRevealAll\020\336\002\022\'\n\"CS_UM_Sen"
-  "dLastKillerDamageToClient\020\337\002\022\033\n\026CS_UM_Se"
-  "rverRankUpdate\020\340\002\022\025\n\020CS_UM_ItemPickup\020\341\002"
-  "\022\023\n\016CS_UM_ShowMenu\020\342\002\022\022\n\rCS_UM_BarTime\020\343"
-  "\002\022\025\n\020CS_UM_AmmoDenied\020\344\002\022\032\n\025CS_UM_MarkAc"
-  "hievement\020\345\002\022\033\n\026CS_UM_MatchStatsUpdate\020\346"
-  "\002\022\023\n\016CS_UM_ItemDrop\020\347\002\022\036\n\031CS_UM_SendPlay"
-  "erItemDrops\020\351\002\022\037\n\032CS_UM_RoundBackupFilen"
-  "ames\020\352\002\022\036\n\031CS_UM_SendPlayerItemFound\020\353\002\022"
-  "\024\n\017CS_UM_ReportHit\020\354\002\022\023\n\016CS_UM_XpUpdate\020"
-  "\355\002\022\030\n\023CS_UM_QuestProgress\020\356\002\022\037\n\032CS_UM_Sc"
-  "oreLeaderboardData\020\357\002\022&\n!CS_UM_PlayerDec"
-  "alDigitalSignature\020\360\002\022\026\n\021CS_UM_WeaponSou"
-  "nd\020\361\002\022 \n\033CS_UM_UpdateScreenHealthBar\020\362\002\022"
-  "!\n\034CS_UM_EntityOutlineHighlight\020\363\002\022\017\n\nCS"
-  "_UM_SSUI\020\364\002\022\030\n\023CS_UM_SurvivalStats\020\365\002\022\035\n"
-  "\030CS_UM_DisconnectToLobby2\020\366\002\022#\n\036CS_UM_En"
-  "dOfMatchAllPlayersData\020\367\002\022 \n\033CS_UM_PostR"
-  "oundDamageReport\020\370\002\022\035\n\030CS_UM_RoundEndRep"
-  "ortData\020\373\002\022\033\n\026CS_UM_CurrentRoundOdds\020\374\002\022"
-  "\024\n\017CS_UM_DeepStats\020\375\002\022\024\n\017CS_UM_ShootInfo"
-  "\020\377\002\022\030\n\023CS_UM_CounterStrafe\020\201\003\022\033\n\026CS_UM_D"
-  "amagePrediction\020\202\003\022!\n\034CS_UM_RecurringMis"
-  "sionSchema\020\203\003\022\034\n\027CS_UM_SendPlayerLoadout"
-  "\020\204\003\022\030\n\023CS_UM_WeaponMagDrop\020\205\003*\210\001\n\"ECSUsr"
-  "Msg_DisconnectToLobby_Action\0220\n,k_ECSUsr"
-  "Msg_DisconnectToLobby_Action_Default\020\000\0220"
-  "\n,k_ECSUsrMsg_DisconnectToLobby_Action_G"
-  "oQueue\020\001"
+  "\022\033\n\023source_soundscapeid\030\007 \001(\007\"[\n\027CCSUsrM"
+  "sg_WeaponMagDrop\022\022\n\006entidx\030\001 \001(\005:\002-1\022\026\n\016"
+  "secondary_data\030\002 \001(\005\022\024\n\014server_event\030\003 \001"
+  "(\010\"v\n\037CCSUsrMsg_UpdateScreenHealthBar\022\022\n"
+  "\006entidx\030\001 \001(\005:\002-1\022\027\n\017healthratio_old\030\002 \001"
+  "(\002\022\027\n\017healthratio_new\030\003 \001(\002\022\r\n\005style\030\004 \001"
+  "(\005\"O\n CCSUsrMsg_EntityOutlineHighlight\022\022"
+  "\n\006entidx\030\001 \001(\005:\002-1\022\027\n\017removehighlight\030\002 "
+  "\001(\010\"\'\n\025CCSUsrMsg_AdjustMoney\022\016\n\006amount\030\001"
+  " \001(\005\"U\n\023CCSUsrMsg_ReportHit\022\r\n\005pos_x\030\001 \001"
+  "(\002\022\r\n\005pos_y\030\002 \001(\002\022\021\n\ttimestamp\030\004 \001(\002\022\r\n\005"
+  "pos_z\030\003 \001(\002\"Z\n\021CCSUsrMsg_KillCam\022\020\n\010obs_"
+  "mode\030\001 \001(\005\022\030\n\014first_target\030\002 \001(\005:\002-1\022\031\n\r"
+  "second_target\030\003 \001(\005:\002-1\"\213\001\n\032CCSUsrMsg_De"
+  "siredTimescale\022\031\n\021desired_timescale\030\001 \001("
+  "\002\022\035\n\025duration_realtime_sec\030\002 \001(\002\022\031\n\021inte"
+  "rpolator_type\030\003 \001(\005\022\030\n\020start_blend_time\030"
+  "\004 \001(\002\"3\n\032CCSUsrMsg_CurrentTimescale\022\025\n\rc"
+  "ur_timescale\030\001 \001(\002\"Q\n\032CCSUsrMsg_Achievem"
+  "entEvent\022\023\n\013achievement\030\001 \001(\005\022\r\n\005count\030\002"
+  " \001(\005\022\017\n\007user_id\030\003 \001(\005\"r\n\034CCSUsrMsg_Match"
+  "EndConditions\022\021\n\tfraglimit\030\001 \001(\005\022\024\n\014mp_m"
+  "axrounds\030\002 \001(\005\022\023\n\013mp_winlimit\030\003 \001(\005\022\024\n\014m"
+  "p_timelimit\030\004 \001(\002\"\242\001\n\033CCSUsrMsg_PlayerSt"
+  "atsUpdate\022\017\n\007version\030\001 \001(\005\0220\n\005stats\030\004 \003("
+  "\0132!.CCSUsrMsg_PlayerStatsUpdate.Stat\022\017\n\007"
+  "ehandle\030\005 \001(\r\022\013\n\003crc\030\006 \001(\005\032\"\n\004Stat\022\013\n\003id"
+  "x\030\001 \001(\005\022\r\n\005delta\030\002 \001(\005\"p\n\027CCSUsrMsg_Ques"
+  "tProgress\022\020\n\010quest_id\030\001 \001(\r\022\025\n\rnormal_po"
+  "ints\030\002 \001(\r\022\024\n\014bonus_points\030\003 \001(\r\022\026\n\016is_e"
+  "vent_quest\030\004 \001(\010\"E\n\036CCSUsrMsg_ScoreLeade"
+  "rboardData\022#\n\004data\030\001 \001(\0132\025.ScoreLeaderbo"
+  "ardData\"S\n%CCSUsrMsg_PlayerDecalDigitalS"
+  "ignature\022*\n\004data\030\001 \001(\0132\034.PlayerDecalDigi"
+  "talSignature\":\n\022CCSUsrMsg_XRankGet\022\020\n\010mo"
+  "de_idx\030\001 \001(\005\022\022\n\ncontroller\030\002 \001(\005\"K\n\022CCSU"
+  "srMsg_XRankUpd\022\020\n\010mode_idx\030\001 \001(\005\022\022\n\ncont"
+  "roller\030\002 \001(\005\022\017\n\007ranking\030\003 \001(\005\"8\n\030CCSUsrM"
+  "sg_CallVoteFailed\022\016\n\006reason\030\001 \001(\005\022\014\n\004tim"
+  "e\030\002 \001(\005\"\306\001\n\023CCSUsrMsg_VoteStart\022\014\n\004team\030"
+  "\001 \001(\005\022\027\n\013player_slot\030\002 \001(\005:\002-1\022\021\n\tvote_t"
+  "ype\030\003 \001(\005\022\020\n\010disp_str\030\004 \001(\t\022\023\n\013details_s"
+  "tr\030\005 \001(\t\022\026\n\016other_team_str\030\006 \001(\t\022\026\n\016is_y"
+  "es_no_vote\030\007 \001(\010\022\036\n\022player_slot_target\030\010"
+  " \001(\005:\002-1\"\\\n\022CCSUsrMsg_VotePass\022\014\n\004team\030\001"
+  " \001(\005\022\021\n\tvote_type\030\002 \001(\005\022\020\n\010disp_str\030\003 \001("
+  "\t\022\023\n\013details_str\030\004 \001(\t\"4\n\024CCSUsrMsg_Vote"
+  "Failed\022\014\n\004team\030\001 \001(\005\022\016\n\006reason\030\002 \001(\005\"/\n\023"
+  "CCSUsrMsg_VoteSetup\022\030\n\020potential_issues\030"
+  "\001 \003(\t\"\276\001\n&CCSUsrMsg_SendLastKillerDamage"
+  "ToClient\022\026\n\016num_hits_given\030\001 \001(\005\022\024\n\014dama"
+  "ge_given\030\002 \001(\005\022\026\n\016num_hits_taken\030\003 \001(\005\022\024"
+  "\n\014damage_taken\030\004 \001(\005\022\033\n\023actual_damage_gi"
+  "ven\030\005 \001(\005\022\033\n\023actual_damage_taken\030\006 \001(\005\"\335"
+  "\001\n\032CCSUsrMsg_ServerRankUpdate\022;\n\013rank_up"
+  "date\030\001 \003(\0132&.CCSUsrMsg_ServerRankUpdate."
+  "RankUpdate\032\201\001\n\nRankUpdate\022\022\n\naccount_id\030"
+  "\001 \001(\005\022\020\n\010rank_old\030\002 \001(\005\022\020\n\010rank_new\030\003 \001("
+  "\005\022\020\n\010num_wins\030\004 \001(\005\022\023\n\013rank_change\030\005 \001(\002"
+  "\022\024\n\014rank_type_id\030\006 \001(\005\"Q\n\022CCSUsrMsg_XpUp"
+  "date\022;\n\004data\030\001 \001(\0132-.CMsgGCCstrike15_v2_"
+  "GC2ServerNotifyXPRewarded\"$\n\024CCSUsrMsg_I"
+  "temPickup\022\014\n\004item\030\001 \001(\t\"Y\n\022CCSUsrMsg_Sho"
+  "wMenu\022\030\n\020bits_valid_slots\030\001 \001(\005\022\024\n\014displ"
+  "ay_time\030\002 \001(\005\022\023\n\013menu_string\030\003 \001(\t\"!\n\021CC"
+  "SUsrMsg_BarTime\022\014\n\004time\030\001 \001(\t\"\'\n\024CCSUsrM"
+  "sg_AmmoDenied\022\017\n\007ammoidx\030\001 \001(\005\"0\n\031CCSUsr"
+  "Msg_MarkAchievement\022\023\n\013achievement\030\001 \001(\t"
+  "\",\n\032CCSUsrMsg_MatchStatsUpdate\022\016\n\006update"
+  "\030\001 \001(\t\"3\n\022CCSUsrMsg_ItemDrop\022\016\n\006itemid\030\001"
+  " \001(\003\022\r\n\005death\030\002 \001(\010\"b\n\036CCSUsrMsg_RoundBa"
+  "ckupFilenames\022\r\n\005count\030\001 \001(\005\022\r\n\005index\030\002 "
+  "\001(\005\022\020\n\010filename\030\003 \001(\t\022\020\n\010nicename\030\004 \001(\t\""
+  "D\n\016CCSUsrMsg_SSUI\022\014\n\004show\030\001 \001(\010\022\022\n\nstart"
+  "_time\030\002 \001(\002\022\020\n\010end_time\030\003 \001(\002\"\265\003\n\027CCSUsr"
+  "Msg_SurvivalStats\022\014\n\004xuid\030\001 \001(\004\022,\n\005facts"
+  "\030\002 \003(\0132\035.CCSUsrMsg_SurvivalStats.Fact\0221\n"
+  "\005users\030\003 \003(\0132\".CCSUsrMsg_SurvivalStats.P"
+  "lacement\0220\n\007damages\030\005 \003(\0132\037.CCSUsrMsg_Su"
+  "rvivalStats.Damage\022\022\n\nticknumber\030\004 \001(\005\032M"
+  "\n\004Fact\022\014\n\004type\030\001 \001(\005\022\017\n\007display\030\002 \001(\005\022\r\n"
+  "\005value\030\003 \001(\005\022\027\n\017interestingness\030\004 \001(\002\032@\n"
+  "\tPlacement\022\014\n\004xuid\030\001 \001(\004\022\022\n\nteamnumber\030\002"
+  " \001(\005\022\021\n\tplacement\030\003 \001(\005\032T\n\006Damage\022\014\n\004xui"
+  "d\030\001 \001(\004\022\n\n\002to\030\002 \001(\005\022\017\n\007to_hits\030\003 \001(\005\022\014\n\004"
+  "from\030\004 \001(\005\022\021\n\tfrom_hits\030\005 \001(\005\"\243\003\n\"CCSUsr"
+  "Msg_EndOfMatchAllPlayersData\022E\n\rallplaye"
+  "rdata\030\001 \003(\0132..CCSUsrMsg_EndOfMatchAllPla"
+  "yersData.PlayerData\022\r\n\005scene\030\002 \001(\005\032>\n\010Ac"
+  "colade\022\021\n\teaccolade\030\001 \001(\005\022\r\n\005value\030\002 \001(\002"
+  "\022\020\n\010position\030\003 \001(\005\032\337\001\n\nPlayerData\022\020\n\004slo"
+  "t\030\001 \001(\005:\002-1\022\014\n\004xuid\030\002 \001(\004\022\014\n\004name\030\003 \001(\t\022"
+  "\022\n\nteamnumber\030\004 \001(\005\022@\n\nnomination\030\005 \001(\0132"
+  ",.CCSUsrMsg_EndOfMatchAllPlayersData.Acc"
+  "olade\022)\n\005items\030\006 \003(\0132\032.CEconItemPreviewD"
+  "ataBlock\022\023\n\013playercolor\030\007 \001(\005\022\r\n\005isbot\030\010"
+  " \001(\010:\005\200\265\030\200 \"\350\006\n\034CCSUsrMsg_RoundEndReport"
+  "Data\022H\n\017init_conditions\030\001 \001(\0132/.CCSUsrMs"
+  "g_RoundEndReportData.InitialConditions\022B"
+  "\n\022all_rer_event_data\030\002 \003(\0132&.CCSUsrMsg_R"
+  "oundEndReportData.RerEvent\032\335\004\n\010RerEvent\022"
+  "\021\n\ttimestamp\030\001 \001(\002\022\026\n\016terrorist_odds\030\002 \001"
+  "(\005\022\020\n\010ct_alive\030\003 \001(\005\022\017\n\007t_alive\030\004 \001(\005\022B\n"
+  "\013victim_data\030\005 \001(\0132-.CCSUsrMsg_RoundEndR"
+  "eportData.RerEvent.Victim\022H\n\016objective_d"
+  "ata\030\006 \001(\01320.CCSUsrMsg_RoundEndReportData"
+  ".RerEvent.Objective\022F\n\017all_damage_data\030\007"
+  " \003(\0132-.CCSUsrMsg_RoundEndReportData.RerE"
+  "vent.Damage\032s\n\006Victim\022\023\n\013team_number\030\001 \001"
+  "(\005\022\026\n\nplayerslot\030\002 \001(\005:\002-1\022\014\n\004xuid\030\003 \001(\004"
+  "\022\r\n\005color\030\004 \001(\005\022\016\n\006is_bot\030\005 \001(\010\022\017\n\007is_de"
+  "ad\030\006 \001(\010\032\031\n\tObjective\022\014\n\004type\030\001 \001(\005\032\234\001\n\006"
+  "Damage\022\034\n\020other_playerslot\030\001 \001(\005:\002-1\022\022\n\n"
+  "other_xuid\030\002 \001(\004\022\026\n\016health_removed\030\003 \001(\005"
+  "\022\020\n\010num_hits\030\004 \001(\005\022\035\n\025return_health_remo"
+  "ved\030\005 \001(\005\022\027\n\017return_num_hits\030\006 \001(\005\032Z\n\021In"
+  "itialConditions\022\026\n\016ct_equip_value\030\001 \001(\005\022"
+  "\025\n\rt_equip_value\030\002 \001(\005\022\026\n\016terrorist_odds"
+  "\030\003 \001(\005\"\323\001\n\037CCSUsrMsg_PostRoundDamageRepo"
+  "rt\022\022\n\nother_xuid\030\001 \001(\004\022\027\n\017given_kill_typ"
+  "e\030\002 \001(\005\022\034\n\024given_health_removed\030\003 \001(\005\022\026\n"
+  "\016given_num_hits\030\004 \001(\005\022\027\n\017taken_kill_type"
+  "\030\005 \001(\005\022\034\n\024taken_health_removed\030\006 \001(\005\022\026\n\016"
+  "taken_num_hits\030\007 \001(\005\"*\n\032CCSUsrMsg_Curren"
+  "tRoundOdds\022\014\n\004odds\030\001 \001(\005\"F\n\023CCSUsrMsg_De"
+  "epStats\022/\n\005stats\030\001 \001(\0132 .CMsgGCCStrike15"
+  "_ClientDeepStats\"\226\001\n\023CCSUsrMsg_ShootInfo"
+  "\022\024\n\014frame_number\030\001 \001(\005\022)\n\021hitbox_transfo"
+  "rms\030\002 \003(\0132\016.CMsgTransform\022\036\n\tshoot_pos\030\003"
+  " \001(\0132\013.CMsgVector\022\036\n\tshoot_dir\030\004 \001(\0132\013.C"
+  "MsgQAngle\"#\n\022CCSUsrMsg_ResetHud\022\r\n\005reset"
+  "\030\001 \001(\010\"$\n\023CCSUsrMsg_GameTitle\022\r\n\005dummy\030\001"
+  " \001(\005\"\'\n\026CCSUsrMsg_RequestState\022\r\n\005dummy\030"
+  "\001 \001(\005\",\n\033CCSUsrMsg_StopSpectatorMode\022\r\n\005"
+  "dummy\030\001 \001(\005\",\n\033CCSUsrMsg_DisconnectToLob"
+  "by\022\r\n\005dummy\030\001 \001(\005\"%\n\024CCSUsrMsg_ClientInf"
+  "o\022\r\n\005dummy\030\001 \001(\005\"\204\001\n\035CCSUsrMsg_ServerRan"
+  "kRevealAll\022\035\n\025seconds_till_shutdown\030\001 \001("
+  "\005\022D\n\013reservation\030\002 \001(\0132/.CMsgGCCStrike15"
+  "_v2_MatchmakingGC2ServerReserve\"N\n\030CCSUs"
+  "rMsgPreMatchSayText\022\022\n\naccount_id\030\001 \001(\r\022"
+  "\014\n\004text\030\002 \001(\t\022\020\n\010all_chat\030\003 \001(\010\"O\n\027CCSUs"
+  "rMsg_CounterStrafe\022\033\n\023press_to_release_n"
+  "s\030\001 \001(\005\022\027\n\017total_keys_down\030\002 \001(\005\"\361\001\n\032CCS"
+  "UsrMsg_DamagePrediction\022\023\n\013command_num\030\001"
+  " \001(\005\022\022\n\npellet_idx\030\002 \001(\005\022\023\n\013victim_slot\030"
+  "\003 \001(\005\022\036\n\026victim_starting_health\030\004 \001(\005\022\025\n"
+  "\rvictim_damage\030\005 \001(\005\022\036\n\tshoot_pos\030\006 \001(\0132"
+  "\013.CMsgVector\022\036\n\tshoot_dir\030\007 \001(\0132\013.CMsgQA"
+  "ngle\022\036\n\taim_punch\030\010 \001(\0132\013.CMsgQAngle\"J\n "
+  "CCSUsrMsg_RecurringMissionSchema\022\016\n\006peri"
+  "od\030\001 \001(\r\022\026\n\016mission_schema\030\002 \001(\014\"\322\001\n\033CCS"
+  "UsrMsg_SendPlayerLoadout\0229\n\007loadout\030\001 \003("
+  "\0132(.CCSUsrMsg_SendPlayerLoadout.LoadoutI"
+  "tem\022\026\n\nplayerslot\030\002 \001(\005:\002-1\032X\n\013LoadoutIt"
+  "em\022-\n\tecon_item\030\001 \001(\0132\032.CEconItemPreview"
+  "DataBlock\022\014\n\004team\030\002 \001(\005\022\014\n\004slot\030\003 \001(\005:\006\200"
+  "\265\030\200\200\001\"T\n\032CCSUsrMsg_CustomHudClicked\022#\n\021c"
+  "ustom_hud_layout\030\001 \001(\r:\01016777215\022\021\n\tbutt"
+  "on_id\030\002 \001(\t\"0\n\037CVacNet_GetReviewerInfo_R"
+  "equest\022\r\n\005appid\030\001 \001(\r\"*\n\023CVacnetReviewer"
+  "Info\022\023\n\013permissions\030\001 \003(\t\"O\n CVacNet_Get"
+  "ReviewerInfo_Response\022+\n\rreviewer_info\030\001"
+  " \001(\0132\024.CVacnetReviewerInfo*\266\020\n\026ECstrike1"
+  "5UserMessages\022\023\n\016CS_UM_VGUIMenu\020\255\002\022\021\n\014CS"
+  "_UM_Geiger\020\256\002\022\020\n\013CS_UM_Train\020\257\002\022\022\n\rCS_UM"
+  "_HudText\020\260\002\022\035\n\030CS_UM_SayText_CSGOLegacy\020"
+  "\261\002\022\036\n\031CS_UM_SayText2_CSGOLegacy\020\262\002\022\035\n\030CS"
+  "_UM_TextMsg_CSGOLegacy\020\263\002\022\021\n\014CS_UM_HudMs"
+  "g\020\264\002\022\023\n\016CS_UM_ResetHud\020\265\002\022\024\n\017CS_UM_GameT"
+  "itle\020\266\002\022\020\n\013CS_UM_Shake\020\270\002\022\017\n\nCS_UM_Fade\020"
+  "\271\002\022\021\n\014CS_UM_Rumble\020\272\002\022\027\n\022CS_UM_CloseCapt"
+  "ion\020\273\002\022\035\n\030CS_UM_CloseCaptionDirect\020\274\002\022\024\n"
+  "\017CS_UM_SendAudio\020\275\002\022\023\n\016CS_UM_RawAudio\020\276\002"
+  "\022\024\n\017CS_UM_VoiceMask\020\277\002\022\027\n\022CS_UM_RequestS"
+  "tate\020\300\002\022\021\n\014CS_UM_Damage\020\301\002\022\024\n\017CS_UM_Radi"
+  "oText\020\302\002\022\023\n\016CS_UM_HintText\020\303\002\022\026\n\021CS_UM_K"
+  "eyHintText\020\304\002\022%\n CS_UM_ProcessSpottedEnt"
+  "ityUpdate\020\305\002\022\027\n\022CS_UM_ReloadEffect\020\306\002\022\026\n"
+  "\021CS_UM_AdjustMoney\020\307\002\022%\n CS_UM_UpdateTea"
+  "mMoney_CSGOLegacy\020\310\002\022\034\n\027CS_UM_StopSpecta"
+  "torMode\020\311\002\022\022\n\rCS_UM_KillCam\020\312\002\022\033\n\026CS_UM_"
+  "DesiredTimescale\020\313\002\022\033\n\026CS_UM_CurrentTime"
+  "scale\020\314\002\022\033\n\026CS_UM_AchievementEvent\020\315\002\022\035\n"
+  "\030CS_UM_MatchEndConditions\020\316\002\022\034\n\027CS_UM_Di"
+  "sconnectToLobby\020\317\002\022\034\n\027CS_UM_PlayerStatsU"
+  "pdate\020\320\002\022\025\n\020CS_UM_ClientInfo\020\323\002\022\023\n\016CS_UM"
+  "_XRankGet\020\324\002\022\023\n\016CS_UM_XRankUpd\020\325\002\022\031\n\024CS_"
+  "UM_CallVoteFailed\020\331\002\022\024\n\017CS_UM_VoteStart\020"
+  "\332\002\022\023\n\016CS_UM_VotePass\020\333\002\022\025\n\020CS_UM_VoteFai"
+  "led\020\334\002\022\024\n\017CS_UM_VoteSetup\020\335\002\022\036\n\031CS_UM_Se"
+  "rverRankRevealAll\020\336\002\022\'\n\"CS_UM_SendLastKi"
+  "llerDamageToClient\020\337\002\022\033\n\026CS_UM_ServerRan"
+  "kUpdate\020\340\002\022\025\n\020CS_UM_ItemPickup\020\341\002\022\023\n\016CS_"
+  "UM_ShowMenu\020\342\002\022\022\n\rCS_UM_BarTime\020\343\002\022\025\n\020CS"
+  "_UM_AmmoDenied\020\344\002\022\032\n\025CS_UM_MarkAchieveme"
+  "nt\020\345\002\022\033\n\026CS_UM_MatchStatsUpdate\020\346\002\022\023\n\016CS"
+  "_UM_ItemDrop\020\347\002\022\036\n\031CS_UM_SendPlayerItemD"
+  "rops\020\351\002\022\037\n\032CS_UM_RoundBackupFilenames\020\352\002"
+  "\022\036\n\031CS_UM_SendPlayerItemFound\020\353\002\022\024\n\017CS_U"
+  "M_ReportHit\020\354\002\022\023\n\016CS_UM_XpUpdate\020\355\002\022\030\n\023C"
+  "S_UM_QuestProgress\020\356\002\022\037\n\032CS_UM_ScoreLead"
+  "erboardData\020\357\002\022&\n!CS_UM_PlayerDecalDigit"
+  "alSignature\020\360\002\022\026\n\021CS_UM_WeaponSound\020\361\002\022 "
+  "\n\033CS_UM_UpdateScreenHealthBar\020\362\002\022!\n\034CS_U"
+  "M_EntityOutlineHighlight\020\363\002\022\017\n\nCS_UM_SSU"
+  "I\020\364\002\022\030\n\023CS_UM_SurvivalStats\020\365\002\022\035\n\030CS_UM_"
+  "DisconnectToLobby2\020\366\002\022#\n\036CS_UM_EndOfMatc"
+  "hAllPlayersData\020\367\002\022 \n\033CS_UM_PostRoundDam"
+  "ageReport\020\370\002\022\035\n\030CS_UM_RoundEndReportData"
+  "\020\373\002\022\033\n\026CS_UM_CurrentRoundOdds\020\374\002\022\024\n\017CS_U"
+  "M_DeepStats\020\375\002\022\024\n\017CS_UM_ShootInfo\020\377\002\022\030\n\023"
+  "CS_UM_CounterStrafe\020\201\003\022\033\n\026CS_UM_DamagePr"
+  "ediction\020\202\003\022!\n\034CS_UM_RecurringMissionSch"
+  "ema\020\203\003\022\034\n\027CS_UM_SendPlayerLoadout\020\204\003\022\030\n\023"
+  "CS_UM_WeaponMagDrop\020\205\003\022\033\n\026CS_UM_CustomHu"
+  "dClicked\020\206\003*\210\001\n\"ECSUsrMsg_DisconnectToLo"
+  "bby_Action\0220\n,k_ECSUsrMsg_DisconnectToLo"
+  "bby_Action_Default\020\000\0220\n,k_ECSUsrMsg_Disc"
+  "onnectToLobby_Action_GoQueue\020\001"
   ;
 static const ::_pbi::DescriptorTable* const descriptor_table_cstrike15_5fusermessages_2eproto_deps[2] = {
   &::descriptor_table_cstrike15_5fgcmessages_2eproto,
@@ -3081,9 +3108,9 @@ static const ::_pbi::DescriptorTable* const descriptor_table_cstrike15_5fusermes
 };
 static ::_pbi::once_flag descriptor_table_cstrike15_5fusermessages_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_cstrike15_5fusermessages_2eproto = {
-    false, false, 11008, descriptor_table_protodef_cstrike15_5fusermessages_2eproto,
+    false, false, 11150, descriptor_table_protodef_cstrike15_5fusermessages_2eproto,
     "cstrike15_usermessages.proto",
-    &descriptor_table_cstrike15_5fusermessages_2eproto_once, descriptor_table_cstrike15_5fusermessages_2eproto_deps, 2, 93,
+    &descriptor_table_cstrike15_5fusermessages_2eproto_once, descriptor_table_cstrike15_5fusermessages_2eproto_deps, 2, 94,
     schemas, file_default_instances, TableStruct_cstrike15_5fusermessages_2eproto::offsets,
     file_level_metadata_cstrike15_5fusermessages_2eproto, file_level_enum_descriptors_cstrike15_5fusermessages_2eproto,
     file_level_service_descriptors_cstrike15_5fusermessages_2eproto,
@@ -3178,6 +3205,7 @@ bool ECstrike15UserMessages_IsValid(int value) {
     case 387:
     case 388:
     case 389:
+    case 390:
       return true;
     default:
       return false;
@@ -9863,7 +9891,7 @@ class CCSUsrMsg_WeaponSound::_Internal {
  public:
   using HasBits = decltype(std::declval<CCSUsrMsg_WeaponSound>()._impl_._has_bits_);
   static void set_has_entidx(HasBits* has_bits) {
-    (*has_bits)[0] |= 128u;
+    (*has_bits)[0] |= 64u;
   }
   static void set_has_origin_x(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
@@ -9882,9 +9910,6 @@ class CCSUsrMsg_WeaponSound::_Internal {
   }
   static void set_has_source_soundscapeid(HasBits* has_bits) {
     (*has_bits)[0] |= 32u;
-  }
-  static void set_has_stealth(HasBits* has_bits) {
-    (*has_bits)[0] |= 64u;
   }
 };
 
@@ -9906,7 +9931,6 @@ CCSUsrMsg_WeaponSound::CCSUsrMsg_WeaponSound(const CCSUsrMsg_WeaponSound& from)
     , decltype(_impl_.origin_z_){}
     , decltype(_impl_.game_timestamp_){}
     , decltype(_impl_.source_soundscapeid_){}
-    , decltype(_impl_.stealth_){}
     , decltype(_impl_.entidx_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -9937,7 +9961,6 @@ inline void CCSUsrMsg_WeaponSound::SharedCtor(
     , decltype(_impl_.origin_z_){0}
     , decltype(_impl_.game_timestamp_){0}
     , decltype(_impl_.source_soundscapeid_){0u}
-    , decltype(_impl_.stealth_){false}
     , decltype(_impl_.entidx_){-1}
   };
   _impl_.sound_.InitDefault();
@@ -9974,10 +9997,10 @@ void CCSUsrMsg_WeaponSound::Clear() {
   if (cached_has_bits & 0x00000001u) {
     _impl_.sound_.ClearNonDefaultToEmpty();
   }
-  if (cached_has_bits & 0x000000feu) {
+  if (cached_has_bits & 0x0000007eu) {
     ::memset(&_impl_.origin_x_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&_impl_.stealth_) -
-        reinterpret_cast<char*>(&_impl_.origin_x_)) + sizeof(_impl_.stealth_));
+        reinterpret_cast<char*>(&_impl_.source_soundscapeid_) -
+        reinterpret_cast<char*>(&_impl_.origin_x_)) + sizeof(_impl_.source_soundscapeid_));
     _impl_.entidx_ = -1;
   }
   _impl_._has_bits_.Clear();
@@ -10057,15 +10080,6 @@ const char* CCSUsrMsg_WeaponSound::_InternalParse(const char* ptr, ::_pbi::Parse
         } else
           goto handle_unusual;
         continue;
-      // optional bool stealth = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
-          _Internal::set_has_stealth(&has_bits);
-          _impl_.stealth_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -10098,7 +10112,7 @@ uint8_t* CCSUsrMsg_WeaponSound::_InternalSerialize(
 
   cached_has_bits = _impl_._has_bits_[0];
   // optional int32 entidx = 1 [default = -1];
-  if (cached_has_bits & 0x00000080u) {
+  if (cached_has_bits & 0x00000040u) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_entidx(), target);
   }
@@ -10143,12 +10157,6 @@ uint8_t* CCSUsrMsg_WeaponSound::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteFixed32ToArray(7, this->_internal_source_soundscapeid(), target);
   }
 
-  // optional bool stealth = 8;
-  if (cached_has_bits & 0x00000040u) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteBoolToArray(8, this->_internal_stealth(), target);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -10166,7 +10174,7 @@ size_t CCSUsrMsg_WeaponSound::ByteSizeLong() const {
   (void) cached_has_bits;
 
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x000000ffu) {
+  if (cached_has_bits & 0x0000007fu) {
     // optional string sound = 5;
     if (cached_has_bits & 0x00000001u) {
       total_size += 1 +
@@ -10199,13 +10207,8 @@ size_t CCSUsrMsg_WeaponSound::ByteSizeLong() const {
       total_size += 1 + 4;
     }
 
-    // optional bool stealth = 8;
-    if (cached_has_bits & 0x00000040u) {
-      total_size += 1 + 1;
-    }
-
     // optional int32 entidx = 1 [default = -1];
-    if (cached_has_bits & 0x00000080u) {
+    if (cached_has_bits & 0x00000040u) {
       total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_entidx());
     }
 
@@ -10229,7 +10232,7 @@ void CCSUsrMsg_WeaponSound::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if (cached_has_bits & 0x000000ffu) {
+  if (cached_has_bits & 0x0000007fu) {
     if (cached_has_bits & 0x00000001u) {
       _this->_internal_set_sound(from._internal_sound());
     }
@@ -10249,9 +10252,6 @@ void CCSUsrMsg_WeaponSound::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
       _this->_impl_.source_soundscapeid_ = from._impl_.source_soundscapeid_;
     }
     if (cached_has_bits & 0x00000040u) {
-      _this->_impl_.stealth_ = from._impl_.stealth_;
-    }
-    if (cached_has_bits & 0x00000080u) {
       _this->_impl_.entidx_ = from._impl_.entidx_;
     }
     _this->_impl_._has_bits_[0] |= cached_has_bits;
@@ -10281,8 +10281,8 @@ void CCSUsrMsg_WeaponSound::InternalSwap(CCSUsrMsg_WeaponSound* other) {
       &other->_impl_.sound_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(CCSUsrMsg_WeaponSound, _impl_.stealth_)
-      + sizeof(CCSUsrMsg_WeaponSound::_impl_.stealth_)
+      PROTOBUF_FIELD_OFFSET(CCSUsrMsg_WeaponSound, _impl_.source_soundscapeid_)
+      + sizeof(CCSUsrMsg_WeaponSound::_impl_.source_soundscapeid_)
       - PROTOBUF_FIELD_OFFSET(CCSUsrMsg_WeaponSound, _impl_.origin_x_)>(
           reinterpret_cast<char*>(&_impl_.origin_x_),
           reinterpret_cast<char*>(&other->_impl_.origin_x_));
@@ -27729,6 +27729,265 @@ void CCSUsrMsg_SendPlayerLoadout::InternalSwap(CCSUsrMsg_SendPlayerLoadout* othe
 
 // ===================================================================
 
+class CCSUsrMsg_CustomHudClicked::_Internal {
+ public:
+  using HasBits = decltype(std::declval<CCSUsrMsg_CustomHudClicked>()._impl_._has_bits_);
+  static void set_has_custom_hud_layout(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static void set_has_button_id(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+};
+
+CCSUsrMsg_CustomHudClicked::CCSUsrMsg_CustomHudClicked(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:CCSUsrMsg_CustomHudClicked)
+}
+CCSUsrMsg_CustomHudClicked::CCSUsrMsg_CustomHudClicked(const CCSUsrMsg_CustomHudClicked& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CCSUsrMsg_CustomHudClicked* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.button_id_){}
+    , decltype(_impl_.custom_hud_layout_){}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.button_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.button_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_button_id()) {
+    _this->_impl_.button_id_.Set(from._internal_button_id(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.custom_hud_layout_ = from._impl_.custom_hud_layout_;
+  // @@protoc_insertion_point(copy_constructor:CCSUsrMsg_CustomHudClicked)
+}
+
+inline void CCSUsrMsg_CustomHudClicked::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.button_id_){}
+    , decltype(_impl_.custom_hud_layout_){16777215u}
+  };
+  _impl_.button_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.button_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+CCSUsrMsg_CustomHudClicked::~CCSUsrMsg_CustomHudClicked() {
+  // @@protoc_insertion_point(destructor:CCSUsrMsg_CustomHudClicked)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void CCSUsrMsg_CustomHudClicked::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.button_id_.Destroy();
+}
+
+void CCSUsrMsg_CustomHudClicked::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void CCSUsrMsg_CustomHudClicked::Clear() {
+// @@protoc_insertion_point(message_clear_start:CCSUsrMsg_CustomHudClicked)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _impl_.button_id_.ClearNonDefaultToEmpty();
+    }
+    _impl_.custom_hud_layout_ = 16777215u;
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CCSUsrMsg_CustomHudClicked::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // optional uint32 custom_hud_layout = 1 [default = 16777215];
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _Internal::set_has_custom_hud_layout(&has_bits);
+          _impl_.custom_hud_layout_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string button_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_button_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          #ifndef NDEBUG
+          ::_pbi::VerifyUTF8(str, "CCSUsrMsg_CustomHudClicked.button_id");
+          #endif  // !NDEBUG
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* CCSUsrMsg_CustomHudClicked::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:CCSUsrMsg_CustomHudClicked)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  // optional uint32 custom_hud_layout = 1 [default = 16777215];
+  if (cached_has_bits & 0x00000002u) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_custom_hud_layout(), target);
+  }
+
+  // optional string button_id = 2;
+  if (cached_has_bits & 0x00000001u) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->_internal_button_id().data(), static_cast<int>(this->_internal_button_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
+      "CCSUsrMsg_CustomHudClicked.button_id");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_button_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:CCSUsrMsg_CustomHudClicked)
+  return target;
+}
+
+size_t CCSUsrMsg_CustomHudClicked::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:CCSUsrMsg_CustomHudClicked)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    // optional string button_id = 2;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_button_id());
+    }
+
+    // optional uint32 custom_hud_layout = 1 [default = 16777215];
+    if (cached_has_bits & 0x00000002u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_custom_hud_layout());
+    }
+
+  }
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CCSUsrMsg_CustomHudClicked::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    CCSUsrMsg_CustomHudClicked::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CCSUsrMsg_CustomHudClicked::GetClassData() const { return &_class_data_; }
+
+
+void CCSUsrMsg_CustomHudClicked::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CCSUsrMsg_CustomHudClicked*>(&to_msg);
+  auto& from = static_cast<const CCSUsrMsg_CustomHudClicked&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:CCSUsrMsg_CustomHudClicked)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_set_button_id(from._internal_button_id());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.custom_hud_layout_ = from._impl_.custom_hud_layout_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CCSUsrMsg_CustomHudClicked::CopyFrom(const CCSUsrMsg_CustomHudClicked& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:CCSUsrMsg_CustomHudClicked)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CCSUsrMsg_CustomHudClicked::IsInitialized() const {
+  return true;
+}
+
+void CCSUsrMsg_CustomHudClicked::InternalSwap(CCSUsrMsg_CustomHudClicked* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.button_id_, lhs_arena,
+      &other->_impl_.button_id_, rhs_arena
+  );
+  swap(_impl_.custom_hud_layout_, other->_impl_.custom_hud_layout_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CCSUsrMsg_CustomHudClicked::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_cstrike15_5fusermessages_2eproto_getter, &descriptor_table_cstrike15_5fusermessages_2eproto_once,
+      file_level_metadata_cstrike15_5fusermessages_2eproto[90]);
+}
+
+// ===================================================================
+
 class CVacNet_GetReviewerInfo_Request::_Internal {
  public:
   using HasBits = decltype(std::declval<CVacNet_GetReviewerInfo_Request>()._impl_._has_bits_);
@@ -27915,7 +28174,7 @@ void CVacNet_GetReviewerInfo_Request::InternalSwap(CVacNet_GetReviewerInfo_Reque
 ::PROTOBUF_NAMESPACE_ID::Metadata CVacNet_GetReviewerInfo_Request::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_cstrike15_5fusermessages_2eproto_getter, &descriptor_table_cstrike15_5fusermessages_2eproto_once,
-      file_level_metadata_cstrike15_5fusermessages_2eproto[90]);
+      file_level_metadata_cstrike15_5fusermessages_2eproto[91]);
 }
 
 // ===================================================================
@@ -28107,7 +28366,7 @@ void CVacnetReviewerInfo::InternalSwap(CVacnetReviewerInfo* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata CVacnetReviewerInfo::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_cstrike15_5fusermessages_2eproto_getter, &descriptor_table_cstrike15_5fusermessages_2eproto_once,
-      file_level_metadata_cstrike15_5fusermessages_2eproto[91]);
+      file_level_metadata_cstrike15_5fusermessages_2eproto[92]);
 }
 
 // ===================================================================
@@ -28313,7 +28572,7 @@ void CVacNet_GetReviewerInfo_Response::InternalSwap(CVacNet_GetReviewerInfo_Resp
 ::PROTOBUF_NAMESPACE_ID::Metadata CVacNet_GetReviewerInfo_Response::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_cstrike15_5fusermessages_2eproto_getter, &descriptor_table_cstrike15_5fusermessages_2eproto_once,
-      file_level_metadata_cstrike15_5fusermessages_2eproto[92]);
+      file_level_metadata_cstrike15_5fusermessages_2eproto[93]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -28677,6 +28936,10 @@ Arena::CreateMaybeMessage< ::CCSUsrMsg_SendPlayerLoadout_LoadoutItem >(Arena* ar
 template<> PROTOBUF_NOINLINE ::CCSUsrMsg_SendPlayerLoadout*
 Arena::CreateMaybeMessage< ::CCSUsrMsg_SendPlayerLoadout >(Arena* arena) {
   return Arena::CreateMessageInternal< ::CCSUsrMsg_SendPlayerLoadout >(arena);
+}
+template<> PROTOBUF_NOINLINE ::CCSUsrMsg_CustomHudClicked*
+Arena::CreateMaybeMessage< ::CCSUsrMsg_CustomHudClicked >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::CCSUsrMsg_CustomHudClicked >(arena);
 }
 template<> PROTOBUF_NOINLINE ::CVacNet_GetReviewerInfo_Request*
 Arena::CreateMaybeMessage< ::CVacNet_GetReviewerInfo_Request >(Arena* arena) {

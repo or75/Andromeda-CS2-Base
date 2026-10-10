@@ -83,6 +83,9 @@ extern CCSUsrMsg_CurrentRoundOddsDefaultTypeInternal _CCSUsrMsg_CurrentRoundOdds
 class CCSUsrMsg_CurrentTimescale;
 struct CCSUsrMsg_CurrentTimescaleDefaultTypeInternal;
 extern CCSUsrMsg_CurrentTimescaleDefaultTypeInternal _CCSUsrMsg_CurrentTimescale_default_instance_;
+class CCSUsrMsg_CustomHudClicked;
+struct CCSUsrMsg_CustomHudClickedDefaultTypeInternal;
+extern CCSUsrMsg_CustomHudClickedDefaultTypeInternal _CCSUsrMsg_CustomHudClicked_default_instance_;
 class CCSUsrMsg_Damage;
 struct CCSUsrMsg_DamageDefaultTypeInternal;
 extern CCSUsrMsg_DamageDefaultTypeInternal _CCSUsrMsg_Damage_default_instance_;
@@ -339,6 +342,7 @@ template<> ::CCSUsrMsg_CloseCaptionDirect* Arena::CreateMaybeMessage<::CCSUsrMsg
 template<> ::CCSUsrMsg_CounterStrafe* Arena::CreateMaybeMessage<::CCSUsrMsg_CounterStrafe>(Arena*);
 template<> ::CCSUsrMsg_CurrentRoundOdds* Arena::CreateMaybeMessage<::CCSUsrMsg_CurrentRoundOdds>(Arena*);
 template<> ::CCSUsrMsg_CurrentTimescale* Arena::CreateMaybeMessage<::CCSUsrMsg_CurrentTimescale>(Arena*);
+template<> ::CCSUsrMsg_CustomHudClicked* Arena::CreateMaybeMessage<::CCSUsrMsg_CustomHudClicked>(Arena*);
 template<> ::CCSUsrMsg_Damage* Arena::CreateMaybeMessage<::CCSUsrMsg_Damage>(Arena*);
 template<> ::CCSUsrMsg_DamagePrediction* Arena::CreateMaybeMessage<::CCSUsrMsg_DamagePrediction>(Arena*);
 template<> ::CCSUsrMsg_DeepStats* Arena::CreateMaybeMessage<::CCSUsrMsg_DeepStats>(Arena*);
@@ -427,9 +431,9 @@ enum ECstrike15UserMessages : int {
   CS_UM_Geiger = 302,
   CS_UM_Train = 303,
   CS_UM_HudText = 304,
-  CS_UM_SayText = 305,
-  CS_UM_SayText2 = 306,
-  CS_UM_TextMsg = 307,
+  CS_UM_SayText_CSGOLegacy = 305,
+  CS_UM_SayText2_CSGOLegacy = 306,
+  CS_UM_TextMsg_CSGOLegacy = 307,
   CS_UM_HudMsg = 308,
   CS_UM_ResetHud = 309,
   CS_UM_GameTitle = 310,
@@ -449,7 +453,7 @@ enum ECstrike15UserMessages : int {
   CS_UM_ProcessSpottedEntityUpdate = 325,
   CS_UM_ReloadEffect = 326,
   CS_UM_AdjustMoney = 327,
-  CS_UM_UpdateTeamMoney = 328,
+  CS_UM_UpdateTeamMoney_CSGOLegacy = 328,
   CS_UM_StopSpectatorMode = 329,
   CS_UM_KillCam = 330,
   CS_UM_DesiredTimescale = 331,
@@ -500,11 +504,12 @@ enum ECstrike15UserMessages : int {
   CS_UM_DamagePrediction = 386,
   CS_UM_RecurringMissionSchema = 387,
   CS_UM_SendPlayerLoadout = 388,
-  CS_UM_WeaponMagDrop = 389
+  CS_UM_WeaponMagDrop = 389,
+  CS_UM_CustomHudClicked = 390
 };
 bool ECstrike15UserMessages_IsValid(int value);
 constexpr ECstrike15UserMessages ECstrike15UserMessages_MIN = CS_UM_VGUIMenu;
-constexpr ECstrike15UserMessages ECstrike15UserMessages_MAX = CS_UM_WeaponMagDrop;
+constexpr ECstrike15UserMessages ECstrike15UserMessages_MAX = CS_UM_CustomHudClicked;
 constexpr int ECstrike15UserMessages_ARRAYSIZE = ECstrike15UserMessages_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ECstrike15UserMessages_descriptor();
@@ -5381,7 +5386,6 @@ class CCSUsrMsg_WeaponSound final :
     kOriginZFieldNumber = 4,
     kGameTimestampFieldNumber = 6,
     kSourceSoundscapeidFieldNumber = 7,
-    kStealthFieldNumber = 8,
     kEntidxFieldNumber = 1,
   };
   // optional string sound = 5;
@@ -5467,19 +5471,6 @@ class CCSUsrMsg_WeaponSound final :
   void _internal_set_source_soundscapeid(uint32_t value);
   public:
 
-  // optional bool stealth = 8;
-  bool has_stealth() const;
-  private:
-  bool _internal_has_stealth() const;
-  public:
-  void clear_stealth();
-  bool stealth() const;
-  void set_stealth(bool value);
-  private:
-  bool _internal_stealth() const;
-  void _internal_set_stealth(bool value);
-  public:
-
   // optional int32 entidx = 1 [default = -1];
   bool has_entidx() const;
   private:
@@ -5509,7 +5500,6 @@ class CCSUsrMsg_WeaponSound final :
     float origin_z_;
     float game_timestamp_;
     uint32_t source_soundscapeid_;
-    bool stealth_;
     int32_t entidx_;
   };
   union { Impl_ _impl_; };
@@ -18026,6 +18016,186 @@ class CCSUsrMsg_SendPlayerLoadout final :
 };
 // -------------------------------------------------------------------
 
+class CCSUsrMsg_CustomHudClicked final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CCSUsrMsg_CustomHudClicked) */ {
+ public:
+  inline CCSUsrMsg_CustomHudClicked() : CCSUsrMsg_CustomHudClicked(nullptr) {}
+  ~CCSUsrMsg_CustomHudClicked() override;
+  explicit PROTOBUF_CONSTEXPR CCSUsrMsg_CustomHudClicked(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CCSUsrMsg_CustomHudClicked(const CCSUsrMsg_CustomHudClicked& from);
+  CCSUsrMsg_CustomHudClicked(CCSUsrMsg_CustomHudClicked&& from) noexcept
+    : CCSUsrMsg_CustomHudClicked() {
+    *this = ::std::move(from);
+  }
+
+  inline CCSUsrMsg_CustomHudClicked& operator=(const CCSUsrMsg_CustomHudClicked& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CCSUsrMsg_CustomHudClicked& operator=(CCSUsrMsg_CustomHudClicked&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
+  }
+  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CCSUsrMsg_CustomHudClicked& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CCSUsrMsg_CustomHudClicked* internal_default_instance() {
+    return reinterpret_cast<const CCSUsrMsg_CustomHudClicked*>(
+               &_CCSUsrMsg_CustomHudClicked_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    90;
+
+  friend void swap(CCSUsrMsg_CustomHudClicked& a, CCSUsrMsg_CustomHudClicked& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CCSUsrMsg_CustomHudClicked* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CCSUsrMsg_CustomHudClicked* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CCSUsrMsg_CustomHudClicked* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<CCSUsrMsg_CustomHudClicked>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const CCSUsrMsg_CustomHudClicked& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const CCSUsrMsg_CustomHudClicked& from) {
+    CCSUsrMsg_CustomHudClicked::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CCSUsrMsg_CustomHudClicked* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CCSUsrMsg_CustomHudClicked";
+  }
+  protected:
+  explicit CCSUsrMsg_CustomHudClicked(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kButtonIdFieldNumber = 2,
+    kCustomHudLayoutFieldNumber = 1,
+  };
+  // optional string button_id = 2;
+  bool has_button_id() const;
+  private:
+  bool _internal_has_button_id() const;
+  public:
+  void clear_button_id();
+  const std::string& button_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_button_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_button_id();
+  PROTOBUF_NODISCARD std::string* release_button_id();
+  void set_allocated_button_id(std::string* button_id);
+  private:
+  const std::string& _internal_button_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_button_id(const std::string& value);
+  std::string* _internal_mutable_button_id();
+  public:
+
+  // optional uint32 custom_hud_layout = 1 [default = 16777215];
+  bool has_custom_hud_layout() const;
+  private:
+  bool _internal_has_custom_hud_layout() const;
+  public:
+  void clear_custom_hud_layout();
+  uint32_t custom_hud_layout() const;
+  void set_custom_hud_layout(uint32_t value);
+  private:
+  uint32_t _internal_custom_hud_layout() const;
+  void _internal_set_custom_hud_layout(uint32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:CCSUsrMsg_CustomHudClicked)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr button_id_;
+    uint32_t custom_hud_layout_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_cstrike15_5fusermessages_2eproto;
+};
+// -------------------------------------------------------------------
+
 class CVacNet_GetReviewerInfo_Request final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CVacNet_GetReviewerInfo_Request) */ {
  public:
@@ -18081,7 +18251,7 @@ class CVacNet_GetReviewerInfo_Request final :
                &_CVacNet_GetReviewerInfo_Request_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    90;
+    91;
 
   friend void swap(CVacNet_GetReviewerInfo_Request& a, CVacNet_GetReviewerInfo_Request& b) {
     a.Swap(&b);
@@ -18241,7 +18411,7 @@ class CVacnetReviewerInfo final :
                &_CVacnetReviewerInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    91;
+    92;
 
   friend void swap(CVacnetReviewerInfo& a, CVacnetReviewerInfo& b) {
     a.Swap(&b);
@@ -18411,7 +18581,7 @@ class CVacNet_GetReviewerInfo_Response final :
                &_CVacNet_GetReviewerInfo_Response_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    92;
+    93;
 
   friend void swap(CVacNet_GetReviewerInfo_Response& a, CVacNet_GetReviewerInfo_Response& b) {
     a.Swap(&b);
@@ -21565,7 +21735,7 @@ inline void CCSUsrMsg_ReloadEffect::set_origin_z(float value) {
 
 // optional int32 entidx = 1 [default = -1];
 inline bool CCSUsrMsg_WeaponSound::_internal_has_entidx() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000080u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000040u) != 0;
   return value;
 }
 inline bool CCSUsrMsg_WeaponSound::has_entidx() const {
@@ -21573,7 +21743,7 @@ inline bool CCSUsrMsg_WeaponSound::has_entidx() const {
 }
 inline void CCSUsrMsg_WeaponSound::clear_entidx() {
   _impl_.entidx_ = -1;
-  _impl_._has_bits_[0] &= ~0x00000080u;
+  _impl_._has_bits_[0] &= ~0x00000040u;
 }
 inline int32_t CCSUsrMsg_WeaponSound::_internal_entidx() const {
   return _impl_.entidx_;
@@ -21583,7 +21753,7 @@ inline int32_t CCSUsrMsg_WeaponSound::entidx() const {
   return _internal_entidx();
 }
 inline void CCSUsrMsg_WeaponSound::_internal_set_entidx(int32_t value) {
-  _impl_._has_bits_[0] |= 0x00000080u;
+  _impl_._has_bits_[0] |= 0x00000040u;
   _impl_.entidx_ = value;
 }
 inline void CCSUsrMsg_WeaponSound::set_entidx(int32_t value) {
@@ -21797,34 +21967,6 @@ inline void CCSUsrMsg_WeaponSound::_internal_set_source_soundscapeid(uint32_t va
 inline void CCSUsrMsg_WeaponSound::set_source_soundscapeid(uint32_t value) {
   _internal_set_source_soundscapeid(value);
   // @@protoc_insertion_point(field_set:CCSUsrMsg_WeaponSound.source_soundscapeid)
-}
-
-// optional bool stealth = 8;
-inline bool CCSUsrMsg_WeaponSound::_internal_has_stealth() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000040u) != 0;
-  return value;
-}
-inline bool CCSUsrMsg_WeaponSound::has_stealth() const {
-  return _internal_has_stealth();
-}
-inline void CCSUsrMsg_WeaponSound::clear_stealth() {
-  _impl_.stealth_ = false;
-  _impl_._has_bits_[0] &= ~0x00000040u;
-}
-inline bool CCSUsrMsg_WeaponSound::_internal_stealth() const {
-  return _impl_.stealth_;
-}
-inline bool CCSUsrMsg_WeaponSound::stealth() const {
-  // @@protoc_insertion_point(field_get:CCSUsrMsg_WeaponSound.stealth)
-  return _internal_stealth();
-}
-inline void CCSUsrMsg_WeaponSound::_internal_set_stealth(bool value) {
-  _impl_._has_bits_[0] |= 0x00000040u;
-  _impl_.stealth_ = value;
-}
-inline void CCSUsrMsg_WeaponSound::set_stealth(bool value) {
-  _internal_set_stealth(value);
-  // @@protoc_insertion_point(field_set:CCSUsrMsg_WeaponSound.stealth)
 }
 
 // -------------------------------------------------------------------
@@ -29079,6 +29221,106 @@ inline void CCSUsrMsg_SendPlayerLoadout::set_playerslot(int32_t value) {
 
 // -------------------------------------------------------------------
 
+// CCSUsrMsg_CustomHudClicked
+
+// optional uint32 custom_hud_layout = 1 [default = 16777215];
+inline bool CCSUsrMsg_CustomHudClicked::_internal_has_custom_hud_layout() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool CCSUsrMsg_CustomHudClicked::has_custom_hud_layout() const {
+  return _internal_has_custom_hud_layout();
+}
+inline void CCSUsrMsg_CustomHudClicked::clear_custom_hud_layout() {
+  _impl_.custom_hud_layout_ = 16777215u;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline uint32_t CCSUsrMsg_CustomHudClicked::_internal_custom_hud_layout() const {
+  return _impl_.custom_hud_layout_;
+}
+inline uint32_t CCSUsrMsg_CustomHudClicked::custom_hud_layout() const {
+  // @@protoc_insertion_point(field_get:CCSUsrMsg_CustomHudClicked.custom_hud_layout)
+  return _internal_custom_hud_layout();
+}
+inline void CCSUsrMsg_CustomHudClicked::_internal_set_custom_hud_layout(uint32_t value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.custom_hud_layout_ = value;
+}
+inline void CCSUsrMsg_CustomHudClicked::set_custom_hud_layout(uint32_t value) {
+  _internal_set_custom_hud_layout(value);
+  // @@protoc_insertion_point(field_set:CCSUsrMsg_CustomHudClicked.custom_hud_layout)
+}
+
+// optional string button_id = 2;
+inline bool CCSUsrMsg_CustomHudClicked::_internal_has_button_id() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool CCSUsrMsg_CustomHudClicked::has_button_id() const {
+  return _internal_has_button_id();
+}
+inline void CCSUsrMsg_CustomHudClicked::clear_button_id() {
+  _impl_.button_id_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& CCSUsrMsg_CustomHudClicked::button_id() const {
+  // @@protoc_insertion_point(field_get:CCSUsrMsg_CustomHudClicked.button_id)
+  return _internal_button_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CCSUsrMsg_CustomHudClicked::set_button_id(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.button_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:CCSUsrMsg_CustomHudClicked.button_id)
+}
+inline std::string* CCSUsrMsg_CustomHudClicked::mutable_button_id() {
+  std::string* _s = _internal_mutable_button_id();
+  // @@protoc_insertion_point(field_mutable:CCSUsrMsg_CustomHudClicked.button_id)
+  return _s;
+}
+inline const std::string& CCSUsrMsg_CustomHudClicked::_internal_button_id() const {
+  return _impl_.button_id_.Get();
+}
+inline void CCSUsrMsg_CustomHudClicked::_internal_set_button_id(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.button_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CCSUsrMsg_CustomHudClicked::_internal_mutable_button_id() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.button_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CCSUsrMsg_CustomHudClicked::release_button_id() {
+  // @@protoc_insertion_point(field_release:CCSUsrMsg_CustomHudClicked.button_id)
+  if (!_internal_has_button_id()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.button_id_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.button_id_.IsDefault()) {
+    _impl_.button_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void CCSUsrMsg_CustomHudClicked::set_allocated_button_id(std::string* button_id) {
+  if (button_id != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.button_id_.SetAllocated(button_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.button_id_.IsDefault()) {
+    _impl_.button_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:CCSUsrMsg_CustomHudClicked.button_id)
+}
+
+// -------------------------------------------------------------------
+
 // CVacNet_GetReviewerInfo_Request
 
 // optional uint32 appid = 1;
@@ -29285,6 +29527,8 @@ inline void CVacNet_GetReviewerInfo_Response::set_allocated_reviewer_info(::CVac
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

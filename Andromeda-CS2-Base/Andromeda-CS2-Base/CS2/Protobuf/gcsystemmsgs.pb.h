@@ -127,7 +127,7 @@ enum EGCSystemMsg : int {
   k_EGCMsgLookupAccountFromInput = 66,
   k_EGCMsgSendHTTPRequest = 67,
   k_EGCMsgSendHTTPRequestResponse = 68,
-  k_EGCMsgPreTestSetup = 69,
+  k_EGCMsgPreTestSetup_DEPRECATED = 69,
   k_EGCMsgRecordSupportAction = 70,
   k_EGCMsgGetAccountDetails_DEPRECATED = 71,
   k_EGCMsgReceiveInterAppMessage = 73,
@@ -196,11 +196,18 @@ enum EGCSystemMsg : int {
   k_EGCMsgTerminateGamePersonalDataEntriesResponse = 529,
   k_EGCMsgRecurringSubscriptionStatusChange = 530,
   k_EGCMsgDirectServiceMethod = 531,
-  k_EGCMsgDirectServiceMethodResponse = 532
+  k_EGCMsgDirectServiceMethodResponse = 532,
+  k_EGCMsgAppCheersReceived = 533,
+  k_EGCMsgAppCheersGetAllowedTypes = 534,
+  k_EGCMsgAppCheersGetAllowedTypesResponse = 535,
+  k_EGCMsgReportMetrics = 536,
+  k_EGCMsgReportMetricsResponse = 537,
+  k_EGCMsgGetClanDetails = 538,
+  k_EGCMsgGetClanDetailsResponse = 539
 };
 bool EGCSystemMsg_IsValid(int value);
 constexpr EGCSystemMsg EGCSystemMsg_MIN = k_EGCMsgInvalid;
-constexpr EGCSystemMsg EGCSystemMsg_MAX = k_EGCMsgDirectServiceMethodResponse;
+constexpr EGCSystemMsg EGCSystemMsg_MAX = k_EGCMsgGetClanDetailsResponse;
 constexpr int EGCSystemMsg_ARRAYSIZE = EGCSystemMsg_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EGCSystemMsg_descriptor();
