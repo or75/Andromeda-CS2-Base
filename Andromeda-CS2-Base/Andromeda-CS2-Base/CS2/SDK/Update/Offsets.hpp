@@ -18,7 +18,7 @@ static constexpr auto g_CEconItemSchema_GetPaintKits = 0x2F0;
 00007FFB3AF2FE2B | movsxd r8,dword ptr ds:[rax+0x4]                |
 00007FFB3AF2FE2F | cmp r8d,dword ptr ds:[rbx+0x4D8]                | offset in function call
 */
-static constexpr auto g_CEconItemSchema_GetMusicKitDefinitions = 0x500;
+static constexpr auto g_CEconItemSchema_GetMusicKitDefinitions = 0x4B0;
 
 // Client.dll
 /*
@@ -39,7 +39,7 @@ static constexpr auto g_CEconItemSchema_GetMusicKitDefinitions = 0x500;
 static constexpr auto g_CEconItemDefinition_GetLoadoutSlot = 0x338;
 
 // 4C 8B B9 ? ? ? ? 45 33 E4 45 0F B7 F4 66 44 89 64 24 ? 41 BD ? ? ? ? 41 0F B7 EE 41 0F B7 DC 49 BE ? ? ? ? ? ? ? ? 66 66 66 0F 1F 84 00 ? ? ? ? 
-static constexpr auto g_CCSInventoryManager_GetLocalInventory = 0x52900;
+static constexpr auto g_CCSInventoryManager_GetLocalInventory = 0x528D0;
 
 static constexpr auto g_CCSPlayerInventory_CGCClientSharedObjectCache = 0x68;
 
