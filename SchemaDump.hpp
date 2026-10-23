@@ -434,23 +434,23 @@ class C_OP_RenderScreenShake : public CParticleFunctionRenderer // particles
 };
 class CVoiceContainerVsndTrigger : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CUtlString m_namespace; // 0x0070
-	CVsndTriggerSlot m_slot1; // 0x0078
-	CVsndTriggerSlot m_slot2; // 0x0100
-	CVsndTriggerSlot m_slot3; // 0x0188
-	CVsndTriggerSlot m_slot4; // 0x0210
-	CVsndTriggerSlot m_slot5; // 0x0298
-	CVsndTriggerSlot m_slot6; // 0x0320
-	CVsndTriggerSlot m_slot7; // 0x03A8
-	CVsndTriggerSlot m_slot8; // 0x0430
-	CVsndTriggerSlot m_slot9; // 0x04B8
-	CVsndTriggerSlot m_slot10; // 0x0540
-	CVsndTriggerSlot m_slot11; // 0x05C8
-	CVsndTriggerSlot m_slot12; // 0x0650
-	CVsndTriggerSlot m_slot13; // 0x06D8
-	CVsndTriggerSlot m_slot14; // 0x0760
-	CVsndTriggerSlot m_slot15; // 0x07E8
-	CVsndTriggerSlot m_slot16; // 0x0870
+	CUtlString m_namespace; // 0x0078
+	CVsndTriggerSlot m_slot1; // 0x0080
+	CVsndTriggerSlot m_slot2; // 0x0108
+	CVsndTriggerSlot m_slot3; // 0x0190
+	CVsndTriggerSlot m_slot4; // 0x0218
+	CVsndTriggerSlot m_slot5; // 0x02A0
+	CVsndTriggerSlot m_slot6; // 0x0328
+	CVsndTriggerSlot m_slot7; // 0x03B0
+	CVsndTriggerSlot m_slot8; // 0x0438
+	CVsndTriggerSlot m_slot9; // 0x04C0
+	CVsndTriggerSlot m_slot10; // 0x0548
+	CVsndTriggerSlot m_slot11; // 0x05D0
+	CVsndTriggerSlot m_slot12; // 0x0658
+	CVsndTriggerSlot m_slot13; // 0x06E0
+	CVsndTriggerSlot m_slot14; // 0x0768
+	CVsndTriggerSlot m_slot15; // 0x07F0
+	CVsndTriggerSlot m_slot16; // 0x0878
 };
 class CAnimNodePath // animgraphlib
 {
@@ -529,9 +529,9 @@ class RelationshipOverride_t : public Relationship_t // server
 };
 class CVoiceContainerMultiBlender : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CSoundContainerReferenceArray m_soundsToPlay; // 0x0070
-	float32 m_flBlendFactor; // 0x00A8
-	float32 m_flCrossover; // 0x00AC
+	CSoundContainerReferenceArray m_soundsToPlay; // 0x0078
+	float32 m_flBlendFactor; // 0x00B0
+	float32 m_flCrossover; // 0x00B4
 };
 class FeBuildSDFRigid_t : public FeSDFRigid_t // physicslib
 {
@@ -1212,12 +1212,12 @@ class C_OP_SetControlPointFieldToWater : public CParticleFunctionPreEmission // 
 };
 class CVoiceContainerStaticAdditiveSynth : public CVoiceContainerAsyncGenerator // soundsystem_voicecontainers
 {
-	CUtlVector< CVoiceContainerStaticAdditiveSynth::CTone > m_tones; // 0x0080
+	CUtlVector< CVoiceContainerStaticAdditiveSynth::CTone > m_tones; // 0x0088
 };
 class CVoiceContainerDecayingSineWave : public CVoiceContainerGenerator // soundsystem_voicecontainers
 {
-	float32 m_flFrequency; // 0x0070
-	float32 m_flDecayTime; // 0x0074
+	float32 m_flFrequency; // 0x0078
+	float32 m_flDecayTime; // 0x007C
 };
 class CConcreteAnimParameter : public CAnimParameterBase // animgraphlib
 {
@@ -2459,18 +2459,18 @@ class C_OP_WindForce : public CParticleFunctionForce // particles
 };
 class CVoiceContainerRandomSampler : public CVoiceContainerAsyncGenerator // soundsystem_voicecontainers
 {
-	float32 m_flAmplitude; // 0x0080
-	float32 m_flAmplitudeJitter; // 0x0084
-	float32 m_flTimeJitter; // 0x0088
-	float32 m_flMaxLength; // 0x008C
-	int32 m_nNumDelayVariations; // 0x0090
-	CUtlVector< CStrongHandle< InfoForResourceTypeCVoiceContainerBase > > m_grainResources; // 0x0098
+	float32 m_flAmplitude; // 0x0088
+	float32 m_flAmplitudeJitter; // 0x008C
+	float32 m_flTimeJitter; // 0x0090
+	float32 m_flMaxLength; // 0x0094
+	int32 m_nNumDelayVariations; // 0x0098
+	CUtlVector< CStrongHandle< InfoForResourceTypeCVoiceContainerBase > > m_grainResources; // 0x00A0
 };
 class CVoiceContainerRealtimeFMSineWave : public CVoiceContainerGenerator // soundsystem_voicecontainers
 {
-	float32 m_flCarrierFrequency; // 0x0070
-	float32 m_flModulatorFrequency; // 0x0074
-	float32 m_flModulatorAmount; // 0x0078
+	float32 m_flCarrierFrequency; // 0x0078
+	float32 m_flModulatorFrequency; // 0x007C
+	float32 m_flModulatorAmount; // 0x0080
 };
 class CVMixDataOffset // soundsystem_lowlevel
 {
@@ -2760,11 +2760,11 @@ class C_OP_MovementPlaceOnGround : public CParticleFunctionOperator // particles
 };
 class CVoiceContainerLoopTrigger : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	float32 m_flRetriggerTimeMin; // 0x0070
-	float32 m_flRetriggerTimeMax; // 0x0074
-	float32 m_flFadeTime; // 0x0078
-	bool m_bCrossFade; // 0x007C
-	CSoundContainerReference m_sound; // 0x0080
+	float32 m_flRetriggerTimeMin; // 0x0078
+	float32 m_flRetriggerTimeMax; // 0x007C
+	float32 m_flFadeTime; // 0x0080
+	bool m_bCrossFade; // 0x0084
+	CSoundContainerReference m_sound; // 0x0088
 };
 class RnMeshDesc_t : public RnShapeDesc_t // physicslib
 {
@@ -3691,7 +3691,7 @@ class C_OP_Callback : public CParticleFunctionRenderer // particles
 };
 class CVoiceContainerSwitch : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CUtlVector< CSoundContainerReference > m_soundsToPlay; // 0x0070
+	CUtlVector< CSoundContainerReference > m_soundsToPlay; // 0x0078
 };
 class PhysFeModelDesc_t // physicslib
 {
@@ -4029,7 +4029,7 @@ class ClutterTile_t // worldrenderer
 };
 class CVoiceContainerAmpedDecayingSineWave : public CVoiceContainerDecayingSineWave // soundsystem_voicecontainers
 {
-	float32 m_flGainAmount; // 0x0078
+	float32 m_flGainAmount; // 0x0080
 };
 class CVMixAutoFilterProcessorDesc : public CVMixBaseProcessorDesc // soundsystem_lowlevel
 {
@@ -4410,14 +4410,14 @@ class CVMixSteamAudioHybridReverbProcessorDesc : public CVMixBaseProcessorDesc /
 };
 class CVoiceContainerParameterBlender : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CSoundContainerReference m_firstSound; // 0x0070
-	CSoundContainerReference m_secondSound; // 0x0090
-	bool m_bEnableOcclusionBlend; // 0x00B0
-	CPiecewiseCurve m_curve1; // 0x00B8
-	CPiecewiseCurve m_curve2; // 0x00F8
-	bool m_bEnableDistanceBlend; // 0x0138
-	CPiecewiseCurve m_curve3; // 0x0140
-	CPiecewiseCurve m_curve4; // 0x0180
+	CSoundContainerReference m_firstSound; // 0x0078
+	CSoundContainerReference m_secondSound; // 0x0098
+	bool m_bEnableOcclusionBlend; // 0x00B8
+	CPiecewiseCurve m_curve1; // 0x00C0
+	CPiecewiseCurve m_curve2; // 0x0100
+	bool m_bEnableDistanceBlend; // 0x0140
+	CPiecewiseCurve m_curve3; // 0x0148
+	CPiecewiseCurve m_curve4; // 0x0188
 };
 class RnCompoundTree_t // physicslib
 {
@@ -5110,10 +5110,10 @@ class CSosGroupActionSoundeventCountSchema : public CSosGroupActionSchema // sou
 };
 class CVoiceContainerTapePlayer : public CVoiceContainerAsyncGenerator // soundsystem_voicecontainers
 {
-	bool m_bShouldWraparound; // 0x0080
-	CStrongHandle< InfoForResourceTypeCVoiceContainerBase > m_sourceAudio; // 0x0088
-	float32 m_flTapeSpeedAttackTime; // 0x0090
-	float32 m_flTapeSpeedReleaseTime; // 0x0094
+	bool m_bShouldWraparound; // 0x0088
+	CStrongHandle< InfoForResourceTypeCVoiceContainerBase > m_sourceAudio; // 0x0090
+	float32 m_flTapeSpeedAttackTime; // 0x0098
+	float32 m_flTapeSpeedReleaseTime; // 0x009C
 };
 class CNmVirtualParameterVectorNode::CDefinition : public CNmVectorValueNode::CDefinition // animlib
 {
@@ -6450,8 +6450,10 @@ class C_INIT_RemapParticleCountToNamedModelMeshGroupScalar : public C_INIT_Remap
 };
 class CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CVSound m_vSound; // 0x0028
-	CVoiceContainerAnalysisBase* m_pEnvelopeAnalyzer; // 0x0068
+	bool m_bRegisteredVMix; // 0x0010
+	CUtlStringToken m_nResourceName; // 0x0014
+	CVSound m_vSound; // 0x0030
+	CVoiceContainerAnalysisBase* m_pEnvelopeAnalyzer; // 0x0070
 };
 class CNmVectorValueNode::CDefinition : public CNmValueNode::CDefinition // animlib
 {
@@ -6523,6 +6525,7 @@ class INavPathCostAreaFilter // server
 };
 class CVoiceContainerVMixSnd : public CVoiceContainerBase // soundsystem
 {
+	CUtlString m_resourceName; // 0x0188
 };
 class VPhysXCollisionAttributes_t // modellib
 {
@@ -6851,14 +6854,14 @@ class CVMixSteamAudioHRTFProcessorDesc : public CVMixBaseProcessorDesc // sounds
 };
 class CVoiceContainerGranulator : public CVoiceContainerAsyncGenerator // soundsystem_voicecontainers
 {
-	float32 m_flGrainLength; // 0x0080
-	float32 m_flGrainCrossfadeAmount; // 0x0084
-	float32 m_flStartJitter; // 0x0088
-	float32 m_flPlaybackJitter; // 0x008C
-	bool m_bShouldWraparound; // 0x0090
-	CStrongHandle< InfoForResourceTypeCVoiceContainerBase > m_sourceAudio; // 0x0098
-	bool m_bDoubleBufferSourceAudio; // 0x00A0
-	float32 m_flMaxSourceLength; // 0x00A4
+	float32 m_flGrainLength; // 0x0088
+	float32 m_flGrainCrossfadeAmount; // 0x008C
+	float32 m_flStartJitter; // 0x0090
+	float32 m_flPlaybackJitter; // 0x0094
+	bool m_bShouldWraparound; // 0x0098
+	CStrongHandle< InfoForResourceTypeCVoiceContainerBase > m_sourceAudio; // 0x00A0
+	bool m_bDoubleBufferSourceAudio; // 0x00A8
+	float32 m_flMaxSourceLength; // 0x00AC
 };
 class COrientationWarpUpdateNode : public CUnaryUpdateNode // animgraphlib
 {
@@ -7933,7 +7936,7 @@ class InfoForResourceTypeIPulseGraphDef // resourcesystem
 };
 class CVoiceContainerSet : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CUtlVector< CVoiceContainerSetElement > m_soundsToPlay; // 0x0070
+	CUtlVector< CVoiceContainerSetElement > m_soundsToPlay; // 0x0078
 };
 class CModelConfigElement_SetBodygroupOnAttachedModels : public CModelConfigElement // modellib
 {
@@ -8840,15 +8843,15 @@ class C_INIT_SkyVisCull : public CParticleFunctionInitializer // particles
 };
 class CVoiceContainerShapedNoise : public CVoiceContainerGenerator // soundsystem_voicecontainers
 {
-	bool m_bUseCurveForFrequency; // 0x0070
-	float32 m_flFrequency; // 0x0074
-	CPiecewiseCurve m_frequencySweep; // 0x0078
-	bool m_bUseCurveForResonance; // 0x00B8
-	float32 m_flResonance; // 0x00BC
-	CPiecewiseCurve m_resonanceSweep; // 0x00C0
-	bool m_bUseCurveForAmplitude; // 0x0100
-	float32 m_flGainInDecibels; // 0x0104
-	CPiecewiseCurve m_gainSweep; // 0x0108
+	bool m_bUseCurveForFrequency; // 0x0078
+	float32 m_flFrequency; // 0x007C
+	CPiecewiseCurve m_frequencySweep; // 0x0080
+	bool m_bUseCurveForResonance; // 0x00C0
+	float32 m_flResonance; // 0x00C4
+	CPiecewiseCurve m_resonanceSweep; // 0x00C8
+	bool m_bUseCurveForAmplitude; // 0x0108
+	float32 m_flGainInDecibels; // 0x010C
+	CPiecewiseCurve m_gainSweep; // 0x0110
 };
 class FeNodeStrayBox_t // physicslib
 {
@@ -9106,14 +9109,14 @@ class CRandomPannerControls // soundsystem_voicecontainers
 };
 class CVoiceContainerLoopXFade : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CSoundContainerReference m_sound; // 0x0070
-	float32 m_flLoopEnd; // 0x0090
-	float32 m_flLoopStart; // 0x0094
-	float32 m_flFadeOut; // 0x0098
-	float32 m_flFadeIn; // 0x009C
-	bool m_bPlayHead; // 0x00A0
-	bool m_bPlayTail; // 0x00A1
-	bool m_bEqualPow; // 0x00A2
+	CSoundContainerReference m_sound; // 0x0078
+	float32 m_flLoopEnd; // 0x0098
+	float32 m_flLoopStart; // 0x009C
+	float32 m_flFadeOut; // 0x00A0
+	float32 m_flFadeIn; // 0x00A4
+	bool m_bPlayHead; // 0x00A8
+	bool m_bPlayTail; // 0x00A9
+	bool m_bEqualPow; // 0x00AA
 };
 class CVsndRadioButtonSlot // soundsystem_voicecontainers
 {
@@ -10028,7 +10031,7 @@ class CVMixBaseGraphDescription // soundsystem_lowlevel
 };
 class CVoiceContainerLoopTriggerWithRandomPanner : public CVoiceContainerLoopTrigger // soundsystem_voicecontainers
 {
-	CRandomPannerControls m_randomPannerControls; // 0x00A0
+	CRandomPannerControls m_randomPannerControls; // 0x00A8
 };
 class OldFeEdge_t // physicslib
 {
@@ -10405,9 +10408,9 @@ class CVMixEQ8ProcessorDesc : public CVMixBaseProcessorDesc // soundsystem_lowle
 };
 class CVoiceContainerSelector : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	PlayBackMode_t m_mode; // 0x0070
-	CSoundContainerReferenceArray m_soundsToPlay; // 0x0078
-	CUtlVector< float32 > m_fProbabilityWeights; // 0x00B0
+	PlayBackMode_t m_mode; // 0x0078
+	CSoundContainerReferenceArray m_soundsToPlay; // 0x0080
+	CUtlVector< float32 > m_fProbabilityWeights; // 0x00B8
 };
 class FeCollisionPlane_t // physicslib
 {
@@ -10479,6 +10482,7 @@ class CVMixSubmix // soundsystem_lowlevel
 	int32 m_nChannels; // 0x0030
 	VMixSendOperator_t m_nSendOperator; // 0x0034
 	VMixMixDownRule_t m_nMixDownRule; // 0x0036
+	VMixUpMixRule_t m_nUpMixRule; // 0x0037
 };
 class CShatterGlassShard // server
 {
@@ -11898,23 +11902,23 @@ class C_OP_RampScalarLinear : public CParticleFunctionOperator // particles
 };
 class CVoiceContainerVsndRadioButton : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CUtlString m_namespace; // 0x0070
-	CVsndRadioButtonSlot m_slot1; // 0x0078
-	CVsndRadioButtonSlot m_slot2; // 0x0100
-	CVsndRadioButtonSlot m_slot3; // 0x0188
-	CVsndRadioButtonSlot m_slot4; // 0x0210
-	CVsndRadioButtonSlot m_slot5; // 0x0298
-	CVsndRadioButtonSlot m_slot6; // 0x0320
-	CVsndRadioButtonSlot m_slot7; // 0x03A8
-	CVsndRadioButtonSlot m_slot8; // 0x0430
-	CVsndRadioButtonSlot m_slot9; // 0x04B8
-	CVsndRadioButtonSlot m_slot10; // 0x0540
-	CVsndRadioButtonSlot m_slot11; // 0x05C8
-	CVsndRadioButtonSlot m_slot12; // 0x0650
-	CVsndRadioButtonSlot m_slot13; // 0x06D8
-	CVsndRadioButtonSlot m_slot14; // 0x0760
-	CVsndRadioButtonSlot m_slot15; // 0x07E8
-	CVsndRadioButtonSlot m_slot16; // 0x0870
+	CUtlString m_namespace; // 0x0078
+	CVsndRadioButtonSlot m_slot1; // 0x0080
+	CVsndRadioButtonSlot m_slot2; // 0x0108
+	CVsndRadioButtonSlot m_slot3; // 0x0190
+	CVsndRadioButtonSlot m_slot4; // 0x0218
+	CVsndRadioButtonSlot m_slot5; // 0x02A0
+	CVsndRadioButtonSlot m_slot6; // 0x0328
+	CVsndRadioButtonSlot m_slot7; // 0x03B0
+	CVsndRadioButtonSlot m_slot8; // 0x0438
+	CVsndRadioButtonSlot m_slot9; // 0x04C0
+	CVsndRadioButtonSlot m_slot10; // 0x0548
+	CVsndRadioButtonSlot m_slot11; // 0x05D0
+	CVsndRadioButtonSlot m_slot12; // 0x0658
+	CVsndRadioButtonSlot m_slot13; // 0x06E0
+	CVsndRadioButtonSlot m_slot14; // 0x0768
+	CVsndRadioButtonSlot m_slot15; // 0x07F0
+	CVsndRadioButtonSlot m_slot16; // 0x0878
 };
 class CVMixEffectChainProcessorDesc : public CVMixBaseProcessorDesc // soundsystem_lowlevel
 {
@@ -12264,9 +12268,6 @@ class CMotionSearchDB // animgraphlib
 	CMotionSearchNode m_rootNode; // 0x0000
 	CProductQuantizer m_residualQuantizer; // 0x0080
 	CUtlVector< MotionDBIndex > m_codeIndices; // 0x00A0
-};
-class InfoForResourceTypeCVMixListResource // resourcesystem
-{
 };
 class CFloatMovingAverage // server
 {
@@ -13734,9 +13735,9 @@ class CSteamAudioProbeLineSegment // steamaudio
 };
 class CVoiceContainerBlender : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CSoundContainerReference m_firstSound; // 0x0070
-	CSoundContainerReference m_secondSound; // 0x0090
-	float32 m_flBlendFactor; // 0x00B0
+	CSoundContainerReference m_firstSound; // 0x0078
+	CSoundContainerReference m_secondSound; // 0x0098
+	float32 m_flBlendFactor; // 0x00B8
 };
 class CSosGroupActionSoundeventClusterSchema : public CSosGroupActionSchema // soundsystem
 {
@@ -13750,9 +13751,9 @@ class CSosGroupActionSoundeventClusterSchema : public CSosGroupActionSchema // s
 };
 class CVoiceContainerEnum : public CVoiceContainerBase // soundsystem_voicecontainers
 {
-	CSoundContainerReferenceArray m_soundsToPlay; // 0x0070
-	int32 m_iSelection; // 0x00A8
-	float32 m_flCrossfadeTime; // 0x00AC
+	CSoundContainerReferenceArray m_soundsToPlay; // 0x0078
+	int32 m_iSelection; // 0x00B0
+	float32 m_flCrossfadeTime; // 0x00B4
 };
 class CNmIsTargetSetNode::CDefinition : public CNmBoolValueNode::CDefinition // animlib
 {
@@ -15459,7 +15460,7 @@ class CCSObserver_UseServices : public CPlayer_UseServices // server
 };
 class CCSMinimapVolume : public CBaseTrigger // server
 {
-	CUtlString m_strMinimapName; // 0x09C8
+	CUtlString m_strMinimapName; // 0x09E0
 };
 class CTriggerDetectBulletFire : public CBaseTrigger // server
 {
@@ -16982,103 +16983,101 @@ class CCSPlayerPawn : public CCSPlayerPawnBase // server
 	bool m_bHasFemaleVoice; // 0x0E6A
 	CUtlString m_strVOPrefix; // 0x0E70
 	char[18] m_szLastPlaceName; // 0x0E78
-	bool m_bInHostageResetZone; // 0x0F68
-	bool m_bInBuyZone; // 0x0F69
-	CUtlVector< CHandle< CBaseEntity > > m_TouchingBuyZones; // 0x0F70
-	bool m_bWasInBuyZone; // 0x0F88
-	bool m_bInHostageRescueZone; // 0x0F89
-	bool m_bInBombZone; // 0x0F8A
-	bool m_bWasInHostageRescueZone; // 0x0F8B
-	int32 m_iRetakesOffering; // 0x0F8C
-	int32 m_iRetakesOfferingCard; // 0x0F90
-	bool m_bRetakesHasDefuseKit; // 0x0F94
-	bool m_bRetakesMVPLastRound; // 0x0F95
-	int32 m_iRetakesMVPBoostItem; // 0x0F98
-	loadout_slot_t m_RetakesMVPBoostExtraUtility; // 0x0F9C
-	GameTime_t m_flHealthShotBoostExpirationTime; // 0x0FA0
-	float32 m_flLandingTimeSeconds; // 0x0FA4
-	bool m_bIsBuyMenuOpen; // 0x0FA8
-	GameTime_t m_lastLandTime; // 0x0FE0
-	bool m_bOnGroundLastTick; // 0x0FE4
-	int32 m_iPlayerLocked; // 0x0FE8
-	GameTime_t m_flTimeOfLastInjury; // 0x0FF0
-	GameTime_t m_flNextSprayDecalTime; // 0x0FF4
-	bool m_bNextSprayDecalTimeExpedited; // 0x0FF8
-	int32 m_nRagdollDamageBone; // 0x0FFC
-	Vector m_vRagdollDamageForce; // 0x1000
-	char[64] m_szRagdollDamageWeaponName; // 0x100C
-	bool m_bRagdollDamageHeadshot; // 0x104C
-	VectorWS m_vRagdollServerOrigin; // 0x1050
-	CEconItemView m_EconGloves; // 0x1060
-	uint8 m_nEconGlovesChanged; // 0x1448
-	CUtlVector< CHandle< CCSMinimapVolume > > m_vecCurrentMinimapVolumes; // 0x1450
-	CHandle< CCSMinimapVolume > m_hActiveMinimapVolume; // 0x1468
-	QAngle m_qDeathEyeAngles; // 0x146C
-	bool m_bLeftHanded; // 0x1478
-	GameTime_t m_fSwitchedHandednessTime; // 0x147C
-	float32 m_flViewmodelOffsetX; // 0x1480
-	float32 m_flViewmodelOffsetY; // 0x1484
-	float32 m_flViewmodelOffsetZ; // 0x1488
-	float32 m_flViewmodelFOV; // 0x148C
-	bool m_bIsWalking; // 0x1490
-	float32 m_fLastGivenDefuserTime; // 0x1494
-	float32 m_fLastGivenBombTime; // 0x1498
-	float32 m_flDealtDamageToEnemyMostRecentTimestamp; // 0x149C
-	uint32 m_iDisplayHistoryBits; // 0x14A0
-	float32 m_flLastAttackedTeammate; // 0x14A4
-	GameTime_t m_allowAutoFollowTime; // 0x14A8
-	bool m_bResetArmorNextSpawn; // 0x14AC
-	CEntityIndex m_nLastKillerIndex; // 0x14B0
-	EntitySpottedState_t m_entitySpottedState; // 0x14B8
-	int32 m_nSpotRules; // 0x14D0
-	bool m_bIsScoped; // 0x14D4
-	bool m_bResumeZoom; // 0x14D5
-	bool m_bIsDefusing; // 0x14D6
-	bool m_bIsGrabbingHostage; // 0x14D7
-	CSPlayerBlockingUseAction_t m_iBlockingUseActionInProgress; // 0x14D8
-	GameTime_t m_flEmitSoundTime; // 0x14DC
-	bool m_bInNoDefuseArea; // 0x14E0
-	CEntityIndex m_iBombSiteIndex; // 0x14E4
-	int32 m_nWhichBombZone; // 0x14E8
-	bool m_bInBombZoneTrigger; // 0x14EC
-	bool m_bWasInBombZoneTrigger; // 0x14ED
-	int32 m_iShotsFired; // 0x14F0
-	float32 m_flFlinchStack; // 0x14F4
-	float32 m_flVelocityModifier; // 0x14F8
-	Vector m_vecTotalBulletForce; // 0x14FC
-	bool m_bWaitForNoAttack; // 0x1508
-	float32 m_ignoreLadderJumpTime; // 0x150C
-	bool m_bKilledByHeadshot; // 0x1510
-	int32 m_LastHitBox; // 0x1514
-	CCSBot* m_pBot; // 0x1518
-	bool m_bBotAllowActive; // 0x1520
-	int32 m_nLastPickupPriority; // 0x1524
-	float32 m_flLastPickupPriorityTime; // 0x1528
-	int32 m_ArmorValue; // 0x152C
-	uint16 m_unCurrentEquipmentValue; // 0x1530
-	uint16 m_unRoundStartEquipmentValue; // 0x1532
-	uint16 m_unFreezetimeEndEquipmentValue; // 0x1534
-	int32 m_iLastWeaponFireUsercmd; // 0x1538
-	bool m_bIsSpawning; // 0x153C
-	int32 m_iDeathFlags; // 0x1548
-	bool m_bHasDeathInfo; // 0x154C
-	float32 m_flDeathInfoTime; // 0x1550
-	VectorWS m_vecDeathInfoOrigin; // 0x1554
-	uint32[5] m_vecPlayerPatchEconIndices; // 0x1560
-	Color m_GunGameImmunityColor; // 0x1574
-	GameTime_t m_grenadeParameterStashTime; // 0x1578
-	bool m_bGrenadeParametersStashed; // 0x157C
-	QAngle m_angStashedShootAngles; // 0x1580
-	VectorWS m_vecStashedGrenadeThrowPosition; // 0x158C
-	VectorWS m_vecStashedGrenadeThrowPawnCenter; // 0x1598
-	Vector m_vecStashedVelocity; // 0x15A4
-	bool m_bCommittingSuicideOnTeamChange; // 0x15B8
-	bool m_wasNotKilledNaturally; // 0x15B9
-	GameTime_t m_fImmuneToGunGameDamageTime; // 0x15BC
-	bool m_bGunGameImmunity; // 0x15C0
-	float32 m_flModifier0; // 0x15C4
-	float32 m_fMolotovDamageTime; // 0x15C8
-	QAngle m_angEyeAngles; // 0x15CC
+	bool m_bInHostageResetZone; // 0x0F70
+	bool m_bInBuyZone; // 0x0F71
+	CUtlVector< CHandle< CBaseEntity > > m_TouchingBuyZones; // 0x0F78
+	bool m_bWasInBuyZone; // 0x0F90
+	bool m_bInHostageRescueZone; // 0x0F91
+	bool m_bInBombZone; // 0x0F92
+	bool m_bWasInHostageRescueZone; // 0x0F93
+	int32 m_iRetakesOffering; // 0x0F94
+	int32 m_iRetakesOfferingCard; // 0x0F98
+	bool m_bRetakesHasDefuseKit; // 0x0F9C
+	bool m_bRetakesMVPLastRound; // 0x0F9D
+	int32 m_iRetakesMVPBoostItem; // 0x0FA0
+	loadout_slot_t m_RetakesMVPBoostExtraUtility; // 0x0FA4
+	GameTime_t m_flHealthShotBoostExpirationTime; // 0x0FA8
+	float32 m_flLandingTimeSeconds; // 0x0FAC
+	bool m_bIsBuyMenuOpen; // 0x0FB0
+	GameTime_t m_lastLandTime; // 0x0FE8
+	bool m_bOnGroundLastTick; // 0x0FEC
+	int32 m_iPlayerLocked; // 0x0FF0
+	GameTime_t m_flTimeOfLastInjury; // 0x0FF8
+	GameTime_t m_flNextSprayDecalTime; // 0x0FFC
+	bool m_bNextSprayDecalTimeExpedited; // 0x1000
+	int32 m_nRagdollDamageBone; // 0x1004
+	Vector m_vRagdollDamageForce; // 0x1008
+	char[64] m_szRagdollDamageWeaponName; // 0x1014
+	bool m_bRagdollDamageHeadshot; // 0x1054
+	VectorWS m_vRagdollServerOrigin; // 0x1058
+	CEconItemView m_EconGloves; // 0x1068
+	uint8 m_nEconGlovesChanged; // 0x1450
+	QAngle m_qDeathEyeAngles; // 0x1454
+	bool m_bLeftHanded; // 0x1460
+	GameTime_t m_fSwitchedHandednessTime; // 0x1464
+	float32 m_flViewmodelOffsetX; // 0x1468
+	float32 m_flViewmodelOffsetY; // 0x146C
+	float32 m_flViewmodelOffsetZ; // 0x1470
+	float32 m_flViewmodelFOV; // 0x1474
+	bool m_bIsWalking; // 0x1478
+	float32 m_fLastGivenDefuserTime; // 0x147C
+	float32 m_fLastGivenBombTime; // 0x1480
+	float32 m_flDealtDamageToEnemyMostRecentTimestamp; // 0x1484
+	uint32 m_iDisplayHistoryBits; // 0x1488
+	float32 m_flLastAttackedTeammate; // 0x148C
+	GameTime_t m_allowAutoFollowTime; // 0x1490
+	bool m_bResetArmorNextSpawn; // 0x1494
+	CEntityIndex m_nLastKillerIndex; // 0x1498
+	EntitySpottedState_t m_entitySpottedState; // 0x14A0
+	int32 m_nSpotRules; // 0x14B8
+	bool m_bIsScoped; // 0x14BC
+	bool m_bResumeZoom; // 0x14BD
+	bool m_bIsDefusing; // 0x14BE
+	bool m_bIsGrabbingHostage; // 0x14BF
+	CSPlayerBlockingUseAction_t m_iBlockingUseActionInProgress; // 0x14C0
+	GameTime_t m_flEmitSoundTime; // 0x14C4
+	bool m_bInNoDefuseArea; // 0x14C8
+	CEntityIndex m_iBombSiteIndex; // 0x14CC
+	int32 m_nWhichBombZone; // 0x14D0
+	bool m_bInBombZoneTrigger; // 0x14D4
+	bool m_bWasInBombZoneTrigger; // 0x14D5
+	int32 m_iShotsFired; // 0x14D8
+	float32 m_flFlinchStack; // 0x14DC
+	float32 m_flVelocityModifier; // 0x14E0
+	Vector m_vecTotalBulletForce; // 0x14E4
+	bool m_bWaitForNoAttack; // 0x14F0
+	float32 m_ignoreLadderJumpTime; // 0x14F4
+	bool m_bKilledByHeadshot; // 0x14F8
+	int32 m_LastHitBox; // 0x14FC
+	CCSBot* m_pBot; // 0x1500
+	bool m_bBotAllowActive; // 0x1508
+	int32 m_nLastPickupPriority; // 0x150C
+	float32 m_flLastPickupPriorityTime; // 0x1510
+	int32 m_ArmorValue; // 0x1514
+	uint16 m_unCurrentEquipmentValue; // 0x1518
+	uint16 m_unRoundStartEquipmentValue; // 0x151A
+	uint16 m_unFreezetimeEndEquipmentValue; // 0x151C
+	int32 m_iLastWeaponFireUsercmd; // 0x1520
+	bool m_bIsSpawning; // 0x1524
+	int32 m_iDeathFlags; // 0x1530
+	bool m_bHasDeathInfo; // 0x1534
+	float32 m_flDeathInfoTime; // 0x1538
+	VectorWS m_vecDeathInfoOrigin; // 0x153C
+	uint32[5] m_vecPlayerPatchEconIndices; // 0x1548
+	Color m_GunGameImmunityColor; // 0x155C
+	GameTime_t m_grenadeParameterStashTime; // 0x1560
+	bool m_bGrenadeParametersStashed; // 0x1564
+	QAngle m_angStashedShootAngles; // 0x1568
+	VectorWS m_vecStashedGrenadeThrowPosition; // 0x1574
+	VectorWS m_vecStashedGrenadeThrowPawnCenter; // 0x1580
+	Vector m_vecStashedVelocity; // 0x158C
+	bool m_bCommittingSuicideOnTeamChange; // 0x15A0
+	bool m_wasNotKilledNaturally; // 0x15A1
+	GameTime_t m_fImmuneToGunGameDamageTime; // 0x15A4
+	bool m_bGunGameImmunity; // 0x15A8
+	float32 m_flModifier0; // 0x15AC
+	float32 m_fMolotovDamageTime; // 0x15B0
+	QAngle m_angEyeAngles; // 0x15B4
 };
 class CEnvLightProbeVolume : public CBaseEntity // server
 {
@@ -18783,15 +18782,16 @@ class CHostage : public CHostageExpresserShim // server
 	bool m_bHandsHaveBeenCut; // 0x2D1D
 	CHandle< CCSPlayerPawn > m_hHostageGrabber; // 0x2D20
 	GameTime_t m_fLastGrabTime; // 0x2D24
-	VectorWS m_vecPositionWhenStartedDroppingToGround; // 0x2D28
-	VectorWS m_vecGrabbedPos; // 0x2D34
-	GameTime_t m_flRescueStartTime; // 0x2D40
-	GameTime_t m_flGrabSuccessTime; // 0x2D44
-	GameTime_t m_flDropStartTime; // 0x2D48
-	int32 m_nApproachRewardPayouts; // 0x2D4C
-	int32 m_nPickupEventCount; // 0x2D50
-	VectorWS m_vecSpawnGroundPos; // 0x2D54
-	VectorWS m_vecHostageResetPosition; // 0x2D8C
+	GameTime_t m_flGrabStartTime; // 0x2D28
+	VectorWS m_vecPositionWhenStartedDroppingToGround; // 0x2D2C
+	VectorWS m_vecGrabbedPos; // 0x2D38
+	GameTime_t m_flRescueStartTime; // 0x2D44
+	GameTime_t m_flGrabSuccessTime; // 0x2D48
+	GameTime_t m_flDropStartTime; // 0x2D4C
+	int32 m_nApproachRewardPayouts; // 0x2D50
+	int32 m_nPickupEventCount; // 0x2D54
+	VectorWS m_vecSpawnGroundPos; // 0x2D58
+	VectorWS m_vecHostageResetPosition; // 0x2D90
 };
 class CEnvSpark : public CPointEntity // server
 {
@@ -22763,7 +22763,7 @@ class C_PostProcessingVolume : public C_BaseTrigger // client
 };
 class CCSMinimapVolume : public C_BaseTrigger // client
 {
-	CUtlString m_strMinimapName; // 0x1180
+	CUtlString m_strMinimapName; // 0x1198
 };
 class CCSPlayer_UseServices : public CPlayer_UseServices // client
 {
@@ -22928,7 +22928,7 @@ class C_BaseButton : public C_BaseToggle // client
 };
 class CCSObserver_ObserverServices : public CPlayer_ObserverServices // client
 {
-	ObserverInterpState_t m_obsInterpState; // 0x0068
+	ObserverInterpState_t m_obsInterpState; // 0x0070
 };
 class CHitboxComponent : public CEntityComponent // client
 {
@@ -23773,7 +23773,6 @@ class C_CSPlayerPawn : public C_CSPlayerPawnBase // client
 	VectorWS m_vRagdollServerOrigin; // 0x1D78
 	GameTime_t m_lastLandTime; // 0x1D84
 	bool m_bOnGroundLastTick; // 0x1D88
-	CHandle< CCSMinimapVolume > m_hActiveMinimapVolume; // 0x1DA4
 	CHandle< C_CS2HudModelArms > m_hHudModelArms; // 0x1DA8
 	QAngle m_qDeathEyeAngles; // 0x1DAC
 	bool m_bLeftHanded; // 0x1DB8
@@ -23793,23 +23792,24 @@ class C_CSPlayerPawn : public C_CSPlayerPawnBase // client
 	bool m_bIsGrabbingHostage; // 0x1EA3
 	CSPlayerBlockingUseAction_t m_iBlockingUseActionInProgress; // 0x1EA4
 	GameTime_t m_flEmitSoundTime; // 0x1EA8
-	bool m_bInNoDefuseArea; // 0x1EAC
-	int32 m_nWhichBombZone; // 0x1EB0
-	int32 m_iShotsFired; // 0x1EB4
-	float32 m_flFlinchStack; // 0x1EB8
-	float32 m_flVelocityModifier; // 0x1EBC
-	bool m_bWaitForNoAttack; // 0x1EC0
-	float32 m_ignoreLadderJumpTime; // 0x1EC4
-	bool m_bKilledByHeadshot; // 0x1EC9
-	int32 m_ArmorValue; // 0x1ECC
-	uint16 m_unCurrentEquipmentValue; // 0x1ED0
-	uint16 m_unRoundStartEquipmentValue; // 0x1ED2
-	uint16 m_unFreezetimeEndEquipmentValue; // 0x1ED4
-	CEntityIndex m_nLastKillerIndex; // 0x1ED8
-	bool m_bOldIsScoped; // 0x1EDC
-	bool m_bHasDeathInfo; // 0x1EDD
-	float32 m_flDeathInfoTime; // 0x1EE0
-	VectorWS m_vecDeathInfoOrigin; // 0x1EE4
+	GameTime_t m_flEmitSoundTime_Client; // 0x1EAC
+	bool m_bInNoDefuseArea; // 0x1EB0
+	int32 m_nWhichBombZone; // 0x1EB4
+	int32 m_iShotsFired; // 0x1EB8
+	float32 m_flFlinchStack; // 0x1EBC
+	float32 m_flVelocityModifier; // 0x1EC0
+	bool m_bWaitForNoAttack; // 0x1EC4
+	float32 m_ignoreLadderJumpTime; // 0x1EC8
+	bool m_bKilledByHeadshot; // 0x1ECD
+	int32 m_ArmorValue; // 0x1ED0
+	uint16 m_unCurrentEquipmentValue; // 0x1ED4
+	uint16 m_unRoundStartEquipmentValue; // 0x1ED6
+	uint16 m_unFreezetimeEndEquipmentValue; // 0x1ED8
+	CEntityIndex m_nLastKillerIndex; // 0x1EDC
+	bool m_bOldIsScoped; // 0x1EE0
+	bool m_bHasDeathInfo; // 0x1EE1
+	float32 m_flDeathInfoTime; // 0x1EE4
+	VectorWS m_vecDeathInfoOrigin; // 0x1EE8
 	GameTime_t m_grenadeParameterStashTime; // 0x1F20
 	bool m_bGrenadeParametersStashed; // 0x1F24
 	QAngle m_angStashedShootAngles; // 0x1F28
@@ -23823,7 +23823,7 @@ class C_CSPlayerPawn : public C_CSPlayerPawnBase // client
 	GameTime_t m_fImmuneToGunGameDamageTimeLast; // 0x350C
 	float32 m_flModifier0; // 0x3510
 	float32 m_fMolotovDamageTime; // 0x3514
-	ParticleIndex_t m_nPlayerInfernoBodyFx; // 0x3580
+	ParticleIndex_t m_nPlayerInfernoBodyFx; // 0x3588
 	QAngle m_angEyeAngles; // 0x3600
 	GameTime_t[4] m_arrOldEyeAnglesTimes; // 0x3690
 	QAngle[4] m_arrOldEyeAngles; // 0x36A0
