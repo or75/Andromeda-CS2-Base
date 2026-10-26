@@ -59,7 +59,7 @@ auto CSettingsJson::SaveConfig( const std::string& JsonFile ) -> void
 
 	ConfigWriter.StartObject();
 	{
-		ConfigWriter.String( XorStr( "Settings" ) );
+		ConfigWriter.String( "Settings" );
 		{
 			ConfigWriter.StartObject();
 			{
@@ -88,7 +88,7 @@ auto CSettingsJson::UpdateConfigList() -> void
 	{
 		if ( Entry.is_regular_file() )
 		{
-			if ( Entry.path().extension().string() == XorStr( ".json" ) )
+			if ( Entry.path().extension().string() == ".json" )
 				m_vecConfigList.emplace_back( Entry.path().filename().string() );
 		}
 	}

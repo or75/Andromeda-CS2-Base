@@ -4,7 +4,7 @@ static CSDL3Functions g_CSDL3Functions{};
 
 auto CSDL3Functions::OnInit() -> bool
 {
-	auto hSDL3Module = GetModuleHandleA( XorStr( "SDL3.dll" ) );
+	auto hSDL3Module = GetModuleHandleA( "SDL3.dll" );
 
 	if ( !hSDL3Module )
 	{
@@ -12,7 +12,7 @@ auto CSDL3Functions::OnInit() -> bool
 		return false;
 	}
 
-	SDL_WarpMouseInWindow_o = (SDL_WarpMouseInWindow_t)GetProcAddress( hSDL3Module , XorStr( "SDL_WarpMouseInWindow" ) );
+	SDL_WarpMouseInWindow_o = (SDL_WarpMouseInWindow_t)GetProcAddress( hSDL3Module , "SDL_WarpMouseInWindow" );
 
 	if ( !SDL_WarpMouseInWindow_o )
 	{

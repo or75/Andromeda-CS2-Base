@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
+    <ProjectConfiguration Include="DEV_BUILD|Win32">
+      <Configuration>DEV_BUILD</Configuration>
       <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DEV_BUILD|x64">
+      <Configuration>DEV_BUILD</Configuration>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -26,12 +26,6 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -39,13 +33,21 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEV_BUILD|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
+    <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEV_BUILD|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
@@ -57,16 +59,16 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DEV_BUILD|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DEV_BUILD|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -74,19 +76,10 @@
     <IncludePath>$(MSBuildProjectDirectory)\Andromeda-CS2-Base\;$(MSBuildProjectDirectory)\Andromeda-CS2-Base\Common\Include\;$(IncludePath)</IncludePath>
     <GenerateManifest>false</GenerateManifest>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;ANDROMEDACS2BASE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableUAC>false</EnableUAC>
-    </Link>
-  </ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DEV_BUILD|x64'">
+    <IncludePath>$(MSBuildProjectDirectory)\Andromeda-CS2-Base\;$(MSBuildProjectDirectory)\Andromeda-CS2-Base\Common\Include\;$(IncludePath)</IncludePath>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -102,11 +95,13 @@
       <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEV_BUILD|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;ANDROMEDACS2BASE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;ANDROMEDACS2BASE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -121,7 +116,27 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;ANDROMEDACS2BASE_EXPORTS;_WINDOWS;_USRDLL;RELEASE_BUILD;STB_IMAGE_STATIC;STB_IMAGE_IMPLEMENTATION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;ANDROMEDACS2BASE_EXPORTS;_WINDOWS;_USRDLL;RELEASE_BUILD;STB_IMAGE_STATIC;STB_IMAGE_IMPLEMENTATION;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEV_BUILD|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;ANDROMEDACS2BASE_EXPORTS;_WINDOWS;_USRDLL;STB_IMAGE_STATIC;STB_IMAGE_IMPLEMENTATION;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -143,7 +158,22 @@
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Features\CVisual\CVisual.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Fonts\CFont.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Fonts\CFontManager.cpp" />
-    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\CAndromedaMenu.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CDashboard.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CMenuController.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CNavigationBar.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core\CResourceManager.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core\CStyleManager.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CPageManager.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSectionBar.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSidebarItem.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CTollTip.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\ImGuiCustom.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\GitMenu.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CHomePage.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CPageRegistry.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\PageWithSubPages.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages\CHomeSubPage.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Helpers\CDX11ImageHelper.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Render\CRender.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Render\CRenderStackSystem.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Settings\CSettingsJson.cpp" />
@@ -157,6 +187,7 @@
     <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\im_anim.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\Misc\freetype\imgui_freetype.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\Common\MemoryEngine.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\CBasePattern.cpp" />
@@ -262,7 +293,31 @@
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Features\CVisual\CVisual.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\CFont.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\CFontManager.hpp" />
-    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\CAndromedaMenu.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\FontAwesome7ProIcons.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CDashboard.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CMenuController.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CNavigationBar.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core\CResourceManager.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core\CStyleManager.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CPageManager.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CFunctionWidget.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSectionBar.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSidebarItem.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CTollTip.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\ImGuiCustom.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\IWidget.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\GitMenu.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CHomePage.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CPageRegistry.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\IPage.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\ISubPage.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\PageWithSubPages.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages\CHomeSubPage.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardCloseButtonIcon.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardIcon.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardOpenButtonIcon.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\ResourceCatalog.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Helpers\CDX11ImageHelper.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Render\CRender.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Render\CRenderStackSystem.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Settings\CSettingsJson.hpp" />
@@ -299,6 +354,7 @@
     <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\imstb_textedit.h" />
     <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\im_anim.h" />
     <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\Misc\freetype\imgui_freetype.h" />
     <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\allocators.h" />
     <ClInclude Include="Andromeda-CS2-Base\Common\Include\rapidjson\cursorstreamwrapper.h" />
@@ -341,6 +397,7 @@
     <ClInclude Include="Andromeda-CS2-Base\Common\Include\stb\stb_image.h" />
     <ClInclude Include="Andromeda-CS2-Base\Common\Include\VMProtect\VMProtectSDK.h" />
     <ClInclude Include="Andromeda-CS2-Base\Common\Include\XorStr\XorStr.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\XorVmpStr.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\Common\MemoryEngine.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\CBasePattern.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\CHook_Loader.hpp" />

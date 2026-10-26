@@ -1,7 +1,9 @@
 #pragma once
 
 #include <vector>
+
 #include <Common/Common.hpp>
+#include <Common/Include/XorVmpStr.hpp>
 
 #include <CS2/SDK/SDK.hpp>
 #include <CS2/CBasePattern.hpp>

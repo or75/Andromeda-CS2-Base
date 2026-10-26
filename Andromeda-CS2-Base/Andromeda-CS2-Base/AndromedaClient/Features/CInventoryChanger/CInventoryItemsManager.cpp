@@ -92,13 +92,13 @@ auto CInventoryItemsManager::ScanAllItems() -> void
 		else if ( isAgent )
 			dumpedItem.m_ItemType = DUMPED_ITEM_TYPE_AGENT;
 
-		if ( strstr( SDK::Interfaces::Localize()->FindSafe( itemBaseName ) , XorStr( "#CSGO_CustomPlayer" ) ) )
+		if ( strstr( SDK::Interfaces::Localize()->FindSafe( itemBaseName ) , "#CSGO_CustomPlayer" ) )
 			continue;
 
 		if ( isKnife || isGlove || isAgent )
 			dumpedItem.m_UnusualItem = true;
 
-		if ( isAgent && strstr( itemBaseName , XorStr( "map_based" ) ) )
+		if ( isAgent && strstr( itemBaseName , "#CSGO_MapBased" ) )
 			continue;
 
 		if ( isAgent )
@@ -124,9 +124,9 @@ auto CInventoryItemsManager::ScanAllItems() -> void
 			if ( !pPaintKit || pPaintKit->nID == 0 || pPaintKit->nID == 9001 )
 				continue;
 
-			if ( strstr( pPaintKit->sName , XorStr( "doppler_phase2" ) ) ||
-				 strstr( pPaintKit->sName , XorStr( "doppler_phase3" ) ) ||
-				 strstr( pPaintKit->sName , XorStr( "doppler_phase4" ) ) )
+			if ( strstr( pPaintKit->sName , "doppler_phase2" ) ||
+				 strstr( pPaintKit->sName , "doppler_phase3" ) ||
+				 strstr( pPaintKit->sName , "doppler_phase4" ) )
 				continue;
 
 			bool hasValidIcon = false;

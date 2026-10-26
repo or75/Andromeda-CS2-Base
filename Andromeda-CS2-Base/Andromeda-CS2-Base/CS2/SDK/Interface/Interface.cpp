@@ -16,7 +16,7 @@ CreateInterfaceFn CaptureFactory( const char* FactoryModule )
 	HMODULE hFactoryModule = GetModuleHandleA( FactoryModule );
 
 	if ( hFactoryModule )
-		Interface = (CreateInterfaceFn)( GetProcAddress( hFactoryModule , XorStr( CREATEINTERFACE_PROCNAME ) ) );
+		Interface = (CreateInterfaceFn)( GetProcAddress( hFactoryModule , CREATEINTERFACE_PROCNAME ) );
 
 	return Interface;
 }

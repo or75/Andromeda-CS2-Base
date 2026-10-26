@@ -2,6 +2,7 @@
 
 #include <DllLauncher.hpp>
 #include <Common/MemoryEngine.hpp>
+#include <Common/Include/XorVmpStr.hpp>
 #include <MinHook/MinHook.h>
 
 #include <CS2/SDK/SDK.hpp>

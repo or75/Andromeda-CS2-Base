@@ -43,45 +43,6 @@ auto WINAPI CCrashLog::VectoredExceptionHandler( PEXCEPTION_POINTERS pExceptionI
     auto ExceptionAddress = pExceptionInfo->ExceptionRecord->ExceptionAddress;
     const auto CheatHinstance = GetDllLauncher()->GetDllImage();
 
-#if ENABLE_CPP_EH_EXCEPTION == 1
-    bool CPP_EH_EXCEPTION = false;
-
-    CPP_EH_EXCEPTION_INFO* pCppExceptionInfo = nullptr;
-
-    if ( ExceptionCode == 0xE06D7363 && pExceptionInfo->ExceptionRecord->NumberParameters == 4 )
-    {
-        if ( pExceptionInfo->ExceptionRecord->ExceptionInformation[3] == (ULONG_PTR)CheatHinstance )
-        {
-            pCppExceptionInfo = (CPP_EH_EXCEPTION_INFO*)pExceptionInfo->ExceptionRecord->ExceptionInformation[1];
-            ExceptionAddress = pCppExceptionInfo->pExceptionAddress[0];
-
-            CPP_EH_EXCEPTION = true;
-        }
-    }
-#endif
-
-    if ( ExceptionCode == STATUS_ACCESS_VIOLATION )
-    {
-        auto hProcess = OpenProcess( PROCESS_QUERY_INFORMATION | PROCESS_VM_READ , false , GetCurrentProcessId() );
-
-        if ( hProcess )
-        {
-            char RaxModuleName[MAX_PATH] = { 0 };
-            
-            if ( GetMappedFileNameA( hProcess , (PVOID)pExceptionInfo->ContextRecord->Rcx , RaxModuleName , MAX_PATH ) > 0 )
-            {
-                if ( strstr( RaxModuleName , XorStr( "DiscordHook64.dll" ) ) != nullptr )
-                {
-                    CloseHandle( hProcess );
-
-                    return EXCEPTION_CONTINUE_SEARCH;
-                }
-            }
-
-            CloseHandle( hProcess );
-        }
-    }
-
     std::string CrashModuleName;
     std::string ModuleName;
 
@@ -102,9 +63,9 @@ auto WINAPI CCrashLog::VectoredExceptionHandler( PEXCEPTION_POINTERS pExceptionI
 
         if ( hProcess )
         {
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Cheat Name: %s\n" ) , CHEAT_NAME );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Cheat Version: %s\n" ) , CHEAT_VERSION );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Cheat Hinstance: %p\n\n" ) , CheatHinstance );
+            GetCrashLog()->WriteCrashLogFile( "Cheat Name: %s\n" , CHEAT_NAME );
+            GetCrashLog()->WriteCrashLogFile( "Cheat Version: %s\n" , CHEAT_VERSION );
+            GetCrashLog()->WriteCrashLogFile( "Cheat Hinstance: %p\n\n" , CheatHinstance );
 
             char CrashModuleNameTmp[MAX_PATH] = { 0 };
 
@@ -116,42 +77,37 @@ auto WINAPI CCrashLog::VectoredExceptionHandler( PEXCEPTION_POINTERS pExceptionI
                 const auto ModuleHinstance = GetModuleHandleA( CrashModuleName.c_str() );
                 const auto ModuleCrashOffset = (uintptr_t)ExceptionAddress - (uintptr_t)ModuleHinstance;
 
-                GetCrashLog()->WriteCrashLogFile( XorStr( "Exception Handle: %p\n" ) , ModuleHinstance );
-                GetCrashLog()->WriteCrashLogFile( XorStr( "Exception Module: %s\n" ) , CrashModuleName.c_str() );
-                GetCrashLog()->WriteCrashLogFile( XorStr( "Exception Offset: %X\n" ) , ModuleCrashOffset );
+                GetCrashLog()->WriteCrashLogFile( "Exception Handle: %p\n" , ModuleHinstance );
+                GetCrashLog()->WriteCrashLogFile( "Exception Module: %s\n" , CrashModuleName.c_str() );
+                GetCrashLog()->WriteCrashLogFile( "Exception Offset: %X\n" , ModuleCrashOffset );
             }
 
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Exception Code: %X\n" ) , ExceptionCode );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Exception Thread: %X\n" ) , GetCurrentThreadId() );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Exception Address: %p\n\n" ) , ExceptionAddress );
+            GetCrashLog()->WriteCrashLogFile( "Exception Code: %X\n" , ExceptionCode );
+            GetCrashLog()->WriteCrashLogFile( "Exception Thread: %X\n" , GetCurrentThreadId() );
+            GetCrashLog()->WriteCrashLogFile( "Exception Address: %p\n\n" , ExceptionAddress );
 
-#if ENABLE_CPP_EH_EXCEPTION == 1
-            if ( CPP_EH_EXCEPTION && pCppExceptionInfo )
-                GetCrashLog()->WriteCrashLogFile( XorStr( "\nCPP_EH_EXCEPTION: %s\n\n" ) , pCppExceptionInfo->ExceptionInfo );
-#endif
-
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Rax: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->Rax );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Rcx: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->Rcx );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Rdx: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->Rdx );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Rbx: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->Rbx );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Rsp: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->Rsp );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Rbp: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->Rbp );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Rsi: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->Rsi );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "Rdi: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->Rdi );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "R8: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->R8 );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "R9: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->R9 );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "R10: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->R10 );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "R11: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->R11 );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "R12: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->R12 );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "R13: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->R13 );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "R14: %p\n" ) , (PVOID)pExceptionInfo->ContextRecord->R14 );
-            GetCrashLog()->WriteCrashLogFile( XorStr( "R15: %p\n\n" ) , (PVOID)pExceptionInfo->ContextRecord->R15 );
+            GetCrashLog()->WriteCrashLogFile( "Rax: %p\n" , (PVOID)pExceptionInfo->ContextRecord->Rax );
+            GetCrashLog()->WriteCrashLogFile( "Rcx: %p\n" , (PVOID)pExceptionInfo->ContextRecord->Rcx );
+            GetCrashLog()->WriteCrashLogFile( "Rdx: %p\n" , (PVOID)pExceptionInfo->ContextRecord->Rdx );
+            GetCrashLog()->WriteCrashLogFile( "Rbx: %p\n" , (PVOID)pExceptionInfo->ContextRecord->Rbx );
+            GetCrashLog()->WriteCrashLogFile( "Rsp: %p\n" , (PVOID)pExceptionInfo->ContextRecord->Rsp );
+            GetCrashLog()->WriteCrashLogFile( "Rbp: %p\n" , (PVOID)pExceptionInfo->ContextRecord->Rbp );
+            GetCrashLog()->WriteCrashLogFile( "Rsi: %p\n" , (PVOID)pExceptionInfo->ContextRecord->Rsi );
+            GetCrashLog()->WriteCrashLogFile( "Rdi: %p\n" , (PVOID)pExceptionInfo->ContextRecord->Rdi );
+            GetCrashLog()->WriteCrashLogFile( "R8: %p\n" , (PVOID)pExceptionInfo->ContextRecord->R8 );
+            GetCrashLog()->WriteCrashLogFile( "R9: %p\n" , (PVOID)pExceptionInfo->ContextRecord->R9 );
+            GetCrashLog()->WriteCrashLogFile( "R10: %p\n" , (PVOID)pExceptionInfo->ContextRecord->R10 );
+            GetCrashLog()->WriteCrashLogFile( "R11: %p\n" , (PVOID)pExceptionInfo->ContextRecord->R11 );
+            GetCrashLog()->WriteCrashLogFile( "R12: %p\n" , (PVOID)pExceptionInfo->ContextRecord->R12 );
+            GetCrashLog()->WriteCrashLogFile( "R13: %p\n" , (PVOID)pExceptionInfo->ContextRecord->R13 );
+            GetCrashLog()->WriteCrashLogFile( "R14: %p\n" , (PVOID)pExceptionInfo->ContextRecord->R14 );
+            GetCrashLog()->WriteCrashLogFile( "R15: %p\n\n" , (PVOID)pExceptionInfo->ContextRecord->R15 );
 
             if ( GetCrashLog()->IsCrashCheat( ExceptionAddress ) )
             {
                 auto CheatOffset = (uintptr_t)ExceptionAddress - (uintptr_t)CheatHinstance;
 
-                GetCrashLog()->WriteCrashLogFile( XorStr( "%s Offset: %X\n" ) , CHEAT_NAME , (uint32_t)CheatOffset );
+                GetCrashLog()->WriteCrashLogFile( "%s Offset: %X\n" , CHEAT_NAME , (uint32_t)CheatOffset );
             }
 
             PVOID pCallStackList[MAX_CALLSTACK_AND_STACK_LOG_COUNT] = { 0 };
@@ -159,7 +115,7 @@ auto WINAPI CCrashLog::VectoredExceptionHandler( PEXCEPTION_POINTERS pExceptionI
 
             if ( NumFrameCaptured )
             {
-                GetCrashLog()->WriteCrashLogFile( XorStr( "\nCALLSTACK:\n" ) );
+                GetCrashLog()->WriteCrashLogFile( "\nCALLSTACK:\n" );
 
                 for ( uint32_t i = 0; i < NumFrameCaptured; i++ )
                 {
@@ -169,7 +125,7 @@ auto WINAPI CCrashLog::VectoredExceptionHandler( PEXCEPTION_POINTERS pExceptionI
                     {
                         const auto CheatOffset = (uintptr_t)pStack - (uintptr_t)CheatHinstance;
 
-                        GetCrashLog()->WriteCrashLogFile( XorStr( "CallStack (%i): %p (%s) -> %X\n" ) , i , pStack , CHEAT_NAME , (uint32_t)CheatOffset );
+                        GetCrashLog()->WriteCrashLogFile( "CallStack (%i): %p (%s) -> %X\n" , i , pStack , CHEAT_NAME , (uint32_t)CheatOffset );
                     }
                     else
                     {
@@ -183,13 +139,13 @@ auto WINAPI CCrashLog::VectoredExceptionHandler( PEXCEPTION_POINTERS pExceptionI
                             const auto ModuleHinstance = GetModuleHandleA( ModuleName.c_str() );
                             const auto ModuleCrashOffset = (uintptr_t)pStack - (uintptr_t)ModuleHinstance;
 
-                            GetCrashLog()->WriteCrashLogFile( XorStr( "CallStack (%i): %p (%s) -> %X\n" ) , i , pStack , ModuleName.c_str() , (uint32_t)ModuleCrashOffset );
+                            GetCrashLog()->WriteCrashLogFile( "CallStack (%i): %p (%s) -> %X\n" , i , pStack , ModuleName.c_str() , (uint32_t)ModuleCrashOffset );
                         }
                     }
                 }
             }
 
-            GetCrashLog()->WriteCrashLogFile( XorStr( "\n\nFULLSTACK:\n" ) );
+            GetCrashLog()->WriteCrashLogFile( "\n\nFULLSTACK:\n" );
 
             for ( uint32_t i = 0; i < MAX_CALLSTACK_AND_STACK_LOG_COUNT; i++ )
             {
@@ -204,7 +160,7 @@ auto WINAPI CCrashLog::VectoredExceptionHandler( PEXCEPTION_POINTERS pExceptionI
                     {
                         const auto CheatOffset = (uintptr_t)RSP_Data - (uintptr_t)CheatHinstance;
 
-                        GetCrashLog()->WriteCrashLogFile( XorStr( "Stack (%i): %p (%s) -> %X\n" ) , i , (PVOID)RSP_Data , CHEAT_NAME , (uint32_t)CheatOffset );
+                        GetCrashLog()->WriteCrashLogFile( "Stack (%i): %p (%s) -> %X\n" , i , (PVOID)RSP_Data , CHEAT_NAME , (uint32_t)CheatOffset );
                     }
                     else
                     {
@@ -218,11 +174,11 @@ auto WINAPI CCrashLog::VectoredExceptionHandler( PEXCEPTION_POINTERS pExceptionI
                             const auto ModuleHinstance = GetModuleHandleA( ModuleName.c_str() );
                             const auto ModuleCrashOffset = (uintptr_t)RSP_Data - (uintptr_t)ModuleHinstance;
 
-                            GetCrashLog()->WriteCrashLogFile( XorStr( "Stack (%i): %p (%s) -> %X\n" ) , i , (PVOID)RSP_Data , ModuleName.c_str() , (uint32_t)ModuleCrashOffset );
+                            GetCrashLog()->WriteCrashLogFile( "Stack (%i): %p (%s) -> %X\n" , i , (PVOID)RSP_Data , ModuleName.c_str() , (uint32_t)ModuleCrashOffset );
                         }
                         else
                         {
-                            GetCrashLog()->WriteCrashLogFile( XorStr( "Stack (%i): %p\n" ) , i , (PVOID)RSP_Data );
+                            GetCrashLog()->WriteCrashLogFile( "Stack (%i): %p\n" , i , (PVOID)RSP_Data );
                         }
                     }
                 }
@@ -271,7 +227,7 @@ auto CCrashLog::GetCurrentDateTime() -> std::wstring
     char buf[80] = { 0 };
 
     localtime_s( &tstruct , &now );
-    strftime( buf , sizeof( buf ) , XorStr( "%d.%m.%Y.%H.%M.%S" ) , &tstruct );
+    strftime( buf , sizeof( buf ) , "%d.%m.%Y.%H.%M.%S" , &tstruct );
 
     std::string StrBuf( buf );
 

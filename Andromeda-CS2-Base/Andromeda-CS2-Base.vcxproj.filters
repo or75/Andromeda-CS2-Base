@@ -127,6 +127,27 @@
     <Filter Include="Andromeda-CS2-Base\AndromedaClient\Features\CVisual">
       <UniqueIdentifier>{8c1b7cf4-69bc-41fb-8a38-52d85347e1a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu">
+      <UniqueIdentifier>{9c0b0222-5c42-4b35-969a-aa3d8ae58795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core">
+      <UniqueIdentifier>{a34750f8-73f3-4120-b30a-786fc32641d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom">
+      <UniqueIdentifier>{88f636d6-bcb8-4a65-b403-4ff4b3c398ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\Helpers">
+      <UniqueIdentifier>{441f31b2-898b-487a-9bff-bd5090c627df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages">
+      <UniqueIdentifier>{8b4c8963-aafe-45f6-bca8-44548b929237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages">
+      <UniqueIdentifier>{4e75781e-5ae8-4cb3-b6be-c94f992a732e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources">
+      <UniqueIdentifier>{6190c90c-5116-4d79-a0ea-40b7c10fd2e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Andromeda-CS2-Base\DllLauncher.cpp">
@@ -447,9 +468,6 @@
     <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Bypass.cpp">
       <Filter>Andromeda-CS2-Base\GameClient</Filter>
     </ClCompile>
-    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\CAndromedaMenu.cpp">
-      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="Andromeda-CS2-Base\GameClient\CL_Bones.cpp">
       <Filter>Andromeda-CS2-Base\GameClient</Filter>
     </ClCompile>
@@ -479,6 +497,57 @@
     </ClCompile>
     <ClCompile Include="Andromeda-CS2-Base\CS2\Hook\Hook_DrawGlow.cpp">
       <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core\CResourceManager.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core\CStyleManager.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSectionBar.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSidebarItem.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CTollTip.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\ImGuiCustom.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Helpers\CDX11ImageHelper.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\im_anim.cpp">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\PageWithSubPages.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CDashboard.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CMenuController.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CNavigationBar.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CPageManager.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\GitMenu.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CPageRegistry.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages\CHomeSubPage.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CHomePage.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1079,9 +1148,6 @@
     <ClInclude Include="Andromeda-CS2-Base\GameClient\CL_Bypass.hpp">
       <Filter>Andromeda-CS2-Base\GameClient</Filter>
     </ClInclude>
-    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\CAndromedaMenu.hpp">
-      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Settings\Settings.hpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\Settings</Filter>
     </ClInclude>
@@ -1132,6 +1198,87 @@
     </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\CS2\Hook\Hook_DrawGlow.hpp">
       <Filter>Andromeda-CS2-Base\CS2\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core\CResourceManager.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core\CStyleManager.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CFunctionWidget.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSectionBar.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSidebarItem.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CTollTip.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\ImGuiCustom.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\IWidget.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Helpers\CDX11ImageHelper.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Fonts\FontAwesome7ProIcons.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\ImGui\im_anim.h">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\IPage.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\ISubPage.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\PageWithSubPages.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardCloseButtonIcon.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardIcon.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardOpenButtonIcon.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\ResourceCatalog.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CDashboard.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CMenuController.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CNavigationBar.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CPageManager.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\GitMenu.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CPageRegistry.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages\CHomeSubPage.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CHomePage.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\Common\Include\XorVmpStr.hpp">
+      <Filter>Andromeda-CS2-Base\Common\Include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

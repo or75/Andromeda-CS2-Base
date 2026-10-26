@@ -4,7 +4,7 @@ static CTIER0Functions g_CTIER0Functions{};
 
 auto CTIER0Functions::OnInit() -> bool
 {
-	auto hTier0Module = GetModuleHandleA( XorStr( "tier0.dll" ) );
+	auto hTier0Module = GetModuleHandleA( "tier0.dll" );
 
 	if ( !hTier0Module )
 	{
@@ -12,7 +12,7 @@ auto CTIER0Functions::OnInit() -> bool
 		return false;
 	}
 
-	RandomFloat_o = (RandomFloat_t)GetProcAddress( hTier0Module , XorStr( "RandomFloat" ) );
+	RandomFloat_o = (RandomFloat_t)GetProcAddress( hTier0Module , "RandomFloat" );
 
 	if ( !RandomFloat_o )
 	{

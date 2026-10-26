@@ -2,6 +2,7 @@
 
 #include <Common/Common.hpp>
 #include <Common/MemoryEngine.hpp>
+#include <Common/Include/XorVmpStr.hpp>
 
 #include <CS2/CBasePattern.hpp>
 
@@ -157,12 +158,14 @@ public:
 
 			if ( pConVar )
 			{
-				if ( pConVar->nFlags & FCVAR_HIDDEN )
-				{
+				if ( pConVar->nFlags & FCVAR_UNREGISTERED )
+					pConVar->nFlags &= ~FCVAR_UNREGISTERED;
+				else if ( pConVar->nFlags & FCVAR_DEVELOPMENTONLY )
+					pConVar->nFlags &= ~FCVAR_DEVELOPMENTONLY;
+				else if ( pConVar->nFlags & FCVAR_HIDDEN )
 					pConVar->nFlags &= ~FCVAR_HIDDEN;
-
-					//DEV_LOG( "Unlocked ConVar FCVAR_HIDDEN: %s\n" , pConVar->szName );
-				}
+				else if ( pConVar->nFlags & FCVAR_ARCHIVE )
+					pConVar->nFlags &= ~FCVAR_ARCHIVE;
 			}
 
 			GetNextCvarIterator( i );

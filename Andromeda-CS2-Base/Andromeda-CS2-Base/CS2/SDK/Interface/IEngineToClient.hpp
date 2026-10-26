@@ -2,6 +2,7 @@
 
 #include <Common/Common.hpp>
 #include <Common/MemoryEngine.hpp>
+#include <Common/Include/XorVmpStr.hpp>
 
 #include <CS2/SDK/SDK.hpp>
 #include <CS2/SDK/Update/VMT_Index.hpp>

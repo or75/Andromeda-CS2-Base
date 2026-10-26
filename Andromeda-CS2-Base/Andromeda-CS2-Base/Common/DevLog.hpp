@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Include/Config.hpp"
 
 #include <stdio.h>
 #include <mutex>
@@ -31,4 +32,4 @@ private:
 auto GetDevLog() -> CDevLog*;
 
 #define DEV_LOG( fmt , ... ) \
-	GetDevLog()->AddLog( XorStr( fmt ) , __VA_ARGS__ )
+	GetDevLog()->AddLog( fmt , __VA_ARGS__ )

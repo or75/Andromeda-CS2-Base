@@ -53,12 +53,10 @@ __forceinline char* base64( const void* binaryData , int len , int* flen )
 
 	if ( !res )
 	{
-		puts( VmpStr( "ERROR: base64 could not allocate enough memory." ) );
-		puts( VmpStr( "I must stop because I could not get enough" ) );
 		return 0;
 	}
 
-	const char* b64 = VmpStr( "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/" );
+	const char* b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 	for ( byteNo = 0; byteNo <= len - 3; byteNo += 3 )
 	{
@@ -101,7 +99,6 @@ __forceinline char* unbase64( const char* ascii , int len , int* flen )
 
 	if ( len < 2 )
 	{
-		puts( VmpStr( "ERROR: You passed an invalid base64 string (too short). You get NULL back." ) );
 		*flen = 0;
 		return 0;
 	}
@@ -114,9 +111,6 @@ __forceinline char* unbase64( const char* ascii , int len , int* flen )
 
 	if ( !bin )
 	{
-		puts( VmpStr( "ERROR: unbase64 could not allocate enough memory." ) );
-		puts( VmpStr( "I must stop because I could not get enough" ) );
-
 		return 0;
 	}
 

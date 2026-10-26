@@ -4,6 +4,8 @@
 #include <d3d11.h>
 
 #include <ImGui/imgui.h>
+#include <ImGui/imgui_internal.h>
+
 #include <ImGui/Misc/freetype/imgui_freetype.h>
 
 #include <CS2/SDK/SDK.hpp>
@@ -28,20 +30,6 @@ public:
 
 public:
 	auto InitFont() -> void;
-
-private:
-	auto SetIndigoStyle() -> void;
-	auto SetVermillionStyle() -> void;
-	auto SetClassicSteamStyle() -> void;
-
-	enum EAndromedaGuiStyle_t : uint32_t
-	{
-		ANDROMEDA_GUI_STYLE_INDIGO,
-		ANDROMEDA_GUI_STYLE_VERMILLION,
-		ANDROMEDA_GUI_STYLE_CLASSIC_STEAM,
-	};
-
-public:
 	auto UpdateStyle() -> void;
 
 public:
@@ -82,6 +70,13 @@ private:
 private:
 	ImGuiContext* m_pImGuiContext = nullptr;
 
+public:
+	auto GetDefaultFont() -> ImFont* { return m_pFontDefault; }
+	auto GetFontAwesome7ProIcons() -> ImFont* { return m_pFontAwesome7ProIcons; }
+
+	ImFont* m_pFontDefault = nullptr;
+	ImFont* m_pFontAwesome7ProIcons = nullptr;
+
 private:
 	std::string m_GuiFile;
 
@@ -95,6 +90,9 @@ public:
 	bool m_bInit = false;
 	bool m_bMainActive = false;
 	bool m_bVisible = false;
+
+	static constexpr auto m_DefaulFontSize = 16.f;
+	static constexpr auto m_IconsFontSize = 16.f;
 
 private:
 	ImVec2 m_vecMousePosSave;

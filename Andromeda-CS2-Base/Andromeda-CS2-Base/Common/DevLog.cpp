@@ -1,6 +1,5 @@
 #include "DevLog.hpp"
 
-#include "Include/Config.hpp"
 #include "DllLauncher.hpp"
 
 #if ENABLE_CONSOLE_DEBUG == 1
@@ -25,16 +24,16 @@ auto CDevLog::Init() -> void
 	// Get STDOUT handle
 	HANDLE ConsoleOutput = GetStdHandle( STD_OUTPUT_HANDLE );
 	int SystemOutput = _open_osfhandle( intptr_t( ConsoleOutput ) , _O_TEXT );
-	COutputHandle = _fdopen( SystemOutput , XorStr( "w" ) );
+	COutputHandle = _fdopen( SystemOutput , "w" );
 
 	// Get STDERR handle
 	HANDLE ConsoleError = GetStdHandle( STD_ERROR_HANDLE );
 	int SystemError = _open_osfhandle( intptr_t( ConsoleError ) , _O_TEXT );
-	CErrorHandle = _fdopen( SystemError , XorStr( "w" ) );
+	CErrorHandle = _fdopen( SystemError , "w" );
 
 	// Redirect the CRT standard input, output, and error handles to the console
-	freopen_s( &COutputHandle , XorStr( "CONOUT$" ) , XorStr( "w" ) , stdout );
-	freopen_s( &CErrorHandle , XorStr( "CONOUT$" ) , XorStr( "w" ) , stderr );
+	freopen_s( &COutputHandle , "CONOUT$" , "w" , stdout );
+	freopen_s( &CErrorHandle , "CONOUT$" , "w" , stderr );
 
 	std::wcout.clear();
 	std::cout.clear();
@@ -77,7 +76,7 @@ auto CDevLog::AddLog( const char* fmt , ... ) -> void
 	va_end( args );
 
 #if ENABLE_CONSOLE_DEBUG == 1
-	printf( XorStr( "%s" ) , buff );
+	printf( "%s" , buff );
 #endif
 
 	WriteFile( hLogFile , (PVOID)buff , lstrlenA( buff ) , 0 , 0 );
