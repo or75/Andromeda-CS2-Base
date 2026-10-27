@@ -1,5 +1,4 @@
 #include "DevLog.hpp"
-
 #include "DllLauncher.hpp"
 
 #if ENABLE_CONSOLE_DEBUG == 1

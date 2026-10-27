@@ -3,7 +3,9 @@
 #include "XorStr/XorStr.hpp"
 #include "VMProtect/VMProtectSDK.h"
 
-#if defined RELEASE_BUILD
+// Only Release build
+
+#if defined(PROTECT_BUILD)
 #define XorStr(str) xorstr_(str)
 #define VmpStr(str) VMProtectDecryptStringA(str)
 #else

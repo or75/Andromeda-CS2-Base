@@ -79,7 +79,7 @@ auto CNavigationBar::SetHistoryIcon( SIcon icon ) -> void
 
 auto CNavigationBar::DrawIcon( ImDrawList* drawList , const SIcon& icon , ImVec2 center , float scale , ImVec2 maxSize , bool round ) const -> void
 {
-	const auto texture = icon.GetTexture ? icon.GetTexture() : ( icon.Resource != EResource::Count ? GetResourceManager()->GetTexture( icon.Resource ) : icon.Texture );
+	const auto texture = icon.Resource != EResource::Count ? GetResourceManager()->GetTexture( icon.Resource ) : ImTextureID_Invalid;
 	
 	if ( texture._TexData || texture._TexID != ImTextureID_Invalid )
 	{
@@ -90,20 +90,17 @@ auto CNavigationBar::DrawIcon( ImDrawList* drawList , const SIcon& icon , ImVec2
 
 		drawList->AddImageRounded( texture , imageMin , imageMax , icon.Uv0 , icon.Uv1 , ImGui::GetColorU32( icon.Tint ) , round ? ImMin( size.x , size.y ) * 0.5f : 0.f );
 	}
-	else if ( icon.DrawIcon )
-		icon.DrawIcon( drawList , center , scale );
 	else
-		DrawIconFallback( drawList , icon.Icon , center , scale );
+		DrawIconFallback( drawList , icon.DefaulIcon , center , scale );
 }
 
-auto CNavigationBar::AddDefaultButton( const char* id , const char* tooltip , EIcon icon , EAction action , float minWidth , ImTextureRef texture , std::vector<ImGuiKeyChord> shortcut , SDropdown menu ) -> SButton&
+auto CNavigationBar::AddDefaultButton( const char* id , const char* tooltip , SIcon& icon , EAction action , float minWidth , std::vector<ImGuiKeyChord> shortcut , SDropdown menu ) -> SButton&
 {
 	auto button = SButton{};
 
 	button.Id = id;
 	button.Tooltip = tooltip;
 	button.Icon = icon;
-	button.Texture = texture;
 	button.Shortcut = std::move( shortcut );
 	button.Action = action;
 	button.MinBarWidth = minWidth;
@@ -120,43 +117,27 @@ CNavigationBar::CNavigationBar()
 	m_MenuButton.Id = "Menu";
 	m_MenuButton.Tooltip = "Open menu";
 	m_MenuButton.Shortcut = { ImGuiKey_Tab };
-	m_MenuButton.Icon = EIcon::Menu;
-
-	/*
-	// All default tools are registered here; layout and rendering don't know their IDs.
-	AddDefaultButton( "Assistant" , "Assistant" , EIcon::Assistant , EAction::Assistant , 850.f ).GapAfter = 0.f;
-
-	auto& assistantMenu = AddDefaultButton( "AssistantMenu" , "Assistant menu" , EIcon::Chevron , EAction::AssistantMenu , 850.f );
-
-	assistantMenu.Size.x = 24.f;
-	assistantMenu.GapAfter = 24.f;
-	assistantMenu.SeparatorAfter = true;
+	m_MenuButton.Icon = { EIcon::Menu };
 
 	auto createMenu = SDropdown{};
 
-	createMenu.Items = {
-		{ .Text = "New issue" , .Icon = { EIcon::Issues } , .Action = EAction::NewIssue },
-		{ .Text = "New repository" , .Icon = { EIcon::Repositories } , .Action = EAction::NewRepository },
-		{ .Text = "Import repository" , .Icon = { EIcon::Import } , .Action = EAction::ImportRepository },
+	createMenu.Items =
+	{
+		{ .Text = "New Script" , .Icon = { EIcon::Plus } , .Action = EAction::CreateScript },
 		SMenuItem::MakeSeparator(),
-		{ .Text = "New codespace" , .Icon = { EIcon::Codespace } , .Action = EAction::NewCodespace },
-		{ .Text = "New gist" , .Icon = { EIcon::Code } , .Action = EAction::NewGist },
-		SMenuItem::MakeSeparator(),
-		{ .Text = "New organization" , .Icon = { EIcon::Organization } , .Action = EAction::NewOrganization },
-		{ .Text = "New project" , .Icon = { EIcon::Project } , .Action = EAction::NewProject }
+		{ .Text = "New Config" , .Icon = { EIcon::Plus } , .Action = EAction::CreateConfig },
 	};
 
-	auto& create = AddDefaultButton( "Create" , "Create new" , EIcon::Plus , EAction::Create , 700.f , {} , {} , std::move( createMenu ) );
-	
+	SIcon CreateIcon = { .DefaulIcon = EIcon::Plus };
+
+	auto& create = AddDefaultButton( "Create" , "Create new" , CreateIcon , EAction::CreateDropdown , 700.f , {} , std::move( createMenu ) );
+
 	create.Size.x = 48.f;
 	create.Dropdown = true;
 
-	AddDefaultButton( "Issues" , "Issues" , EIcon::Issues , EAction::Issues , 700.f );
-	AddDefaultButton( "PullRequests" , "Pull requests" , EIcon::PullRequests , EAction::PullRequests , 700.f );
-	AddDefaultButton( "Repositories" , "Repositories" , EIcon::Repositories , EAction::Repositories , 700.f );
-	AddDefaultButton( "Inbox" , "Inbox" , EIcon::Inbox , EAction::Inbox , 700.f );
-	AddDefaultButton( "Profile" , "Your profile" , EIcon::Avatar , EAction::Profile , 0.f ).Round = true;
-	*/
+	SIcon AndromedaIcon = { .Resource = EResource::AndromedaIcon };
+
+	AddDefaultButton( "Profile" , "Your profile" , AndromedaIcon , EAction::Profile , 0.f ).Round = true;
 }
 
 auto CNavigationBar::SetHomeShortcut( std::vector<ImGuiKeyChord> shortcut ) -> void
@@ -368,7 +349,7 @@ auto CNavigationBar::RenderButton( const SButton& button , ImVec2 position , flo
 
 	auto* pDrawList = ImGui::GetWindowDrawList();
 
-	DrawIcon( pDrawList , button , center , scale , ImVec2( iconArea , size.y ) , button.Round );
+	DrawIcon( pDrawList , button.Icon , center , scale , ImVec2( iconArea , size.y ) , button.Round );
 
 	if ( dropdown )
 		DrawIcon( pDrawList , button.DropdownIcon , ImVec2( position.x + size.x - 11.f * scale , center.y ) , scale );

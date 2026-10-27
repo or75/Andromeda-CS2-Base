@@ -116,7 +116,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;ANDROMEDACS2BASE_EXPORTS;_WINDOWS;_USRDLL;RELEASE_BUILD;STB_IMAGE_STATIC;STB_IMAGE_IMPLEMENTATION;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;ANDROMEDACS2BASE_EXPORTS;_WINDOWS;_USRDLL;STB_IMAGE_STATIC;STB_IMAGE_IMPLEMENTATION;_CRT_SECURE_NO_WARNINGS;PROTECT_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -313,6 +313,7 @@
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\ISubPage.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\PageWithSubPages.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages\CHomeSubPage.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\AndromedaIcon.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardCloseButtonIcon.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardIcon.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardOpenButtonIcon.hpp" />

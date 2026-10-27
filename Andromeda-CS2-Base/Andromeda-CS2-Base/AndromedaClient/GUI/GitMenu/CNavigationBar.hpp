@@ -20,24 +20,20 @@ public:
 	{
 		None,
 		Home,
-		Create,
+		CreateScript,
+		CreateConfig,
+		CreateDropdown ,
 		Profile,
 	};
 
 	struct SIcon
 	{
-		EIcon Icon = EIcon::None;
-		ImTextureRef Texture;
+		EIcon   DefaulIcon = EIcon::None;
 
-		std::function<ImTextureRef()> GetTexture;
-
-		ImVec2  ImageSize = ImVec2( 16.f , 16.f );
+		ImVec2  ImageSize = ImVec2( 32.f , 32.f );
 		ImVec2  Uv0 = ImVec2( 0.f , 0.f );
 		ImVec2  Uv1 = ImVec2( 1.f , 1.f );
 		ImVec4  Tint = ImVec4( 1.f , 1.f , 1.f , 1.f );
-
-		// Used when there is no texture; Icon is the fallback when this is empty.
-		std::function<void( ImDrawList* , ImVec2 , float )> DrawIcon;
 
 		// Resolved through CResourceManager each frame; Count means no resource.
 		EResource Resource = EResource::Count;
@@ -48,7 +44,9 @@ public:
 		std::string Text;
 		SIcon Icon;
 		EAction Action = EAction::None;
+
 		std::function<void()> OnClick;
+
 		bool Enabled = true;
 		bool Separator = false;
 
@@ -61,7 +59,7 @@ public:
 		float MinWidth = 192.f;
 	};
 
-	struct SButton : SIcon
+	struct SButton
 	{
 		std::string Id;
 		std::string Tooltip;
@@ -71,7 +69,8 @@ public:
 
 		ImVec2 Size = ImVec2( 32.f , 32.f );
 
-		SIcon DropdownIcon{ EIcon::Chevron };
+		SIcon Icon;
+		SIcon DropdownIcon = { EIcon::Chevron };
 
 		float   GapAfter = 8.f;
 		float   MinBarWidth = 0.f;
@@ -119,7 +118,7 @@ public:
 	}
 
 private:
-	auto AddDefaultButton( const char* id , const char* tooltip , EIcon icon , EAction action , float minWidth , ImTextureRef texture = {} , std::vector<ImGuiKeyChord> shortcut = {} , SDropdown menu = {} ) -> SButton&;
+	auto AddDefaultButton( const char* id , const char* tooltip , SIcon& icon , EAction action , float minWidth , std::vector<ImGuiKeyChord> shortcut = {} , SDropdown menu = {} ) -> SButton&;
 	auto DrawIcon( ImDrawList* drawList , const SIcon& icon , ImVec2 center , float scale , ImVec2 maxSize = ImVec2( FLT_MAX , FLT_MAX ) , bool round = false ) const -> void;
 	auto RenderButton( const SButton& button , ImVec2 position , float scale ) -> bool;
 	auto RenderSearch( ImVec2 position , float width , float scale ) -> void;

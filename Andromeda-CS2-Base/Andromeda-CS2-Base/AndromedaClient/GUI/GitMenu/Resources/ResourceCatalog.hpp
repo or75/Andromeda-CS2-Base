@@ -6,6 +6,6 @@ enum class EResource
 	DashBoardOpenButtonIcon,
 	DashBoardCloseButtonIcon,
 	DashBoardIconDark,
-
+	AndromedaIcon,
 	Count
 };

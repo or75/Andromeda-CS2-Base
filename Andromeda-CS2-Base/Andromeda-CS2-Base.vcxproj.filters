@@ -1280,5 +1280,8 @@
     <ClInclude Include="Andromeda-CS2-Base\Common\Include\XorVmpStr.hpp">
       <Filter>Andromeda-CS2-Base\Common\Include</Filter>
     </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\AndromedaIcon.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
