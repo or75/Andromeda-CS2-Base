@@ -21,6 +21,12 @@ public:
 	auto RenderActivePage() -> void;
 
 	auto SetSearchQuery( std::string_view query ) -> void;
+	auto ConsumeSearchReset() -> bool
+	{
+		const auto reset = m_bSearchReset;
+		m_bSearchReset = false;
+		return reset;
+	}
 	auto IsPageVisible( int index ) const -> bool;
 	auto IsSubPageVisible( int index ) const -> bool;
 
@@ -55,14 +61,16 @@ private:
 	auto GetActivePageEntry() -> PageEntry*;
 	auto GetActivePageEntry() const -> const PageEntry*;
 	auto SelectDefaultSubPage( const PageEntry& entry ) -> void;
-	auto FocusSearchMatchedSubPage( PageEntry& entry ) -> void;
+	auto ClearSearchForNavigation() -> void;
 	auto FindSubPageIndex( const GitMenu::IPage& page , std::string_view subPageId ) const -> int;
 	auto RenderSubPageSelectable( int index , float scale ) -> void;
+	auto RenderWidgetSearchResults() -> void;
 
 	std::vector<PageEntry>                              m_Pages;
 	std::string                                         m_strActivePageId;
 	std::unordered_map<std::string, std::string>        m_ActiveSubPageIdByPageId;
 	std::string                                         m_strSearchQuery;
+	bool                                                m_bSearchReset = false;
 };
 
 auto GetPageManager() -> CPageManager*;

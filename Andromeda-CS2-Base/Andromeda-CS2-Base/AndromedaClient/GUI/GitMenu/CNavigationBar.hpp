@@ -79,7 +79,7 @@ public:
 
 	CNavigationBar();
 
-	auto OnRender() -> void;
+	auto OnRender( bool additionalShortcutFocus = false ) -> void;
 
 	// IDs are unique; an invalid/duplicate ID or missing insertion target returns false.
 	// Registration and changes belong in setup code or OnClick, not in image providers.
@@ -100,6 +100,7 @@ public:
 	auto ResetMenuToggle() -> void { m_bMenuToggled = false; }
 
 	auto GetSearchQuery() const -> const char* { return m_InputSearchBuffer; }
+	auto ClearSearch() -> void;
 
 	auto ConsumeAction() -> EAction
 	{
@@ -116,7 +117,7 @@ private:
 	auto RenderSearch( ImVec2 position , float width , float scale ) -> void;
 	auto RenderSearchPopup( ImVec2 position , float width , float scale ) -> void;
 	auto RememberSearch() -> void;
-	auto HandleShortcuts( std::function<void()>& onClick ) -> void;
+	auto HandleShortcuts( std::function<void()>& onClick , bool additionalShortcutFocus ) -> void;
 	auto ActivateButton( const SButton& button , std::function<void()>& onClick ) -> void;
 	auto RenderDropdown( ImVec2 fallbackPosition , float scale , std::function<void()>& onClick ) -> void;
 

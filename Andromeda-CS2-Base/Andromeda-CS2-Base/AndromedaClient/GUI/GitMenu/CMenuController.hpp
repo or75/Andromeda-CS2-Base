@@ -16,6 +16,8 @@ public:
 	auto IsDashboardOpen() const -> bool { return m_Dashboard.IsOpen(); }
 
 private:
+	auto SyncSearchReset() -> void;
+
 	CNavigationBar m_NavigationBar;
 	CDashboard     m_Dashboard;
 

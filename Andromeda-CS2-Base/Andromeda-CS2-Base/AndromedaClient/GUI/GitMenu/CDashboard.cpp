@@ -16,6 +16,14 @@ CDashboard::CDashboard( const char8_t* closeButtonIcon )
 {
 }
 
+auto CDashboard::IsFocused() const -> bool
+{
+	const auto* window = ImGui::FindWindowByName( "DashBoard##DashBoardMenu" );
+	const auto* focusedWindow = GImGui->NavWindow;
+
+	return m_bIsOpen && window && focusedWindow && focusedWindow->RootWindow == window->RootWindow;
+}
+
 auto CDashboard::RenderHeader( float scale ) -> void
 {
 	if ( ImGui::BeginChild( "##DashboardHeader" , ImVec2( 0.f , 64.f * scale ) , ImGuiChildFlags_None , ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ) )
@@ -91,9 +99,6 @@ auto CDashboard::RenderPages( float scale ) -> void
 
 	for ( auto i = 0; i < pPageMgr->GetPageCount(); ++i )
 	{
-		if ( !pPageMgr->IsPageVisible( i ) )
-			continue;
-
 		if ( bHasVisiblePages && pPageMgr->HasPageSeparator( i ) )
 			RenderSeparator( scale );
 
@@ -114,7 +119,7 @@ auto CDashboard::RenderPages( float scale ) -> void
 	if ( bHasVisiblePages )
 		RenderSeparator( scale );
 	else
-		ImGui::TextDisabled( "No matches" );
+		ImGui::TextDisabled( "No pages" );
 
 	ImGui::PopStyleVar();
 }

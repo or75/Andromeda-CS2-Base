@@ -22,6 +22,7 @@ namespace GitMenu
 		virtual auto GetFontAwesomeIcon() const -> const char8_t* { return nullptr; }
 
 		auto SetIcon( ImTextureRef icon ) -> void { m_Icon = icon; }
+		auto GetWidgets() const -> const std::vector<std::unique_ptr<IWidget>>& { return m_Widgets; }
 
 		virtual auto OnRender() -> void
 		{

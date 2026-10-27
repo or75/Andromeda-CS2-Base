@@ -15,6 +15,12 @@ auto CMenuController::Init() -> void
 	CPageRegistry::RegisterAll( GetPageManager() );
 }
 
+auto CMenuController::SyncSearchReset() -> void
+{
+	if ( GetPageManager()->ConsumeSearchReset() )
+		m_NavigationBar.ClearSearch();
+}
+
 auto CMenuController::OnRender( bool* bOpen ) -> void
 {
 	ImGui::SetNextWindowSize( ImVec2( 1000.f , 600.f ) , ImGuiCond_Once );
@@ -35,7 +41,8 @@ auto CMenuController::OnRender( bool* bOpen ) -> void
 
 	ImGui::PushClipRect( windowPos + ImVec2( borderInset , borderInset ) , windowPos + windowSize - ImVec2( borderInset , borderInset ) , true );
 
-	m_NavigationBar.OnRender();
+	SyncSearchReset();
+	m_NavigationBar.OnRender( m_Dashboard.IsFocused() );
 
 	GetPageManager()->SetSearchQuery( m_NavigationBar.GetSearchQuery() );
 
@@ -50,7 +57,10 @@ auto CMenuController::OnRender( bool* bOpen ) -> void
 	if ( m_NavigationBar.IsMenuToggled() )
 	{
 		if ( m_Dashboard.IsOpen() )
+		{
 			CloseDashboard();
+			ImGui::SetWindowFocus();
+		}
 		else
 			OpenDashboard();
 
@@ -68,6 +78,7 @@ auto CMenuController::OnRender( bool* bOpen ) -> void
 	auto* pPageMgr = GetPageManager();
 
 	pPageMgr->RenderSubPages();
+	SyncSearchReset();
 
 	ImGui::EndChild();
 
@@ -95,6 +106,7 @@ auto CMenuController::OnRender( bool* bOpen ) -> void
 	ImGui::End();
 
 	m_Dashboard.OnRender( windowPos , windowSize );
+	SyncSearchReset();
 }
 
 auto GetMenuController() -> CMenuController*

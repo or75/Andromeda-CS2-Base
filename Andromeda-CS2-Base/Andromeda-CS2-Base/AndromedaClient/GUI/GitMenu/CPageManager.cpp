@@ -2,10 +2,23 @@
 #include "Pages/ISubPage.hpp"
 #include "Custom/CSidebarItem.hpp"
 
+#include <cctype>
+
 static auto g_PageManager = CPageManager{};
 
 namespace
 {
+	auto FindWidgetMatches( const GitMenu::ISubPage& subPage , std::string_view query ) -> std::vector<GitMenu::IWidget*>
+	{
+		auto results = std::vector<GitMenu::IWidget*>{};
+
+		for ( const auto& widget : subPage.GetWidgets() )
+			if ( widget )
+				widget->CollectSearchMatches( query , results );
+
+		return results;
+	}
+
 	auto ToLowerAscii( char c ) -> char
 	{
 		return static_cast<char>( std::tolower( static_cast<unsigned char>( c ) ) );
@@ -135,28 +148,12 @@ auto CPageManager::SelectDefaultSubPage( const PageEntry& entry ) -> void
 	}
 }
 
-auto CPageManager::FocusSearchMatchedSubPage( PageEntry& entry ) -> void
+auto CPageManager::ClearSearchForNavigation() -> void
 {
-	if ( m_strSearchQuery.empty() || entry.Page->GetSubPageCount() <= 0 )
+	if ( m_strSearchQuery.empty() )
 		return;
-
-	for ( auto i = 0; i < entry.Page->GetSubPageCount(); ++i )
-	{
-		const auto* subPageId = entry.Page->GetSubPageId( i );
-		auto* pSubPage = entry.Page->GetSubPage( i );
-
-		if ( !subPageId || !pSubPage )
-			continue;
-
-		if ( !ContainsCaseInsensitive( subPageId , m_strSearchQuery ) &&
-			!ContainsCaseInsensitive( pSubPage->GetDisplayName() , m_strSearchQuery ) )
-		{
-			continue;
-		}
-
-		m_ActiveSubPageIdByPageId[entry.Id] = subPageId;
-		return;
-	}
+	m_strSearchQuery.clear();
+	m_bSearchReset = true;
 }
 
 auto CPageManager::SetActivePage( std::string_view id ) -> void
@@ -165,6 +162,8 @@ auto CPageManager::SetActivePage( std::string_view id ) -> void
 
 	if ( !pNewEntry )
 		return;
+
+	ClearSearchForNavigation();
 
 	if ( auto* pOldEntry = GetActivePageEntry() )
 	{
@@ -189,8 +188,6 @@ auto CPageManager::SetActivePage( std::string_view id ) -> void
 
 	if ( m_ActiveSubPageIdByPageId.find( pNewEntry->Id ) == m_ActiveSubPageIdByPageId.end() )
 		SelectDefaultSubPage( *pNewEntry );
-
-	FocusSearchMatchedSubPage( *pNewEntry );
 
 	pNewEntry->Page->OnEnter();
 
@@ -218,6 +215,8 @@ auto CPageManager::SetActiveSubPage( std::string_view subPageId ) -> void
 	if ( newSubIndex < 0 )
 		return;
 
+	ClearSearchForNavigation();
+
 	const auto& currentSubPageId = m_ActiveSubPageIdByPageId[pEntry->Id];
 
 	if ( currentSubPageId == subPageId )
@@ -242,6 +241,12 @@ auto CPageManager::SetActiveSubPage( std::string_view subPageId ) -> void
 
 auto CPageManager::SetSearchQuery( std::string_view query ) -> void
 {
+	while ( !query.empty() && std::isspace( static_cast<unsigned char>( query.front() ) ) )
+		query.remove_prefix( 1 );
+
+	while ( !query.empty() && std::isspace( static_cast<unsigned char>( query.back() ) ) )
+		query.remove_suffix( 1 );
+
 	m_strSearchQuery.assign( query.begin() , query.end() );
 }
 
@@ -270,7 +275,8 @@ auto CPageManager::IsPageVisible( int index ) const -> bool
 			continue;
 
 		if ( ContainsCaseInsensitive( subPageId , m_strSearchQuery ) ||
-			ContainsCaseInsensitive( pSubPage->GetDisplayName() , m_strSearchQuery ) )
+			ContainsCaseInsensitive( pSubPage->GetDisplayName() , m_strSearchQuery ) ||
+			!FindWidgetMatches( *pSubPage , m_strSearchQuery ).empty() )
 		{
 			return true;
 		}
@@ -296,7 +302,8 @@ auto CPageManager::IsSubPageVisible( int index ) const -> bool
 		return false;
 
 	return ContainsCaseInsensitive( subPageId , m_strSearchQuery ) ||
-		ContainsCaseInsensitive( pSubPage->GetDisplayName() , m_strSearchQuery );
+		ContainsCaseInsensitive( pSubPage->GetDisplayName() , m_strSearchQuery ) ||
+		!FindWidgetMatches( *pSubPage , m_strSearchQuery ).empty();
 }
 
 auto CPageManager::GetActivePageDisplayName() const -> const char*
@@ -410,7 +417,7 @@ auto CPageManager::RenderSubPages() -> void
 
 	for ( auto i = 0; i < subPageCount; ++i )
 	{
-		if ( !IsSubPageVisible( i ) || !GetActiveSubPageId( i ) )
+		if ( !GetActiveSubPageId( i ) || !GetActivePageEntry()->Page->GetSubPage( i ) )
 			continue;
 
 		bHasVisibleSubPages = true;
@@ -423,17 +430,69 @@ auto CPageManager::RenderSubPages() -> void
 	ImGui::PopID();
 
 	if ( !bHasVisibleSubPages )
-	{
-		ImGui::TextDisabled( "No matches" );
 		return;
-	}
 
 	ImGui::Dummy( ImVec2( 0.f , ImGui::GetStyle().ItemSpacing.y * scale ) );
 	ImGui::Separator();
 }
 
+auto CPageManager::RenderWidgetSearchResults() -> void
+{
+	auto hasResults = false;
+
+	for ( const auto& entry : m_Pages )
+	{
+		ImGui::PushID( entry.Id.c_str() );
+
+		for ( auto index = 0; index < entry.Page->GetSubPageCount(); ++index )
+		{
+			auto* subPage = entry.Page->GetSubPage( index );
+
+			if ( !subPage )
+				continue;
+
+			const auto matches = FindWidgetMatches( *subPage , m_strSearchQuery );
+
+			if ( matches.empty() )
+				continue;
+
+			if ( hasResults )
+				ImGui::Separator();
+
+			hasResults = true;
+
+			ImGui::PushID( index );
+
+			const auto header = std::string( entry.Page->GetDisplayName() ) + " / " + subPage->GetDisplayName() + "###WidgetSearchGroup";
+
+			if ( ImGui::CollapsingHeader( header.c_str() , ImGuiTreeNodeFlags_DefaultOpen ) )
+			{
+				for ( auto* widget : matches )
+				{
+					ImGui::PushID( widget );
+					widget->OnRenderImGui();
+					ImGui::PopID();
+				}
+			}
+
+			ImGui::PopID();
+		}
+
+		ImGui::PopID();
+	}
+
+	if ( !hasResults )
+		ImGui::TextDisabled( "No matching widgets" );
+}
+
 auto CPageManager::RenderActivePage() -> void
 {
+	if ( !m_strSearchQuery.empty() )
+	{
+		RenderWidgetSearchResults();
+		return;
+	}
+
 	auto* pEntry = GetActivePageEntry();
 
 	if ( !pEntry )

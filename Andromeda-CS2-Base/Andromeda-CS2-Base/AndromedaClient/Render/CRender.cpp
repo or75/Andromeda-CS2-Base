@@ -1,5 +1,7 @@
 #include "CRender.hpp"
 
+#include <cmath>
+
 static CRender g_CRender{};
 
 auto CRender::DrawLine( const ImVec2& Start , const ImVec2& End , const ImColor& Color , float thickness ) -> void
@@ -66,35 +68,45 @@ auto CRender::DrawCoalBox( const ImVec2& Min , const ImVec2& Max , const ImColor
 
 auto CRender::DrawOutlineCoalBox( const ImVec2& Min , const ImVec2& Max , const ImColor& Color ) -> void
 {
-	const auto BlackColor = ImColor( 0 , 0 , 0 );
+	auto* drawList = ImGui::GetBackgroundDrawList();
 
-	const auto w = Max.x - Min.x;
-	const auto h = Max.y - Min.y;
+	if ( !drawList || Color.Value.w <= 0.f )
+		return;
 
-	const auto iw = roundf( w / 4.f );
-	const auto ih = roundf( h / 4.f );
+	// Snap once and share the same segments between the color and its outline.
+	const auto left = roundf( Min.x ) + 1.f;
+	const auto top = roundf( Min.y ) + 1.f;
+	const auto right = roundf( Max.x ) - 1.f;
+	const auto bottom = roundf( Max.y ) - 1.f;
 
-	DrawCoalBox( Min , Max , BlackColor );
-	DrawCoalBox( Min + ImVec2( 1.f , 1.f ) , Max - ImVec2( 1.f , 1.f ) , Color );
-	DrawCoalBox( Min + ImVec2( 2.f , 2.f ) , Max - ImVec2( 2.f , 2.f ) , BlackColor );
+	if ( right <= left || bottom <= top )
+		return;
 
-	// top left left
-	DrawLine( ImVec2( Min.x , Min.y + ih ) , ImVec2( Min.x + 3.f , Min.y + ih ) , BlackColor );
-	// top right right
-	DrawLine( ImVec2( Min.x + w - 2.f , Min.y + ih ) , ImVec2( Min.x + w + 1.f , Min.y + ih ) , BlackColor );
-	// top left top
-	DrawLine( ImVec2( Min.x + iw , Min.y ) , ImVec2( Min.x + iw , Min.y + 3.f ) , BlackColor );
-	// top right top
-	DrawLine( ImVec2( Min.x + w - iw - 1.f , Min.y ) , ImVec2( Min.x + w - iw - 1.f , Min.y + 3.f ) , BlackColor );
+	const auto iw = std::fmax( 1.f , roundf( ( right - left ) / 4.f ) );
+	const auto ih = std::fmax( 1.f , roundf( ( bottom - top ) / 4.f ) );
 
-	// bottom left left
-	DrawLine( ImVec2( Min.x , Min.y + h - ih - 1.f ) , ImVec2( Min.x + 3.f , Min.y + h - ih - 1.f ) , BlackColor );
-	// bottom right right
-	DrawLine( ImVec2( Min.x + w - 2.f , Min.y + h - ih - 1.f ) , ImVec2( Min.x + w + 1.f , Min.y + h - ih - 1.f ) , BlackColor );
-	// bottom left bottom
-	DrawLine( ImVec2( Min.x + iw , Min.y + h - 2.f ) , ImVec2( Min.x + iw , Min.y + h + 1.f ) , BlackColor );
-	// bottom right bottom
-	DrawLine( ImVec2( Min.x + w - iw - 1.f , Min.y + h - 2.f ) , ImVec2( Min.x + w - iw - 1.f , Min.y + h + 1.f ) , BlackColor );
+	struct SSegment { ImVec2 Min; ImVec2 Max; };
+
+	const SSegment segments[] =
+	{
+		{ { left , top } , { left + iw + 1.f , top + 1.f } },
+		{ { right - iw , top } , { right + 1.f , top + 1.f } },
+		{ { left , top } , { left + 1.f , top + ih + 1.f } },
+		{ { right , top } , { right + 1.f , top + ih + 1.f } },
+		{ { left , bottom } , { left + iw + 1.f , bottom + 1.f } },
+		{ { right - iw , bottom } , { right + 1.f , bottom + 1.f } },
+		{ { left , bottom - ih } , { left + 1.f , bottom + 1.f } },
+		{ { right , bottom - ih } , { right + 1.f , bottom + 1.f } },
+	};
+
+	const auto outlineColor = ImGui::ColorConvertFloat4ToU32( ImVec4( 0.f , 0.f , 0.f , Color.Value.w ) );
+	
+	for ( const auto& segment : segments )
+		drawList->AddRectFilled( segment.Min - ImVec2( 1.f , 1.f ) , segment.Max + ImVec2( 1.f , 1.f ) , outlineColor );
+
+	// Draw every outline first so adjoining segments cannot cover the color.
+	for ( const auto& segment : segments )
+		drawList->AddRectFilled( segment.Min , segment.Max , Color );
 }
 
 auto CRender::DrawFillBox( const ImVec2& Min , const ImVec2& Max , const ImColor& Color ) -> void

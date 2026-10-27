@@ -42,6 +42,7 @@ auto CStyleManager::ApplyDpiScale( float dpiScale ) -> void
 
 	// Reset layout metrics to avoid compounding DPI, preserving LoadFonts settings.
 	style = ImGuiStyle();
+
 	style.FontSizeBase = fontSizeBase;
 	style.FontScaleMain = fontScaleMain;
 	style._NextFrameFontSizeBase = nextFrameFontSizeBase;

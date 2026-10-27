@@ -20,7 +20,7 @@ auto CNavigationBar::SetHistoryIcon( SIcon icon ) -> void
 auto CNavigationBar::DrawIcon( ImDrawList* drawList , const SIcon& icon , ImVec2 center , float scale , ImVec2 maxSize , bool round ) const -> void
 {
 	const auto texture = icon.Resource != EResource::Count ? GetResourceManager()->GetTexture( icon.Resource ) : ImTextureID_Invalid;
-	
+
 	if ( texture._TexData || texture._TexID != ImTextureID_Invalid )
 	{
 		const auto size = ImVec2( ImClamp( icon.ImageSize.x * scale , 0.f , maxSize.x ) , ImClamp( icon.ImageSize.y * scale , 0.f , maxSize.y ) );
@@ -79,7 +79,7 @@ auto CNavigationBar::AddDefaultButton( const char* id , const char* tooltip , SI
 CNavigationBar::CNavigationBar()
 {
 	m_MenuButton.Id = "Menu";
-	m_MenuButton.Tooltip = "Open menu";
+	m_MenuButton.Tooltip = "Open/close menu";
 	m_MenuButton.Shortcut = { ImGuiKey_Tab };
 	m_MenuButton.Icon = { .AwesomeIcon = u8"\uf0c9" };
 
@@ -140,11 +140,11 @@ auto CNavigationBar::ActivateButton( const SButton& button , std::function<void(
 	onClick = button.OnClick;
 }
 
-auto CNavigationBar::HandleShortcuts( std::function<void()>& onClick ) -> void
+auto CNavigationBar::HandleShortcuts( std::function<void()>& onClick , bool additionalShortcutFocus ) -> void
 {
 	const auto& io = ImGui::GetIO();
-	
-	if ( !ImGui::IsWindowFocused( ImGuiFocusedFlags_RootAndChildWindows ) || io.WantTextInput || ImGui::IsAnyItemActive() || ImGui::IsPopupOpen( nullptr , ImGuiPopupFlags_AnyPopupId | ImGuiPopupFlags_AnyPopupLevel ) )
+
+	if ( ( !ImGui::IsWindowFocused( ImGuiFocusedFlags_RootAndChildWindows ) && !additionalShortcutFocus ) || io.WantTextInput || ImGui::IsAnyItemActive() || ImGui::IsPopupOpen( nullptr , ImGuiPopupFlags_AnyPopupId | ImGuiPopupFlags_AnyPopupLevel ) )
 	{
 		m_ShortcutPrefix.clear();
 		return;
@@ -172,44 +172,44 @@ auto CNavigationBar::HandleShortcuts( std::function<void()>& onClick ) -> void
 	{
 		if ( fnMatches( m_HomeShortcut ) || ( m_MenuButton.Enabled && fnMatches( m_MenuButton.Shortcut ) ) )
 			return true;
-		
+
 		for ( const auto& button : m_Buttons )
 			if ( button.Visible && button.Enabled && fnMatches( button.Shortcut ) )
 				return true;
-		
+
 		return false;
 	};
 
 	for ( auto value = static_cast<int>( ImGuiKey_Tab ); value <= ImGuiKey_Oem102; ++value )
 	{
 		const auto key = static_cast<ImGuiKey>( value );
-		
+
 		if ( ( key >= ImGuiKey_LeftCtrl && key <= ImGuiKey_RightSuper ) || !ImGui::IsKeyPressed( key , false ) )
 			continue;
-		
+
 		const auto chord = static_cast<ImGuiKeyChord>( key ) | io.KeyMods;
-		
+
 		m_ShortcutPrefix.push_back( chord );
-		
+
 		if ( !fnHasPrefix() )
 		{
 			m_ShortcutPrefix.clear();
 			m_ShortcutPrefix.push_back( chord );
-			
+
 			if ( !fnHasPrefix() )
 			{
 				m_ShortcutPrefix.clear();
 				continue;
 			}
 		}
-		
+
 		m_flLastShortcutTime = ImGui::GetTime();
-		
+
 		if ( fnMatches( m_HomeShortcut ) && m_ShortcutPrefix.size() == m_HomeShortcut.size() )
 		{
-			//TriggerAction( EAction::Home );
+			TriggerAction( EAction::Home );
 			m_ShortcutPrefix.clear();
-			
+
 			return;
 		}
 
@@ -217,7 +217,7 @@ auto CNavigationBar::HandleShortcuts( std::function<void()>& onClick ) -> void
 		{
 			m_bMenuToggled = !m_bMenuToggled;
 			m_ShortcutPrefix.clear();
-			
+
 			return;
 		}
 
@@ -227,7 +227,7 @@ auto CNavigationBar::HandleShortcuts( std::function<void()>& onClick ) -> void
 			{
 				ActivateButton( button , onClick );
 				m_ShortcutPrefix.clear();
-				
+
 				return;
 			}
 		}
@@ -311,7 +311,7 @@ auto CNavigationBar::RenderButton( const SButton& button , ImVec2 position , flo
 
 	const auto bPressed = ImGui::Button( "##Button" , size );
 	const auto dropdown = button.Dropdown || !button.Menu.Items.empty();
-	const auto iconArea = dropdown ? ImMax( 0.f , size.x - 16.f * scale ) : size.x;
+	const auto iconArea = dropdown ? ImMax( 0.f , size.x - 20.f * scale ) : size.x;
 	const auto center = ImVec2( position.x + iconArea * 0.5f , position.y + size.y * 0.5f );
 
 	auto* pDrawList = ImGui::GetWindowDrawList();
@@ -319,7 +319,7 @@ auto CNavigationBar::RenderButton( const SButton& button , ImVec2 position , flo
 	DrawIcon( pDrawList , button.Icon , center , scale , ImVec2( iconArea , size.y ) , button.Round );
 
 	if ( dropdown )
-		DrawIcon( pDrawList , button.DropdownIcon , ImVec2( position.x + size.x - 11.f * scale , center.y ) , scale );
+		DrawIcon( pDrawList , button.DropdownIcon , ImVec2( position.x + size.x - 14.f * scale , center.y ) , scale , ImVec2( 16.f * scale , size.y ) );
 
 	ImGui::EndDisabled();
 
@@ -398,6 +398,14 @@ auto CNavigationBar::RenderSearch( ImVec2 position , float width , float scale )
 	DrawIcon( pDrawList , m_SearchIcon , ImVec2( position.x + 14.f * scale , position.y + 16.f * scale ) , scale );
 }
 
+auto CNavigationBar::ClearSearch() -> void
+{
+	RememberSearch();
+	m_InputSearchBuffer[0] = '\0';
+	m_bOpenSearchRequested = false;
+	m_bSearchWasOpen = false;
+}
+
 auto CNavigationBar::RememberSearch() -> void
 {
 	auto query = std::string( m_InputSearchBuffer );
@@ -408,10 +416,10 @@ auto CNavigationBar::RememberSearch() -> void
 		return;
 
 	query = query.substr( first , query.find_last_not_of( " \t\r\n" ) - first + 1 );
-	
+
 	m_RecentSearches.erase( std::remove( m_RecentSearches.begin() , m_RecentSearches.end() , query ) , m_RecentSearches.end() );
 	m_RecentSearches.insert( m_RecentSearches.begin() , std::move( query ) );
-	
+
 	if ( m_RecentSearches.size() > 5 )
 		m_RecentSearches.resize( 5 );
 }
@@ -456,18 +464,18 @@ auto CNavigationBar::RenderSearchPopup( ImVec2 position , float width , float sc
 
 	width = ImMin( width , viewport->WorkSize.x - 8.f * scale );
 	position.x = ImClamp( position.x , viewport->WorkPos.x + 4.f * scale , viewport->WorkPos.x + viewport->WorkSize.x - width - 4.f * scale );
-	
+
 	const auto availableHeight = viewport->WorkPos.y + viewport->WorkSize.y - position.y - 4.f * scale;
 	const auto height = ImMin( headerHeight + ( fullHeight - headerHeight ) * eased , ImMax( headerHeight , availableHeight ) );
 
 	// Dismiss before drawing so even middle/right clicks outside have no closing frame.
 	auto bOutsideClick = false;
-	
+
 	for ( auto button = 0; button < ImGuiMouseButton_COUNT; ++button )
 		bOutsideClick |= ImGui::IsMouseClicked( button );
-	
+
 	bOutsideClick = !bOpening && bOutsideClick && !ImGui::IsMouseHoveringRect( position , ImVec2( position.x + width , position.y + height ) , false );
-	
+
 	if ( bOutsideClick || ImGui::IsKeyPressed( ImGuiKey_Escape ) )
 	{
 		RememberSearch();
@@ -517,14 +525,14 @@ auto CNavigationBar::RenderSearchPopup( ImVec2 position , float width , float sc
 			};
 
 			auto bFilterSlash = bOpening && ImGui::IsKeyPressed( ImGuiKey_Slash , false );
-			
-			const auto bSubmit = ImGui::InputTextWithHint( "##ExpandedSearch" , "Search or jump to..." , m_InputSearchBuffer , sizeof( m_InputSearchBuffer ) , ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCharFilter , fnFilterShortcut , &bFilterSlash );
+
+			const auto bSubmit = ImGui::InputTextWithHint( "##ExpandedSearch" , "Search by name, description, or #tag" , m_InputSearchBuffer , sizeof( m_InputSearchBuffer ) , ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_CallbackCharFilter , fnFilterShortcut , &bFilterSlash );
 			const auto inputHeight = ImGui::GetItemRectSize().y;
 
 			auto* drawList = ImGui::GetWindowDrawList();
-			
+
 			drawList->AddRect( inputPos , ImVec2( inputPos.x + inputWidth , inputPos.y + inputHeight ) , ImGui::GetColorU32( ImGuiCol_CheckMark ) , ImGui::GetStyle().FrameRounding , 0 , 2.f * scale );
-			
+
 			DrawIcon( drawList , m_SearchIcon , ImVec2( inputPos.x + 14.f * scale , inputPos.y + inputHeight * 0.5f ) , scale );
 
 			auto selectedQuery = std::string{};
@@ -544,18 +552,18 @@ auto CNavigationBar::RenderSearchPopup( ImVec2 position , float width , float sc
 					for ( auto i = size_t{ 0 }; i < m_RecentSearches.size(); ++i )
 					{
 						ImGui::PushID( static_cast<int>( i ) );
-						
+
 						const auto rowPos = ImGui::GetCursorScreenPos();
-						
+
 						if ( ImGui::Button( "##Query" , ImVec2( ImGui::GetContentRegionAvail().x , 33.f * scale ) ) )
 							selectedQuery = m_RecentSearches[i];
-						
+
 						auto* rowDrawList = ImGui::GetWindowDrawList();
-						
+
 						DrawIcon( rowDrawList , m_HistoryIcon , ImVec2( rowPos.x + 12.f * scale , rowPos.y + 16.5f * scale ) , scale );
-						
+
 						rowDrawList->AddText( ImVec2( rowPos.x + 28.f * scale , rowPos.y + ( 33.f * scale - ImGui::GetFontSize() ) * 0.5f ) , ImGui::GetColorU32( palette.Text ) , m_RecentSearches[i].c_str() );
-						
+
 						ImGui::PopID();
 					}
 				}
@@ -628,29 +636,29 @@ auto CNavigationBar::RenderDropdown( ImVec2 fallbackPosition , float scale , std
 	}
 
 	width = ImMin( width , ImMax( 1.f , viewport->WorkSize.x - margin * 2.f ) );
-	
+
 	const auto height = ImMin( fullHeight , ImMax( 1.f , viewport->WorkSize.y - margin * 2.f ) );
 	auto anchor = ImRect( fallbackPosition , fallbackPosition );
-	
+
 	for ( const auto& entry : m_DropdownAnchors )
 		if ( entry.ButtonId == m_ActiveDropdown )
 			anchor = entry.Bounds;
 
 	auto position = ImVec2( anchor.Max.x - width , anchor.Max.y + margin );
-	
+
 	if ( position.y + height > viewport->WorkPos.y + viewport->WorkSize.y - margin )
 		position.y = anchor.Min.y - height - margin;
-	
+
 	position.x = ImClamp( position.x , viewport->WorkPos.x + margin , viewport->WorkPos.x + viewport->WorkSize.x - width - margin );
 	position.y = ImClamp( position.y , viewport->WorkPos.y + margin , viewport->WorkPos.y + viewport->WorkSize.y - height - margin );
 
 	auto outsideClick = false;
-	
+
 	for ( auto mouse = 0; mouse < ImGuiMouseButton_COUNT; ++mouse )
 		outsideClick |= ImGui::IsMouseClicked( mouse );
-	
+
 	outsideClick = !opening && outsideClick && !ImGui::IsMouseHoveringRect( position , ImVec2( position.x + width , position.y + height ) , false );
-	
+
 	if ( outsideClick || ImGui::IsKeyPressed( ImGuiKey_Escape ) )
 	{
 		ImGui::ClosePopupToLevel( GImGui->BeginPopupStack.Size , true );
@@ -685,7 +693,7 @@ auto CNavigationBar::RenderDropdown( ImVec2 fallbackPosition , float scale , std
 			{
 				ImGui::GetWindowDrawList()->AddLine( ImVec2( position.x + scale , rowPosition.y + 8.f * scale ) , ImVec2( position.x + width - scale , rowPosition.y + 8.f * scale ) , ImGui::GetColorU32( palette.Border ) );
 				ImGui::Dummy( ImVec2( 0.f , 16.f * scale ) );
-				
+
 				continue;
 			}
 
@@ -694,18 +702,18 @@ auto CNavigationBar::RenderDropdown( ImVec2 fallbackPosition , float scale , std
 
 			const auto rowSize = ImVec2( ImGui::GetContentRegionAvail().x , 32.f * scale );
 			const auto selected = ImGui::Button( "##MenuItem" , rowSize );
-			
+
 			auto* drawList = ImGui::GetWindowDrawList();
-			
+
 			DrawIcon( drawList , item.Icon , ImVec2( rowPosition.x + 12.f * scale , rowPosition.y + 16.f * scale ) , scale , ImVec2( 16.f * scale , 16.f * scale ) );
-			
+
 			drawList->PushClipRect( rowPosition , ImVec2( rowPosition.x + rowSize.x , rowPosition.y + rowSize.y ) , true );
 			drawList->AddText( ImVec2( rowPosition.x + 32.f * scale , rowPosition.y + ( rowSize.y - ImGui::GetFontSize() ) * 0.5f ) , ImGui::GetColorU32( palette.Text ) , item.Text.c_str() );
 			drawList->PopClipRect();
-			
+
 			ImGui::EndDisabled();
 			ImGui::PopID();
-			
+
 			if ( selected )
 			{
 				if ( item.Action != EAction::None )
@@ -726,7 +734,7 @@ auto CNavigationBar::RenderDropdown( ImVec2 fallbackPosition , float scale , std
 	ImGui::PopFont();
 }
 
-auto CNavigationBar::OnRender() -> void
+auto CNavigationBar::OnRender( bool additionalShortcutFocus ) -> void
 {
 	m_DropdownAnchors.clear();
 
@@ -755,14 +763,14 @@ auto CNavigationBar::OnRender() -> void
 
 	// The full-width background must leave the outer resize border visible.
 	const auto borderInset = ImMax( 2.f , ImGui::GetStyle().WindowBorderSize );
-	
+
 	pParentDrawList->PushClipRect( ImVec2( windowPos.x + borderInset , origin.y ) , ImVec2( windowRight - borderInset , origin.y + height ) , true );
 	pParentDrawList->AddRectFilled( ImVec2( windowPos.x , origin.y ) , ImVec2( windowRight , origin.y + height ) , Background , rounding , ImDrawFlags_RoundCornersTop );
 	pParentDrawList->AddLine( ImVec2( windowPos.x , origin.y + height ) , ImVec2( windowRight , origin.y + height ) , Border );
 	pParentDrawList->PopClipRect();
 
 	ImGui::PushStyleVar( ImGuiStyleVar_WindowPadding , ImVec2( 0.f , 0.f ) );
-	
+
 	const auto bVisible = ImGui::BeginChild( "##NavigationBar" , ImVec2( 0.f , height ) , ImGuiChildFlags_None , ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse );
 
 	if ( bVisible )
@@ -889,8 +897,8 @@ auto CNavigationBar::OnRender() -> void
 				const auto spacing = ImMax( 0.f , button.GapAfter ) * scale;
 
 				if ( button.SeparatorAfter )
-					pDrawList->AddLine( ImVec2( x + spacing * 0.5f , y + 4.f * scale ) ,
-						ImVec2( x + spacing * 0.5f , y + 28.f * scale ) , Border );
+					pDrawList->AddLine( ImVec2( x + spacing * 0.5f , y + 4.f * scale ) , ImVec2( x + spacing * 0.5f , y + 28.f * scale ) , Border );
+
 				x += spacing;
 			}
 		}
@@ -904,7 +912,7 @@ auto CNavigationBar::OnRender() -> void
 	ImGui::PopStyleVar();
 
 	RenderSearchPopup( ImVec2( windowPos.x + 4.f * scale , origin.y + 4.f * scale ) , windowRight - windowPos.x - 8.f * scale , scale );
-	HandleShortcuts( fnOnClick );
+	HandleShortcuts( fnOnClick , additionalShortcutFocus );
 	RenderDropdown( ImVec2( windowRight - 8.f * scale , origin.y + height ) , scale , fnOnClick );
 
 	ImGui::PopID();

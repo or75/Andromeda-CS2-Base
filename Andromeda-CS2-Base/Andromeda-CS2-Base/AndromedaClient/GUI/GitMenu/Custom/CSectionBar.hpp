@@ -19,6 +19,7 @@ namespace GitMenu
 
 		// Adds a child widget rendered inside the section's body.
 		auto AddWidget( std::unique_ptr<IWidget> pWidget ) -> IWidget*;
+		auto GetChildren() const -> const std::vector<std::unique_ptr<IWidget>>& override { return m_Widgets; }
 
 	private:
 		const char* m_szSectionName;

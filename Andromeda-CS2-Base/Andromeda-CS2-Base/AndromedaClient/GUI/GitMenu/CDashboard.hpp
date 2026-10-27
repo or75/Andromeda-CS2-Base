@@ -24,6 +24,7 @@ public:
 
 	auto SetClosed() -> void { m_bIsOpen = false; m_bWasOpen = false; m_flOpenProgress = 0.f; }
 	auto IsOpen() const -> bool { return m_bIsOpen; }
+	auto IsFocused() const -> bool;
 
 private:
 	auto RenderHeader( float scale ) -> void;

@@ -78,7 +78,7 @@ auto CHook_Loader::InstallSecondHook() -> bool
 		{ { XorStr( "Hook::AntiTamper" ) , XorStr( "40 53 41 57 48 83 EC ? 48 89 74 24 ? 48 8B F1" ) , CLIENT_DLL } , &Hook_AntiTamper , reinterpret_cast<LPVOID*>( &AntiTamper_o ) },
 		{ { XorStr("Hook::IsLoadoutAllowed") , XorStr("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B E9 48 8B 0D ? ? ? ? ? ? ? FF 50") , CLIENT_DLL } ,&Hook_IsLoadoutAllowed , reinterpret_cast<LPVOID*>(&IsLoadoutAllowed_o) , true , true } ,
 		{ { XorStr( "Hook::EquipItemInLoadout" ) , XorStr( "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 89 54 24 ? 57 41 54 41 55 41 56 41 57 48 83 EC ? 0F B7 FA" ) , CLIENT_DLL } ,& Hook_EquipItemInLoadout , reinterpret_cast<LPVOID*>( &EquipItemInLoadout_o ) },
-		{ { XorStr( "Hook::DrawGlow" ) , XorStr( "40 53 48 83 EC 20 48 8B 54" ) , CLIENT_DLL } , &Hook_DrawGlow , reinterpret_cast<LPVOID*>( &DrawGlow_o ) },
+		{ { XorStr( "Hook::DrawGlow" ) , XorStr( "40 53 48 83 EC 20 48 8B 54 24 ? 48 8D 59 30 48 8B CB" ) , CLIENT_DLL } , &Hook_DrawGlow , reinterpret_cast<LPVOID*>( &DrawGlow_o ) },
 	};
 
 	return InstallHooks();
