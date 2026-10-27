@@ -11,24 +11,16 @@
 class CNavigationBar final
 {
 public:
-	enum class EIcon
-	{
-		Menu, Search, History, Chevron, Plus, None
-	};
-
 	enum class EAction
 	{
 		None,
 		Home,
-		CreateScript,
-		CreateConfig,
-		CreateDropdown ,
-		Profile,
 	};
 
 	struct SIcon
 	{
-		EIcon   DefaulIcon = EIcon::None;
+		// UTF-8 glyph literal, e.g. u8"\uf002"; used when no texture is available.
+		const char8_t* AwesomeIcon = nullptr;
 
 		ImVec2  ImageSize = ImVec2( 32.f , 32.f );
 		ImVec2  Uv0 = ImVec2( 0.f , 0.f );
@@ -70,7 +62,7 @@ public:
 		ImVec2 Size = ImVec2( 32.f , 32.f );
 
 		SIcon Icon;
-		SIcon DropdownIcon = { EIcon::Chevron };
+		SIcon DropdownIcon = { .AwesomeIcon = u8"\uf078" };
 
 		float   GapAfter = 8.f;
 		float   MinBarWidth = 0.f;
@@ -137,8 +129,8 @@ private:
 
 	std::vector<SButton> m_Buttons;
 	SButton              m_MenuButton;
-	SIcon                m_SearchIcon{ EIcon::Search };
-	SIcon                m_HistoryIcon{ EIcon::History };
+	SIcon                m_SearchIcon;
+	SIcon                m_HistoryIcon;
 	std::vector<ImGuiKeyChord> m_HomeShortcut{ ImGuiKey_G , ImGuiKey_D };
 	std::vector<ImGuiKeyChord> m_ShortcutPrefix;
 	double               m_flLastShortcutTime = 0.;

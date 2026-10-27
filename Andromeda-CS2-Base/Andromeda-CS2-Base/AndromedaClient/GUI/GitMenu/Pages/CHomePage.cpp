@@ -1,18 +1,11 @@
 #include "CHomePage.hpp"
-#include "SubPages/CHomeSubPage.hpp"
-
-#include "../Core/CResourceManager.hpp"
-#include "../Resources/ResourceCatalog.hpp"
 
 namespace GitMenu
 {
-	CHomePage::CHomePage()
+	auto CHomeSubPage::OnRender() -> void
 	{
-		AddSubPage( "home" , std::make_unique<CHomeSubPage>() );
-	}
-
-	auto CHomePage::GetIcon() const -> ImTextureRef
-	{
-		return GetResourceManager()->GetTexture( EResource::DashBoardIcon );
+		ImGui::TextUnformatted( "Home" );
+		ImGui::Separator();
+		ImGui::TextWrapped( "Welcome to Git Menu. Select a page from the menu to get started." );
 	}
 }

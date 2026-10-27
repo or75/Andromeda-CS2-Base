@@ -142,9 +142,6 @@
     <Filter Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages">
       <UniqueIdentifier>{8b4c8963-aafe-45f6-bca8-44548b929237}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages">
-      <UniqueIdentifier>{4e75781e-5ae8-4cb3-b6be-c94f992a732e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources">
       <UniqueIdentifier>{6190c90c-5116-4d79-a0ea-40b7c10fd2e6}</UniqueIdentifier>
     </Filter>
@@ -542,9 +539,6 @@
     </ClCompile>
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CPageRegistry.cpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
-    </ClCompile>
-    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages\CHomeSubPage.cpp">
-      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages</Filter>
     </ClCompile>
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CHomePage.cpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
@@ -1241,13 +1235,7 @@
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\PageWithSubPages.hpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
     </ClInclude>
-    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardCloseButtonIcon.hpp">
-      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardIcon.hpp">
-      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardOpenButtonIcon.hpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\ResourceCatalog.hpp">
@@ -1270,9 +1258,6 @@
     </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CPageRegistry.hpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
-    </ClInclude>
-    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages\CHomeSubPage.hpp">
-      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages</Filter>
     </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CHomePage.hpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>

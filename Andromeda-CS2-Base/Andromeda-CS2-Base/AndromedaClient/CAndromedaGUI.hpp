@@ -105,7 +105,7 @@ private:
 
 		bool WantRebuild = true;
 		float RasterizerMultiply = 1.0f;
-		unsigned int FreeTypeBuilderFlags = ImGuiFreeTypeBuilderFlags_ForceAutoHint | ImGuiFreeTypeBuilderFlags_MonoHinting;
+		unsigned int FreeTypeBuilderFlags = 0/*ImGuiFreeTypeBuilderFlags_ForceAutoHint | ImGuiFreeTypeBuilderFlags_MonoHinting*/;
 
 		bool PreNewFrame();
 		void ResetBuildFont() { WantRebuild = true; };

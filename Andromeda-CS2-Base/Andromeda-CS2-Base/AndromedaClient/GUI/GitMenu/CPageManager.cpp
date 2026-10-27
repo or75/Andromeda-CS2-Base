@@ -67,6 +67,11 @@ auto CPageManager::GetPageIcon( int index ) const -> ImTextureRef
 	return ( entry.Icon._TexData || entry.Icon._TexID != ImTextureID_Invalid ) ? entry.Icon : entry.Page->GetIcon();
 }
 
+auto CPageManager::GetPageFontAwesomeIcon( int index ) const -> const char8_t*
+{
+	return index >= 0 && index < GetPageCount() ? m_Pages[index].Page->GetFontAwesomeIcon() : nullptr;
+}
+
 auto CPageManager::HasPageSeparator( int index ) const -> bool
 {
 	return index >= 0 && index < GetPageCount() && m_Pages[index].bSeparatorBefore;
@@ -341,6 +346,19 @@ auto CPageManager::GetActiveSubPageIcon( int index ) const -> ImTextureRef
 	return ImTextureRef();
 }
 
+auto CPageManager::GetActiveSubPageFontAwesomeIcon( int index ) const -> const char8_t*
+{
+	const auto* pEntry = GetActivePageEntry();
+
+	if ( !pEntry || index < 0 || index >= pEntry->Page->GetSubPageCount() )
+		return nullptr;
+
+	if ( auto* pSubPage = pEntry->Page->GetSubPage( index ) )
+		return pSubPage->GetFontAwesomeIcon();
+
+	return nullptr;
+}
+
 auto CPageManager::GetActiveSubPageId() const -> const std::string&
 {
 	static const auto emptyId = std::string{};
@@ -368,7 +386,7 @@ auto CPageManager::RenderSubPageSelectable( int index , float scale ) -> void
 
 	const auto bIsActive = ( GetActiveSubPageId() == subPageId );
 
-	if ( GitMenu::CSidebarItem::Render( subPageId , displayName , GetActiveSubPageIcon( index ) , bIsActive , scale ) )
+	if ( GitMenu::CSidebarItem::Render( subPageId , displayName , GetActiveSubPageIcon( index ) , bIsActive , scale , GetActiveSubPageFontAwesomeIcon( index ) ) )
 		SetActiveSubPage( subPageId );
 }
 

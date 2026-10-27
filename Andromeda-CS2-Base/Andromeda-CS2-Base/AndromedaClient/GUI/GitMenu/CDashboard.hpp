@@ -2,9 +2,13 @@
 
 #include <AndromedaClient/CAndromedaGUI.hpp>
 
+#include <string>
+
 class CDashboard final
 {
 public:
+	explicit CDashboard( const char8_t* closeButtonIcon = u8"\uf00d" );
+
 	auto OnRender( const ImVec2& windowPos , const ImVec2& windowSize ) -> void;
 
 public:
@@ -28,6 +32,7 @@ private:
 	auto ResetAnimation( ImGuiID animationId ) -> void;
 	auto RenderBackground( const ImVec2& panelPos , const ImVec2& panelSize , const ImVec2& clipMin , const ImVec2& clipMax , float scale ) -> void;
 
+	std::u8string m_CloseButtonIcon;
 	float m_flOpenProgress = 0.f;
 	bool m_bIsOpen = false;
 	bool m_bWasOpen = false;

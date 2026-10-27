@@ -7,66 +7,6 @@
 #include <algorithm>
 #include <utility>
 
-namespace
-{
-	using EIcon = CNavigationBar::EIcon;
-
-	// Draw at a 16 px reference size, without an extra icon font or texture atlas.
-	auto DrawIconFallback( ImDrawList* pDrawList , EIcon icon , ImVec2 center , float scale ) -> void
-	{
-		const auto& palette = GetStyleManager()->GetNavigationColors();
-		const auto Muted = ImGui::GetColorU32( palette.Muted );
-		const auto Border = ImGui::GetColorU32( palette.Border );
-
-		const auto fnPoint = [=]( float x , float y )
-		{
-			return ImVec2( center.x + x * scale , center.y + y * scale );
-		};
-
-		const auto fnLine = [&]( float x1 , float y1 , float x2 , float y2 )
-		{
-			pDrawList->AddLine( fnPoint( x1 , y1 ) , fnPoint( x2 , y2 ) , Muted , 1.3f * scale );
-		};
-
-		const auto fnCircle = [&]( float x , float y , float radius )
-		{
-			pDrawList->AddCircle( fnPoint( x , y ) , radius * scale , Muted , 16 , 1.3f * scale );
-		};
-
-		switch ( icon )
-		{
-		case EIcon::Menu:
-			fnLine( -6.f , -5.f , 6.f , -5.f );
-			fnLine( -6.f , 0.f , 6.f , 0.f );
-			fnLine( -6.f , 5.f , 6.f , 5.f );
-			break;
-
-		case EIcon::Search:
-			fnCircle( -1.5f , -1.5f , 5.f );
-			fnLine( 2.f , 2.f , 6.5f , 6.5f );
-			break;
-
-		case EIcon::History:
-			fnCircle( 0.f , 0.f , 7.f );
-			fnLine( 0.f , -4.f , 0.f , 0.f );
-			fnLine( 0.f , 0.f , 3.f , 2.f );
-			break;
-
-		case EIcon::Chevron:
-			pDrawList->AddTriangleFilled( fnPoint( -3.f , -1.f ) , fnPoint( 3.f , -1.f ) , fnPoint( 0.f , 2.f ) , Muted );
-			break;
-
-		case EIcon::Plus:
-			fnLine( -5.f , 0.f , 5.f , 0.f );
-			fnLine( 0.f , -5.f , 0.f , 5.f );
-			break;
-
-		case EIcon::None:
-			break;
-		}
-	}
-}
-
 auto CNavigationBar::SetSearchIcon( SIcon icon ) -> void
 {
 	m_SearchIcon = std::move( icon );
@@ -90,8 +30,32 @@ auto CNavigationBar::DrawIcon( ImDrawList* drawList , const SIcon& icon , ImVec2
 
 		drawList->AddImageRounded( texture , imageMin , imageMax , icon.Uv0 , icon.Uv1 , ImGui::GetColorU32( icon.Tint ) , round ? ImMin( size.x , size.y ) * 0.5f : 0.f );
 	}
-	else
-		DrawIconFallback( drawList , icon.DefaulIcon , center , scale );
+	else if ( auto* font = GetAndromedaGUI()->GetFontAwesome7ProIcons(); font && icon.AwesomeIcon && icon.AwesomeIcon[0] != u8'\0' )
+	{
+		const auto* text = reinterpret_cast<const char*>( icon.AwesomeIcon );
+
+		auto fontSize = CAndromedaGUI::m_IconsFontSize * scale;
+
+		if ( fontSize <= 0.f )
+			return;
+
+		auto textSize = font->CalcTextSizeA( fontSize , FLT_MAX , 0.f , text );
+
+		const auto size = ImVec2( ImClamp( icon.ImageSize.x * scale , 0.f , maxSize.x ) , ImClamp( icon.ImageSize.y * scale , 0.f , maxSize.y ) );
+
+		if ( textSize.x <= 0.f || textSize.y <= 0.f || size.x <= 0.f || size.y <= 0.f )
+			return;
+
+		const auto fit = ImMin( 1.f , ImMin( size.x / textSize.x , size.y / textSize.y ) );
+
+		fontSize *= fit;
+		textSize = font->CalcTextSizeA( fontSize , FLT_MAX , 0.f , text );
+
+		const auto& color = GetStyleManager()->GetNavigationColors().Muted;
+		const auto tint = ImVec4( color.x * icon.Tint.x , color.y * icon.Tint.y , color.z * icon.Tint.z , color.w * icon.Tint.w );
+
+		drawList->AddText( font , fontSize , ImVec2( center.x - textSize.x * 0.5f , center.y - textSize.y * 0.5f ) , ImGui::GetColorU32( tint ) , text );
+	}
 }
 
 auto CNavigationBar::AddDefaultButton( const char* id , const char* tooltip , SIcon& icon , EAction action , float minWidth , std::vector<ImGuiKeyChord> shortcut , SDropdown menu ) -> SButton&
@@ -117,27 +81,30 @@ CNavigationBar::CNavigationBar()
 	m_MenuButton.Id = "Menu";
 	m_MenuButton.Tooltip = "Open menu";
 	m_MenuButton.Shortcut = { ImGuiKey_Tab };
-	m_MenuButton.Icon = { EIcon::Menu };
+	m_MenuButton.Icon = { .AwesomeIcon = u8"\uf0c9" };
+
+	SetSearchIcon( { .AwesomeIcon = u8"\uf002" } );
+	SetHistoryIcon( { .AwesomeIcon = u8"\uf1da" } );
 
 	auto createMenu = SDropdown{};
 
 	createMenu.Items =
 	{
-		{ .Text = "New Script" , .Icon = { EIcon::Plus } , .Action = EAction::CreateScript },
+		{ .Text = "New Script" , .Icon = { .AwesomeIcon = u8"\ue178" } , .Action = EAction::None },
 		SMenuItem::MakeSeparator(),
-		{ .Text = "New Config" , .Icon = { EIcon::Plus } , .Action = EAction::CreateConfig },
+		{ .Text = "New Config" , .Icon = { .AwesomeIcon = u8"\ue178" } , .Action = EAction::None },
 	};
 
-	SIcon CreateIcon = { .DefaulIcon = EIcon::Plus };
+	SIcon CreateIcon = { .AwesomeIcon = u8"\u002b" };
 
-	auto& create = AddDefaultButton( "Create" , "Create new" , CreateIcon , EAction::CreateDropdown , 700.f , {} , std::move( createMenu ) );
+	auto& create = AddDefaultButton( "Create" , "Create new" , CreateIcon , EAction::None , 700.f , {} , std::move( createMenu ) );
 
 	create.Size.x = 48.f;
 	create.Dropdown = true;
 
 	SIcon AndromedaIcon = { .Resource = EResource::AndromedaIcon };
 
-	AddDefaultButton( "Profile" , "Your profile" , AndromedaIcon , EAction::Profile , 0.f ).Round = true;
+	AddDefaultButton( "Profile" , "Your profile" , AndromedaIcon , EAction::None , 0.f ).Round = true;
 }
 
 auto CNavigationBar::SetHomeShortcut( std::vector<ImGuiKeyChord> shortcut ) -> void
@@ -240,7 +207,7 @@ auto CNavigationBar::HandleShortcuts( std::function<void()>& onClick ) -> void
 		
 		if ( fnMatches( m_HomeShortcut ) && m_ShortcutPrefix.size() == m_HomeShortcut.size() )
 		{
-			TriggerAction( EAction::Home );
+			//TriggerAction( EAction::Home );
 			m_ShortcutPrefix.clear();
 			
 			return;
@@ -771,6 +738,7 @@ auto CNavigationBar::OnRender() -> void
 	auto fnOnClick = std::function<void()>{};
 
 	ImGui::PushID( this );
+
 	const auto scale = ImGui::GetFontSize() / 16.f;
 	const auto height = 64.f * scale;
 
@@ -782,6 +750,7 @@ auto CNavigationBar::OnRender() -> void
 	const auto windowPos = ImGui::GetWindowPos();
 	const auto windowRight = windowPos.x + ImGui::GetWindowSize().x;
 	const auto rounding = origin.y <= windowPos.y + 1.f ? ImGui::GetCurrentWindow()->WindowRounding : 0.f;
+
 	auto* pParentDrawList = ImGui::GetWindowDrawList();
 
 	// The full-width background must leave the outer resize border visible.

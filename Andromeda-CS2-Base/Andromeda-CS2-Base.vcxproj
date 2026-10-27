@@ -172,7 +172,6 @@
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CHomePage.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CPageRegistry.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\PageWithSubPages.cpp" />
-    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages\CHomeSubPage.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Helpers\CDX11ImageHelper.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Render\CRender.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Render\CRenderStackSystem.cpp" />
@@ -312,11 +311,8 @@
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\IPage.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\ISubPage.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\PageWithSubPages.hpp" />
-    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\SubPages\CHomeSubPage.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\AndromedaIcon.hpp" />
-    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardCloseButtonIcon.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardIcon.hpp" />
-    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\DashBoardOpenButtonIcon.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\ResourceCatalog.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Helpers\CDX11ImageHelper.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\Render\CRender.hpp" />

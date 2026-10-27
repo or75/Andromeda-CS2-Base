@@ -4,8 +4,6 @@
 #include <AndromedaClient/Helpers/CDX11ImageHelper.hpp>
 
 #include "../Resources/DashBoardIcon.hpp"
-#include "../Resources/DashBoardOpenButtonIcon.hpp"
-#include "../Resources/DashBoardCloseButtonIcon.hpp"
 #include "../Resources/AndromedaIcon.hpp"
 
 static auto g_ResourceManager = CResourceManager{};
@@ -20,12 +18,6 @@ auto CResourceManager::LoadAll() -> void
 
 	m_Textures[static_cast<int>( EResource::DashBoardIconDark )] =
 		GetDX11ImageHelper()->LoadPNGTextureFromMemory( (const byte*)DashBoardIcon_data , DashBoardIcon_size , &w , &h , true );
-
-	m_Textures[static_cast<int>( EResource::DashBoardOpenButtonIcon )] =
-		GetDX11ImageHelper()->LoadPNGTextureFromMemory( (const byte*)m_pDashBoardOpenButtonIcon_data , m_pDashBoardOpenButtonIcon_size , &w , &h );
-
-	m_Textures[static_cast<int>( EResource::DashBoardCloseButtonIcon )] =
-		GetDX11ImageHelper()->LoadPNGTextureFromMemory( (const byte*)DashBoardCloseButtonIcon_data , DashBoardCloseButtonIcon_size , &w , &h );
 
 	m_Textures[static_cast<int>( EResource::AndromedaIcon )] =
 		GetDX11ImageHelper()->LoadPNGTextureFromMemory( (const byte*)AndromedaIcon_data , AndromedaIcon_size , &w , &h );

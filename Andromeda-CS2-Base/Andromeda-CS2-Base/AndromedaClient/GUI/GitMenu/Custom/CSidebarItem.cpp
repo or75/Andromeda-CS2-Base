@@ -6,7 +6,7 @@
 
 namespace GitMenu
 {
-	auto CSidebarItem::Render( const char* id , const char* displayName , ImTextureRef icon , bool bIsActive , float scale ) -> bool
+	auto CSidebarItem::Render( const char* id , const char* displayName , ImTextureRef icon , bool bIsActive , float scale , const char8_t* fontAwesomeIcon ) -> bool
 	{
 		const auto width = ImGui::GetContentRegionAvail().x;
 		const auto height = 34.f * scale;
@@ -57,6 +57,21 @@ namespace GitMenu
 			{
 				pDrawList->AddImage( icon , iconMin , iconMax , ImVec2( 0.f , 0.f ) , ImVec2( 1.f , 1.f ) ,
 					ImGui::GetColorU32( ImVec4( 1.f , 1.f , 1.f , 1.f ) ) );
+			}
+			else if ( auto* font = GetAndromedaGUI()->GetFontAwesome7ProIcons(); font && fontAwesomeIcon && fontAwesomeIcon[0] != u8'\0' && scale > 0.f )
+			{
+				const auto* text = reinterpret_cast<const char*>( fontAwesomeIcon );
+				auto fontSize = CAndromedaGUI::m_IconsFontSize * scale;
+				auto textSize = font->CalcTextSizeA( fontSize , FLT_MAX , 0.f , text );
+
+				if ( textSize.x > 0.f && textSize.y > 0.f )
+				{
+					fontSize *= ImMin( 1.f , ImMin( 16.f * scale / textSize.x , 16.f * scale / textSize.y ) );
+					textSize = font->CalcTextSizeA( fontSize , FLT_MAX , 0.f , text );
+					const auto position = ImVec2( iconMin.x + ( 16.f * scale - textSize.x ) * 0.5f , iconMin.y + ( 16.f * scale - textSize.y ) * 0.5f );
+
+					pDrawList->AddText( font , fontSize , position , ImGui::GetColorU32( GetStyleManager()->GetNavigationColors().Muted ) , text );
+				}
 			}
 			else
 			{

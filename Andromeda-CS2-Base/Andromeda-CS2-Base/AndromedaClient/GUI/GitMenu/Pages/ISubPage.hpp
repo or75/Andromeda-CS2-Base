@@ -18,6 +18,9 @@ namespace GitMenu
 		virtual auto GetDisplayName() const -> const char* = 0;
 		virtual auto GetIcon() const -> ImTextureRef { return m_Icon; }
 
+		// UTF-8 glyph literal, e.g. u8"\uf015"; used when no texture is available.
+		virtual auto GetFontAwesomeIcon() const -> const char8_t* { return nullptr; }
+
 		auto SetIcon( ImTextureRef icon ) -> void { m_Icon = icon; }
 
 		virtual auto OnRender() -> void

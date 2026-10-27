@@ -29,6 +29,7 @@ public:
 	auto GetPageName( int index ) const -> const char* { return m_Pages[index].Page->GetName(); }
 	auto GetPageDisplayName( int index ) const -> const char* { return m_Pages[index].Page->GetDisplayName(); }
 	auto GetPageIcon( int index ) const -> ImTextureRef;
+	auto GetPageFontAwesomeIcon( int index ) const -> const char8_t*;
 	auto HasPageSeparator( int index ) const -> bool;
 	auto GetActivePageId() const -> const std::string& { return m_strActivePageId; }
 	auto GetActivePageDisplayName() const -> const char*;
@@ -37,6 +38,7 @@ public:
 	auto GetActiveSubPageId( int index ) const -> const char*;
 	auto GetActiveSubPageDisplayName( int index ) const -> const char*;
 	auto GetActiveSubPageIcon( int index ) const -> ImTextureRef;
+	auto GetActiveSubPageFontAwesomeIcon( int index ) const -> const char8_t*;
 	auto GetActiveSubPageId() const -> const std::string&;
 
 private:

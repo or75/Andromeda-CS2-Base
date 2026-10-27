@@ -11,6 +11,11 @@
 
 #include "CMenuController.hpp"
 
+CDashboard::CDashboard( const char8_t* closeButtonIcon )
+	: m_CloseButtonIcon( closeButtonIcon ? closeButtonIcon : u8"" )
+{
+}
+
 auto CDashboard::RenderHeader( float scale ) -> void
 {
 	if ( ImGui::BeginChild( "##DashboardHeader" , ImVec2( 0.f , 64.f * scale ) , ImGuiChildFlags_None , ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ) )
@@ -30,6 +35,7 @@ auto CDashboard::RenderHeader( float scale ) -> void
 
 		ImGui::PushStyleVar( ImGuiStyleVar_FrameRounding , 6.f * scale );
 		ImGui::PushStyleVar( ImGuiStyleVar_FrameBorderSize , 0.f );
+
 		ImGui::PushStyleColor( ImGuiCol_Button , ImVec4( 0.f , 0.f , 0.f , 0.f ) );
 		ImGui::PushStyleColor( ImGuiCol_ButtonHovered , GetStyleManager()->GetNavigationColors().Hovered );
 		ImGui::PushStyleColor( ImGuiCol_ButtonActive , GetStyleManager()->GetNavigationColors().Active );
@@ -39,11 +45,24 @@ auto CDashboard::RenderHeader( float scale ) -> void
 
 		auto* pDrawList = ImGui::GetWindowDrawList();
 
-		const auto center = ImVec2( closeX + 16.f * scale , start.y + 16.f * scale );
-		const auto iconColor = ImGui::GetColorU32( ImGuiCol_TextDisabled );
+		// Close Button Icon
+		if ( auto* font = GetAndromedaGUI()->GetFontAwesome7ProIcons(); font && !m_CloseButtonIcon.empty() && scale > 0.f )
+		{
+			const auto center = ImVec2( closeX + 16.f * scale , start.y + 16.f * scale );
+			const auto iconColor = ImGui::GetColorU32( GetStyleManager()->GetNavigationColors().Muted );
+			const auto* text = reinterpret_cast<const char*>( m_CloseButtonIcon.c_str() );
+			
+			auto fontSize = CAndromedaGUI::m_IconsFontSize * scale;
+			auto textSize = font->CalcTextSizeA( fontSize , FLT_MAX , 0.f , text );
 
-		pDrawList->AddLine( ImVec2( center.x - 4.f * scale , center.y - 4.f * scale ) , ImVec2( center.x + 4.f * scale , center.y + 4.f * scale ) , iconColor , 1.3f * scale );
-		pDrawList->AddLine( ImVec2( center.x + 4.f * scale , center.y - 4.f * scale ) , ImVec2( center.x - 4.f * scale , center.y + 4.f * scale ) , iconColor , 1.3f * scale );
+			if ( textSize.x > 0.f && textSize.y > 0.f )
+			{
+				fontSize *= ImMin( 1.f , ImMin( 16.f * scale / textSize.x , 16.f * scale / textSize.y ) );
+				textSize = font->CalcTextSizeA( fontSize , FLT_MAX , 0.f , text );
+				
+				pDrawList->AddText( font , fontSize , ImVec2( center.x - textSize.x * 0.5f , center.y - textSize.y * 0.5f ) , iconColor , text );
+			}
+		}
 
 		GitMenu::CTollTip::Render( "Close Menu" );
 
@@ -85,7 +104,7 @@ auto CDashboard::RenderPages( float scale ) -> void
 		const auto icon = pPageMgr->GetPageIcon( i );
 		const auto bIsActive = ( pageId == pPageMgr->GetActivePageId() );
 
-		if ( GitMenu::CSidebarItem::Render( pageId.c_str() , displayName , icon , bIsActive , scale ) )
+		if ( GitMenu::CSidebarItem::Render( pageId.c_str() , displayName , icon , bIsActive , scale , pPageMgr->GetPageFontAwesomeIcon( i ) ) )
 		{
 			pPageMgr->SetActivePage( pageId );
 			SetClosed();
