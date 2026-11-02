@@ -166,6 +166,7 @@
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CPageManager.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSectionBar.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CCheckBoxWidget.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CComboBoxWidget.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSidebarItem.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CTollTip.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\ImGuiCustom.cpp" />
@@ -304,6 +305,7 @@
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CFunctionWidget.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSectionBar.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CCheckBoxWidget.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CComboBoxWidget.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSidebarItem.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CTollTip.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\ImGuiCustom.hpp" />

@@ -2,6 +2,7 @@
 
 #include "../Custom/CCheckBoxWidget.hpp"
 #include "../Custom/CSectionBar.hpp"
+#include "../Custom/CComboBoxWidget.hpp"
 
 #include <AndromedaClient/Settings/Settings.hpp>
 
@@ -21,7 +22,13 @@ namespace GitMenu
 		pSectionGeneral->AddWidget( std::make_unique<CCheckBoxWidget>( "Bone ESP Enemy" , "Show bone outlines for enemy players." , &Settings::Visual::BoneESPEnemy , true ) );
 		pSectionGeneral->AddWidget( std::make_unique<CCheckBoxWidget>( "Glow" , "Show glow effects for players." , &Settings::Visual::Glow , true ) );
 		pSectionGeneral->AddWidget( std::make_unique<CCheckBoxWidget>( "Glow Team" , "Show glow effects for team members." , &Settings::Visual::GlowTeam , true ) );
-		pSectionGeneral->AddWidget( std::make_unique<CCheckBoxWidget>( "Glow Enemy" , "Show glow effects for enemy players." , &Settings::Visual::GlowEnemy , false ) );
+		pSectionGeneral->AddWidget( std::make_unique<CCheckBoxWidget>( "Glow Enemy" , "Show glow effects for enemy players." , &Settings::Visual::GlowEnemy , true ) );
+
+		auto PlayerBoxType = std::make_unique<GitMenu::CComboBoxWidget>( "Player Box Type" , "Select the type of player box to display." , &Settings::Visual::PlayerBoxType ,
+			std::vector<std::string>{ "Default (Box)" , "Outlined Box" , "Coal Box" , "Outlined Coal Box" }
+		);
+
+		pSectionGeneral->AddWidget( std::move( PlayerBoxType ) );
 
 		for ( const auto& widget : pSectionGeneral->GetChildren() )
 			widget->AddTag( "visual" );

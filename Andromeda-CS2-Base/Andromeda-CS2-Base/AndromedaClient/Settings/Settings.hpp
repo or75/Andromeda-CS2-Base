@@ -23,7 +23,6 @@ namespace Settings
 	}
 	namespace Menu
 	{
-		inline auto MenuAlpha = 200;
 		inline auto MenuStyle = 0;
 		inline auto MenuDPI = 1.f;
 	}
