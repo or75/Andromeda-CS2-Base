@@ -211,6 +211,8 @@ auto CStyleManager::SetupScaling( float dpiScale ) -> void
 	auto& style = ImGui::GetStyle();
 
 	style.ScaleAllSizes( dpiScale );
+	// ScaleAllSizes truncates MouseCursorScale to an integer (zero below 1x).
+	style.MouseCursorScale = dpiScale;
 	style.FontScaleDpi = dpiScale;
 
 	m_flDpiScale = dpiScale;

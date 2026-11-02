@@ -507,6 +507,9 @@
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CCheckBoxWidget.cpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
     </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSliderFloatWidget.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClCompile>
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CComboBoxWidget.cpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
     </ClCompile>
@@ -550,6 +553,9 @@
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
     </ClCompile>
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CVIsualPage.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CMenuPage.cpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1217,6 +1223,9 @@
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CCheckBoxWidget.hpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
     </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSliderFloatWidget.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
+    </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CComboBoxWidget.hpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom</Filter>
     </ClInclude>
@@ -1278,6 +1287,9 @@
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
     </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CVIsualPage.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CMenuPage.hpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
     </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\Common\Include\XorVmpStr.hpp">

@@ -180,7 +180,14 @@ void CAndromedaGUI::OnRender( IDXGISwapChain* pSwapChain )
 		m_pDeviceContext->OMGetRenderTargets( 1 , &m_pMainRenderTarget , 0 );
 		m_pDeviceContext->OMSetRenderTargets( 1 , &m_pRenderTargetView , 0 );
 
-		GetStyleManager()->ApplyPendingDpiScale();
+		auto* styleManager = GetStyleManager();
+		const auto theme = Settings::Menu::MenuStyle == 1 ? CStyleManager::ETheme::Dark : CStyleManager::ETheme::Light;
+		
+		if ( styleManager->GetTheme() != theme )
+			styleManager->SetTheme( theme );
+		
+		styleManager->SetDpiScale( Settings::Menu::MenuDPI );
+		styleManager->ApplyPendingDpiScale();
 
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
@@ -253,7 +260,9 @@ auto CAndromedaGUI::UpdateStyle() -> void
 {
 	ImGui::SetCurrentContext( m_pImGuiContext );
 
-	GetStyleManager()->ApplyLightTheme( Settings::Menu::MenuDPI );
+	auto* styleManager = GetStyleManager();
+	styleManager->SetDpiScale( Settings::Menu::MenuDPI );
+	styleManager->ApplyTheme( Settings::Menu::MenuStyle == 1 ? CStyleManager::ETheme::Dark : CStyleManager::ETheme::Light , styleManager->GetDpiScale() );
 }
 
 bool CAndromedaGUI::FreeTypeBuild::PreNewFrame()
