@@ -96,11 +96,20 @@ auto CMenuController::OnRender( bool* bOpen ) -> void
 
 	ImGui::SameLine( childSubDashBoardWidth + ( ImGui::GetStyle().ItemSpacing.x * 3.f ) );
 
+	// Each page/subpage owns a separate ImGui child, including its scroll state.
+	// Search results use their own child so searching preserves the page position.
+	const auto searching = pPageMgr->IsSearching();
+	ImGui::PushID( searching ? "##SearchContent" : "##PageContent" );
+	ImGui::PushID( searching ? "" : pPageMgr->GetActivePageId().c_str() );
+	ImGui::PushID( searching ? "" : pPageMgr->GetActiveSubPageId().c_str() );
 	ImGui::BeginChild( "##SubDashBoardContent" , ImGui::GetContentRegionAvail() , ImGuiChildFlags_AlwaysUseWindowPadding );
 
 	pPageMgr->RenderActivePage();
 
 	ImGui::EndChild();
+	ImGui::PopID();
+	ImGui::PopID();
+	ImGui::PopID();
 
 	ImGui::PopClipRect();
 	ImGui::End();

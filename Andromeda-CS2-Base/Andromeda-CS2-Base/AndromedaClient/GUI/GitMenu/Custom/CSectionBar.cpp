@@ -35,7 +35,7 @@ namespace GitMenu
             if ( m_HasMeasured )
                 SectionSize.y = m_AutoContentSize.y + HeaderHeight + ItemsPadding.y * 2.f + HeaderSpacing;
             else
-                SectionSize.y = ImGui::GetContentRegionAvail().y;
+                SectionSize.y = ImMax( 1.f , AvailableSize.y );
         }
 
         ImGui::PushID( this );
@@ -66,22 +66,36 @@ namespace GitMenu
             ImMax( 1.f , SectionSize.x - ItemsPadding.x * 2.f ) ,
             ImMax( 1.f , SectionSize.y - HeaderHeight - ItemsPadding.y * 2.f - HeaderSpacing ) );
 
-        ImGui::BeginChild( "##content" , ContentSize );
+        const auto AutoHeight = m_SectionSize.y <= 0.f;
+        const auto NeedsMeasurement = !m_HasMeasured || m_MeasuredWidth != SectionSize.x || m_MeasuredScale != Scale;
+        // Measure automatic sections before they first enter the viewport, and
+        // again after width/DPI changes. Otherwise retain normal child clipping.
+        const auto ChildFlags = AutoHeight && NeedsMeasurement
+            ? ImGuiChildFlags_AutoResizeY | ImGuiChildFlags_AlwaysAutoResize
+            : ImGuiChildFlags_None;
+        const auto WindowFlags = AutoHeight
+            ? ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse
+            : ImGuiWindowFlags_None;
+        const auto ChildSize = ImVec2( ContentSize.x , AutoHeight && NeedsMeasurement ? 0.f : ContentSize.y );
 
-        ImGui::BeginGroup();
-
-        for ( const auto& pWidget : m_Widgets )
+        if ( ImGui::BeginChild( "##content" , ChildSize , ChildFlags , WindowFlags ) )
         {
-            if ( pWidget )
-                pWidget->OnRenderImGui();
+            ImGui::BeginGroup();
+
+            for ( const auto& pWidget : m_Widgets )
+            {
+                if ( pWidget )
+                    pWidget->OnRenderImGui();
+            }
+
+            ImGui::EndGroup();
+
+            // A clipped child skips layout; keep its last valid measurement.
+            m_AutoContentSize = ImGui::GetItemRectSize();
+            m_HasMeasured = true;
+            m_MeasuredWidth = SectionSize.x;
+            m_MeasuredScale = Scale;
         }
-
-        ImGui::EndGroup();
-
-        // Cache the natural content size so the next frame can auto-fit any axis
-        // that was left at 0.
-        m_AutoContentSize = ImGui::GetItemRectSize();
-        m_HasMeasured = true;
 
         ImGui::EndChild();
         ImGui::EndGroup();
@@ -91,6 +105,7 @@ namespace GitMenu
     auto CSectionBar::AddWidget( std::unique_ptr<IWidget> pWidget ) -> IWidget*
     {
         m_Widgets.push_back( std::move( pWidget ) );
+        m_HasMeasured = false;
         return m_Widgets.back().get();
     }
 }

@@ -166,6 +166,7 @@
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\CPageManager.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSectionBar.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CCheckBoxWidget.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CColorWidget.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSliderFloatWidget.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CComboBoxWidget.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSidebarItem.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CHomePage.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CVIsualPage.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CMenuPage.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CColorsPage.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CPageRegistry.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\PageWithSubPages.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Helpers\CDX11ImageHelper.cpp" />
@@ -307,6 +309,7 @@
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CFunctionWidget.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSectionBar.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CCheckBoxWidget.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CColorWidget.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSliderFloatWidget.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CComboBoxWidget.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\CSidebarItem.hpp" />
@@ -317,6 +320,7 @@
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CHomePage.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CVIsualPage.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CMenuPage.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CColorsPage.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CPageRegistry.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\IPage.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\ISubPage.hpp" />

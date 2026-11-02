@@ -21,6 +21,7 @@ public:
 	auto RenderActivePage() -> void;
 
 	auto SetSearchQuery( std::string_view query ) -> void;
+	auto IsSearching() const -> bool { return !m_strSearchQuery.empty(); }
 	auto ConsumeSearchReset() -> bool
 	{
 		const auto reset = m_bSearchReset;

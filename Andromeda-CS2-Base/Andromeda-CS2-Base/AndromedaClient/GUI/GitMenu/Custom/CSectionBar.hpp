@@ -29,6 +29,8 @@ namespace GitMenu
 		// auto-fit the section when a size axis is left at 0.
 		ImVec2      m_AutoContentSize = ImVec2( 0.f , 0.f );
 		bool        m_HasMeasured     = false;
+		float       m_MeasuredWidth   = 0.f;
+		float       m_MeasuredScale   = 0.f;
 
 		std::vector<std::unique_ptr<IWidget>> m_Widgets;
 
