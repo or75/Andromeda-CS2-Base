@@ -11,6 +11,7 @@ namespace GitMenu
 		ImGui::TextWrapped( "Web Site: https://forum.andromeda-cheats.com/" );
 		ImGui::TextWrapped( "Dota 2 Base: https://github.com/or75/Andromeda-Dota2-Base" );
 		ImGui::TextWrapped( "Deadlock Base: https://github.com/or75/Andromeda-DeadLock-Base" );
+		ImGui::TextWrapped( "Discord: https://discord.gg/mu6pZ27FdC" );
 		ImGui::Separator();
 		ImGui::TextWrapped( "Click 'tab' to Open Menu, click '/' to search by functionality" );
 		ImGui::Separator();
