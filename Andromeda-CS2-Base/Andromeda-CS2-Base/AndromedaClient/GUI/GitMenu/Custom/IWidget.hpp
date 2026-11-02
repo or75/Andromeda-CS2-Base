@@ -29,11 +29,14 @@ namespace GitMenu
 		{
 			if ( !tag.empty() && tag.front() == '#' )
 				tag.remove_prefix( 1 );
+			
 			if ( tag.empty() )
 				return;
+			
 			for ( const auto& existing : m_Tags )
 				if ( EqualsIgnoreCase( existing , tag ) )
 					return;
+			
 			m_Tags.emplace_back( tag );
 		}
 
@@ -50,14 +53,18 @@ namespace GitMenu
 		{
 			if ( query.empty() )
 				return false;
+
 			if ( query.front() == '#' )
 			{
 				query.remove_prefix( 1 );
+
 				for ( const auto& tag : m_Tags )
 					if ( EqualsIgnoreCase( tag , query ) )
+
 						return true;
 				return false;
 			}
+
 			return ContainsIgnoreCase( GetName() , query ) || ContainsIgnoreCase( GetDescription() , query );
 		}
 
@@ -69,6 +76,7 @@ namespace GitMenu
 				results.push_back( this );
 				return;
 			}
+
 			for ( const auto& child : GetChildren() )
 				if ( child )
 					child->CollectSearchMatches( query , results );
@@ -83,9 +91,11 @@ namespace GitMenu
 		{
 			if ( left.size() != right.size() )
 				return false;
+			
 			for ( auto i = size_t{ 0 }; i < left.size(); ++i )
 				if ( std::tolower( static_cast<unsigned char>( left[i] ) ) != std::tolower( static_cast<unsigned char>( right[i] ) ) )
 					return false;
+			
 			return true;
 		}
 
@@ -93,9 +103,11 @@ namespace GitMenu
 		{
 			if ( query.size() > text.size() )
 				return false;
+			
 			for ( auto i = size_t{ 0 }; i <= text.size() - query.size(); ++i )
 				if ( EqualsIgnoreCase( text.substr( i , query.size() ) , query ) )
 					return true;
+			
 			return false;
 		}
 
