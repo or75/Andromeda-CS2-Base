@@ -65,7 +65,7 @@ auto CDevLog::Destroy() -> void
 
 auto CDevLog::AddLog( const char* fmt , ... ) -> void
 {
-	std::lock_guard lk( m_Lock );
+	std::scoped_lock lock( m_Lock );
 
 	char buff[4096] = { 0 };
 
@@ -74,11 +74,19 @@ auto CDevLog::AddLog( const char* fmt , ... ) -> void
 	vsnprintf( buff , sizeof( buff ) - 1 , fmt , args );
 	va_end( args );
 
+	m_Buffer.append( buff );
+
 #if ENABLE_CONSOLE_DEBUG == 1
 	printf( "%s" , buff );
 #endif
 
 	WriteFile( hLogFile , (PVOID)buff , lstrlenA( buff ) , 0 , 0 );
+}
+
+auto CDevLog::GetBuffer() -> std::string
+{
+	std::scoped_lock lock( m_Lock );
+	return m_Buffer;
 }
 
 auto GetDevLog() -> CDevLog*

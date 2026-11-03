@@ -13,7 +13,8 @@ namespace GitMenu
 	class CSectionBar : public IWidget
 	{
 	public:
-		CSectionBar( const char* szSectionName , ImVec2 SectionSize = ImVec2( 0.f , 0.f ) );
+		// Height: 0 fills the available space, negative fits content, positive is fixed.
+		CSectionBar( const char* szSectionName , ImVec2 SectionSize = ImVec2( 0.f , -1.f ) );
 
 		auto OnRenderImGui() -> void override;
 
@@ -26,7 +27,7 @@ namespace GitMenu
 		ImVec2      m_SectionSize;
 
 		// Natural size of the inner widgets, measured last frame. Used to
-		// auto-fit the section when a size axis is left at 0.
+		// auto-fit the section when its height is negative.
 		ImVec2      m_AutoContentSize = ImVec2( 0.f , 0.f );
 		bool        m_HasMeasured     = false;
 		float       m_MeasuredWidth   = 0.f;

@@ -177,6 +177,7 @@
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CVIsualPage.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CMenuPage.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CColorsPage.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CDebugPage.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CPageRegistry.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\PageWithSubPages.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\Helpers\CDX11ImageHelper.cpp" />
@@ -317,6 +318,7 @@
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\ImGuiCustom.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Custom\IWidget.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\GitMenu.hpp" />
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CDebugPage.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CHomePage.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CVIsualPage.hpp" />
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CMenuPage.hpp" />

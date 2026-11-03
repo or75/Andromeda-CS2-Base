@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <mutex>
+#include <string>
 
 class CDevLog final
 {
@@ -14,6 +15,7 @@ public:
 
 public:
 	auto AddLog( const char* fmt , ... ) -> void;
+	auto GetBuffer() -> std::string;
 
 private:
 
@@ -27,6 +29,7 @@ public:
 
 private:
 	std::recursive_mutex m_Lock;
+	std::string m_Buffer;
 };
 
 auto GetDevLog() -> CDevLog*;

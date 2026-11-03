@@ -69,6 +69,8 @@ auto CStyleManager::SetupColors() -> void
 	}
 
 	ImGui::StyleColorsLight();
+	m_DebugLogColors = { ImColor( 190 , 35 , 45 ) , ImColor( 9 , 105 , 218 ) ,
+		ImColor( 154 , 103 , 0 ) , ImColor( 26 , 127 , 55 ) };
 	m_TooltipColors = { ImColor( 37 , 41 , 46 ) , ImColor( 255 , 255 , 255 ) ,
 		ImColor( 101 , 109 , 118 ) , ImColor( 255 , 255 , 255 ) };
 
@@ -128,6 +130,8 @@ auto CStyleManager::SetupColors() -> void
 
 auto CStyleManager::SetupDarkColors() -> void
 {
+	m_DebugLogColors = { ImColor( 255 , 123 , 114 ) , ImColor( 88 , 166 , 255 ) ,
+		ImColor( 227 , 179 , 65 ) , ImColor( 63 , 185 , 80 ) };
 	m_TooltipColors = { ImColor( 61 , 68 , 77 ) , ImColor( 240 , 246 , 252 ) ,
 		ImColor( 101 , 109 , 118 ) , ImColor( 240 , 246 , 252 ) };
 

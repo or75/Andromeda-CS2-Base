@@ -25,6 +25,14 @@ public:
 		ImVec4 KeyText;
 	};
 
+	struct SDebugLogColors
+	{
+		ImVec4 Error;
+		ImVec4 Info;
+		ImVec4 Warning;
+		ImVec4 Success;
+	};
+
 	auto ApplyLightTheme( float dpiScale ) -> void;
 	auto ApplyDarkTheme( float dpiScale ) -> void;
 	auto ApplyTheme( ETheme theme , float dpiScale ) -> void;
@@ -39,6 +47,7 @@ public:
 	auto ApplyPendingDpiScale() -> void;
 	auto GetNavigationColors() const -> const SNavigationColors& { return m_NavigationColors; }
 	auto GetTooltipColors() const -> const STooltipColors& { return m_TooltipColors; }
+	auto GetDebugLogColors() const -> const SDebugLogColors& { return m_DebugLogColors; }
 
 public:
 	ImVec4 accentColor;
@@ -51,6 +60,7 @@ private:
 	float m_flDpiScale = 1.f;
 	SNavigationColors m_NavigationColors{};
 	STooltipColors m_TooltipColors{};
+	SDebugLogColors m_DebugLogColors{};
 
 	auto SetupDarkColors() -> void;
 	auto SetupRounding() -> void;

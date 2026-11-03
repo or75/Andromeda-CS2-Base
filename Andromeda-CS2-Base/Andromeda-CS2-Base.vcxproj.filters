@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Andromeda-CS2-Base">
@@ -562,6 +562,9 @@
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
     </ClCompile>
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CColorsPage.cpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CDebugPage.cpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1309,6 +1312,9 @@
     </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources\AndromedaIcon.hpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CDebugPage.hpp">
+      <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

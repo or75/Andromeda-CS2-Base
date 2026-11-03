@@ -30,7 +30,9 @@ namespace GitMenu
 
         SectionSize.x = ImMax( 1.f , SectionSize.x <= 0.f ? AvailableSize.x : ImMin( SectionSize.x , AvailableSize.x ) );
 
-        if ( SectionSize.y <= 0.f )
+        if ( SectionSize.y == 0.f )
+            SectionSize.y = ImMax( 1.f , AvailableSize.y );
+        else if ( SectionSize.y < 0.f )
         {
             if ( m_HasMeasured )
                 SectionSize.y = m_AutoContentSize.y + HeaderHeight + ItemsPadding.y * 2.f + HeaderSpacing;
@@ -66,16 +68,19 @@ namespace GitMenu
             ImMax( 1.f , SectionSize.x - ItemsPadding.x * 2.f ) ,
             ImMax( 1.f , SectionSize.y - HeaderHeight - ItemsPadding.y * 2.f - HeaderSpacing ) );
 
-        const auto AutoHeight = m_SectionSize.y <= 0.f;
+        const auto AutoHeight = m_SectionSize.y < 0.f;
         const auto NeedsMeasurement = !m_HasMeasured || m_MeasuredWidth != SectionSize.x || m_MeasuredScale != Scale;
+        
         // Measure automatic sections before they first enter the viewport, and
         // again after width/DPI changes. Otherwise retain normal child clipping.
         const auto ChildFlags = AutoHeight && NeedsMeasurement
             ? ImGuiChildFlags_AutoResizeY | ImGuiChildFlags_AlwaysAutoResize
             : ImGuiChildFlags_None;
+        
         const auto WindowFlags = AutoHeight
             ? ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse
             : ImGuiWindowFlags_None;
+       
         const auto ChildSize = ImVec2( ContentSize.x , AutoHeight && NeedsMeasurement ? 0.f : ContentSize.y );
 
         if ( ImGui::BeginChild( "##content" , ChildSize , ChildFlags , WindowFlags ) )
