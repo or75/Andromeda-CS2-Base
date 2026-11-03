@@ -189,6 +189,7 @@
     <ClCompile Include="Andromeda-CS2-Base\Common\Helpers\ModuleLoaderHelper.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\Common\Helpers\StringHelper.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui.cpp" />
+    <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_demo.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_draw.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_impl_dx11.cpp" />
     <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_impl_win32.cpp" />

@@ -567,6 +567,9 @@
     <ClCompile Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CDebugPage.cpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
     </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_demo.cpp">
+      <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Andromeda-CS2-Base\DllLauncher.hpp">

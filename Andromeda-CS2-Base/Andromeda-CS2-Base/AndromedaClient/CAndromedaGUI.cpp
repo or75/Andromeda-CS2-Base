@@ -199,8 +199,12 @@ void CAndromedaGUI::OnRender( IDXGISwapChain* pSwapChain )
 
 		GetAndromedaClient()->OnRender();
 
-		if( IsVisible() )
+		if ( IsVisible() )
+		{
 			GetGitMenu()->ShowGitMenu( &m_bVisible );
+
+			ImGui::ShowDemoWindow();
+		}
 
 		ImGui::EndFrame();
 		ImGui::Render();
