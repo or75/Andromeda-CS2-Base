@@ -682,8 +682,31 @@ auto CNavigationBar::RenderDropdown( ImVec2 fallbackPosition , float scale , std
 	ImGui::PushStyleColor( ImGuiCol_ButtonHovered , palette.Hovered );
 	ImGui::PushStyleColor( ImGuiCol_ButtonActive , palette.Active );
 
-	if ( ImGui::BeginPopup( popupId , ImGuiWindowFlags_NoMove ) )
+	if ( ImGui::BeginPopup( popupId , ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBackground ) )
 	{
+		auto* drawList = ImGui::GetWindowDrawList();
+		const auto popupPos = ImGui::GetWindowPos();
+		const auto popupSize = ImGui::GetWindowSize();
+		const auto popupMax = ImVec2( popupPos.x + popupSize.x , popupPos.y + popupSize.y );
+		const auto rounding = ImGui::GetStyle().PopupRounding;
+		const auto shadowSize = static_cast<int>( 10.f * scale );
+
+		// Let the shadow extend outside the popup without clipping its contents.
+		drawList->PushClipRect( viewport->Pos , ImVec2( viewport->Pos.x + viewport->Size.x , viewport->Pos.y + viewport->Size.y ) , false );
+
+		for ( auto i = shadowSize; i > 0; --i )
+		{
+			const auto distance = static_cast<float>( i );
+			const auto weight = 1.f - distance / ( shadowSize + 1.f );
+			const auto alpha = 0.025f * weight / scale;
+
+			drawList->AddRectFilled( ImVec2( popupPos.x - distance , popupPos.y - distance ) , ImVec2( popupMax.x + distance , popupMax.y + distance ) , ImGui::GetColorU32( ImVec4( 0.f , 0.f , 0.f , alpha ) ) , rounding + distance );
+		}
+
+		drawList->AddRectFilled( popupPos , popupMax , ImGui::GetColorU32( ImGuiCol_PopupBg ) , rounding );
+		drawList->AddRect( popupPos , popupMax , ImGui::GetColorU32( ImGuiCol_Border ) , rounding , 0 , ImGui::GetStyle().PopupBorderSize );
+		drawList->PopClipRect();
+
 		for ( auto i = size_t{ 0 }; i < button->Menu.Items.size(); ++i )
 		{
 			const auto& item = button->Menu.Items[i];
