@@ -12,6 +12,7 @@ struct CachedEntity_t
     enum Type
     {
         UNKNOWN = 0 ,
+        OTHER,
         PLAYER_CONTROLLER ,
         BASE_WEAPON ,
         PLANTED_C4 ,

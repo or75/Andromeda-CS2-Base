@@ -17,13 +17,12 @@ void CEntityCache::OnAddEntity( CEntityInstance* pInst , CHandle handle )
 
 		if ( it == m_CachedEntity.end() )
 		{
-			CachedEntity_t CachedBoxEntity;
+			CachedEntity_t CachedEntity;
 
-			CachedBoxEntity.m_Handle = handle;
-			CachedBoxEntity.m_Type = GetEntityType( pBaseEntity );
-
-			if ( CachedBoxEntity.m_Type != CachedEntity_t::UNKNOWN )
-				m_CachedEntity.emplace_back( CachedBoxEntity );
+			CachedEntity.m_Handle = handle;
+			CachedEntity.m_Type = GetEntityType( pBaseEntity );
+			
+			m_CachedEntity.emplace_back( CachedEntity );
 		}
 		else
 		{
@@ -67,7 +66,7 @@ auto CEntityCache::GetEntityType( C_BaseEntity* pBaseEntity ) -> CachedEntity_t:
 	else if ( pBaseEntity->IsGrenadeProjectile() )
 		return CachedEntity_t::GRENADE_PROJECTILE;
 
-	return CachedEntity_t::UNKNOWN;
+	return CachedEntity_t::OTHER;
 }
 
 auto GetEntityCache() -> CEntityCache*
