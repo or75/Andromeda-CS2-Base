@@ -195,10 +195,10 @@ auto CVisual::OnDrawGlow( CGlowProperty* pCGlowProperty ) -> void
 			auto SetGlove = true;
 			auto Visible = GetCL_VisibleCheck()->IsPlayerPawnVisible( pPlayerPawn );
 
-			if ( !Settings::Visual::Team && pPlayerPawn->m_iTeamNum() == pLocalPlayerPawn->m_iTeamNum() )
+			if ( !Settings::Visual::GlowTeam && pPlayerPawn->m_iTeamNum() == pLocalPlayerPawn->m_iTeamNum() )
 				SetGlove = false;
 
-			if ( !Settings::Visual::Enemy && pPlayerPawn->m_iTeamNum() != pLocalPlayerPawn->m_iTeamNum() )
+			if ( !Settings::Visual::GlowEnemy && pPlayerPawn->m_iTeamNum() != pLocalPlayerPawn->m_iTeamNum() )
 				SetGlove = false;
 
 			if ( Settings::Visual::OnlyVisible && !Visible )
