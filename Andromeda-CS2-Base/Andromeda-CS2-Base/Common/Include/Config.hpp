@@ -11,7 +11,7 @@
 
 // Project Buid Config:
 
-#define RELEASE_BUILD				0
+#define RELEASE_BUILD				1
 
 #if RELEASE_BUILD == 1
 

@@ -17075,7 +17075,7 @@ class CCSPlayerPawn : public CCSPlayerPawnBase // server
 	bool m_wasNotKilledNaturally; // 0x15A1
 	GameTime_t m_fImmuneToGunGameDamageTime; // 0x15A4
 	bool m_bGunGameImmunity; // 0x15A8
-	float32 m_flModifier0; // 0x15AC
+	float32 m_flBigHeadScale; // 0x15AC
 	float32 m_fMolotovDamageTime; // 0x15B0
 	QAngle m_angEyeAngles; // 0x15B4
 };
@@ -18361,7 +18361,7 @@ class CChicken : public CDynamicProp // server
 	GameTime_t m_flActiveFollowStartTime; // 0x32A4
 	CountdownTimer m_followMinuteTimer; // 0x32A8
 	CountdownTimer m_BlockDirectionTimer; // 0x32C8
-	bool m_bSpawnDyingParticles; // 0x32E2
+	bool m_bSpawnDyingParticles; // 0x32E3
 };
 class CPhysicsPropRespawnable : public CPhysicsProp // server
 {
@@ -19742,133 +19742,135 @@ class CCSGameRules : public CTeamplayRules // server
 	int32[30] m_iMatchStats_PlayersAlive_CT; // 0x0AC8
 	int32[30] m_iMatchStats_PlayersAlive_T; // 0x0B40
 	float32[32] m_TeamRespawnWaveTimes; // 0x0BB8
-	GameTime_t[32] m_flNextRespawnWave; // 0x0C38
-	VectorWS m_vMinimapMins; // 0x0CB8
-	VectorWS m_vMinimapMaxs; // 0x0CC4
-	float32[8] m_MinimapVerticalSectionHeights; // 0x0CD0
-	uint64 m_ullLocalMatchID; // 0x0CF0
-	int32[10] m_nEndMatchMapGroupVoteTypes; // 0x0CF8
-	int32[10] m_nEndMatchMapGroupVoteOptions; // 0x0D20
-	int32 m_nEndMatchMapVoteWinner; // 0x0D48
-	int32 m_iNumConsecutiveCTLoses; // 0x0D4C
-	int32 m_iNumConsecutiveTerroristLoses; // 0x0D50
-	bool m_bHasHostageBeenTouched; // 0x0D70
-	GameTime_t m_flIntermissionStartTime; // 0x0D74
-	GameTime_t m_flIntermissionEndTime; // 0x0D78
-	bool m_bLevelInitialized; // 0x0D7C
-	int32 m_iTotalRoundsPlayed; // 0x0D80
-	int32 m_iUnBalancedRounds; // 0x0D84
-	bool m_endMatchOnRoundReset; // 0x0D88
-	bool m_endMatchOnThink; // 0x0D89
-	int32 m_iNumTerrorist; // 0x0D8C
-	int32 m_iNumCT; // 0x0D90
-	int32 m_iNumSpawnableTerrorist; // 0x0D94
-	int32 m_iNumSpawnableCT; // 0x0D98
-	CUtlVector< int32 > m_arrSelectedHostageSpawnIndices; // 0x0DA0
-	int32 m_nSpawnPointsRandomSeed; // 0x0DB8
-	bool m_bFirstConnected; // 0x0DBC
-	bool m_bCompleteReset; // 0x0DBD
-	bool m_bPickNewTeamsOnReset; // 0x0DBE
-	bool m_bScrambleTeamsOnRestart; // 0x0DBF
-	bool m_bSwapTeamsOnRestart; // 0x0DC0
-	CUtlVector< int32 > m_nEndMatchTiedVotes; // 0x0DC8
-	bool m_bNeedToAskPlayersForContinueVote; // 0x0DE4
-	uint32 m_numQueuedMatchmakingAccounts; // 0x0DE8
-	float32 m_fAvgPlayerRank; // 0x0DEC
-	char* m_pQueuedMatchmakingReservationString; // 0x0DF0
-	uint32 m_numTotalTournamentDrops; // 0x0DF8
-	uint32 m_numSpectatorsCountMax; // 0x0DFC
-	uint32 m_numSpectatorsCountMaxTV; // 0x0E00
-	uint32 m_numSpectatorsCountMaxLnk; // 0x0E04
-	int32 m_nCTsAliveAtFreezetimeEnd; // 0x0E10
-	int32 m_nTerroristsAliveAtFreezetimeEnd; // 0x0E14
-	bool m_bForceTeamChangeSilent; // 0x0E18
-	bool m_bLoadingRoundBackupData; // 0x0E19
-	int32 m_nMatchInfoShowType; // 0x0E50
-	float32 m_flMatchInfoDecidedTime; // 0x0E54
-	int32 mTeamDMLastWinningTeamNumber; // 0x0E70
-	float32 mTeamDMLastThinkTime; // 0x0E74
-	float32 m_flTeamDMLastAnnouncementTime; // 0x0E78
-	int32 m_iAccountTerrorist; // 0x0E7C
-	int32 m_iAccountCT; // 0x0E80
-	int32 m_iSpawnPointCount_Terrorist; // 0x0E84
-	int32 m_iSpawnPointCount_CT; // 0x0E88
-	int32 m_iMaxNumTerrorists; // 0x0E8C
-	int32 m_iMaxNumCTs; // 0x0E90
-	int32 m_iLoserBonusMostRecentTeam; // 0x0E94
-	float32 m_tmNextPeriodicThink; // 0x0E98
-	bool m_bVoiceWonMatchBragFired; // 0x0E9C
-	float32 m_fWarmupNextChatNoticeTime; // 0x0EA0
-	int32 m_iHostagesRescued; // 0x0EA8
-	int32 m_iHostagesTouched; // 0x0EAC
-	float32 m_flNextHostageAnnouncement; // 0x0EB0
-	bool m_bNoTerroristsKilled; // 0x0EB4
-	bool m_bNoCTsKilled; // 0x0EB5
-	bool m_bNoEnemiesKilled; // 0x0EB6
-	bool m_bCanDonateWeapons; // 0x0EB7
-	float32 m_firstKillTime; // 0x0EBC
-	float32 m_firstBloodTime; // 0x0EC4
-	bool m_hostageWasInjured; // 0x0EE0
-	bool m_hostageWasKilled; // 0x0EE1
-	bool m_bVoteCalled; // 0x0EF0
-	bool m_bServerVoteOnReset; // 0x0EF1
-	float32 m_flVoteCheckThrottle; // 0x0EF4
-	bool m_bBuyTimeEnded; // 0x0EF8
-	int32 m_nLastFreezeEndBeep; // 0x0EFC
-	bool m_bTargetBombed; // 0x0F00
-	bool m_bBombDefused; // 0x0F01
-	bool m_bMapHasBombZone; // 0x0F02
-	VectorWS m_vecMainCTSpawnPos; // 0x0F50
-	CUtlVector< CHandle< SpawnPoint > > m_CTSpawnPointsMasterList; // 0x0F60
-	CUtlVector< CHandle< SpawnPoint > > m_TerroristSpawnPointsMasterList; // 0x0F78
-	bool m_bRespawningAllRespawnablePlayers; // 0x0F90
-	int32 m_iNextCTSpawnPoint; // 0x0F94
-	float32 m_flCTSpawnPointUsedTime; // 0x0F98
-	int32 m_iNextTerroristSpawnPoint; // 0x0F9C
-	float32 m_flTerroristSpawnPointUsedTime; // 0x0FA0
-	CUtlVector< CHandle< SpawnPoint > > m_CTSpawnPoints; // 0x0FA8
-	CUtlVector< CHandle< SpawnPoint > > m_TerroristSpawnPoints; // 0x0FC0
-	bool m_bIsUnreservedGameServer; // 0x0FD8
-	float32 m_fAutobalanceDisplayTime; // 0x0FDC
-	bool m_bAllowWeaponSwitch; // 0x1018
-	bool m_bRoundTimeWarningTriggered; // 0x1019
-	GameTime_t m_phaseChangeAnnouncementTime; // 0x101C
-	float32 m_fNextUpdateTeamClanNamesTime; // 0x1020
-	GameTime_t m_flLastThinkTime; // 0x1024
-	float32 m_fAccumulatedRoundOffDamage; // 0x1028
-	int32 m_nShorthandedBonusLastEvalRound; // 0x102C
-	int32 m_nMatchAbortedEarlyReason; // 0x1078
-	bool m_bHasTriggeredRoundStartMusic; // 0x107C
-	bool m_bSwitchingTeamsAtRoundReset; // 0x107D
-	CCSGameModeRules* m_pGameModeRules; // 0x1098
-	KeyValues3 m_BtGlobalBlackboard; // 0x10A0
-	CHandle< CBaseEntity > m_hPlayerResource; // 0x1138
-	CRetakeGameRules m_RetakeRules; // 0x1140
-	CUtlVector< int32 >[4] m_arrTeamUniqueKillWeaponsMatch; // 0x1330
-	bool[4] m_bTeamLastKillUsedUniqueWeaponMatch; // 0x1390
-	uint8 m_nMatchEndCount; // 0x13B8
-	int32 m_nTTeamIntroVariant; // 0x13BC
-	int32 m_nCTTeamIntroVariant; // 0x13C0
-	bool m_bTeamIntroPeriod; // 0x13C4
-	GameTime_t m_fTeamIntroPeriodEnd; // 0x13C8
-	bool m_bPlayedTeamIntroVO; // 0x13CC
-	int32 m_iRoundEndWinnerTeam; // 0x13D0
-	int32 m_eRoundEndReason; // 0x13D4
-	bool m_bRoundEndShowTimerDefend; // 0x13D8
-	int32 m_iRoundEndTimerTime; // 0x13DC
-	CUtlString m_sRoundEndFunFactToken; // 0x13E0
-	CPlayerSlot m_iRoundEndFunFactPlayerSlot; // 0x13E8
-	int32 m_iRoundEndFunFactData1; // 0x13EC
-	int32 m_iRoundEndFunFactData2; // 0x13F0
-	int32 m_iRoundEndFunFactData3; // 0x13F4
-	CUtlString m_sRoundEndMessage; // 0x13F8
-	int32 m_iRoundEndPlayerCount; // 0x1400
-	bool m_bRoundEndNoMusic; // 0x1404
-	int32 m_iRoundEndLegacy; // 0x1408
-	uint8 m_nRoundEndCount; // 0x140C
-	int32 m_iRoundStartRoundNumber; // 0x1410
-	uint8 m_nRoundStartCount; // 0x1414
-	float64 m_flLastPerfSampleTime; // 0x5420
+	int32 m_nActiveMutators; // 0x0C38
+	GameTime_t[32] m_flNextRespawnWave; // 0x0C3C
+	VectorWS m_vMinimapMins; // 0x0CBC
+	VectorWS m_vMinimapMaxs; // 0x0CC8
+	float32[8] m_MinimapVerticalSectionHeights; // 0x0CD4
+	uint64 m_ullLocalMatchID; // 0x0CF8
+	int32[10] m_nEndMatchMapGroupVoteTypes; // 0x0D00
+	int32[10] m_nEndMatchMapGroupVoteOptions; // 0x0D28
+	int32 m_nEndMatchMapVoteWinner; // 0x0D50
+	int32 m_iNumConsecutiveCTLoses; // 0x0D54
+	int32 m_iNumConsecutiveTerroristLoses; // 0x0D58
+	bool m_bHasHostageBeenTouched; // 0x0D78
+	GameTime_t m_flIntermissionStartTime; // 0x0D7C
+	GameTime_t m_flIntermissionEndTime; // 0x0D80
+	bool m_bLevelInitialized; // 0x0D84
+	int32 m_iTotalRoundsPlayed; // 0x0D88
+	int32 m_iUnBalancedRounds; // 0x0D8C
+	bool m_endMatchOnRoundReset; // 0x0D90
+	bool m_endMatchOnThink; // 0x0D91
+	int32 m_iNumTerrorist; // 0x0D94
+	int32 m_iNumCT; // 0x0D98
+	int32 m_iNumSpawnableTerrorist; // 0x0D9C
+	int32 m_iNumSpawnableCT; // 0x0DA0
+	CUtlVector< int32 > m_arrSelectedHostageSpawnIndices; // 0x0DA8
+	int32 m_nSpawnPointsRandomSeed; // 0x0DC0
+	bool m_bFirstConnected; // 0x0DC4
+	bool m_bCompleteReset; // 0x0DC5
+	bool m_bPickNewTeamsOnReset; // 0x0DC6
+	bool m_bScrambleTeamsOnRestart; // 0x0DC7
+	bool m_bSwapTeamsOnRestart; // 0x0DC8
+	CUtlVector< int32 > m_nEndMatchTiedVotes; // 0x0DD0
+	bool m_bNeedToAskPlayersForContinueVote; // 0x0DEC
+	uint32 m_numQueuedMatchmakingAccounts; // 0x0DF0
+	float32 m_fAvgPlayerRank; // 0x0DF4
+	char* m_pQueuedMatchmakingReservationString; // 0x0DF8
+	uint32 m_numTotalTournamentDrops; // 0x0E00
+	uint32 m_numSpectatorsCountMax; // 0x0E04
+	uint32 m_numSpectatorsCountMaxTV; // 0x0E08
+	uint32 m_numSpectatorsCountMaxLnk; // 0x0E0C
+	bool m_bQueuedMatchmakingReportedRoundStatsPendingSend; // 0x0E18
+	int32 m_nCTsAliveAtFreezetimeEnd; // 0x0E1C
+	int32 m_nTerroristsAliveAtFreezetimeEnd; // 0x0E20
+	bool m_bForceTeamChangeSilent; // 0x0E24
+	bool m_bLoadingRoundBackupData; // 0x0E25
+	int32 m_nMatchInfoShowType; // 0x0E58
+	float32 m_flMatchInfoDecidedTime; // 0x0E5C
+	int32 mTeamDMLastWinningTeamNumber; // 0x0E78
+	float32 mTeamDMLastThinkTime; // 0x0E7C
+	float32 m_flTeamDMLastAnnouncementTime; // 0x0E80
+	int32 m_iAccountTerrorist; // 0x0E84
+	int32 m_iAccountCT; // 0x0E88
+	int32 m_iSpawnPointCount_Terrorist; // 0x0E8C
+	int32 m_iSpawnPointCount_CT; // 0x0E90
+	int32 m_iMaxNumTerrorists; // 0x0E94
+	int32 m_iMaxNumCTs; // 0x0E98
+	int32 m_iLoserBonusMostRecentTeam; // 0x0E9C
+	float32 m_tmNextPeriodicThink; // 0x0EA0
+	bool m_bVoiceWonMatchBragFired; // 0x0EA4
+	float32 m_fWarmupNextChatNoticeTime; // 0x0EA8
+	int32 m_iHostagesRescued; // 0x0EB0
+	int32 m_iHostagesTouched; // 0x0EB4
+	float32 m_flNextHostageAnnouncement; // 0x0EB8
+	bool m_bNoTerroristsKilled; // 0x0EBC
+	bool m_bNoCTsKilled; // 0x0EBD
+	bool m_bNoEnemiesKilled; // 0x0EBE
+	bool m_bCanDonateWeapons; // 0x0EBF
+	float32 m_firstKillTime; // 0x0EC4
+	float32 m_firstBloodTime; // 0x0ECC
+	bool m_hostageWasInjured; // 0x0EE8
+	bool m_hostageWasKilled; // 0x0EE9
+	bool m_bVoteCalled; // 0x0EF8
+	bool m_bServerVoteOnReset; // 0x0EF9
+	float32 m_flVoteCheckThrottle; // 0x0EFC
+	bool m_bBuyTimeEnded; // 0x0F00
+	int32 m_nLastFreezeEndBeep; // 0x0F04
+	bool m_bTargetBombed; // 0x0F08
+	bool m_bBombDefused; // 0x0F09
+	bool m_bMapHasBombZone; // 0x0F0A
+	VectorWS m_vecMainCTSpawnPos; // 0x0F58
+	CUtlVector< CHandle< SpawnPoint > > m_CTSpawnPointsMasterList; // 0x0F68
+	CUtlVector< CHandle< SpawnPoint > > m_TerroristSpawnPointsMasterList; // 0x0F80
+	bool m_bRespawningAllRespawnablePlayers; // 0x0F98
+	int32 m_iNextCTSpawnPoint; // 0x0F9C
+	float32 m_flCTSpawnPointUsedTime; // 0x0FA0
+	int32 m_iNextTerroristSpawnPoint; // 0x0FA4
+	float32 m_flTerroristSpawnPointUsedTime; // 0x0FA8
+	CUtlVector< CHandle< SpawnPoint > > m_CTSpawnPoints; // 0x0FB0
+	CUtlVector< CHandle< SpawnPoint > > m_TerroristSpawnPoints; // 0x0FC8
+	bool m_bIsUnreservedGameServer; // 0x0FE0
+	float32 m_fAutobalanceDisplayTime; // 0x0FE4
+	bool m_bAllowWeaponSwitch; // 0x1020
+	bool m_bRoundTimeWarningTriggered; // 0x1021
+	GameTime_t m_phaseChangeAnnouncementTime; // 0x1024
+	float32 m_fNextUpdateTeamClanNamesTime; // 0x1028
+	GameTime_t m_flLastThinkTime; // 0x102C
+	float32 m_fAccumulatedRoundOffDamage; // 0x1030
+	int32 m_nShorthandedBonusLastEvalRound; // 0x1034
+	int32 m_nMatchAbortedEarlyReason; // 0x1080
+	bool m_bHasTriggeredRoundStartMusic; // 0x1084
+	bool m_bSwitchingTeamsAtRoundReset; // 0x1085
+	CCSGameModeRules* m_pGameModeRules; // 0x10A0
+	KeyValues3 m_BtGlobalBlackboard; // 0x10A8
+	CHandle< CBaseEntity > m_hPlayerResource; // 0x1140
+	CRetakeGameRules m_RetakeRules; // 0x1148
+	CUtlVector< int32 >[4] m_arrTeamUniqueKillWeaponsMatch; // 0x1338
+	bool[4] m_bTeamLastKillUsedUniqueWeaponMatch; // 0x1398
+	uint8 m_nMatchEndCount; // 0x13C0
+	int32 m_nTTeamIntroVariant; // 0x13C4
+	int32 m_nCTTeamIntroVariant; // 0x13C8
+	bool m_bTeamIntroPeriod; // 0x13CC
+	GameTime_t m_fTeamIntroPeriodEnd; // 0x13D0
+	bool m_bPlayedTeamIntroVO; // 0x13D4
+	int32 m_iRoundEndWinnerTeam; // 0x13D8
+	int32 m_eRoundEndReason; // 0x13DC
+	bool m_bRoundEndShowTimerDefend; // 0x13E0
+	int32 m_iRoundEndTimerTime; // 0x13E4
+	CUtlString m_sRoundEndFunFactToken; // 0x13E8
+	CPlayerSlot m_iRoundEndFunFactPlayerSlot; // 0x13F0
+	int32 m_iRoundEndFunFactData1; // 0x13F4
+	int32 m_iRoundEndFunFactData2; // 0x13F8
+	int32 m_iRoundEndFunFactData3; // 0x13FC
+	CUtlString m_sRoundEndMessage; // 0x1400
+	int32 m_iRoundEndPlayerCount; // 0x1408
+	bool m_bRoundEndNoMusic; // 0x140C
+	int32 m_iRoundEndLegacy; // 0x1410
+	uint8 m_nRoundEndCount; // 0x1414
+	int32 m_iRoundStartRoundNumber; // 0x1418
+	uint8 m_nRoundStartCount; // 0x141C
+	float64 m_flLastPerfSampleTime; // 0x5428
 };
 class CPulseCell_ApplyEntityFlags::CursorState_t // server
 {
@@ -20033,11 +20035,10 @@ class CCSWeaponBase : public CBasePlayerWeapon // server
 	bool m_bIsHauledBack; // 0x0FBC
 	bool m_bSilencerOn; // 0x0FBD
 	GameTime_t m_flTimeSilencerSwitchComplete; // 0x0FC0
-	bool m_bStealthy; // 0x0FC4
+	bool m_bIsInStealthReload; // 0x0FC4
 	bool m_bInSilentReloadSection; // 0x0FC5
-	bool m_bSilentReloadStatCounted; // 0x0FC6
-	bool m_bSilentReloadStatPending; // 0x0FC7
-	GameTime_t m_flStealthHoldStartTime; // 0x0FC8
+	bool m_bSilentReloadStatPending; // 0x0FC6
+	GameTime_t m_flStealthReloadHoldStartTime; // 0x0FC8
 	bool m_bReloadHeldSinceStart; // 0x0FCC
 	float32 m_flWeaponActionPlaybackRate; // 0x0FD0
 	int32 m_iOriginalTeamNumber; // 0x0FD4
@@ -23500,9 +23501,9 @@ class C_CSWeaponBase : public C_BasePlayerWeapon // client
 	bool m_bIsHauledBack; // 0x1A50
 	bool m_bSilencerOn; // 0x1A51
 	GameTime_t m_flTimeSilencerSwitchComplete; // 0x1A54
-	bool m_bStealthy; // 0x1A58
+	bool m_bIsInStealthReload; // 0x1A58
 	bool m_bInSilentReloadSection; // 0x1A59
-	GameTime_t m_flStealthHoldStartTime; // 0x1A5C
+	GameTime_t m_flStealthReloadHoldStartTime; // 0x1A5C
 	bool m_bReloadHeldSinceStart; // 0x1A60
 	float32 m_flWeaponActionPlaybackRate; // 0x1A64
 	int32 m_iOriginalTeamNumber; // 0x1A68
@@ -23821,7 +23822,7 @@ class C_CSPlayerPawn : public C_CSPlayerPawnBase // client
 	GameTime_t m_fImmuneToGunGameDamageTime; // 0x3504
 	bool m_bGunGameImmunity; // 0x3508
 	GameTime_t m_fImmuneToGunGameDamageTimeLast; // 0x350C
-	float32 m_flModifier0; // 0x3510
+	float32 m_flBigHeadScale; // 0x3510
 	float32 m_fMolotovDamageTime; // 0x3514
 	ParticleIndex_t m_nPlayerInfernoBodyFx; // 0x3588
 	QAngle m_angEyeAngles; // 0x3600
@@ -26065,42 +26066,43 @@ class C_CSGameRules : public C_TeamplayRules // client
 	int32[30] m_iMatchStats_PlayersAlive_CT; // 0x0A30
 	int32[30] m_iMatchStats_PlayersAlive_T; // 0x0AA8
 	float32[32] m_TeamRespawnWaveTimes; // 0x0B20
-	GameTime_t[32] m_flNextRespawnWave; // 0x0BA0
-	VectorWS m_vMinimapMins; // 0x0C20
-	VectorWS m_vMinimapMaxs; // 0x0C2C
-	float32[8] m_MinimapVerticalSectionHeights; // 0x0C38
-	uint64 m_ullLocalMatchID; // 0x0C58
-	int32[10] m_nEndMatchMapGroupVoteTypes; // 0x0C60
-	int32[10] m_nEndMatchMapGroupVoteOptions; // 0x0C88
-	int32 m_nEndMatchMapVoteWinner; // 0x0CB0
-	int32 m_iNumConsecutiveCTLoses; // 0x0CB4
-	int32 m_iNumConsecutiveTerroristLoses; // 0x0CB8
-	int32 m_nMatchAbortedEarlyReason; // 0x0D78
-	bool m_bHasTriggeredRoundStartMusic; // 0x0D7C
-	bool m_bSwitchingTeamsAtRoundReset; // 0x0D7D
-	CCSGameModeRules* m_pGameModeRules; // 0x0D98
-	C_RetakeGameRules m_RetakeRules; // 0x0DA0
-	uint8 m_nMatchEndCount; // 0x0EF8
-	int32 m_nTTeamIntroVariant; // 0x0EFC
-	int32 m_nCTTeamIntroVariant; // 0x0F00
-	bool m_bTeamIntroPeriod; // 0x0F04
-	int32 m_iRoundEndWinnerTeam; // 0x0F08
-	int32 m_eRoundEndReason; // 0x0F0C
-	bool m_bRoundEndShowTimerDefend; // 0x0F10
-	int32 m_iRoundEndTimerTime; // 0x0F14
-	CUtlString m_sRoundEndFunFactToken; // 0x0F18
-	CPlayerSlot m_iRoundEndFunFactPlayerSlot; // 0x0F20
-	int32 m_iRoundEndFunFactData1; // 0x0F24
-	int32 m_iRoundEndFunFactData2; // 0x0F28
-	int32 m_iRoundEndFunFactData3; // 0x0F2C
-	CUtlString m_sRoundEndMessage; // 0x0F30
-	int32 m_iRoundEndPlayerCount; // 0x0F38
-	bool m_bRoundEndNoMusic; // 0x0F3C
-	int32 m_iRoundEndLegacy; // 0x0F40
-	uint8 m_nRoundEndCount; // 0x0F44
-	int32 m_iRoundStartRoundNumber; // 0x0F48
-	uint8 m_nRoundStartCount; // 0x0F4C
-	float64 m_flLastPerfSampleTime; // 0x4F58
+	int32 m_nActiveMutators; // 0x0BA0
+	GameTime_t[32] m_flNextRespawnWave; // 0x0BA4
+	VectorWS m_vMinimapMins; // 0x0C24
+	VectorWS m_vMinimapMaxs; // 0x0C30
+	float32[8] m_MinimapVerticalSectionHeights; // 0x0C3C
+	uint64 m_ullLocalMatchID; // 0x0C60
+	int32[10] m_nEndMatchMapGroupVoteTypes; // 0x0C68
+	int32[10] m_nEndMatchMapGroupVoteOptions; // 0x0C90
+	int32 m_nEndMatchMapVoteWinner; // 0x0CB8
+	int32 m_iNumConsecutiveCTLoses; // 0x0CBC
+	int32 m_iNumConsecutiveTerroristLoses; // 0x0CC0
+	int32 m_nMatchAbortedEarlyReason; // 0x0D80
+	bool m_bHasTriggeredRoundStartMusic; // 0x0D84
+	bool m_bSwitchingTeamsAtRoundReset; // 0x0D85
+	CCSGameModeRules* m_pGameModeRules; // 0x0DA0
+	C_RetakeGameRules m_RetakeRules; // 0x0DA8
+	uint8 m_nMatchEndCount; // 0x0F00
+	int32 m_nTTeamIntroVariant; // 0x0F04
+	int32 m_nCTTeamIntroVariant; // 0x0F08
+	bool m_bTeamIntroPeriod; // 0x0F0C
+	int32 m_iRoundEndWinnerTeam; // 0x0F10
+	int32 m_eRoundEndReason; // 0x0F14
+	bool m_bRoundEndShowTimerDefend; // 0x0F18
+	int32 m_iRoundEndTimerTime; // 0x0F1C
+	CUtlString m_sRoundEndFunFactToken; // 0x0F20
+	CPlayerSlot m_iRoundEndFunFactPlayerSlot; // 0x0F28
+	int32 m_iRoundEndFunFactData1; // 0x0F2C
+	int32 m_iRoundEndFunFactData2; // 0x0F30
+	int32 m_iRoundEndFunFactData3; // 0x0F34
+	CUtlString m_sRoundEndMessage; // 0x0F38
+	int32 m_iRoundEndPlayerCount; // 0x0F40
+	bool m_bRoundEndNoMusic; // 0x0F44
+	int32 m_iRoundEndLegacy; // 0x0F48
+	uint8 m_nRoundEndCount; // 0x0F4C
+	int32 m_iRoundStartRoundNumber; // 0x0F50
+	uint8 m_nRoundStartCount; // 0x0F54
+	float64 m_flLastPerfSampleTime; // 0x4F60
 };
 class CGrenadeTracer : public C_BaseModelEntity // client
 {
