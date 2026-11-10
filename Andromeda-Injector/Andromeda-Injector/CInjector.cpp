@@ -163,6 +163,8 @@ auto CInjector::InjectManualMap( const char* szProcessName ) -> bool
 
 		Args.push_back( &LoaderData , sizeof( DllLoaderData_t ) );
 
+		Sleep( 3000 );
+
 		auto pImage = CS2Process.mmap().MapImage( m_DllFileSize , m_pDllFile , false , blackbone::WipeHeader , nullptr , nullptr , &Args );
 
 		if ( pImage )
