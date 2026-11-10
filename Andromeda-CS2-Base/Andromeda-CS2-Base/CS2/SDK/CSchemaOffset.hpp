@@ -10,6 +10,8 @@ struct SchemaOffset_t
 	std::string m_ClassName;
 	std::string m_PropertyName;
 	uint32_t m_Offset = 0;
+	std::string m_TypeName;
+	uint32_t m_ClassSize = 0;
 };
 
 class CShcemaOffset final
@@ -19,6 +21,14 @@ public:
 
 public:
 	auto GetOffset( std::string ClassName , std::string PropertyName ) -> uint32_t;
+
+public:
+	auto GetSchemaData( const std::string& ClassName ) const -> const std::unordered_map<std::string , SchemaOffset_t>&
+	{
+		static const std::unordered_map<std::string , SchemaOffset_t> empty;
+		const auto found = m_SchemaData.find( ClassName );
+		return found != m_SchemaData.end() ? found->second : empty;
+	}
 
 private:
 	std::unordered_map<std::string , std::unordered_map<std::string , SchemaOffset_t>> m_SchemaData;

@@ -9,6 +9,8 @@ namespace GitMenu
 	class CDebugSchemaEditorSubPage final : public ISubPage
 	{
 	public:
+		CDebugSchemaEditorSubPage();
+
 		auto GetDisplayName() const -> const char* override { return "Schema Editor"; }
 		auto GetFontAwesomeIcon() const -> const char8_t* override { return u8"\uf121"; }
 	};

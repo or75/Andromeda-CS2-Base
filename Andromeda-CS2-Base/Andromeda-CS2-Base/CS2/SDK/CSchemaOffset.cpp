@@ -94,6 +94,8 @@ auto CShcemaOffset::Init() -> void
 							m_SchemaData[pBinding->m_bindingName()][pClassData.FieldName].m_ClassName = pBinding->m_bindingName();
 							m_SchemaData[pBinding->m_bindingName()][pClassData.FieldName].m_PropertyName = pClassData.FieldName;
 							m_SchemaData[pBinding->m_bindingName()][pClassData.FieldName].m_Offset = pClassData.FieldOffset;
+							m_SchemaData[pBinding->m_bindingName()][pClassData.FieldName].m_TypeName = pClassData.FieldType->szTypeName ? pClassData.FieldType->szTypeName : "";
+							m_SchemaData[pBinding->m_bindingName()][pClassData.FieldName].m_ClassSize = pBinding->m_SizeOf() > 0 ? pBinding->m_SizeOf() : 0;
 						}
 					}
 
