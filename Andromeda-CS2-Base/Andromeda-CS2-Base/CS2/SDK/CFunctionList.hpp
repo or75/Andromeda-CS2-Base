@@ -107,7 +107,7 @@ public:
 	// [%d] Could not find Hud Element: %s\n
 	CBasePattern FindHudElement = { VmpStr( "FindHudElement" ) , VmpStr( "40 53 48 83 EC 20 48 8B 05 ? ? ? ? 48 8B D9 48 85 C0 74 ? 48 89 5C 24 ? 48 8D 88 58 02 00 00" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern C_CSWeaponBaseGun_GetInaccuracy = { VmpStr( "C_CSWeaponBaseGun::GetInaccuracy" ) , VmpStr( "48 89 5C 24 10 55 56 57 48 81 EC ? ? ? ? 44 0F 29 84 24 80 00 00 00" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
-	CBasePattern C_CSWeaponBaseGun_GetSpread = { VmpStr( "C_CSWeaponBaseGun::GetSpread" ) , VmpStr( "48 63 91 00 1A 00 00 48 8B 81 ? ? ? ? 85 D2 78 ? 48 83 FA 02 73 ? F3 0F 10 84 90 50 07 00 00" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
+	CBasePattern C_CSWeaponBaseGun_GetSpread = { VmpStr( "C_CSWeaponBaseGun::GetSpread" ) , VmpStr( "48 63 91 ? ? ? ? 48 8B 81 ? ? ? ? 85 D2 78 ? 48 83 FA ? 73 ? F3 0F 10 84 90 ? ? ? ? C3 F3 0F 10 80 ? ? ? ? C3 CC CC CC CC CC 40 53" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern SetLocalPlayerReady = { VmpStr( "SetLocalPlayerReady" ) , VmpStr( "40 53 48 83 EC 20 48 8B DA 48 8D 15 ? ? ? ? 48 8B CB FF" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern ScreenTransform = { VmpStr( "ScreenTransform" ) , VmpStr( "48 89 74 24 ? 57 48 83 EC ? 48 83 3D ? ? ? ? ? 48 8B FA" ) , CLIENT_DLL , 0 , SEARCH_TYPE_NONE };
 	CBasePattern CreateSubtickMoveStep = { VmpStr( "CreateSubtickMoveStep" ) , VmpStr( "E8 ? ? ? ? 48 8B D0 49 8D 4E 18 E8 ? ? ? ? 4C 8B C8 4C 8D 43 02 49 8B D1 48 8B CE E8 ? ? ? ? 48 8B D8 48 85 C0 0F 84 ? ? ? ? 48 3B 06 0F 83 ? ? ? ? 0F B7 00 66 C7 45 67 ? ? 66 3B 45 67 74 ? E9 ? ? ? ? 40 80 FF ? 0F 85 ? ? ? ? 41 83 4E 10 ?" ) , CLIENT_DLL , 0 , SEARCH_TYPE_CALL };

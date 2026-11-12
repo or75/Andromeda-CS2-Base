@@ -570,6 +570,12 @@
     <ClCompile Include="Andromeda-CS2-Base\Common\Include\ImGui\imgui_demo.cpp">
       <Filter>Andromeda-CS2-Base\Common\Include\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\pet_gcmessages.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_gc.pb.cc">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Andromeda-CS2-Base\DllLauncher.hpp">
@@ -1318,6 +1324,12 @@
     </ClInclude>
     <ClInclude Include="Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages\CDebugPage.hpp">
       <Filter>Andromeda-CS2-Base\AndromedaClient\GUI\GitMenu\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\pet_gcmessages.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_gc.pb.h">
+      <Filter>Andromeda-CS2-Base\CS2\Protobuf</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

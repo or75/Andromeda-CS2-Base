@@ -173,6 +173,7 @@
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\networkbasetypes.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\networksystem_protomessages.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\network_connection.pb.cc" />
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\pet_gcmessages.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\prediction_events.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\source2_steam_stats.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steamdatagram_messages_auth.pb.cc" />
@@ -180,6 +181,7 @@
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_cloud.steamworkssdk.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_gamenetworkingui.pb.cc" />
+    <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_gc.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_helprequest.steamworkssdk.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_oauth.steamworkssdk.pb.cc" />
     <ClCompile Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_player.steamworkssdk.pb.cc" />
@@ -388,6 +390,7 @@
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\networkbasetypes.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\networksystem_protomessages.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\network_connection.pb.h" />
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\pet_gcmessages.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\prediction_events.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\source2_steam_stats.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steamdatagram_messages_auth.pb.h" />
@@ -395,6 +398,7 @@
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_cloud.steamworkssdk.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_gamenetworkingui.pb.h" />
+    <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_gc.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_helprequest.steamworkssdk.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_oauth.steamworkssdk.pb.h" />
     <ClInclude Include="Andromeda-CS2-Base\CS2\Protobuf\steammessages_player.steamworkssdk.pb.h" />

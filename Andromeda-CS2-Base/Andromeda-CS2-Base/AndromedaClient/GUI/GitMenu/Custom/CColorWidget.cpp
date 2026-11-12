@@ -19,8 +19,16 @@ namespace GitMenu
 
 		ImGui::PushID( this );
 		ImGui::BeginGroup();
+		const auto rowPosition = ImGui::GetCursorScreenPos();
+		const auto rowWidth = ImGui::GetContentRegionAvail().x;
+		ImGui::PushFont( font , 14.f * scale );
+		const auto colorSize = ImGui::GetFrameHeight();
+		ImGui::PopFont();
+		const auto textWidth = ImMax( 1.f , rowWidth - colorSize - ImGui::GetStyle().ItemSpacing.x );
+
+		ImGui::BeginGroup();
 		ImGui::PushStyleColor( ImGuiCol_Text , palette.Text );
-		ImGui::PushTextWrapPos( ImGui::GetCursorPosX() + ImMax( 1.f , ImGui::GetContentRegionAvail().x ) );
+		ImGui::PushTextWrapPos( ImGui::GetCursorPosX() + textWidth );
 
 		if ( !m_Name.empty() )
 		{
@@ -39,18 +47,20 @@ namespace GitMenu
 		}
 
 		ImGui::PopTextWrapPos();
+		ImGui::EndGroup();
+		const auto rowHeight = ImMax( ImGui::GetItemRectSize().y , colorSize );
+		ImGui::SetCursorScreenPos( ImVec2( rowPosition.x + ImMax( 0.f , rowWidth - colorSize ) , rowPosition.y + ( rowHeight - colorSize ) * 0.5f ) );
 		ImGui::PushFont( font , 14.f * scale );
-		ImGui::BeginDisabled( !m_Value );
-		ImGui::SetNextItemWidth( ImMax( 1.f , ImGui::GetContentRegionAvail().x ) );
 
 		auto color = m_Value ? *m_Value : ImVec4( 0.f , 0.f , 0.f , 1.f );
 		
-		if ( ImGui::ColorEdit4( "##Color" , &color.x , ImGuiColorEditFlags_NoLabel | ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_AlphaPreviewHalf ) && m_Value )
+		if ( ImGui::ColorEdit4( "##Color" , &color.x , ImGuiColorEditFlags_NoInputs ) && m_Value )
 			*m_Value = color;
 
-		ImGui::EndDisabled();
 		ImGui::PopFont();
 		ImGui::PopStyleColor();
+		ImGui::SetCursorScreenPos( rowPosition );
+		ImGui::Dummy( ImVec2( ImMax( 0.f , rowWidth ) , rowHeight ) );
 
 		if ( m_SeparatorAfter )
 		{

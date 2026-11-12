@@ -73,7 +73,7 @@ auto CHook_Loader::InstallSecondHook() -> bool
 		{ { XorStr( "Hook::CreateMove" ) , XorStr( "85 D2 0F 85 ? ? ? ? 48 8B C4 44 88 40 18" ) , CLIENT_DLL } , &Hook_CreateMove , reinterpret_cast<LPVOID*>( &CreateMove_o ) },
 		{ { XorStr( "Hook::SerializePartialToArray" ) , XorStr( "48 89 5C 24 ? 55 56 57 48 81 EC ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 84 24 ? ? ? ? 49 63 F0" ) , CLIENT_DLL } , &Hook_MessageLite_SerializePartialToArray , reinterpret_cast<LPVOID*>( &MessageLite_SerializePartialToArray_o ) },
 		{ { XorStr( "Hook::OnClientOutput" ) , XorStr( "4C 8B DC 49 89 5B ? 49 89 6B ? 49 89 73 ? 57 41 56 41 57 48 83 EC ? 49 C7" ) , ENGINE2_DLL } , &Hook_OnClientOutput , reinterpret_cast<LPVOID*>( &OnClientOutput_o ) },
-		{ { XorStr( "Hook::CDemoRecorder" ) , XorStr( "40 56 57 41 57 48 83 EC ? 4C 8B F9" ) , ENGINE2_DLL } , &Hook_CDemoRecorder , reinterpret_cast<LPVOID*>( &CDemoRecorder_o ) },
+		{ { XorStr( "Hook::CDemoRecorder" ) , XorStr( "40 57 41 57 48 83 EC ? 4C 8B F9" ) , ENGINE2_DLL } , &Hook_CDemoRecorder , reinterpret_cast<LPVOID*>( &CDemoRecorder_o ) },
 		{ { XorStr( "Hook::IsRelativeMouseMode" ) , XorStr( "48 89 6C 24 ? 48 89 74 24 ? 48 89 7C 24 ? 41 56 48 83 EC ? 0F B6 F2" ) , INPUTSYSTEM_DLL } , &Hook_IsRelativeMouseMode , reinterpret_cast<LPVOID*>( &IsRelativeMouseMode_o ) },
 		{ { XorStr( "Hook::AntiTamper" ) , XorStr( "40 53 41 57 48 83 EC ? 48 89 74 24 ? 48 8B F1" ) , CLIENT_DLL } , &Hook_AntiTamper , reinterpret_cast<LPVOID*>( &AntiTamper_o ) },
 		{ { XorStr("Hook::IsLoadoutAllowed") , XorStr("48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B E9 48 8B 0D ? ? ? ? ? ? ? FF 50") , CLIENT_DLL } ,&Hook_IsLoadoutAllowed , reinterpret_cast<LPVOID*>(&IsLoadoutAllowed_o) , true , true } ,
