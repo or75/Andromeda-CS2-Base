@@ -159,13 +159,25 @@ public:
 			if ( pConVar )
 			{
 				if ( pConVar->nFlags & FCVAR_UNREGISTERED )
+				{
 					pConVar->nFlags &= ~FCVAR_UNREGISTERED;
+					DEV_LOG( "FCVAR_UNREGISTERED: %s\n" , pConVar->szName );
+				}
 				else if ( pConVar->nFlags & FCVAR_DEVELOPMENTONLY )
+				{
 					pConVar->nFlags &= ~FCVAR_DEVELOPMENTONLY;
+					DEV_LOG( "FCVAR_DEVELOPMENTONLY: %s\n" , pConVar->szName );
+				}
 				else if ( pConVar->nFlags & FCVAR_HIDDEN )
+				{
 					pConVar->nFlags &= ~FCVAR_HIDDEN;
+					DEV_LOG( "FCVAR_HIDDEN: %s\n" , pConVar->szName );
+				}
 				else if ( pConVar->nFlags & FCVAR_ARCHIVE )
+				{
 					pConVar->nFlags &= ~FCVAR_ARCHIVE;
+					DEV_LOG( "FCVAR_ARCHIVE: %s\n" , pConVar->szName );
+				}
 			}
 
 			GetNextCvarIterator( i );

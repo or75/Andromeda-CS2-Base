@@ -1,8 +1,11 @@
 #include "CAndromedaClient.hpp"
 
 #include <CS2/SDK/SDK.hpp>
+
 #include <CS2/SDK/Interface/IEngineToClient.hpp>
 #include <CS2/SDK/Interface/IGameEvent.hpp>
+#include <CS2/SDK/Interface/IEngineCvar.hpp>
+
 #include <CS2/SDK/Update/CCSGOInput.hpp>
 
 #include <AndromedaClient/CAndromedaGUI.hpp>
@@ -17,7 +20,7 @@ static CAndromedaClient g_CAndromedaClient{};
 
 auto CAndromedaClient::OnInit() -> void
 {
-
+	SDK::Interfaces::EngineCvar()->UnlockHiddenCVars();
 }
 
 auto CAndromedaClient::OnFrameStageNotify( int FrameStage ) -> void
